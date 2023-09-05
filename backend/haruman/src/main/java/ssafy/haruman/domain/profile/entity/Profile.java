@@ -20,7 +20,8 @@ public class Profile {
     private String nickname;
 
     @Builder
-    public Profile(String nickname) {
+    public Profile(Long id, String nickname) {
+        this.id = id;
         this.nickname = nickname;
     }
 }
