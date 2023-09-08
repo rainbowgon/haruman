@@ -30,7 +30,7 @@ class ProfileServiceTest {
     @DisplayName("레포지토리에서 하나의 프로필 조회")
     void getOneProfileTest() throws Exception {
         //given
-        Profile sampleProfile = Profile.builder().id(1L).nickname("sample!!").build();
+        Profile sampleProfile = Profile.builder().nickname("sample!!").build();
         given(profileRepository.findById(1L)).willReturn(Optional.of(sampleProfile));
 
         //when

@@ -20,7 +20,7 @@ public class Profile {
     @Column(columnDefinition = "VARCHAR(20)")
     private String nickname;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "file_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private ProfileImage profileImage;
 
     @Builder
