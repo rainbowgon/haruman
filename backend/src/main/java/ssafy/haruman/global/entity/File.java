@@ -18,14 +18,11 @@ public abstract class File extends BaseEntity {
     @Column(name = "file_id", columnDefinition = "UNSIGNED INT")
     private Long id;
 
-    private String originalFilename;
-
     private String savedFilename;
 
     private String savedPath;
 
-    public File(String originalFilename, String savedFilename, String savedPath) {
-        this.originalFilename = originalFilename;
+    public File(String savedFilename, String savedPath) {
         this.savedFilename = savedFilename;
         this.savedPath = savedPath;
     }
