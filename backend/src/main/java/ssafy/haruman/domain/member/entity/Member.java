@@ -1,9 +1,8 @@
 package ssafy.haruman.domain.member.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import ssafy.haruman.domain.profile.entity.Profile;
+
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -13,4 +12,8 @@ public class Member {
     @GeneratedValue
     @Column(name = "member_id")
     private UUID id;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "profile_id")
+    private Profile profile;
+
 }
