@@ -7,6 +7,8 @@ import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
 import SignUpPage from "./pages/SignUpPage";
 import MyPage from "./pages/MyPage";
+import CalendarPage from "./pages/CalendarPage";
+import LoginPage from "./pages/LoginPage";
 
 // redux
 import { useAppSelector } from "./hooks/reduxHook";
@@ -52,6 +54,14 @@ const App: React.FC = () => {
               path="/mypage"
               element={<MyPage />}
             />
+            <Route
+              path="/calendar"
+              element={<CalendarPage />}
+            />
+            <Route
+              path="/login"
+              element={<LoginPage />}
+            ></Route>
           </Routes>
         </Router>
       </AppContainer>
