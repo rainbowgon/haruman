@@ -1,0 +1,8 @@
+package ssafy.haruman.domain.category.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import ssafy.haruman.domain.category.entity.Category;
+
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+}
