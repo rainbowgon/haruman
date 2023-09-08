@@ -34,7 +34,7 @@ class ProfileServiceTest {
         given(profileRepository.findById(1L)).willReturn(Optional.of(sampleProfile));
 
         //when
-        SingleProfileResponseDto profileResponseDto = profileService.getOneProfile(1L);
+        SingleProfileResponseDto profileResponseDto = profileService.selectOneProfile(1L);
 
         //then
         Assertions.assertThat(profileResponseDto.getNickname()).isEqualTo(sampleProfile.getNickname());
