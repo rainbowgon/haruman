@@ -2,6 +2,7 @@ package ssafy.haruman.domain.profile.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ssafy.haruman.domain.profile.dto.request.ProfileCreateRequestDto;
 import ssafy.haruman.domain.profile.dto.request.ProfileUpdateRequestDto;
 import ssafy.haruman.domain.profile.dto.response.SingleProfileResponseDto;
@@ -10,13 +11,15 @@ import ssafy.haruman.domain.profile.repository.ProfileRepository;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileRepository profileRepository;
 
     @Override
     public SingleProfileResponseDto createProfile(ProfileCreateRequestDto profileCreateRequestDto) {
-        return null;
+        Profile profile = profileCreateRequestDto.toEntity();
+        return SingleProfileResponseDto.from(profile, null);
     }
 
     @Override
@@ -27,11 +30,11 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public SingleProfileResponseDto selectOneProfile(Long profileId) {
         Profile profile = profileRepository.findById(profileId).orElseThrow(() -> new RuntimeException("없음"));
-        return SingleProfileResponseDto.from(profile);
+        return SingleProfileResponseDto.from(profile, null);
     }
 
     @Override
     public void deleteProfile(Long profileId) {
-
+        profileRepository.deleteById(profileId);
     }
 }
