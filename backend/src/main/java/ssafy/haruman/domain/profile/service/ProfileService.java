@@ -4,5 +4,6 @@ import ssafy.haruman.domain.profile.dto.response.SingleProfileResponseDto;
 
 public interface ProfileService {
 
-    SingleProfileResponseDto getOneProfile(Long profileId);
+
+    SingleProfileResponseDto selectOneProfile(Long profileId);
 }

@@ -13,7 +13,7 @@ public class ProfileServiceImpl implements ProfileService {
     private final ProfileRepository profileRepository;
 
     @Override
-    public SingleProfileResponseDto getOneProfile(Long profileId) {
+    public SingleProfileResponseDto selectOneProfile(Long profileId) {
         Profile profile = profileRepository.findById(profileId).orElseThrow(() -> new RuntimeException("없음"));
         return SingleProfileResponseDto.from(profile);
     }
