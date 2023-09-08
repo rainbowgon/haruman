@@ -14,14 +14,22 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "profile_id")
+    @Column(name = "profile_id", columnDefinition = "UNSIGNED INT")
     private Long id;
 
+    @Column(columnDefinition = "VARCHAR(20)")
     private String nickname;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "file_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ProfileImage profileImage;
+
     @Builder
-    public Profile(Long id, String nickname) {
-        this.id = id;
+    public Profile(String nickname) {
         this.nickname = nickname;
     }
+
+    public void uploadNewProfileImage(ProfileImage profileImage) {
+        this.profileImage = profileImage;
+    }
+
 }
