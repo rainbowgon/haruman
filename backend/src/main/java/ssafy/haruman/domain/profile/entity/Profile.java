@@ -29,7 +29,8 @@ public class Profile {
     private ProfileImage profileImage;
 
     @Builder
-    public Profile(String nickname) {
+    public Profile(Member member, String nickname) {
+        this.member = member;
         this.nickname = nickname;
     }
 

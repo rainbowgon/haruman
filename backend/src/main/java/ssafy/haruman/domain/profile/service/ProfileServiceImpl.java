@@ -17,18 +17,20 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public SingleProfileResponseDto createProfile(ProfileCreateRequestDto profileCreateRequestDto) {
         Profile profile = profileCreateRequestDto.toEntity();
+        // TODO S3에 이미지 저장 및 URL 반환
         return SingleProfileResponseDto.from(profile, null);
     }
 
     @Override
     public SingleProfileResponseDto updateProfile(ProfileUpdateRequestDto profileUpdateRequestDto) {
+        // TODO 프로필 수정 구현 필요
         return null;
     }
 
     @Override
     public SingleProfileResponseDto selectOneProfile(Long profileId) {
         Profile profile = profileRepository.findById(profileId).orElseThrow(() -> new RuntimeException("없음"));
-        return SingleProfileResponseDto.from(profile, null);
+        return SingleProfileResponseDto.from(profile, null); // TODO S3에서 이미지 찾아서 URL 반환
     }
 
     @Override
