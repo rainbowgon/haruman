@@ -50,17 +50,8 @@ public class Challenge extends BaseEntity {
     private int leftoverAmount;
 
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("'NOT_CHECKED'")
-    private IsChecked isChecked;
-
-
-    private enum ChallengeStatus {
-        PROGRESS, SUCCEED, FAILED
-    }
-
-    private enum IsChecked {
-        CHECKED, NOT_CHECKED
-    }
+    @ColumnDefault("'NOT_VIEWED'")
+    private ViewStatus isViewed;
 
 
 }
