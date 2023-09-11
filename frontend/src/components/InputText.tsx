@@ -10,7 +10,7 @@ const TextContainer = styled.div`
 const InputField = styled.input`
   width: 29vw;
   height: 6vh;
-  border-radius: 20px;
+  border-radius: 40px;
   font-size: 1.25vw;
   padding: 8px;
   margin-bottom: 20px;
