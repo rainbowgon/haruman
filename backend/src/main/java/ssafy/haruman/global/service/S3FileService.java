@@ -21,7 +21,7 @@ public class S3FileService {
     private String bucket;
 
     public String saveFile(String path, MultipartFile multipartFile) throws IOException {
-        String savedFilename = UUID.randomUUID().toString();
+        String savedFilename = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(multipartFile.getSize());
