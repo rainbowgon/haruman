@@ -9,6 +9,8 @@ import SignUpPage from "./pages/SignUpPage";
 import MyPage from "./pages/MyPage";
 import CalendarPage from "./pages/CalendarPage";
 import LoginPage from "./pages/LoginPage";
+import FindUserIdPage from "./pages/FindUserIdPage";
+import ResetPasswordPage from "./pages/TemporaryPassPage";
 
 // redux
 import { useAppSelector } from "./hooks/reduxHook";
@@ -61,7 +63,15 @@ const App: React.FC = () => {
             <Route
               path="/login"
               element={<LoginPage />}
-            ></Route>
+            />
+            <Route
+              path="/finduserid"
+              element={<FindUserIdPage />}
+            />
+            <Route
+              path="/temp"
+              element={<ResetPasswordPage />}
+            />
           </Routes>
         </Router>
       </AppContainer>

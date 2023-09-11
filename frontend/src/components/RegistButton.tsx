@@ -11,7 +11,7 @@ const ButtonContainer = styled.div`
 const RegisterButton = styled("button")`
   width: 30vw;
   height: 60px;
-  border-radius: 10px;
+  border-radius: 30px;
   font-size: 20px;
   padding: 8px;
   margin-bottom: 16px;
