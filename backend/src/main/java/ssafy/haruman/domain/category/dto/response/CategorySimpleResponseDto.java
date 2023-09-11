@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class MultiCategoryResponseDto {
+public class CategorySimpleResponseDto {
+
+    private String name;
 
 }
