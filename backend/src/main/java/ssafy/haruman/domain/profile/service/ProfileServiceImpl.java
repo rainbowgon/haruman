@@ -18,6 +18,7 @@ public class ProfileServiceImpl implements ProfileService {
     public SingleProfileResponseDto createProfile(ProfileCreateRequestDto profileCreateRequestDto) {
         Profile profile = profileCreateRequestDto.toEntity();
         // TODO S3에 이미지 저장 및 URL 반환
+        // TODO ProfileImage 개체를 만들고 Profile에 넣어야 합니다.
         return SingleProfileResponseDto.from(profile, null);
     }
 
