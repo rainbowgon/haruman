@@ -11,7 +11,7 @@ public class Member {
 
     @Id
     @GeneratedValue
-    @Column(name = "member_id")
+    @Column(name = "member_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
 }
