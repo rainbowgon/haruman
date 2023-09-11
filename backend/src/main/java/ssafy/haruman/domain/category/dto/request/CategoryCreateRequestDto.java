@@ -8,4 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CategoryCreateRequestDto {
 
+    private String name;
+
 }
