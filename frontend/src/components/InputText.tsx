@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import "../styles/theme.css";
 
 import styled from "styled-components";
 
@@ -15,6 +16,8 @@ const InputField = styled.input`
   padding: 8px;
   margin-bottom: 20px;
   max-width: 450px;
+  color: var(--white);
+  border: 2px solid var(--brand2_main);
 
   text-align: center;
 

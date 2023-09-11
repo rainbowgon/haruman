@@ -4,6 +4,7 @@ import InputText from "../components/InputText";
 import CenterContainer from "../components/CenterContainer";
 import RegisterButton from "../components/RegistButton";
 import { Link } from "react-router-dom";
+import "../styles/theme.css";
 
 //로그인 관련
 
@@ -14,10 +15,23 @@ import { useState } from "react";
 import { useAppDispatch } from "../hooks/reduxHook";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "../components/CheckBox";
+import styled from "styled-components";
+
+const StyledDiv = styled.div`
+  margin-left: 10vw;
+  text-align: left;
+  color: var(--brand1_main);
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: var(--brand1_main);
+`;
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [autoLogin, setAutoLogin] = useState(false);
   const userData = {
     userEmail: email,
     userPass: password,
@@ -37,7 +51,15 @@ const LoginPage = () => {
           // userSlice에 저장
           dispatch(userSliceLogin(res));
           // 메인페이지로 리다이렉트
-          RedirectHomePage();
+          if (autoLogin) {
+            // 자동 로그인이 활성화된 경우
+            // 로그인 후 자동으로 메인페이지로 리다이렉트
+            RedirectHomePage();
+          } else {
+            // 자동 로그인이 비활성화된 경우
+            // 일반 로그인 후 리다이렉트
+            navigate("/home");
+          }
         })
         .catch((err) => {
           if (err.response === undefined) {
@@ -81,7 +103,7 @@ const LoginPage = () => {
         <div>
           <h1>로고 영역</h1>
         </div>
-        <div>email</div>
+        <StyledDiv>email</StyledDiv>
         <InputText
           className="InputText"
           type="email"
@@ -92,7 +114,7 @@ const LoginPage = () => {
           onChange={(e) => setEmail(e.target.value)}
           // onKeyPress={handleKeyPress}
         />
-        <div>password</div>
+        <StyledDiv>password</StyledDiv>
         <InputText
           className="InputText"
           // alt="password"
@@ -103,16 +125,22 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           // onKeyPress={handleKeyPress}
         />
-        <Checkbox label="자동 로그인" />
+        <StyledDiv>
+          <Checkbox
+            label="자동 로그인"
+            checked={autoLogin}
+            onChange={() => setAutoLogin(!autoLogin)}
+          />
+        </StyledDiv>
         <RegisterButton
           text="로그인"
           onClick={handleLogin}
         />
-        <Link to="/finduserid">아이디 찾기 / </Link>
-        <Link to="/temp">임시 비밀번호 발급</Link>
-        <Link to="/signup">회원가입</Link>
+        <StyledLink to="/finduserid">아이디 찾기 / </StyledLink>
+        <StyledLink to="/temp">임시 비밀번호 발급</StyledLink>
+        <StyledLink to="/signup">회원가입</StyledLink>
         <hr />
-        easy to start
+        <StyledDiv>easy to start</StyledDiv>
         <RegisterButton
           text="Kakao"
           onClick={handleLogin}
