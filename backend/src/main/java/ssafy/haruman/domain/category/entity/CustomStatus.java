@@ -1,6 +1,6 @@
 package ssafy.haruman.domain.category.entity;
 
-public enum IsDefault {
+public enum CustomStatus {
 
     DEFAULT,
     CUSTOM,

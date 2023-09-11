@@ -37,6 +37,6 @@ public class Category extends BaseEntity {
     @Column(length = 10)
     @Enumerated(value = EnumType.STRING)
     @NotNull
-    private IsDefault isDefault;
+    private CustomStatus isDefault;
 
 }
