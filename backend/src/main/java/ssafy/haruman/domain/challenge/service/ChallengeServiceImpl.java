@@ -1,5 +1,10 @@
 package ssafy.haruman.domain.challenge.service;
 
-public class ChallengeServiceImpl {
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class ChallengeServiceImpl implements ChallengeService {
 
 }
