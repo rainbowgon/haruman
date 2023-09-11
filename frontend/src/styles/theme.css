@@ -1,12 +1,21 @@
+
+
 :root {
+    /* font */
+    /* font-family: "IBM Plex Sans KR",sans-serif; */
+
+    /* how to use */
+    /* color : var(--background_1) */
+
     /* background */
+    --background_main: #F6FAFCFF;
     --background_1: #DFFAFFFF;
     --background_2: #C7F4FFFF;
-    --background_main: #F6FAFCFF;
 
     /* black & white */
     --white: #FFFFFFFF;
     --black: #000000FF;
+    --Transparent : #00000000;
     
     /* brand1 */
     --brand1_main: #05668DFF;
@@ -14,6 +23,8 @@
     --brand1_op_60: #05668D99;
     --brand1_op_40: #05668D66;
     --brand1_op_20: #05668D33;
+
+    --brand1_sub : #028090FF;
     
     /* brand2 */
     --brand2_main: #02C39AFF;
@@ -21,6 +32,8 @@
     --brand2_op_60: #02C39A99;
     --brand2_op_40: #02C39A66;
     --brand2_op_20: #02C39A33;
+
+    --brand2_sub : #00A896FF;
     
     /* font1 */
     --font1_main: #454545FF;
@@ -56,4 +69,8 @@
     --point3_op_60: #FB850099;
     --point3_op_40: #FB850066;
     --point3_op_20: #FB850033;
+
+    /* gradation */
+    --gradation-start : #5DD1BDFF;
+    --gradation-end : #62A0B7FF;
 }
