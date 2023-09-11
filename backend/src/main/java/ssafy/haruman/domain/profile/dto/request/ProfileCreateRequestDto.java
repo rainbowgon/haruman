@@ -12,6 +12,7 @@ public class ProfileCreateRequestDto {
     private String nickname;
 
     public Profile toEntity() {
+        // TODO Member를 포함시켜야 함
         return Profile.builder()
                 .nickname(nickname).build();
     }
