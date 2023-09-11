@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -52,6 +53,20 @@ public class Challenge extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'NOT_VIEWED'")
     private ViewStatus isViewed;
+
+    @Builder
+    public Challenge(Profile profile, LocalDateTime startTime, LocalDateTime endTime,
+            ChallengeStatus challengeStatus, int targetAmount, int usedAmount, int leftoverAmount,
+            ViewStatus isViewed) {
+        this.profile = profile;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.challengeStatus = challengeStatus;
+        this.targetAmount = targetAmount;
+        this.usedAmount = usedAmount;
+        this.leftoverAmount = leftoverAmount;
+        this.isViewed = isViewed;
+    }
 
 
 }
