@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ssafy.haruman.global.entity.File;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Getter
 @Entity
@@ -18,6 +15,7 @@ import javax.persistence.OneToOne;
 public class ProfileImage extends File {
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
     @Builder

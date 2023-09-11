@@ -15,7 +15,7 @@ public abstract class File extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "file_id", columnDefinition = "UNSIGNED INT")
+    @Column(name = "file_id", columnDefinition = "INT UNSIGNED")
     private Long id;
 
     private String savedFilename;
