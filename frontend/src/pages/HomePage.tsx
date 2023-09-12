@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import MainStyle from "../components/MainStyle";
 import "../styles/theme.css";
 import "../styles/wave.css";
 import { Link } from "react-router-dom";
 
 const Homepage = () => {
+  const [nowChallenge, setNowChallenge] = useState(true);
+
   return (
     <MainStyle>
-      <h1>HOMEPAGE (메인 동그라미 있고 한 페이지) 입니다.</h1>
+      <div className="homepage_header">
+        <p>{}월 {}일</p>
+        {
+          nowChallenge
+          ?<>
+            <div>
+              <h1>오늘의 도전을 시작하세요!</h1>
+            </div>
+            <p>{}명의 유저가 먼저 진행하고 있어요!</p>
+          </>
+          :<>
+            <div>
+              <h1>{} : {}</h1>
+            </div>
+            <p>{}명의 유저와 함께하고 있어요!</p>
+          </>
+        }
+      </div>
       <div>
         <div className="header">
           <div>
