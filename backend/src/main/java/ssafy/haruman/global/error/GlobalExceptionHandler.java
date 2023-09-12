@@ -22,7 +22,7 @@ import java.util.Enumeration;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CustomException.class) // business Exception
-    public ResponseEntity<?> handlingBusinessException(CustomException e, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> handleBusinessException(CustomException e, HttpServletRequest request) {
         BaseErrorCode code = e.getErrorCode();
         ErrorReason errorReason = code.getErrorReason();
         return ResponseEntity.status(errorReason.getStatus())
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request) throws IOException {
+    public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request) throws IOException {
         log.error("INTERNAL_SERVER_ERROR", e);
         GlobalErrorCode errorCode = GlobalErrorCode.CUSTOM_INTERNAL_SERVER_ERROR;
         ErrorReason errorReason = errorCode.getErrorReason();
