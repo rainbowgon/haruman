@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ssafy.haruman.domain.challenge.dto.request.ExpenseRequestDto;
+import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
+import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
@@ -41,15 +42,14 @@ public class ChallengeController {
     @PostMapping("/{challenge-id}")
     public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> createExpense(
             @PathVariable(name = "challenge-id") Long chellengeId,
-            @RequestBody ExpenseRequestDto createDto) {
+            @RequestBody ExpenseCreateRequestDto createDto) {
 
         return JsonResponse.ok("지출내역이 입력되었습니다.", null);
     }
 
-    @PatchMapping("/{expense-id}")
+    @PatchMapping
     public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> updateExpense(
-            @PathVariable(name = "expense-id") Long expenseId,
-            @RequestBody ExpenseRequestDto updateDto) {
+            @RequestBody ExpenseUpdateRequestDto updateDto) {
 
         return JsonResponse.ok("지출내역이 수정되었습니다.", null);
     }
