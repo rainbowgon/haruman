@@ -1,0 +1,13 @@
+@import "../styles/theme.css";
+
+.loading{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .loadingimg{
+        width: 62vw;
+    }
+}
