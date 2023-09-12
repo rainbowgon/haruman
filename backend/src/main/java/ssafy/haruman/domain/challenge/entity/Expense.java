@@ -37,12 +37,12 @@ public class Expense extends BaseEntity {
     private LocalDateTime payTime;
 
     @Column(columnDefinition = "MEDIUMINT UNSIGNED")
-    private int payAmount;
+    private Integer payAmount;
 
     private String content;
 
     @Builder
-    public Expense(Challenge challenge, Category category, LocalDateTime payTime, int payAmount,
+    public Expense(Challenge challenge, Category category, LocalDateTime payTime, Integer payAmount,
             String content) {
         this.challenge = challenge;
         this.category = category;

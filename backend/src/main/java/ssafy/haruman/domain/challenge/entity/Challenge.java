@@ -42,13 +42,13 @@ public class Challenge extends BaseEntity {
     private ChallengeStatus challengeStatus;
 
     @Column(columnDefinition = "MEDIUMINT UNSIGNED")
-    private int targetAmount;
+    private Integer targetAmount;
 
     @Column(columnDefinition = "INT UNSIGNED")
-    private int usedAmount;
+    private Integer usedAmount;
 
     @Column(columnDefinition = "MEDIUMINT UNSIGNED")
-    private int leftoverAmount;
+    private Integer leftoverAmount;
 
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'NOT_VIEWED'")
@@ -56,8 +56,8 @@ public class Challenge extends BaseEntity {
 
     @Builder
     public Challenge(Profile profile, LocalDateTime startTime, LocalDateTime endTime,
-            ChallengeStatus challengeStatus, int targetAmount, int usedAmount, int leftoverAmount,
-            ViewStatus isViewed) {
+            ChallengeStatus challengeStatus, Integer targetAmount, Integer usedAmount,
+            Integer leftoverAmount, ViewStatus isViewed) {
         this.profile = profile;
         this.startTime = startTime;
         this.endTime = endTime;

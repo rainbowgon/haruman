@@ -21,9 +21,9 @@ public class ChallengeResponseDto {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private ChallengeStatus challengeStatus;
-    private int targetAmount;
-    private int usedAmount;
-    private int leftoverAmount;
+    private Integer targetAmount;
+    private Integer usedAmount;
+    private Integer leftoverAmount;
     private ViewStatus isViewed;
 
     public static ChallengeResponseDto from(Challenge challenge) {

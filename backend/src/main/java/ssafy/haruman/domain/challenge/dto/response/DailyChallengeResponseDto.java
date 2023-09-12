@@ -15,7 +15,7 @@ import ssafy.haruman.domain.challenge.entity.Expense;
 @AllArgsConstructor
 public class DailyChallengeResponseDto {
 
-    private int leftoverAmount;
+    private Integer leftoverAmount;
     private List<Expense> expenseList;
 
     public static DailyChallengeResponseDto from(Challenge challenge, List<Expense> expenseList) {

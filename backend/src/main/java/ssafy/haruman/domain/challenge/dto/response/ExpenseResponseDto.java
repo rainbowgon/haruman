@@ -18,7 +18,7 @@ public class ExpenseResponseDto {
     private Long challengeId;
     private String categoryName;
     private LocalDateTime payTime;
-    private int payAmount;
+    private Integer payAmount;
     private String content;
 
     public static ExpenseResponseDto from(Expense expense) {
