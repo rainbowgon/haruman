@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ssafy.haruman.domain.challenge.entity.Challenge;
-import ssafy.haruman.domain.challenge.entity.Expense;
 
 @Getter
 @Builder
@@ -16,9 +15,10 @@ import ssafy.haruman.domain.challenge.entity.Expense;
 public class DailyChallengeResponseDto {
 
     private Integer leftoverAmount;
-    private List<Expense> expenseList;
+    private List<ExpenseResponseDto> expenseList;
 
-    public static DailyChallengeResponseDto from(Challenge challenge, List<Expense> expenseList) {
+    public static DailyChallengeResponseDto from(Challenge challenge,
+            List<ExpenseResponseDto> expenseList) {
         return DailyChallengeResponseDto.builder()
                 .leftoverAmount(challenge.getLeftoverAmount())
                 .expenseList(expenseList)
