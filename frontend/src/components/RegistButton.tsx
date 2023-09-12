@@ -19,6 +19,10 @@ const RegisterButton = styled("button")`
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2px solid var(--brand2_main);
+  color: var(--white);
+  background-color: var(--brand2_main);
+  font-weight: bolder;
 
   &:hover {
     transition: all 0.1s ease-in-out;
