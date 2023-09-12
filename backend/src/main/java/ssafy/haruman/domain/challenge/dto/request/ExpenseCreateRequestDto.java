@@ -8,4 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ExpenseCreateRequestDto {
 
+    private String category;
+    private int payAmount;
+    private String content;
+
 }
