@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
+import ssafy.haruman.domain.challenge.entity.Challenge;
+import ssafy.haruman.domain.challenge.entity.Expense;
 import ssafy.haruman.domain.challenge.service.ChallengeService;
+import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.response.JsonResponse;
 import ssafy.haruman.global.response.ResponseWrapper;
 
@@ -28,13 +31,15 @@ public class ChallengeController {
     private final ChallengeService challengeService;
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> startChallenge() {
+    public ResponseEntity<ResponseWrapper<Challenge>> startChallenge() {
+        Profile profile = null;
 
-        return JsonResponse.ok("챌린지가 생성되었습니다.", null);
+        Challenge challenge = challengeService.startChallenge(profile);
+        return JsonResponse.ok("챌린지가 생성되었습니다.", challenge);
     }
 
     @PostMapping("/{challenge-id}")
-    public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> createExpense(
+    public ResponseEntity<ResponseWrapper<Expense>> createExpense(
             @PathVariable(name = "challenge-id") Long chellengeId,
             @RequestBody ExpenseCreateRequestDto createDto) {
 
@@ -42,7 +47,7 @@ public class ChallengeController {
     }
 
     @PatchMapping("/{challenge-id}")
-    public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> updateExpense(
+    public ResponseEntity<ResponseWrapper<Expense>> updateExpense(
             @PathVariable(name = "challenge-id") Long chellengeId,
             @RequestBody ExpenseUpdateRequestDto updateDto) {
 
