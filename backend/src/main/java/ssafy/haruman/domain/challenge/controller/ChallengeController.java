@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
@@ -60,9 +61,9 @@ public class ChallengeController {
         return JsonResponse.ok("지출내역이 삭제되었습니다.", null);
     }
 
-    @GetMapping("/{date}")
+    @GetMapping
     public ResponseEntity<ResponseWrapper<List<DailyChallengeResponseDto>>> selectDailyChallenge(
-            @PathVariable(name = "date") LocalDateTime date) {
+            @RequestParam(name = "date") LocalDateTime date) {
 
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", null);
     }
