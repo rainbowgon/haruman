@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
 import ssafy.haruman.domain.challenge.entity.Challenge;
 import ssafy.haruman.domain.challenge.entity.ChallengeStatus;
 import ssafy.haruman.domain.challenge.entity.ViewStatus;
@@ -18,7 +19,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     @Override
     @Transactional
-    public Challenge startChallenge(Profile profile) {
+    public ChallengeResponseDto startChallenge(Profile profile) {
 
         Challenge challenge = Challenge.builder()
                 .profile(profile)
@@ -32,6 +33,6 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .build();
 
         challengeRepository.save(challenge);
-        return challenge;
+        return ChallengeResponseDto.from(challenge);
     }
 }
