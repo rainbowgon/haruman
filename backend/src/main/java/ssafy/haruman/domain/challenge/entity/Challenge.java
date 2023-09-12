@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -41,17 +42,31 @@ public class Challenge extends BaseEntity {
     private ChallengeStatus challengeStatus;
 
     @Column(columnDefinition = "MEDIUMINT UNSIGNED")
-    private int targetAmount;
+    private Integer targetAmount;
 
     @Column(columnDefinition = "INT UNSIGNED")
-    private int usedAmount;
+    private Integer usedAmount;
 
     @Column(columnDefinition = "MEDIUMINT UNSIGNED")
-    private int leftoverAmount;
+    private Integer leftoverAmount;
 
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'NOT_VIEWED'")
     private ViewStatus isViewed;
+
+    @Builder
+    public Challenge(Profile profile, LocalDateTime startTime, LocalDateTime endTime,
+            ChallengeStatus challengeStatus, Integer targetAmount, Integer usedAmount,
+            Integer leftoverAmount, ViewStatus isViewed) {
+        this.profile = profile;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.challengeStatus = challengeStatus;
+        this.targetAmount = targetAmount;
+        this.usedAmount = usedAmount;
+        this.leftoverAmount = leftoverAmount;
+        this.isViewed = isViewed;
+    }
 
 
 }
