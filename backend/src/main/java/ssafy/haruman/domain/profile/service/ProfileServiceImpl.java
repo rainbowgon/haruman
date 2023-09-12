@@ -22,16 +22,12 @@ public class ProfileServiceImpl implements ProfileService {
     private final String S3_PATH = "image/profile/";
 
     @Override
-    public SingleProfileResponseDto createProfile(ProfileCreateRequestDto profileCreateRequestDto, MultipartFile multipartFile) {
+    public SingleProfileResponseDto createProfile(ProfileCreateRequestDto profileCreateRequestDto, MultipartFile multipartFile) throws IOException {
         Profile profile = profileCreateRequestDto.toEntity();
 
-        // TODO 이후 예외 처리 방식이 결정된다면 try~catch 문 대신 throw Exception 하는 방식으로 수정해야 합니다.
-        try {
-            String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
-            profile.uploadNewProfileImage(S3_PATH, savedFilename);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
+        profile.uploadNewProfileImage(S3_PATH, savedFilename);
+
         return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage()));
     }
 
