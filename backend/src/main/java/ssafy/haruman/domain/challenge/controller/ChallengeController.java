@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
-import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
+import ssafy.haruman.domain.challenge.dto.request.ExpenseRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
@@ -41,22 +40,22 @@ public class ChallengeController {
     @PostMapping("/{challenge-id}")
     public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> createExpense(
             @PathVariable(name = "challenge-id") Long chellengeId,
-            @RequestBody ExpenseCreateRequestDto createDto) {
+            @RequestBody ExpenseRequestDto createDto) {
 
         return JsonResponse.ok("지출내역이 입력되었습니다.", null);
     }
 
-    @PatchMapping("/{challenge-id}")
+    @PatchMapping("/{expense-id}")
     public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> updateExpense(
-            @PathVariable(name = "challenge-id") Long chellengeId,
-            @RequestBody ExpenseUpdateRequestDto updateDto) {
+            @PathVariable(name = "expense-id") Long expenseId,
+            @RequestBody ExpenseRequestDto updateDto) {
 
         return JsonResponse.ok("지출내역이 수정되었습니다.", null);
     }
 
-    @DeleteMapping("/{challenge-id}")
+    @DeleteMapping("/{expense-id}")
     public ResponseEntity<ResponseWrapper<Nullable>> deleteExpense(
-            @PathVariable(name = "challenge-id") Long chellengeId) {
+            @PathVariable(name = "expense-id") Long expenseId) {
 
         return JsonResponse.ok("지출내역이 삭제되었습니다.", null);
     }

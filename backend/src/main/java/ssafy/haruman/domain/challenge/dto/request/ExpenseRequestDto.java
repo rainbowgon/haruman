@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ExpenseUpdateRequestDto {
+public class ExpenseRequestDto {
 
     private String category;
     private int payAmount;
