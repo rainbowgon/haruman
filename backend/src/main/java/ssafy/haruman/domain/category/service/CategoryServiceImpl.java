@@ -24,9 +24,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategorySimpleResponseDto createCategory(CategoryCreateRequestDto createDto) {
 
+        Long profileId = null;
+
         // TODO 1) 같은 이름의 default category가 존재하는지 확인
         // TODO 2) 같은 이름의 회원 custom category가 존재하는지 확인
-        Optional<Category> category = categoryRepository.findByName(createDto.getName());
+        Optional<Category> category = categoryRepository.findByName(createDto.getName(), profileId);
         if (category.isPresent()) {
             // TODO 이미 존재하는 카테고리 에러 반환
         }
