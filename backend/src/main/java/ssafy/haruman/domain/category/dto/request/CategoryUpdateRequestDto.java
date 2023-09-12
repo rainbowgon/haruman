@@ -8,4 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CategoryUpdateRequestDto {
 
+    private Long categoryId;
+    private String name;
+
 }
