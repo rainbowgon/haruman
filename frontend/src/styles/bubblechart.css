@@ -1,0 +1,5 @@
+.center-container {
+  display: grid;
+  place-items: center;
+  height: 100%; /* 또는 원하는 높이로 설정 */
+}
