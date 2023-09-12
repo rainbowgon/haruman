@@ -23,7 +23,7 @@ public class Expense extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "expense_id", columnDefinition = "UNSIGNED INT")
+    @Column(name = "expense_id", columnDefinition = "INT UNSIGNED")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

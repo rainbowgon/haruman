@@ -33,7 +33,7 @@ public class ChallengeController {
         return JsonResponse.ok("챌린지가 생성되었습니다.", null);
     }
 
-    @PostMapping
+    @PostMapping("/{challenge-id}")
     public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> createExpense(
             @PathVariable(name = "challenge-id") Long chellengeId,
             @RequestBody ExpenseCreateRequestDto createDto) {
@@ -41,7 +41,7 @@ public class ChallengeController {
         return JsonResponse.ok("지출내역이 입력되었습니다.", null);
     }
 
-    @PatchMapping
+    @PatchMapping("/{challenge-id}")
     public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> updateExpense(
             @PathVariable(name = "challenge-id") Long chellengeId,
             @RequestBody ExpenseUpdateRequestDto updateDto) {
@@ -49,14 +49,14 @@ public class ChallengeController {
         return JsonResponse.ok("지출내역이 수정되었습니다.", null);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{challenge-id}")
     public ResponseEntity<ResponseWrapper<Nullable>> deleteExpense(
             @PathVariable(name = "challenge-id") Long chellengeId) {
 
         return JsonResponse.ok("지출내역이 삭제되었습니다.", null);
     }
 
-    @GetMapping
+    @GetMapping("/{date}")
     public ResponseEntity<ResponseWrapper<List<ChallengeResponseDto>>> selectDailyChallenge(
             @PathVariable(name = "date") LocalDateTime date) {
 
