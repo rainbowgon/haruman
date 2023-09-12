@@ -5,6 +5,7 @@ import CenterContainer from "../components/CenterContainer";
 import RegisterButton from "../components/RegistButton";
 import { Link } from "react-router-dom";
 import "../styles/theme.css";
+import LogoImage from "../assets/logo-mainlogo.svg";
 
 //로그인 관련
 
@@ -21,6 +22,10 @@ const StyledDiv = styled.div`
   margin-left: 10vw;
   text-align: left;
   color: var(--brand1_main);
+`;
+
+const LogoDiv = styled.div`
+  margin: 10vh 0vh 10vh;
 `;
 
 const StyledLink = styled(Link)`
@@ -100,9 +105,12 @@ const LoginPage = () => {
   return (
     <CenterContainer>
       <MainStyle>
-        <div>
-          <h1>로고 영역</h1>
-        </div>
+        <LogoDiv>
+          <img
+            src={LogoImage}
+            alt="로고 이미지"
+          />
+        </LogoDiv>
         <StyledDiv>email</StyledDiv>
         <InputText
           className="InputText"

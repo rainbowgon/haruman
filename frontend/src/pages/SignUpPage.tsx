@@ -12,15 +12,22 @@ import useErrorHandlers from "../hooks/useError";
 import BirthDatePick from "../components/DatePicker/index";
 
 import "../styles/theme.css";
+import LogoImage from "../assets/logo-mainlogo.svg";
 
 import AgreementContent1 from "../components/AgreementContent1";
 import AgreementContent2 from "../components/AgreementContent2";
 import styled from "styled-components";
+import CenterContainer from "../components/CenterContainer";
+import MainStyle from "../components/MainStyle";
 
 const StyledDiv = styled.div`
   margin-left: 10vw;
   text-align: left;
   color: var(--brand1_main);
+`;
+
+const LogoDiv = styled.div`
+  margin: 10vh 0vh 5vh;
 `;
 
 const SignupPage = () => {
@@ -140,76 +147,86 @@ const SignupPage = () => {
   return (
     <>
       {agreeCheck1 && agreeCheck2 ? (
-        <div>
-          <StyledDiv>email *</StyledDiv>
-          <Input
-            type="email"
-            placeholder="이메일"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {!emailSend && !emailAuthentication && (
-            <RegisterButton
-              text="이메일 인증 코드 발송"
-              onClick={handleEmailSender}
-            />
-          )}
-          {emailSend && !emailAuthentication && (
-            <>
+        <CenterContainer>
+          <MainStyle>
+            <div>
+              <LogoDiv>
+                <img
+                  src={LogoImage}
+                  alt="로고 이미지"
+                />
+              </LogoDiv>
+              <StyledDiv>email *</StyledDiv>
+              <Input
+                type="email"
+                placeholder="이메일"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {!emailSend && !emailAuthentication && (
+                <RegisterButton
+                  text="이메일 인증 코드 발송"
+                  onClick={handleEmailSender}
+                />
+              )}
+              {emailSend && !emailAuthentication && (
+                <>
+                  <Input
+                    type="text"
+                    placeholder="인증코드 입력"
+                    value={userCode}
+                    onChange={(e) => setUserCode(e.target.value)}
+                  />
+                  <RegisterButton
+                    text="이메일 인증"
+                    onClick={handleEmailAuthentication}
+                  />
+                </>
+              )}
+              <StyledDiv>name *</StyledDiv>
               <Input
                 type="text"
-                placeholder="인증코드 입력"
-                value={userCode}
-                onChange={(e) => setUserCode(e.target.value)}
+                placeholder="이름"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
-              <RegisterButton
-                text="이메일 인증"
-                onClick={handleEmailAuthentication}
+              <StyledDiv>nickname *</StyledDiv>
+              <Input
+                type="text"
+                placeholder="닉네임"
+                value={nickname}
+                onChange={(e) => setNickName(e.target.value)}
               />
-            </>
-          )}
-          <StyledDiv>name *</StyledDiv>
-          <Input
-            type="text"
-            placeholder="이름"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <StyledDiv>nickname *</StyledDiv>
-          <Input
-            type="text"
-            placeholder="닉네임"
-            value={nickname}
-            onChange={(e) => setNickName(e.target.value)}
-          />
-          <StyledDiv>password *</StyledDiv>
-          <Input
-            type="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <StyledDiv>password check *</StyledDiv>
-          <Input
-            type="password"
-            placeholder="비밀번호 확인"
-            value={passwordCheck}
-            onChange={handlePasswordCheckChange}
-          />
-          {pwFlag === false && passwordCheck.length !== 0 && (
-            <Info text="비밀번호가 일치하지 않습니다." />
-          )}
-          <StyledDiv> birthday *</StyledDiv>
-          <BirthDatePick
-            birthDate={birthDate}
-            setBirthDate={setBirthDate}
-          />
+              <StyledDiv>password *</StyledDiv>
+              <Input
+                type="password"
+                placeholder="비밀번호"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <StyledDiv>password check *</StyledDiv>
+              <Input
+                type="password"
+                placeholder="비밀번호 확인"
+                value={passwordCheck}
+                onChange={handlePasswordCheckChange}
+              />
+              {pwFlag === false && passwordCheck.length !== 0 && (
+                <Info text="비밀번호가 일치하지 않습니다." />
+              )}
+              <StyledDiv> birthday *</StyledDiv>
+              <BirthDatePick
+                birthDate={birthDate}
+                setBirthDate={setBirthDate}
+              />
 
-          <RegisterButton
-            text="Join Us!"
-            onClick={handleSignup}
-          />
-        </div>
+              <RegisterButton
+                text="Join Us!"
+                onClick={handleSignup}
+              />
+            </div>
+          </MainStyle>
+        </CenterContainer>
       ) : (
         <>
           <div id="AgreementContainer">
@@ -219,7 +236,6 @@ const SignupPage = () => {
               label="동의함"
               checked={agreeCheck1}
               onChange={(e) => setAgreeCheck1(e.target.checked)}
-              aria-label="개인정보 취급 방침 및 약관 동의서입니다. 동의할 경우 동의해주세요."
             />
             <br />
             <br />
@@ -229,7 +245,6 @@ const SignupPage = () => {
               label="동의함"
               checked={agreeCheck2}
               onChange={(e) => setAgreeCheck2(e.target.checked)}
-              aria-label="개인정보 취급 방침 및 약관 동의서입니다. 동의할 경우 동의해주세요."
             />
           </div>
         </>
