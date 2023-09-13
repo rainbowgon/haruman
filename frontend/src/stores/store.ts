@@ -7,6 +7,7 @@ import persistStore from "redux-persist/es/persistStore";
 import persistReducer from "redux-persist/es/persistReducer";
 import thunk from "redux-thunk";
 import { createTransform } from "redux-persist";
+import { appReducer } from "./appReducer";
 // import { decryptData, encryptData } from "./encrypt";
 
 const encryptTransform: any = createTransform();
@@ -15,6 +16,7 @@ const encryptTransform: any = createTransform();
 
 const reducers = combineReducers({
   user: userSlice.reducer,
+  app: appReducer,
 });
 
 const persistConfig = {
