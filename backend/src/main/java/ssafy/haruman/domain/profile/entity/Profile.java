@@ -34,8 +34,12 @@ public class Profile {
         this.nickname = nickname;
     }
 
-    public void uploadNewProfileImage(ProfileImage profileImage) {
-        this.profileImage = profileImage;
+    public void uploadNewProfileImage(String savedPath, String savedFilename) {
+        this.profileImage = ProfileImage.builder()
+                .savedPath(savedPath)
+                .savedFilename(savedFilename)
+                .profile(this)
+                .build();
     }
 
 }
