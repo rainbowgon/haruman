@@ -13,7 +13,7 @@ public interface ProfileService {
 
     SingleProfileResponseDto updateProfile(ProfileUpdateRequestDto profileUpdateRequestDto);
 
-    SingleProfileResponseDto uploadNewProfileImage(Long profileId, MultipartFile multipartFile);
+    SingleProfileResponseDto uploadNewProfileImage(Long profileId, MultipartFile multipartFile) throws IOException;
 
     SingleProfileResponseDto selectOneProfile(Long profileId);
 

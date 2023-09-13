@@ -2,6 +2,7 @@ package ssafy.haruman.domain.profile.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ssafy.haruman.domain.profile.dto.request.ProfileCreateRequestDto;
 import ssafy.haruman.domain.profile.dto.request.ProfileUpdateRequestDto;
@@ -40,13 +41,21 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public SingleProfileResponseDto uploadNewProfileImage(Long profileId, MultipartFile multipartFile) {
+    @Transactional
+    public SingleProfileResponseDto uploadNewProfileImage(Long profileId, MultipartFile multipartFile) throws IOException {
         Profile profile = this.findOneProfileById(profileId);
+
+        profile.deleteProfileImage();
         s3FileService.deleteImage(profile.getProfileImage());
 
         if (!multipartFile.isEmpty()) {
-            profile.uploadNewProfileImage();
+            String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
+            profile.uploadNewProfileImage(S3_PATH, savedFilename);
+            return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage()));
+        } else {
+            return SingleProfileResponseDto.from(profile, null);
         }
+
     }
 
     @Override
