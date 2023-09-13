@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ssafy.haruman.domain.profile.dto.request.ProfileCreateRequestDto;
 import ssafy.haruman.domain.profile.dto.request.ProfileUpdateRequestDto;
 import ssafy.haruman.domain.profile.dto.response.SingleProfileResponseDto;
 import ssafy.haruman.domain.profile.entity.Profile;
@@ -24,8 +23,14 @@ public class ProfileServiceImpl implements ProfileService {
     private final String S3_PATH = "image/profile/";
 
     @Override
-    public SingleProfileResponseDto createProfile(ProfileCreateRequestDto profileCreateRequestDto, MultipartFile multipartFile) throws IOException {
-        Profile profile = profileCreateRequestDto.toEntity();
+    public SingleProfileResponseDto createProfile(String nickname, MultipartFile multipartFile) throws IOException {
+
+        // TODO 멤버와의 매핑
+        Profile profile = Profile.builder()
+//                .member()
+                .nickname(nickname)
+                .build();
+
         String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
         profile.uploadNewProfileImage(S3_PATH, savedFilename);
         profileRepository.save(profile);
