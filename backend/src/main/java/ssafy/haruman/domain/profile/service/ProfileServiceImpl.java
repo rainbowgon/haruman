@@ -24,10 +24,9 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public SingleProfileResponseDto createProfile(ProfileCreateRequestDto profileCreateRequestDto, MultipartFile multipartFile) throws IOException {
         Profile profile = profileCreateRequestDto.toEntity();
-
         String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
         profile.uploadNewProfileImage(S3_PATH, savedFilename);
-
+        profileRepository.save(profile);
         return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage()));
     }
 
