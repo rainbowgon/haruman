@@ -30,13 +30,18 @@ const Homepage = () => {
             challenge
             ?<>
               <div className="homepage_header_title">
-                <h2 className="homepage_header_title_text">오늘의 챌린지</h2>
+                <h2 className="homepage_header_title_text">오늘의 챌린지
+                  <div className="style_horizon_line"/>
+                </h2>
               </div>
               <p className="homepage_text">{}명의 유저가 먼저 진행하고 있어요!</p>
             </>
             :<>
               <div className="homepage_header_title">
-                <h1 className="homepage_header_title_text">13{} : 24{}</h1>
+                <h2 className="homepage_header_title_text">13{} : 24{}
+                  <div className="style_horizon_line"/>
+                </h2>
+                
               </div>
               <p className="homepage_text">{}명의 유저와 함께하고 있어요!</p>
             </>
@@ -60,7 +65,7 @@ const Homepage = () => {
                       <h3>원</h3>
                     </div>
                   </div>
-                  today로 이동
+                  <p className="challenge_link_text">지출내역으로 이동</p>
                 </Link>
               }
             </div>
