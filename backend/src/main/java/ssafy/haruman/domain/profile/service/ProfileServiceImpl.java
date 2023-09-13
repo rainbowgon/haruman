@@ -36,7 +36,6 @@ public class ProfileServiceImpl implements ProfileService {
     public SingleProfileResponseDto updateProfile(ProfileUpdateRequestDto profileUpdateRequestDto) {
         Profile profile = this.findOneProfileById(profileUpdateRequestDto.getProfileId());
         profile.updateProfile(profileUpdateRequestDto.getNickname());
-        profileRepository.save(profile);
         return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage()));
     }
 
