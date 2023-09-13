@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../styles/theme.css";
 
 import styled from "styled-components";
@@ -26,7 +26,7 @@ const InputField = styled.input`
   }
 
   @media (max-width: 768px) {
-    width: 80%; /* 또는 원하는 크기로 지정 */
+    width: 80%;
   }
 `;
 
@@ -38,7 +38,6 @@ interface InputProps {
   readonly?: boolean;
   checked?: boolean;
   style?: React.CSSProperties;
-  tabIndex?: number;
   className?: string;
 }
 
@@ -50,7 +49,6 @@ export default function Input({
   readonly,
   checked,
   style,
-  tabIndex,
   className,
 }: InputProps) {
   return (
@@ -64,7 +62,6 @@ export default function Input({
         readOnly={readonly}
         checked={checked}
         style={style}
-        tabIndex={tabIndex}
       />
     </TextContainer>
   );
