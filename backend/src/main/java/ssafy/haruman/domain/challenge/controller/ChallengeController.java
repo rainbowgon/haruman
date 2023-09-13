@@ -1,7 +1,6 @@
 package ssafy.haruman.domain.challenge.controller;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -21,6 +20,7 @@ import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
 import ssafy.haruman.domain.challenge.service.ChallengeService;
 import ssafy.haruman.domain.profile.entity.Profile;
+import ssafy.haruman.domain.profile.service.ProfileServiceImpl;
 import ssafy.haruman.global.response.JsonResponse;
 import ssafy.haruman.global.response.ResponseWrapper;
 
@@ -30,27 +30,31 @@ import ssafy.haruman.global.response.ResponseWrapper;
 public class ChallengeController {
 
     private final ChallengeService challengeService;
+    private final ProfileServiceImpl ps;
 
     @PostMapping
     public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> startChallenge() {
         Profile profile = null;
-
+        
         ChallengeResponseDto responseDto = challengeService.startChallenge(profile);
         return JsonResponse.ok("챌린지가 생성되었습니다.", responseDto);
     }
 
     @PostMapping("/{challenge-id}")
     public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> createExpense(
-            @PathVariable(name = "challenge-id") Long chellengeId,
-            @RequestBody ExpenseCreateRequestDto createDto) {
+            @PathVariable(name = "challenge-id") Long challengeId,
+            @RequestBody ExpenseCreateRequestDto createRequestDto) {
 
-        return JsonResponse.ok("지출내역이 입력되었습니다.", null);
+        ExpenseResponseDto reponseDto = challengeService.createExpense(challengeId,
+                createRequestDto);
+        return JsonResponse.ok("지출내역이 입력되었습니다.", reponseDto);
     }
 
     @PatchMapping
-    public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> updateExpense(
-            @RequestBody ExpenseUpdateRequestDto updateDto) {
+    public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> updateExpense(
+            @RequestBody ExpenseUpdateRequestDto updateRequestDto) {
 
+        ExpenseResponseDto reponseDto = challengeService.updateExpense(updateRequestDto);
         return JsonResponse.ok("지출내역이 수정되었습니다.", null);
     }
 
@@ -58,14 +62,18 @@ public class ChallengeController {
     public ResponseEntity<ResponseWrapper<Nullable>> deleteExpense(
             @PathVariable(name = "expense-id") Long expenseId) {
 
+        challengeService.deleteExpense(expenseId);
         return JsonResponse.ok("지출내역이 삭제되었습니다.", null);
     }
 
     @GetMapping
-    public ResponseEntity<ResponseWrapper<List<DailyChallengeResponseDto>>> selectDailyChallenge(
+    public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> selectDailyChallenge(
             @RequestParam(name = "date") LocalDateTime date) {
+        Profile profile = null;
 
-        return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", null);
+        DailyChallengeResponseDto responseDto = challengeService.selectDailyChallenge(profile,
+                date);
+        return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
     }
 
 
