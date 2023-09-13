@@ -41,5 +41,11 @@ public class ProfileController {
         return JsonResponse.ok("프로필이 성공적으로 수정되었습니다.", singleProfileResponseDto);
     }
 
+    @GetMapping("/{profile-id}")
+    public ResponseEntity<ResponseWrapper<SingleProfileResponseDto>> selectOneProfile(
+            @PathVariable("profile-id") Long profileId) {
+        SingleProfileResponseDto singleProfileResponseDto = profileService.selectOneProfile(profileId);
+        return JsonResponse.ok("프로필을 성공적으로 가져왔습니다.", singleProfileResponseDto);
+    }
 
 }
