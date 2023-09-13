@@ -2,6 +2,7 @@ package ssafy.haruman.domain.category.controller;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,7 +35,9 @@ public class CategoryController {
     public ResponseEntity<ResponseWrapper<CategorySimpleResponseDto>> createCategory(
             @RequestBody CategoryCreateRequestDto createDto) {
 
-        return JsonResponse.ok("카테고리가 성공적으로 생성되었습니다.", null);
+        CategorySimpleResponseDto createdCategory = categoryService.createCategory(createDto);
+
+        return JsonResponse.of(HttpStatus.CREATED, "카테고리가 성공적으로 생성되었습니다.", createdCategory);
     }
 
     /**
@@ -44,7 +47,9 @@ public class CategoryController {
     public ResponseEntity<ResponseWrapper<CategorySimpleResponseDto>> updateCategory(
             @RequestBody CategoryUpdateRequestDto updateDto) {
 
-        return JsonResponse.ok("카테고리가 성공적으로 수정되었습니다.", null);
+        CategorySimpleResponseDto updatedCategory = categoryService.updateCategory(updateDto);
+
+        return JsonResponse.ok("카테고리가 성공적으로 수정되었습니다.", updatedCategory);
     }
 
     /**
@@ -52,7 +57,9 @@ public class CategoryController {
      */
     @DeleteMapping("/{category-id}")
     public ResponseEntity<ResponseWrapper<Nullable>> deleteCategory(
-            @PathVariable("category-id") Long id) {
+            @PathVariable("category-id") Long categoryId) {
+
+        categoryService.deleteCategory(categoryId);
 
         return JsonResponse.ok("카테고리 삭제에 성공했습니다.");
     }
@@ -63,7 +70,9 @@ public class CategoryController {
     @GetMapping
     public ResponseEntity<ResponseWrapper<List<CategoryDetailResponseDto>>> selectCategoryList() {
 
-        return JsonResponse.ok("카테고리 목록을 성공적으로 가져왔습니다.", null);
+        List<CategoryDetailResponseDto> categoryList = categoryService.selectCategoryList();
+
+        return JsonResponse.ok("카테고리 목록을 성공적으로 가져왔습니다.", categoryList);
     }
 
     /**
@@ -72,7 +81,9 @@ public class CategoryController {
     @GetMapping("/custom")
     public ResponseEntity<ResponseWrapper<List<CategoryDetailResponseDto>>> selectCustomCategoryList() {
 
-        return JsonResponse.ok("회원 커스텀 카테고리 목록을 성공적으로 가져왔습니다.", null);
+        List<CategoryDetailResponseDto> categoryCustomList = categoryService.selectCustomCategoryList();
+
+        return JsonResponse.ok("회원 커스텀 카테고리 목록을 성공적으로 가져왔습니다.", categoryCustomList);
     }
 
     /**
@@ -81,7 +92,9 @@ public class CategoryController {
     @GetMapping("/often")
     public ResponseEntity<ResponseWrapper<List<CategoryDetailResponseDto>>> selectOftenCategoryList() {
 
-        return JsonResponse.ok("자주 쓰는 카테고리 목록을 성공적으로 가져왔습니다.", null);
+        List<CategoryDetailResponseDto> categoryOftenList = categoryService.selectOftenCategoryList();
+
+        return JsonResponse.ok("자주 쓰는 카테고리 목록을 성공적으로 가져왔습니다.", categoryOftenList);
     }
 
 }

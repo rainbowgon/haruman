@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ssafy.haruman.domain.category.entity.Category;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,5 +14,11 @@ import lombok.NoArgsConstructor;
 public class CategorySimpleResponseDto {
 
     private String name;
+
+    public static CategorySimpleResponseDto from(Category category) {
+        return CategorySimpleResponseDto.builder()
+                .name(category.getName())
+                .build();
+    }
 
 }

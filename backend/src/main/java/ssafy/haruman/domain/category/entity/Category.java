@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ssafy.haruman.domain.profile.entity.Profile;
@@ -40,5 +41,16 @@ public class Category extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     @NotNull
     private CustomStatus isDefault;
+
+    @Builder
+    public Category(Profile profile, String name, CustomStatus isDefault) {
+        this.profile = profile;
+        this.name = name;
+        this.isDefault = isDefault;
+    }
+
+    public void updateCategory(String name) {
+        this.name = name;
+    }
 
 }
