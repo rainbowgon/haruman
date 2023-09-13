@@ -5,15 +5,21 @@ import { AppState } from "../stores/state";
 import { useNavigate, useLocation } from "react-router-dom";
 
 // icons
-import { ReactComponent as CalendarIcon } from "../assets/icons/icon-calendarday.svg";
-import { ReactComponent as ChartsetIcon } from "../assets/icons/icon-chartset.svg";
-import { ReactComponent as HomeIcon } from "../assets/icons/icon-home.svg";
-import { ReactComponent as PiggybankIcon } from "../assets/icons/icon-piggybank.svg";
-import { ReactComponent as BurgermenuIcon } from "../assets/icons/icon-burgermenu.svg";
+// import { ReactComponent as CalendarIcon } from "../assets/icons/icon-calendarday.svg";
+// import { ReactComponent as ChartsetIcon } from "../assets/icons/icon-chartset.svg";
+// import { ReactComponent as HomeIcon } from "../assets/icons/icon-home.svg";
+// import { ReactComponent as PiggybankIcon } from "../assets/icons/icon-piggybank.svg";
+// import { ReactComponent as BurgermenuIcon } from "../assets/icons/icon-burgermenu.svg";
+import CalendarIcon from "../assets/icons/icon-calendarday.svg";
+import ChartsetIcon from "../assets/icons/icon-chartset.svg";
+import HomeIcon from "../assets/icons/icon-home.svg";
+import PiggybankIcon from "../assets/icons/icon-piggybank.svg";
+import BurgermenuIcon from "../assets/icons/icon-burgermenu.svg";
+
 
 // css
 import "../styles/theme.css";
-import "../styles/BottomBar.css";
+import "../styles/BottomBar.scss";
 
 const BottomBar: React.FC = () => {
   const dispatch = useDispatch();
@@ -21,12 +27,19 @@ const BottomBar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // const [pages] = useState([
+  //   { name: "Calendar", icon: <CalendarIcon />, path: "/calendar" },
+  //   { name: "Ranking", icon: <ChartsetIcon />, path: "/ranking" },
+  //   { name: "Home", icon: <HomeIcon />, path: "/home" },
+  //   { name: "Save", icon: <PiggybankIcon />, path: "/save" },
+  //   { name: "MyPage", icon: <BurgermenuIcon />, path: "/mypage" },
+  // ]);
   const [pages] = useState([
-    { name: "Calendar", icon: <CalendarIcon />, path: "/calendar" },
-    { name: "Ranking", icon: <ChartsetIcon />, path: "/ranking" },
-    { name: "Home", icon: <HomeIcon />, path: "/home" },
-    { name: "Save", icon: <PiggybankIcon />, path: "/save" },
-    { name: "MyPage", icon: <BurgermenuIcon />, path: "/mypage" },
+    { name: "Calendar", icon: CalendarIcon, path: "/calendar" },
+    { name: "Ranking", icon: ChartsetIcon, path: "/ranking" },
+    { name: "Home", icon: HomeIcon, path: "/home" },
+    { name: "Save", icon: PiggybankIcon, path: "/save" },
+    { name: "MyPage", icon: BurgermenuIcon, path: "/mypage" },
   ]);
 
   useEffect(() => {
@@ -41,16 +54,16 @@ const BottomBar: React.FC = () => {
       {pages.map((menu, index) => (
         <button
           key={index}
-          className={activePage === index ? "active" : ""}
+          className={activePage === index ? "active" : "inactive"}
           onClick={() => {
             navigate(menu.path);
             dispatch(setActivePage(index));
           }}
         >
           <span
-            className={location.pathname === menu.path ? "active-icon" : ""}
+            className={location.pathname === menu.path ? "active-icon" : "inactive-icon"}
           >
-            {menu.icon}
+            <img className="bottom-bar-image" src={menu.icon} alt="menu" />
           </span>
           {/* <span>{menu.name}</span> */}
         </button>
