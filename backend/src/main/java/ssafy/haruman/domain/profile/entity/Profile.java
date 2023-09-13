@@ -4,14 +4,19 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import ssafy.haruman.domain.member.entity.Member;
+import ssafy.haruman.global.entity.BaseEntity;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Profile {
+@SQLDelete(sql = "UPDATE profile SET is_valid = 'DELETED' WHERE profile_id = ?")
+@Where(clause = "is_valid = 'VALID'")
+public class Profile extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
