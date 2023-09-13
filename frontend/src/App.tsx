@@ -11,8 +11,9 @@ import CalendarPage from "./pages/CalendarPage";
 import LoginPage from "./pages/LoginPage";
 import FindUserIdPage from "./pages/FindUserIdPage";
 import ResetPasswordPage from "./pages/TemporaryPassPage";
-import TodayExpensePage from "./pages/TodayExpensePage";
-import NotFound from "./pages/NotFoundPage";
+import TodayPage from "./pages/TodayPage";
+import RankingPage from "./pages/RankingPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 // redux
 import { useAppSelector } from "./hooks/reduxHook";
@@ -76,13 +77,16 @@ const App: React.FC = () => {
             />
             <Route
               path="/today"
-              element={<TodayExpensePage />}
+              element={<TodayPage />}
             />
-            
+            <Route
+              path="/ranking"
+              element={<RankingPage />}
+            />
             {/* to exception */}
-            <Route 
-              path='/*' 
-              element={<NotFound />} 
+            <Route
+              path="/*"
+              element={<NotFoundPage />}
             />
           </Routes>
         </Router>
