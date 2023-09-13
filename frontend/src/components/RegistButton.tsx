@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import styled from "styled-components";
 
@@ -29,7 +29,7 @@ const RegisterButton = styled("button")`
   }
 
   @media (max-width: 768px) {
-    width: 80%; /* 또는 원하는 크기로 지정 */
+    width: 80%;
   }
 `;
 

@@ -1,3 +1,5 @@
+// 로그인 토큰 구현 완료되면 Line 96~99 수정해야해요!
+
 import React from "react";
 import styled from "styled-components";
 import "./App.css";
@@ -32,7 +34,7 @@ const AppContainer = styled.div`
 `;
 
 const App: React.FC = () => {
-  // const isLogin = useAppSelector((state) => state.user.isLogin);
+  const isLogin = useAppSelector((state) => state.user.isLogin);
 
   return (
     <>
@@ -92,6 +94,8 @@ const App: React.FC = () => {
               element={<NotFoundPage />}
             />
           </Routes>
+          {/* 로그인 구현 완료시 token없다면 BottomBar 랜더링 X */}
+          {/* {isLogin && <BottomBar />} */}
           <BottomBar />
         </Router>
       </AppContainer>
