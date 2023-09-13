@@ -55,7 +55,6 @@ public class ProfileServiceImpl implements ProfileService {
         } else {
             return SingleProfileResponseDto.from(profile, null);
         }
-
     }
 
     @Override

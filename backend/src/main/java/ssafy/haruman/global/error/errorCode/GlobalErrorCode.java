@@ -20,7 +20,7 @@ public enum GlobalErrorCode implements BaseErrorCode {
     CUSTOM_INTERNAL_SERVER_ERROR(INTERNAL_SERVER_ERROR, "GLOBAL_500_1", "서버 오류. 관리자에게 문의 부탁드립니다."),
 
     /* 프로필 */
-    PROFILE_NOT_FOUND(NOT_FOUND, "PROFILE_404_1", "해당 ID의 프로필이 없습니다."),
+    PROFILE_NOT_FOUND(NOT_FOUND, "PROFILE-001", "해당 ID의 프로필이 없습니다."),
 
     /* 카테고리 */
     CATEGORY_NOT_FOUND(NOT_FOUND, "CATEGRORY_404_1", "해당 ID의 카테고리가 없습니다.");
