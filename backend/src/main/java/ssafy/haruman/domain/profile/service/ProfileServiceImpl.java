@@ -53,7 +53,6 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void deleteProfile(Long profileId) {
-        deleteExistingProfileImage(this.findOneProfileById(profileId));
         profileRepository.deleteById(profileId);
     }
 
