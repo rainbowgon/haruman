@@ -60,21 +60,14 @@ return (
 <>
   <div className="mypage_calenders">
   <Calendar
-//   onChange:String ={onChange}
-  value={value}
-  tileClassName={({ date, view }) => {
-  if (attendanceDates.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-    return "highlight2"
-  }
-  }}
-//   tileContent={({ date, view }) => {
-//     // 날짜의 일 가져오기
-//     const day = date.getDate();
-
-//     // 일 부분을 숫자로만 표시
-//     const formattedDate = `${day}`;
-//     return <div className="custom-tile">{formattedDate}</div>;
-//   }} 
+    locale="en"
+    //   onChange:String ={onChange}
+    value={value}
+    tileClassName={({ date, view }) => {
+      if (attendanceDates.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+      return "highlight2"
+      }
+    }}
   />
   </div>
 </>

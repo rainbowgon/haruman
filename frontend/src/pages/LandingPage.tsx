@@ -1,6 +1,6 @@
 import React from "react";
 import MainStyle from "../components/MainStyle";
-import "../styles/HomePageStyle.scss";
+import "../styles/LandingPageStyle.scss";
 import LogoImage from "../assets/logo-mainlogo.svg";
 
 const LandingPage = () => {

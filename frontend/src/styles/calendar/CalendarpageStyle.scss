@@ -1,0 +1,29 @@
+@import "../theme.css";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+
+.calendarpage{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.calendar_form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.challengecounter_form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.challengeitems_form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    grid-template-columns: 1fr;
+    margin-top: 1rem;
+}
