@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ssafy.haruman.domain.profile.dto.request.ProfileUpdateRequestDto;
 import ssafy.haruman.domain.profile.dto.response.SingleProfileResponseDto;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.domain.profile.repository.ProfileRepository;
@@ -38,27 +37,12 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public SingleProfileResponseDto updateProfile(ProfileUpdateRequestDto profileUpdateRequestDto) {
-        Profile profile = this.findOneProfileById(profileUpdateRequestDto.getProfileId());
-        profile.updateProfile(profileUpdateRequestDto.getNickname());
-        return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage()));
-    }
-
-    @Override
     @Transactional
-    public SingleProfileResponseDto uploadNewProfileImage(Long profileId, MultipartFile multipartFile) throws IOException {
+    public SingleProfileResponseDto updateProfile(Long profileId, String nickname, MultipartFile profileImage) throws IOException {
         Profile profile = this.findOneProfileById(profileId);
-
-        profile.deleteProfileImage();
-        s3FileService.deleteImage(profile.getProfileImage());
-
-        if (!multipartFile.isEmpty()) {
-            String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
-            profile.uploadNewProfileImage(S3_PATH, savedFilename);
-            return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage()));
-        } else {
-            return SingleProfileResponseDto.from(profile, null);
-        }
+        profile.updateProfile(nickname);
+        this.uploadNewProfileImage(profile, profileImage);
+        return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage()));
     }
 
     @Override
@@ -69,11 +53,25 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void deleteProfile(Long profileId) {
+        deleteExistingProfileImage(this.findOneProfileById(profileId));
         profileRepository.deleteById(profileId);
     }
 
     private Profile findOneProfileById(Long profileId) {
         return profileRepository.findById(profileId)
                 .orElseThrow(() -> ProfileNotFoundException.EXCEPTION);
+    }
+
+    private void uploadNewProfileImage(Profile profile, MultipartFile multipartFile) throws IOException {
+        this.deleteExistingProfileImage(profile);
+        if (!multipartFile.isEmpty()) {
+            String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
+            profile.uploadNewProfileImage(S3_PATH, savedFilename);
+        }
+    }
+
+    private void deleteExistingProfileImage(Profile profile) {
+        profile.deleteProfileImage();
+        s3FileService.deleteImage(profile.getProfileImage());
     }
 }
