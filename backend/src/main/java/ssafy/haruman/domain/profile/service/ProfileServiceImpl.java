@@ -41,8 +41,8 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public SingleProfileResponseDto selectOneProfile(Long profileId) {
-        Profile profile = profileRepository.findById(profileId).orElseThrow(() -> new RuntimeException("없음"));
-        return SingleProfileResponseDto.from(profile, null); // TODO S3에서 이미지 찾아서 URL 반환
+        Profile profile = this.findOneProfileById(profileId);
+        return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage())); // TODO S3에서 이미지 찾아서 URL 반환
     }
 
     @Override
