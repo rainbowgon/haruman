@@ -8,6 +8,7 @@ import ssafy.haruman.domain.profile.dto.request.ProfileUpdateRequestDto;
 import ssafy.haruman.domain.profile.dto.response.SingleProfileResponseDto;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.domain.profile.repository.ProfileRepository;
+import ssafy.haruman.global.error.exception.ProfileNotFoundException;
 import ssafy.haruman.global.service.S3FileService;
 
 import java.io.IOException;
@@ -32,8 +33,10 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public SingleProfileResponseDto updateProfile(ProfileUpdateRequestDto profileUpdateRequestDto) {
-        // TODO 프로필 수정 구현 필요
-        return null;
+        Profile profile = this.findOneProfileById(profileUpdateRequestDto.getProfileId());
+        profile.updateProfile(profileUpdateRequestDto.getNickname());
+        profileRepository.save(profile);
+        return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage()));
     }
 
     @Override
@@ -47,5 +50,8 @@ public class ProfileServiceImpl implements ProfileService {
         profileRepository.deleteById(profileId);
     }
 
-
+    private Profile findOneProfileById(Long profileId) {
+        return profileRepository.findById(profileId)
+                .orElseThrow(() -> ProfileNotFoundException.EXCEPTION);
+    }
 }

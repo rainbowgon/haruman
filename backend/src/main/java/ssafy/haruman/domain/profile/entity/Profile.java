@@ -34,6 +34,10 @@ public class Profile {
         this.nickname = nickname;
     }
 
+    public void updateProfile(String nickname) {
+        this.nickname = nickname;
+    }
+
     public void uploadNewProfileImage(String savedPath, String savedFilename) {
         this.profileImage = ProfileImage.builder()
                 .savedPath(savedPath)
