@@ -2,24 +2,32 @@ package ssafy.haruman.domain.profile.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ssafy.haruman.domain.profile.dto.request.ProfileCreateRequestDto;
 import ssafy.haruman.domain.profile.dto.request.ProfileUpdateRequestDto;
 import ssafy.haruman.domain.profile.dto.response.SingleProfileResponseDto;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.domain.profile.repository.ProfileRepository;
+import ssafy.haruman.global.service.S3FileService;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileRepository profileRepository;
+    private final S3FileService s3FileService;
+
+    private final String S3_PATH = "image/profile/";
 
     @Override
-    public SingleProfileResponseDto createProfile(ProfileCreateRequestDto profileCreateRequestDto) {
+    public SingleProfileResponseDto createProfile(ProfileCreateRequestDto profileCreateRequestDto, MultipartFile multipartFile) throws IOException {
         Profile profile = profileCreateRequestDto.toEntity();
-        // TODO S3에 이미지 저장 및 URL 반환
-        // TODO ProfileImage 개체를 만들고 Profile에 넣어야 합니다.
-        return SingleProfileResponseDto.from(profile, null);
+        String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
+        profile.uploadNewProfileImage(S3_PATH, savedFilename);
+        profileRepository.save(profile);
+        return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage()));
     }
 
     @Override
@@ -38,4 +46,6 @@ public class ProfileServiceImpl implements ProfileService {
     public void deleteProfile(Long profileId) {
         profileRepository.deleteById(profileId);
     }
+
+
 }

@@ -20,6 +20,9 @@ public class S3FileService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Value("${cloud.aws.s3.directory}")
+    private String directory;
+
     public String saveFile(String path, MultipartFile multipartFile) throws IOException {
         String savedFilename = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
 
@@ -27,7 +30,7 @@ public class S3FileService {
         metadata.setContentLength(multipartFile.getSize());
         metadata.setContentType(multipartFile.getContentType());
 
-        amazonS3.putObject(bucket, path + savedFilename, multipartFile.getInputStream(), metadata);
+        amazonS3.putObject(bucket, directory + "/" + path + savedFilename, multipartFile.getInputStream(), metadata);
         return savedFilename;
     }
 
