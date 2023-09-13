@@ -15,6 +15,9 @@ import TodayPage from "./pages/TodayPage";
 import RankingPage from "./pages/RankingPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
+// NavigationBar
+import BottomBar from "./components/BottomBar";
+
 // redux
 import { useAppSelector } from "./hooks/reduxHook";
 
@@ -89,6 +92,7 @@ const App: React.FC = () => {
               element={<NotFoundPage />}
             />
           </Routes>
+          <BottomBar />
         </Router>
       </AppContainer>
     </>
