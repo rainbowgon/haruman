@@ -32,4 +32,14 @@ public class ProfileController {
         return JsonResponse.ok("프로필이 반환되었습니다.", singleProfileResponseDto);
     }
 
+    @PatchMapping("/{profile-id}")
+    public ResponseEntity<ResponseWrapper<SingleProfileResponseDto>> updateProfile(
+            @PathVariable("profile-id") Long profileId,
+            @RequestParam String nickname,
+            @RequestParam MultipartFile profileImage) throws IOException {
+        SingleProfileResponseDto singleProfileResponseDto = profileService.updateProfile(profileId, nickname, profileImage);
+        return JsonResponse.ok("프로필이 성공적으로 수정되었습니다.", singleProfileResponseDto);
+    }
+
+
 }
