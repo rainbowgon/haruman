@@ -13,6 +13,8 @@ public interface ProfileService {
 
     SingleProfileResponseDto updateProfile(ProfileUpdateRequestDto profileUpdateRequestDto);
 
+    SingleProfileResponseDto uploadNewProfileImage(Long profileId, MultipartFile multipartFile);
+
     SingleProfileResponseDto selectOneProfile(Long profileId);
 
     void deleteProfile(Long profileId);

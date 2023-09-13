@@ -40,6 +40,16 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
+    public SingleProfileResponseDto uploadNewProfileImage(Long profileId, MultipartFile multipartFile) {
+        Profile profile = this.findOneProfileById(profileId);
+        s3FileService.deleteImage(profile.getProfileImage());
+
+        if (!multipartFile.isEmpty()) {
+            profile.uploadNewProfileImage();
+        }
+    }
+
+    @Override
     public SingleProfileResponseDto selectOneProfile(Long profileId) {
         Profile profile = this.findOneProfileById(profileId);
         return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage())); // TODO S3에서 이미지 찾아서 URL 반환

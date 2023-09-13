@@ -38,6 +38,10 @@ public class Profile {
         this.nickname = nickname;
     }
 
+    public void deleteProfileImage() {
+        this.profileImage = null;
+    }
+
     public void uploadNewProfileImage(String savedPath, String savedFilename) {
         this.profileImage = ProfileImage.builder()
                 .savedPath(savedPath)
