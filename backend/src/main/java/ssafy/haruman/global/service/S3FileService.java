@@ -39,10 +39,9 @@ public class S3FileService {
     }
 
     public void deleteImage(File file) {
-        if (file == null) {
-            return;
+        if (file != null) {
+            amazonS3.deleteObject(bucket, getFullFilename(file.getSavedPath(), file.getSavedFilename()));
         }
-        amazonS3.deleteObject(bucket, getFullFilename(file.getSavedPath(), file.getSavedFilename()));
     }
 
     private String getFullFilename(String path, String savedFilename) {

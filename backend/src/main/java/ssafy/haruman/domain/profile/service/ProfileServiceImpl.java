@@ -71,7 +71,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     private void deleteExistingProfileImage(Profile profile) {
-        profile.deleteProfileImage();
         s3FileService.deleteImage(profile.getProfileImage());
+        profile.deleteProfileImage();
     }
 }

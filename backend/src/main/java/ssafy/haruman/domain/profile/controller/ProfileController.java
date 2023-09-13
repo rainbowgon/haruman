@@ -20,18 +20,12 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
-    @GetMapping
-    public String hello() {
-        System.out.println("ProfileController.hello");
-        return "hello";
-    }
-
     @PostMapping
     public ResponseEntity<ResponseWrapper<SingleProfileResponseDto>> createProfile(
             @RequestParam String nickname,
             @RequestParam MultipartFile profileImage) throws IOException {
         SingleProfileResponseDto singleProfileResponseDto = profileService.createProfile(nickname, profileImage);
-        return JsonResponse.of(HttpStatus.CREATED, "프로필이 반환되었습니다.", singleProfileResponseDto);
+        return JsonResponse.of(HttpStatus.CREATED, "프로필이 성공적으로 생성되었습니다.", singleProfileResponseDto);
     }
 
     @PatchMapping("/{profile-id}")
