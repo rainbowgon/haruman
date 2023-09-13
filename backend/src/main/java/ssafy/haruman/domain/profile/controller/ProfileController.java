@@ -1,7 +1,9 @@
 package ssafy.haruman.domain.profile.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ssafy.haruman.domain.profile.dto.response.SingleProfileResponseDto;
@@ -29,7 +31,7 @@ public class ProfileController {
             @RequestParam String nickname,
             @RequestParam MultipartFile profileImage) throws IOException {
         SingleProfileResponseDto singleProfileResponseDto = profileService.createProfile(nickname, profileImage);
-        return JsonResponse.ok("프로필이 반환되었습니다.", singleProfileResponseDto);
+        return JsonResponse.of(HttpStatus.CREATED, "프로필이 반환되었습니다.", singleProfileResponseDto);
     }
 
     @PatchMapping("/{profile-id}")
@@ -48,4 +50,10 @@ public class ProfileController {
         return JsonResponse.ok("프로필을 성공적으로 가져왔습니다.", singleProfileResponseDto);
     }
 
+    @DeleteMapping("/{profile-id}")
+    public ResponseEntity<ResponseWrapper<Nullable>> deleteProfile(
+            @PathVariable("profile-id") Long profileId) {
+        profileService.deleteProfile(profileId);
+        return JsonResponse.of(HttpStatus.NO_CONTENT, "프로필을 성공적으로 삭제했습니다.");
+    }
 }
