@@ -30,15 +30,26 @@ public class S3FileService {
         metadata.setContentLength(multipartFile.getSize());
         metadata.setContentType(multipartFile.getContentType());
 
-        amazonS3.putObject(bucket, directory + "/" + path + savedFilename, multipartFile.getInputStream(), metadata);
+        amazonS3.putObject(bucket, getFullFilename(path, savedFilename), multipartFile.getInputStream(), metadata);
         return savedFilename;
     }
 
     public String getS3Url(File file) {
-        return file != null ? amazonS3.getUrl(bucket, file.getSavedPath() + file.getSavedFilename()).toString() : null;
+        return file != null ? amazonS3.getUrl(bucket, getFullFilename(file.getSavedPath(), file.getSavedFilename())).toString() : null;
     }
 
-    public void deleteImage(String filename) {
-        amazonS3.deleteObject(bucket, filename);
+    public void deleteImage(File file) {
+        if (file == null) {
+            return;
+        }
+        amazonS3.deleteObject(bucket, getFullFilename(file.getSavedPath(), file.getSavedFilename()));
+    }
+
+    private String getFullFilename(String path, String savedFilename) {
+        StringBuilder sb = new StringBuilder();
+        return sb.append(directory)
+                .append("/")
+                .append(path)
+                .append(savedFilename).toString();
     }
 }
