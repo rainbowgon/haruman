@@ -106,5 +106,13 @@ public class CategoryServiceImpl implements CategoryService {
 
         return null;
     }
+    
+    @Override
+    public Category selectOneCategory(Long categoryId) {
+
+        Category category = categoryRepository.findById(categoryId).orElseThrow();
+
+        return category;
+    }
 
 }
