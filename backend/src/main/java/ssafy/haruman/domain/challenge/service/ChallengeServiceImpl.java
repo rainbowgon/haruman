@@ -1,14 +1,17 @@
 package ssafy.haruman.domain.challenge.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
+import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
 import ssafy.haruman.domain.challenge.entity.Challenge;
 import ssafy.haruman.domain.challenge.entity.ChallengeStatus;
 import ssafy.haruman.domain.challenge.entity.ViewStatus;
 import ssafy.haruman.domain.challenge.repository.ChallengeRepository;
+import ssafy.haruman.domain.challenge.repository.ChallengeUserListMapping;
 import ssafy.haruman.domain.profile.entity.Profile;
 
 @Service
@@ -34,5 +37,16 @@ public class ChallengeServiceImpl implements ChallengeService {
 
         challengeRepository.save(challenge);
         return ChallengeResponseDto.from(challenge);
+    }
+
+    @Override
+    public List<ChallengeUserListResponseDto> selectDailyUserList() {
+
+        List<ChallengeUserListMapping> challengeList = challengeRepository.findChallengesByStatus();
+
+//        List<ChallengeUserListResponseDto> userList =
+//                challengeList.stream()
+//                        .collect(Collectors.groupingBy())
+        return null;
     }
 }
