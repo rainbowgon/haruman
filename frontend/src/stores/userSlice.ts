@@ -14,6 +14,7 @@ const initialState: UserState = {
   accessToken: "",
   refreshToken: "",
   userInfo: {
+    id: "",
     userEmail: "",
     userName: "",
     role: "",
@@ -60,4 +61,5 @@ export interface UserInfoType {
   userEmail: string;
   userName: string;
   role: string;
+  id: string;
 }
