@@ -11,6 +11,12 @@ import CalendarPage from "./pages/CalendarPage";
 import LoginPage from "./pages/LoginPage";
 import FindUserIdPage from "./pages/FindUserIdPage";
 import ResetPasswordPage from "./pages/TemporaryPassPage";
+import TodayPage from "./pages/TodayPage";
+import RankingPage from "./pages/RankingPage";
+import NotFoundPage from "./pages/NotFoundPage";
+
+// NavigationBar
+import BottomBar from "./components/BottomBar";
 
 // redux
 import { useAppSelector } from "./hooks/reduxHook";
@@ -72,7 +78,21 @@ const App: React.FC = () => {
               path="/temp"
               element={<ResetPasswordPage />}
             />
+            <Route
+              path="/today"
+              element={<TodayPage />}
+            />
+            <Route
+              path="/ranking"
+              element={<RankingPage />}
+            />
+            {/* to exception */}
+            <Route
+              path="/*"
+              element={<NotFoundPage />}
+            />
           </Routes>
+          <BottomBar />
         </Router>
       </AppContainer>
     </>
