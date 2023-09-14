@@ -33,7 +33,11 @@
 
 import React, { useContext } from "react";
 
-import styled from "styled-components";
+//icon
+import Check from "../assets/icons/icon-check.png";
+
+//scss
+import "../styles/components/CheckBoxStyle.scss"
 
 interface CheckboxProps {
   label: string;
@@ -41,45 +45,19 @@ interface CheckboxProps {
   onChange: (event: any) => void;
 }
 
-const CheckboxContainer = styled.label`
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-`;
-
-const CheckboxInput = styled.input`
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
-  margin: 4px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  border: 1px solid var(--brand2_main);
-  background-color: ${(props) => (props.checked ? "var(--brand2_main)" : "")};
-  color: var(--brand2_main);
-
-  &:checked {
-    background: var(--brand2_main);
-    transition: all 0.1s ease-in-out;
-  }
-`;
-
-const CheckboxLabel = styled.span`
-  font-size: 20px;
-  margin: 4px;
-  margin-bottom: 12px;
-`;
-
 export default function CheckBox({ label, checked, onChange }: CheckboxProps) {
   return (
-    <CheckboxContainer>
-      <CheckboxInput
-        type="checkbox"
-        checked={checked}
-        onChange={onChange}
-      />
-      <CheckboxLabel>{label}</CheckboxLabel>
-    </CheckboxContainer>
+    <div className="check_box_guide">
+      <div className="check_box">
+        <label className="check_box_div">
+          <input className="checkbox_input"
+            type="checkbox"
+            checked={checked}
+            onChange={onChange}
+          />
+          <label className="checkbox_label">{label}</label>
+        </label>
+      </div>
+    </div>
   );
 }

@@ -1,37 +1,9 @@
+// react
 import React from "react";
 
-import styled from "styled-components";
+// scss
+import "../styles/components/RegistButtonStyle.scss";
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const RegisterButton = styled("button")`
-  width: 30vw;
-  height: 60px;
-  border-radius: 30px;
-  font-size: 20px;
-  padding: 8px;
-  margin-bottom: 16px;
-  max-width: 467px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--brand2_main);
-  color: var(--white);
-  background-color: var(--brand2_main);
-  font-weight: bolder;
-
-  &:hover {
-    transition: all 0.1s ease-in-out;
-  }
-
-  @media (max-width: 768px) {
-    width: 80%;
-  }
-`;
 
 export interface ButtonProps {
   text: string;
@@ -40,15 +12,16 @@ export interface ButtonProps {
   style?: React.CSSProperties;
 }
 
-export default function Register({ text, onClick, style }: ButtonProps) {
+export default function Register({ text, onClick, className, style }: ButtonProps) {
   return (
-    <ButtonContainer>
-      <RegisterButton
+    <div className={`button_container`}>
+      <button
+        className={`register_button ${className}`}
         style={style}
         onClick={onClick}
       >
         {text}
-      </RegisterButton>
-    </ButtonContainer>
+      </button>
+    </div>
   );
 }

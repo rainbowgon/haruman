@@ -42,7 +42,6 @@ const AgreementContent1 = () => {
 
   return (
     <ContextBox>
-      <h1>Haruman 홈페이지 이용약관</h1>
       <p>
         효력 발생일: <span>[{dateString}]</span>
       </p>

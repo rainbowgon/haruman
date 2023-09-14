@@ -1,0 +1,48 @@
+@import '../util.scss';         /*변수파일 - 색상 + 모바일 체크*/
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+
+.button_container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.register_button {
+  width: 80%;
+  height: 6vh;
+  border-radius: 40px;
+  margin: 10px;
+  max-width: 450px;
+  color: $white;
+  font-size: 1.3rem;
+
+  border: 2px solid $brand2_main;
+  background-color: $brand2_main;
+  font-weight: bolder;
+  
+  &:hover {
+    transition: all 0.1s ease-in-out;
+  }
+
+  @include mobile{ 
+    // 브라우저 사이즈767px이하일때
+  }
+
+  @include tablet{
+    /*브라우저 사이즈1023px이하일때*/
+    background: $brand1_main;
+  }
+  
+  @include desktop{
+    /*브라우저 사이즈1024px이상일때*/
+    background: $point1_main;
+  }
+}
+
+.register_button.mini_type {
+  width: 6vh;
+  background-color: $brand1_main;
+  border: none;
+  font-size: 0.7rem;
+}
