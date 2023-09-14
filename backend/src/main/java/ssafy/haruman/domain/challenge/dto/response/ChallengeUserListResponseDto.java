@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ChallengeUserListResponseDto {
 
-    private String group;
-    private List<ChallengeUserListDto> userList;
+    private String groupKey;
+    private List<ChallengeUserInfoDto> userList;
+
 
 }

@@ -2,7 +2,7 @@ package ssafy.haruman.domain.challenge.repository;
 
 import java.time.LocalDateTime;
 
-public interface ChallengeUserListMapping {
+public interface ChallengeUserInfoMapping {
 
     Long getChallengeId();
 

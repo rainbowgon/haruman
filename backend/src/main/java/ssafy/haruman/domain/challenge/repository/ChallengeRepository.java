@@ -14,5 +14,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
                     + "WHERE c.challenge_status = 'PROGRESS'"
                     + "GROUP BY c.challenge_id"
                     + "ORDER BY e.created_at, c.start_time")
-    List<ChallengeUserListMapping> findChallengesByStatus();
+    List<ChallengeUserInfoMapping> findChallengesByStatus();
 }

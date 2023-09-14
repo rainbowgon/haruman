@@ -70,7 +70,7 @@ public class ChallengeController {
     }
 
     @GetMapping("/{people}")
-    public ResponseEntity<ResponseWrapper<List<ChallengeUserListResponseDto>>> selectDailyUserList() {
+    public ResponseEntity<ResponseWrapper<List<ChallengeUserListResponseDto>>> selectChallengeUserList() {
 
         List<ChallengeUserListResponseDto> userList = challengeService.selectDailyUserList();
 
