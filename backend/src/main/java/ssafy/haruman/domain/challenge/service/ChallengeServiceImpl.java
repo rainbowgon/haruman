@@ -54,7 +54,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     public ExpenseResponseDto createExpense(Long challengeId,
             ExpenseCreateRequestDto createRequestDto) {
         Challenge challenge = getChallenge(challengeId);
-        Category category = categoryService.selectCategory(createRequestDto.getCategoryId());
+        Category category = categoryService.selectOneCategory(createRequestDto.getCategoryId());
         LocalDateTime payTime = createRequestDto.getPayTime() == null ? LocalDateTime.now()
                 : createRequestDto.getPayTime();
 
@@ -73,7 +73,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     public ExpenseResponseDto updateExpense(ExpenseUpdateRequestDto updateRequestDto) {
         Expense expense = getExpense(updateRequestDto.getExpenseId());
         Challenge challenge = expense.getChallenge();
-        Category category = categoryService.selectCategory(updateRequestDto.getCategoryId());
+        Category category = categoryService.selectOneCategory(updateRequestDto.getCategoryId());
 
         updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(),
                 updateRequestDto.getPayAmount());
