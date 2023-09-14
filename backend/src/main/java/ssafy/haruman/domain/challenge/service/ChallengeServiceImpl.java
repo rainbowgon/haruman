@@ -99,15 +99,10 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     @Override
     public DailyChallengeResponseDto selectDailyChallenge(Profile profile, Date date) {
-        System.out.println(date);
-        System.out.println(date.getClass().getName());
-
         Challenge challenge = challengeRepository.findByProfileAndDate(profile.getId(), date);
         // TODO 챌린지 반환이 1개가 아니면 에러
         // TODO 페이지네이션
 
-        System.out.println("완료");
-        System.out.println(challenge.toString());
         List<ExpenseResponseDto> list = expenseRepository.findAllByChallenge_Id(challenge.getId())
                 .stream()
                 .map(expense -> ExpenseResponseDto.from(expense)).collect(Collectors.toList());
