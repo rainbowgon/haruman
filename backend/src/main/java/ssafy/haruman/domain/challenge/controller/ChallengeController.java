@@ -1,7 +1,8 @@
 package ssafy.haruman.domain.challenge.controller;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +21,6 @@ import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
 import ssafy.haruman.domain.challenge.service.ChallengeService;
 import ssafy.haruman.domain.profile.entity.Profile;
-import ssafy.haruman.domain.profile.service.ProfileServiceImpl;
 import ssafy.haruman.global.response.JsonResponse;
 import ssafy.haruman.global.response.ResponseWrapper;
 
@@ -30,12 +30,13 @@ import ssafy.haruman.global.response.ResponseWrapper;
 public class ChallengeController {
 
     private final ChallengeService challengeService;
-    private final ProfileServiceImpl ps;
+//    private final ProfileServiceImpl ps;
 
     @PostMapping
     public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> startChallenge() {
+//        Profile profile = ps.findOneProfileById(1L);
         Profile profile = null;
-        
+
         ChallengeResponseDto responseDto = challengeService.startChallenge(profile);
         return JsonResponse.ok("챌린지가 생성되었습니다.", responseDto);
     }
@@ -51,11 +52,11 @@ public class ChallengeController {
     }
 
     @PatchMapping
-    public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> updateExpense(
+    public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> updateExpense(
             @RequestBody ExpenseUpdateRequestDto updateRequestDto) {
 
         ExpenseResponseDto reponseDto = challengeService.updateExpense(updateRequestDto);
-        return JsonResponse.ok("지출내역이 수정되었습니다.", null);
+        return JsonResponse.ok("지출내역이 수정되었습니다.", reponseDto);
     }
 
     @DeleteMapping("/{expense-id}")
@@ -68,7 +69,8 @@ public class ChallengeController {
 
     @GetMapping
     public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> selectDailyChallenge(
-            @RequestParam(name = "date") LocalDateTime date) {
+            @RequestParam(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+//        Profile profile = ps.findOneProfileById(1L);
         Profile profile = null;
 
         DailyChallengeResponseDto responseDto = challengeService.selectDailyChallenge(profile,

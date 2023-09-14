@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ExpenseUpdateRequestDto {
 
-    private Long ExpenseId;
+    private Long expenseId;
     private Long categoryId;
     private Integer payAmount;
     private String content;

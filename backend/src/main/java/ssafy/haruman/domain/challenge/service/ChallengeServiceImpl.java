@@ -1,6 +1,7 @@
 package ssafy.haruman.domain.challenge.service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
@@ -36,7 +37,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         Challenge challenge = Challenge.builder()
                 .profile(profile)
                 .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().withHour(0).withMinute(0).withSecond(0))
+                .endTime(LocalDateTime.now().plusDays(1).withHour(0).withMinute(0).withSecond(0))
                 .challengeStatus(ChallengeStatus.PROGRESS)
                 .targetAmount(10000)
                 .usedAmount(0)
@@ -68,6 +69,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
+    @Transactional
     public ExpenseResponseDto updateExpense(ExpenseUpdateRequestDto updateRequestDto) {
         Expense expense = getExpense(updateRequestDto.getExpenseId());
         Challenge challenge = expense.getChallenge();
@@ -84,6 +86,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
+    @Transactional
     public void deleteExpense(Long expenseId) {
         Expense expense = getExpense(expenseId);
         Challenge challenge = expense.getChallenge();
@@ -95,12 +98,16 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
-    public DailyChallengeResponseDto selectDailyChallenge(Profile profile, LocalDateTime date) {
+    public DailyChallengeResponseDto selectDailyChallenge(Profile profile, Date date) {
+        System.out.println(date);
+        System.out.println(date.getClass().getName());
 
         Challenge challenge = challengeRepository.findByProfileAndDate(profile.getId(), date);
         // TODO 챌린지 반환이 1개가 아니면 에러
         // TODO 페이지네이션
 
+        System.out.println("완료");
+        System.out.println(challenge.toString());
         List<ExpenseResponseDto> list = expenseRepository.findAllByChallenge_Id(challenge.getId())
                 .stream()
                 .map(expense -> ExpenseResponseDto.from(expense)).collect(Collectors.toList());
@@ -118,7 +125,6 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     private void updateChallengeAmount(Challenge challenge, Integer beforeUsedAmount,
             Integer payAmount) {
-
         Integer usedAmount = beforeUsedAmount + payAmount;
         Integer leftOverAmount = Math.max(challenge.getTargetAmount() - usedAmount, 0);
         challenge.updateChallengeAmount(usedAmount, leftOverAmount);

@@ -1,6 +1,6 @@
 package ssafy.haruman.domain.challenge.service;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
@@ -18,5 +18,5 @@ public interface ChallengeService {
 
     void deleteExpense(Long expenseId);
 
-    DailyChallengeResponseDto selectDailyChallenge(Profile profile, LocalDateTime date);
+    DailyChallengeResponseDto selectDailyChallenge(Profile profile, Date date);
 }
