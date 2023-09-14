@@ -18,6 +18,9 @@ import { useNavigate } from "react-router-dom";
 import Checkbox from "../components/CheckBox";
 import styled from "styled-components";
 
+//scss
+import "../styles/user/LoginPageStyle.scss"
+
 const StyledDiv = styled.div`
   margin-left: 10vw;
   text-align: left;
@@ -26,11 +29,6 @@ const StyledDiv = styled.div`
 
 const LogoDiv = styled.div`
   margin: 10vh 0vh 10vh;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: var(--brand1_main);
 `;
 
 const LoginPage = () => {
@@ -111,18 +109,16 @@ const LoginPage = () => {
             alt="로고 이미지"
           />
         </LogoDiv>
-        <StyledDiv>email</StyledDiv>
         <InputText
           className="InputText"
           type="email"
           // alt="Input Email"
-          placeholder="이메일을 입력하세요"
+          placeholder="이메일"
           value={email}
           // 추후 email이 들어온다면 sending
           onChange={(e) => setEmail(e.target.value)}
           // onKeyPress={handleKeyPress}
         />
-        <StyledDiv>password</StyledDiv>
         <InputText
           className="InputText"
           // alt="password"
@@ -133,30 +129,46 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           // onKeyPress={handleKeyPress}
         />
-        <StyledDiv>
-          <Checkbox
-            label="자동 로그인"
-            checked={autoLogin}
-            onChange={() => setAutoLogin(!autoLogin)}
-          />
-        </StyledDiv>
+        <Checkbox
+          label="자동 로그인"
+          checked={autoLogin}
+          onChange={() => setAutoLogin(!autoLogin)}
+        />
         <RegisterButton
           text="로그인"
           onClick={handleLogin}
         />
-        <StyledLink to="/finduserid">아이디 찾기 / </StyledLink>
-        <StyledLink to="/temp">임시 비밀번호 발급</StyledLink>
-        <StyledLink to="/signup">회원가입</StyledLink>
+        <div className="max_div">
+          <div className="others_links">
+            <div className="link_left">
+              <Link className="others_link" to="/finduserid">아이디 찾기 </Link>
+              <Link className="others_link" to="/temp"> / 비밀번호 발급</Link>
+            </div>
+            <div className="link_right">
+              <Link className="others_link" to="/signup">회원가입</Link>
+            </div>
+          </div>
+        </div>
         <hr />
-        <StyledDiv>easy to start</StyledDiv>
-        <RegisterButton
-          text="Kakao"
-          onClick={handleLogin}
-        />
-        <RegisterButton
-          text="Google"
-          onClick={handleLogin}
-        />
+        <div className="max_div">
+          <div className="ocr_line">
+            <div className="ocr_text">
+              easy to start
+            </div>
+            <div className="ocr_login">
+              <RegisterButton
+                text="Kakao"
+                className="mini_type"
+                onClick={handleLogin}
+              />
+              <RegisterButton
+                text="Google"
+                className="mini_type"
+                onClick={handleLogin}
+              />
+            </div>
+          </div>
+        </div>
       </MainStyle>
     </CenterContainer>
   );
