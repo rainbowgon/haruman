@@ -81,8 +81,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         expense.updateExpense(category, updateRequestDto.getPayAmount(),
                 updateRequestDto.getContent());
 
-        ExpenseResponseDto responseDto = ExpenseResponseDto.from(expense);
-        return responseDto;
+        return ExpenseResponseDto.from(expense);
     }
 
     @Override
@@ -94,7 +93,6 @@ public class ChallengeServiceImpl implements ChallengeService {
         updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(), 0);
 
         expenseRepository.delete(expense);
-        ExpenseResponseDto responseDto = ExpenseResponseDto.from(expense);
     }
 
     @Override
