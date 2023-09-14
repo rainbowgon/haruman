@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ssafy.haruman.domain.category.entity.Category;
+import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.global.entity.BaseEntity;
 
 @Entity
@@ -50,5 +51,25 @@ public class Expense extends BaseEntity {
         this.payAmount = payAmount;
         this.content = content;
     }
+
+    public static Expense createExpense(Challenge challenge, Category category,
+            ExpenseCreateRequestDto createRequestDto, LocalDateTime payTime) {
+        Expense expense = Expense.builder()
+                .challenge(challenge)
+                .category(category)
+                .payTime(payTime)
+                .payAmount(createRequestDto.getPayAmount())
+                .content(createRequestDto.getContent())
+                .build();
+
+        return expense;
+    }
+
+    public void updateExpense(Category category, Integer payAmount, String content) {
+        this.category = category;
+        this.payAmount = payAmount;
+        this.content = content;
+    }
+
 
 }

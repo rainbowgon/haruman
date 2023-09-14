@@ -1,8 +1,8 @@
 package ssafy.haruman.domain.challenge.controller;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Date;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,31 +41,38 @@ public class ChallengeController {
 
     @PostMapping("/{challenge-id}")
     public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> createExpense(
-            @PathVariable(name = "challenge-id") Long chellengeId,
-            @RequestBody ExpenseCreateRequestDto createDto) {
+            @PathVariable(name = "challenge-id") Long challengeId,
+            @RequestBody ExpenseCreateRequestDto createRequestDto) {
 
-        return JsonResponse.ok("지출내역이 입력되었습니다.", null);
+        ExpenseResponseDto reponseDto = challengeService.createExpense(challengeId,
+                createRequestDto);
+        return JsonResponse.ok("지출내역이 입력되었습니다.", reponseDto);
     }
 
     @PatchMapping
     public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> updateExpense(
-            @RequestBody ExpenseUpdateRequestDto updateDto) {
+            @RequestBody ExpenseUpdateRequestDto updateRequestDto) {
 
-        return JsonResponse.ok("지출내역이 수정되었습니다.", null);
+        ExpenseResponseDto reponseDto = challengeService.updateExpense(updateRequestDto);
+        return JsonResponse.ok("지출내역이 수정되었습니다.", reponseDto);
     }
 
     @DeleteMapping("/{expense-id}")
     public ResponseEntity<ResponseWrapper<Nullable>> deleteExpense(
             @PathVariable(name = "expense-id") Long expenseId) {
 
-        return JsonResponse.ok("지출내역이 삭제되었습니다.", null);
+        challengeService.deleteExpense(expenseId);
+        return JsonResponse.ok("지출내역이 삭제되었습니다.");
     }
 
     @GetMapping
-    public ResponseEntity<ResponseWrapper<List<DailyChallengeResponseDto>>> selectDailyChallenge(
-            @RequestParam(name = "date") LocalDateTime date) {
+    public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> selectDailyChallenge(
+            @RequestParam(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        Profile profile = null;
 
-        return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", null);
+        DailyChallengeResponseDto responseDto = challengeService.selectDailyChallenge(profile,
+                date);
+        return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
     }
 
 

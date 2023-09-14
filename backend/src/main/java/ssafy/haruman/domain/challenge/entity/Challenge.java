@@ -68,5 +68,10 @@ public class Challenge extends BaseEntity {
         this.isViewed = isViewed;
     }
 
+    public void updateChallengeAmount(Integer usedAmount, Integer leftoverAmount) {
+        this.usedAmount = usedAmount;
+        this.leftoverAmount = leftoverAmount;
+    }
+
 
 }
