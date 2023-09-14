@@ -30,11 +30,9 @@ import ssafy.haruman.global.response.ResponseWrapper;
 public class ChallengeController {
 
     private final ChallengeService challengeService;
-//    private final ProfileServiceImpl ps;
 
     @PostMapping
     public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> startChallenge() {
-//        Profile profile = ps.findOneProfileById(1L);
         Profile profile = null;
 
         ChallengeResponseDto responseDto = challengeService.startChallenge(profile);
@@ -64,13 +62,12 @@ public class ChallengeController {
             @PathVariable(name = "expense-id") Long expenseId) {
 
         challengeService.deleteExpense(expenseId);
-        return JsonResponse.ok("지출내역이 삭제되었습니다.", null);
+        return JsonResponse.ok("지출내역이 삭제되었습니다.");
     }
 
     @GetMapping
     public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> selectDailyChallenge(
             @RequestParam(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-//        Profile profile = ps.findOneProfileById(1L);
         Profile profile = null;
 
         DailyChallengeResponseDto responseDto = challengeService.selectDailyChallenge(profile,
