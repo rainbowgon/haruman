@@ -1,36 +1,8 @@
 import React from "react";
-import "../styles/theme.css";
+import "../styles/components/InputTextStyle.scss";
 
-import styled from "styled-components";
 
-const TextContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const InputField = styled.input`
-  width: 29vw;
-  height: 6vh;
-  border-radius: 40px;
-  font-size: 1.25vw;
-  padding: 8px;
-  margin-bottom: 20px;
-  max-width: 450px;
-  color: var(--white);
-  border: 2px solid var(--brand2_main);
-
-  text-align: center;
-
-  &::placeholder {
-    text-align: center;
-  }
-
-  @media (max-width: 768px) {
-    width: 80%;
-  }
-`;
-
-interface InputProps {
+export interface InputProps {
   type: string;
   placeholder?: string;
   value: string;
@@ -52,9 +24,12 @@ export default function Input({
   className,
 }: InputProps) {
   return (
-    <TextContainer>
-      <InputField
-        className={className}
+    <div className="text_container">
+      <div className="input_field_type">
+        {placeholder}
+      </div>
+      <input
+        className={`input_field ${className}`}
         type={type}
         placeholder={placeholder}
         value={value}
@@ -63,6 +38,6 @@ export default function Input({
         checked={checked}
         style={style}
       />
-    </TextContainer>
+    </div>
   );
 }

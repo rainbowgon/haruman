@@ -1,0 +1,99 @@
+/*색상 변수*/
+$background_main: #F6FAFCFF;
+$background_1: #DFFAFFFF;
+$background_2: #C7F4FFFF;
+
+/* black & white */
+$white: #FFFFFFFF;
+$black: #000000FF;
+$transparent : #00000000;
+
+/* brand1 */
+$brand1_main: #05668DFF;
+$brand1_op_80: #05668DCC;
+$brand1_op_60: #05668D99;
+$brand1_op_40: #05668D66;
+$brand1_op_20: #05668D33;
+
+$brand1_sub : #028090FF;
+
+/* brand2 */
+$brand2_main: #02C39AFF;
+$brand2_op_80: #02C39ACC;
+$brand2_op_60: #02C39A99;
+$brand2_op_40: #02C39A66;
+$brand2_op_20: #02C39A33;
+
+$brand2_sub : #00A896FF;
+
+/* font1 */
+$font1_main: #454545FF;
+$font1_op_80: #454545CC;
+$font1_op_60: #45454599;
+$font1_op_40: #45454566;
+$font1_op_20: #45454533;
+
+/* font2 */
+$font2_main: #7A7A7AFF;
+$font2_op_80: #7A7A7ACC;
+$font2_op_60: #7A7A7A99;
+$font2_op_40: #7A7A7A66;
+$font2_op_20: #7A7A7A33;
+
+/* point1 */
+$point1_main: #F0F3BDFF;
+$point1_op_80: #F0F3BDCC;
+$point1_op_60: #F0F3BD99;
+$point1_op_40: #F0F3BD66;
+$point1_op_20: #F0F3BD33;
+
+/* point2 */
+$point2_main: #FFB703FF;
+$point2_op_80: #FFB703CC;
+$point2_op_60: #FFB70399;
+$point2_op_40: #FFB70366;
+$point2_op_20: #FFB70333;
+
+/* point3 */
+$point3_main: #FB8500FF;
+$point3_op_80: #FB8500CC;
+$point3_op_60: #FB850099;
+$point3_op_40: #FB850066;
+$point3_op_20: #FB850033;
+
+/* gradation */
+$gradation-start : #5DD1BDFF;
+$gradation-end : #62A0B7FF;
+
+/*반응형 화면 크기*/
+$mobile: 767px;
+$tablet: 1023px;
+$desktop: 1024px;
+
+/*반응형, 브라우저 크기가 767px 이하일때*/
+@mixin mobile{
+  @media (max-width: $mobile){
+    @content;
+  }
+}
+
+/*반응형, 브라우저 크기가 768이상, 1023px 이하일때*/
+@mixin tablet{
+  @media (min-width: $mobile+1) and (max-width: $tablet){
+    @content;
+  }
+}
+
+/*반응형, 브라우저 크기가 1024px 이상일때*/
+@mixin desktop{
+  @media (min-width: $desktop){
+    @content;
+  }
+}
+
+/*넓이, 높이 자동 계산함수*/
+@mixin square($size){
+  $calculated: 32px * $size;
+  width: $calculated;
+  height: $calculated;
+}

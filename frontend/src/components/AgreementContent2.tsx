@@ -42,9 +42,6 @@ const AgreementContent2 = () => {
 
   return (
     <ContextBox>
-      <h1>개인정보 취급 방침 및 약관 동의서</h1>
-      <br />
-
       <h2>1. 개인정보 수집 및 이용목적</h2>
       <p>
         Haruman(이하 "회사")은 [서비스 또는 앱 이름]을 운영하며, 이에 따른 정보
