@@ -13,12 +13,15 @@ const Homepage = () => {
   
     setChallenge(nowChallenge);
   
-    let targetHeight: number = nowChallenge ? height - 100 : height + 5;
+    let targetHeight: number = nowChallenge ? height + 5 : height - 100;
   
     setTimeout(() => {
+      console.log(targetHeight);
       setHeight(targetHeight);
     }, 0);
   };
+
+  // 챌린지 관련
   
   return (
     <MainStyle>
@@ -70,7 +73,6 @@ const Homepage = () => {
               }
             </div>
             {
-              challenge &&
               <div style={{ height: `${height}vw`}}/>
             }
             <div>
