@@ -9,9 +9,11 @@
 
 .check_box {
     width: 80%;
+    max-width: 450px;
     display: flex;
-    justify-content: right;
+    justify-content: center;
     .check_box_div{
+        width: 80%;
         display: flex;
         align-items: center;
         font-size: 12px;

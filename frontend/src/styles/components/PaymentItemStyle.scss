@@ -1,0 +1,50 @@
+@import "../theme.css";
+@import "../_util.scss";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+
+.payment_item {
+    font-family: "IBM Plex Sans KR",sans-serif; */
+
+    width: 100%;
+    border-radius: 5%;
+    height: 60px;
+    filter: drop-shadow(2px 2px 2px rgb(0,0,0,0.15));
+
+    display: grid;
+    grid-template-columns: 2fr 6fr 2fr;
+
+    .payment_item_category{
+        width: 50px;
+        height: 50px;
+        border: 2px solid $brand1_main;
+        border-radius: 100%;
+        overflow: hidden;
+
+        .payment_item_category_img{
+            width: 50px;
+        }
+    }
+    .payment_item_name_div{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        .payment_item_name{
+            color: $font1_main;
+            font-size: 1rem;
+        }
+    }
+
+    .payment_item_price_div{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        .payment_item_price{
+            color: $font2_main;
+            font-size: 0.8rem;
+        }
+    }
+}

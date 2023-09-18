@@ -153,15 +153,15 @@ const SignupPage = () => {
 
   return (
     <>
+      <div className="signup_back_div">
+        <Link className="signup_back" to="/login">
+          <img className="signup_back_img" src={ArrowLeft} alt="뒤로가기"/>
+        </Link>
+      </div>
       {agreeCheck1 && agreeCheck2 ? (
         <CenterContainer>
           <MainStyle>
             <div>
-              <div className="signup_back_div">
-                <Link className="signup_back" to="/login">
-                  <img className="signup_back_img" src={ArrowLeft} alt="뒤로가기"/>
-                </Link>
-              </div>
               <LogoDiv>
                 <img
                   src={LogoImage}
@@ -237,7 +237,13 @@ const SignupPage = () => {
         <>
           <div className="agreement_container" id="AgreementContainer">
             
-            <h1>Haruman 홈페이지 이용약관</h1>
+            <div className="agreement_logo_img">
+              <img
+                src={LogoImage}
+                alt="로고 이미지"
+              />
+            </div>
+            <h1 className="service_guide_title">서비스 이용약관</h1>
             <AgreementContent1 />
             <br />
             <CheckBox
@@ -245,9 +251,6 @@ const SignupPage = () => {
               checked={agreeCheck1}
               onChange={(e) => setAgreeCheck1(e.target.checked)}
             />
-            <br />
-            <br />
-            <h1>개인정보 취급 방침 및 약관 동의서</h1>
             <br />
             <AgreementContent2 />
             <br />
