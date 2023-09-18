@@ -1,11 +1,21 @@
 @import '../util.scss';         /*변수파일 - 색상 + 모바일 체크*/
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
 
+.regist_button_box{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
 .button_container{
+  width: 80%;
+  max-width: 450px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  filter: drop-shadow(1px 2px 2px rgb(0,0,0,0.15));
 }
 
 .register_button {
@@ -15,7 +25,7 @@
   margin: 10px;
   max-width: 450px;
   color: $white;
-  font-size: 1.3rem;
+  font-size: 1rem;
 
   border: 2px solid $brand2_main;
   background-color: $brand2_main;

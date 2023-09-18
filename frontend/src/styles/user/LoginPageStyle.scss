@@ -8,8 +8,16 @@
     justify-content: center;
 }
 
+.user_access_links{
+    width: 80%;
+    max-width: 450px;
+    display: flex;
+    justify-content: center;
+}
+
 .others_links{
-    width: 70%;
+    width: 80%;
+    max-width: 450px;
     display: flex;
     justify-content: space-between;
     margin-bottom: 1rem;
@@ -32,20 +40,27 @@
     font-size: 0.8rem;
 }
 
-.ocr_line{
+.oauth_links{
+    width: 80%;
+    max-width: 450px;
+    display: flex;
+    justify-content: center;
+}
+
+.oauth_line{
     width: 80%;
     display: flex;
     align-items: center;
 
 }
 
-.ocr_text{
+.oauth_text{
     width: 100%;
     text-align: left;
     color: $brand1_main;
 }
 
-.ocr_login{
+.oauth_login{
     width: 80%;
     display: flex;
     justify-content: right;

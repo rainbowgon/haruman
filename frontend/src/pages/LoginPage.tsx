@@ -139,33 +139,36 @@ const LoginPage = () => {
           onClick={handleLogin}
         />
         <div className="max_div">
-          <div className="others_links">
-            <div className="link_left">
-              <Link className="others_link" to="/finduserid">아이디 찾기 </Link>
-              <Link className="others_link" to="/temp"> / 비밀번호 발급</Link>
-            </div>
-            <div className="link_right">
-              <Link className="others_link" to="/signup">회원가입</Link>
+          <div className="user_access_links">
+            <div className="others_links">
+              <div className="link_left">
+                <Link className="others_link" to="/finduserid">아이디 찾기 </Link>
+                <Link className="others_link" to="/temp"> / 비밀번호 발급</Link>
+              </div>
+              <div className="link_right">
+                <Link className="others_link" to="/signup">회원가입</Link>
+              </div>
             </div>
           </div>
         </div>
-        <hr />
         <div className="max_div">
-          <div className="ocr_line">
-            <div className="ocr_text">
-              easy to start
-            </div>
-            <div className="ocr_login">
-              <RegisterButton
-                text="Kakao"
-                className="mini_type"
-                onClick={handleLogin}
-              />
-              <RegisterButton
-                text="Google"
-                className="mini_type"
-                onClick={handleLogin}
-              />
+          <div className="oauth_links">
+            <div className="oauth_line">
+              <div className="oauth_text">
+                easy to start
+              </div>
+              <div className="oauth_login">
+                <RegisterButton
+                  text="Kakao"
+                  className="mini_type"
+                  onClick={handleLogin}
+                />
+                <RegisterButton
+                  text="Google"
+                  className="mini_type"
+                  onClick={handleLogin}
+                />
+              </div>
             </div>
           </div>
         </div>
