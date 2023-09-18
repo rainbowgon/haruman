@@ -26,7 +26,7 @@ public class Challenge extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id", columnDefinition = "INT UNSIGNED")
+    @Column(name = "challenge_id", columnDefinition = "INT UNSIGNED")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
