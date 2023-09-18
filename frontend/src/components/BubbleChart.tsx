@@ -23,17 +23,17 @@ interface DataPoint {
   y?: number;
 }
 
-const ranges = [
-  { min: 0, max: 2000, users: 0, label: "0~2000원" },
-  { min: 2001, max: 4000, users: 0, label: "2001~4000원" },
-  { min: 4001, max: 6000, users: 0, label: "4001~6000원" },
-  { min: 6001, max: 8000, users: 0, label: "6001~8000원" },
-  { min: 8001, max: 10000, users: 0, label: "8001~10000원" },
-];
-
 const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   onBubbleClick,
 }) => {
+  const [ranges, setRanges] = useState<DataPoint[]>([
+    { min: 0, max: 2000, users: 0, label: "0~2000원" },
+    { min: 2001, max: 4000, users: 0, label: "2001~4000원" },
+    { min: 4001, max: 6000, users: 0, label: "4001~6000원" },
+    { min: 6001, max: 8000, users: 0, label: "6001~8000원" },
+    { min: 8001, max: 10000, users: 0, label: "8001~10000원" },
+  ]);
+
   const [data, setData] = useState<DataPoint[]>(ranges);
   const svgRef = useRef<SVGSVGElement | null>(null);
 
@@ -91,6 +91,9 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
     // 각 범위별로 사용자 수를 계산
     const updatedData = [...ranges];
+
+    updatedData.map((range) => ({ ...range, users: 0 }));
+
     for (let balanceData of balances) {
       for (let range of updatedData) {
         if (
@@ -104,6 +107,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
     }
 
     setData(updatedData);
+    setRanges(updatedData);
     createForceBubbleChart(updatedData);
     ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
