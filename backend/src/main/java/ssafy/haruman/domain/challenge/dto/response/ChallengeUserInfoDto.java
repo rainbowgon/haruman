@@ -14,14 +14,16 @@ import ssafy.haruman.domain.challenge.repository.ChallengeUserInfoMapping;
 @AllArgsConstructor
 public class ChallengeUserInfoDto {
 
-    private Long profileId;
+    private String nickname;
+    private String profileImage;
     private Integer usedAmount;
     private LocalDateTime challengeStartTime;
     private LocalDateTime latestExpensePayTime;
 
     public static ChallengeUserInfoDto from(ChallengeUserInfoMapping info) {
         return ChallengeUserInfoDto.builder()
-                .profileId(info.getProfileId())
+                .nickname(info.getNickname())
+                .profileImage(info.getSavedPath())
                 .usedAmount(info.getUsedAmount())
                 .challengeStartTime(info.getStartTime())
                 .latestExpensePayTime(info.getCreatedAt())

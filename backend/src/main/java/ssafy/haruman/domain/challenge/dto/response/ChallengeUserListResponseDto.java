@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ssafy.haruman.domain.challenge.repository.ChallengeUserInfoMapping;
 
 @Getter
 @Builder
@@ -16,5 +17,10 @@ public class ChallengeUserListResponseDto {
     private String groupKey;
     private List<ChallengeUserInfoDto> userList;
 
-
+    public static ChallengeUserListResponseDto from(String groupKey, List<ChallengeUserInfoDto> userList) {
+        return ChallengeUserListResponseDto.builder()
+                .groupKey(groupKey)
+                .userList(userList)
+                .build();
+    }
 }

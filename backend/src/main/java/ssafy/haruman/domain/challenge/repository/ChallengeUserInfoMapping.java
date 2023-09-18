@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 public interface ChallengeUserInfoMapping {
 
-    Long getChallengeId();
+    String getNickname();
 
-    Long getProfileId();
+    String getSavedPath();
 
     LocalDateTime getStartTime();
 

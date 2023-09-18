@@ -69,13 +69,12 @@ public class ChallengeController {
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", null);
     }
 
-    @GetMapping("/{people}")
+    @GetMapping("/people")
     public ResponseEntity<ResponseWrapper<List<ChallengeUserListResponseDto>>> selectChallengeUserList() {
 
         List<ChallengeUserListResponseDto> userList = challengeService.selectDailyUserList();
 
         return JsonResponse.ok("챌린지 중인 회원 목록을 성공적으로 가져왔습니다.", userList);
     }
-
 
 }

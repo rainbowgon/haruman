@@ -2,10 +2,12 @@ package ssafy.haruman.domain.challenge.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
+import ssafy.haruman.domain.challenge.dto.response.ChallengeUserInfoDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
 import ssafy.haruman.domain.challenge.entity.Challenge;
 import ssafy.haruman.domain.challenge.entity.ChallengeStatus;
@@ -44,13 +46,15 @@ public class ChallengeServiceImpl implements ChallengeService {
 
         List<ChallengeUserInfoMapping> challengeList = challengeRepository.findChallengesByStatus();
 
-//        List<ChallengeUserListResponseDto> userList = challengeList.stream()
-//                .collect(Collectors.groupingBy(challenge -> getGroupKey(challenge)))
-//                .entrySet().stream().map(entry -> )
+        List<ChallengeUserListResponseDto> userList =
+                challengeList.stream()
+                .collect(Collectors.groupingBy(this::getGroupKey))
+                .entrySet().stream()
+                .map(entry -> ChallengeUserListResponseDto.from(entry.getKey(), convertToUserInfoDto(entry.getValue())))
+                .collect(Collectors.toList());
 
-        return null;
+        return userList;
     }
-
 
     private String getGroupKey(ChallengeUserInfoMapping challenge) {
         if (challenge.getUsedAmount() == 0) {
@@ -70,6 +74,12 @@ public class ChallengeServiceImpl implements ChallengeService {
         } else {
             return "이상값"; // 에러
         }
+    }
+
+    private List<ChallengeUserInfoDto> convertToUserInfoDto(List<ChallengeUserInfoMapping> list) {
+        return list.stream()
+                .map(challenge -> ChallengeUserInfoDto.from(challenge))
+                .collect(Collectors.toList());
     }
 
 }
