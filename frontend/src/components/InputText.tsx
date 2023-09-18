@@ -24,20 +24,22 @@ export default function Input({
   className,
 }: InputProps) {
   return (
-    <div className="text_container">
-      <div className="input_field_type">
-        {placeholder}
+    <div className="input_box">
+      <div className="text_container">
+        <div className="input_field_type">
+          {placeholder}
+        </div>
+        <input
+          className={`input_field ${className}`}
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          readOnly={readonly}
+          checked={checked}
+          style={style}
+        />
       </div>
-      <input
-        className={`input_field ${className}`}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        readOnly={readonly}
-        checked={checked}
-        style={style}
-      />
     </div>
   );
 }

@@ -14,14 +14,16 @@ export interface ButtonProps {
 
 export default function Register({ text, onClick, className, style }: ButtonProps) {
   return (
-    <div className={`button_container`}>
-      <button
-        className={`register_button ${className}`}
-        style={style}
-        onClick={onClick}
-      >
-        {text}
-      </button>
+    <div className="regist_button_box">
+      <div className={`button_container`}>
+        <button
+          className={`register_button ${className}`}
+          style={style}
+          onClick={onClick}
+        >
+          {text}
+        </button>
+      </div>
     </div>
   );
 }
