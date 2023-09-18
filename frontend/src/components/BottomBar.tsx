@@ -16,7 +16,6 @@ import HomeIcon from "../assets/icons/icon-home.svg";
 import PiggybankIcon from "../assets/icons/icon-piggybank.svg";
 import BurgermenuIcon from "../assets/icons/icon-burgermenu.svg";
 
-
 // css
 import "../styles/theme.css";
 import "../styles/BottomBar.scss";
@@ -61,9 +60,15 @@ const BottomBar: React.FC = () => {
           }}
         >
           <span
-            className={location.pathname === menu.path ? "active-icon" : "inactive-icon"}
+            className={
+              location.pathname === menu.path ? "active-icon" : "inactive-icon"
+            }
           >
-            <img className="bottom-bar-image" src={menu.icon} alt="menu" />
+            <img
+              className="bottom-bar-image"
+              src={menu.icon}
+              alt="menu"
+            />
           </span>
           {/* <span>{menu.name}</span> */}
         </button>
