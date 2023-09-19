@@ -26,7 +26,7 @@ export default function Input({
   return (
     <div className="input_box">
       <div className="text_container">
-        <div className="input_field_type">
+        <div className={`input_field_type ${className}`}>
           {placeholder}
         </div>
         <input

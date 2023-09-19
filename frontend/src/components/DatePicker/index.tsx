@@ -60,6 +60,14 @@ const BirthDatePick = ({ birthDate, setBirthDate }: Props) => {
           nextMonthButtonDisabled,
         }) => (
           <div className={styles.customHeaderContainer}>
+            <button
+              type="button"
+              onClick={decreaseMonth}
+              className={styles.monthButton}
+              disabled={prevMonthButtonDisabled}
+            >
+              <RiArrowLeftSLine fill="#05668D" />
+            </button>
             <div>
               <span className={styles.month}>{MONTHS[getMonth(date)]}</span>
               <select
@@ -77,24 +85,14 @@ const BirthDatePick = ({ birthDate, setBirthDate }: Props) => {
                 ))}
               </select>
             </div>
-            <div>
-              <button
-                type="button"
-                onClick={decreaseMonth}
-                className={styles.monthButton}
-                disabled={prevMonthButtonDisabled}
-              >
-                <RiArrowLeftSLine fill="#ffffff" />
-              </button>
-              <button
-                type="button"
-                onClick={increaseMonth}
-                className={styles.monthButton}
-                disabled={nextMonthButtonDisabled}
-              >
-                <RiArrowRightSLine fill="#ffffff" />
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={increaseMonth}
+              className={styles.monthButton}
+              disabled={nextMonthButtonDisabled}
+            >
+              <RiArrowRightSLine fill="#05668D" />
+            </button>
           </div>
         )}
       />

@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
 
 .context_box{
+    width: 70%;
     overflow: scroll;
     height: 20vh;
     overflow-x: hidden;
@@ -13,7 +14,6 @@
 
     //============== 스크롤바 관련 (시작) ==============
     overflow-y: scroll;
-
     scroll-behavior: smooth;
     scrollbar-gutter: stable;
     text-overflow: ellipsis;

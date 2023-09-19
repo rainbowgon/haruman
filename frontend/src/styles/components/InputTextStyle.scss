@@ -38,9 +38,9 @@
     border: 2px solid $brand2_main;
     
     text-align: left;
+    padding-left: 1rem;
     
     &::placeholder {
-        padding-left: 1rem;
         font-size: 0.7rem;
         color: $font2_main;
     }
