@@ -1,5 +1,6 @@
 package ssafy.haruman.domain.challenge.repository;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -7,6 +8,9 @@ import ssafy.haruman.domain.challenge.entity.Challenge;
 
 public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
+    @Query("select c from Challenge c join fetch c.profile where c.profile.id=:profileId and  cast(c.startTime as date)=:date")
+    Challenge findByProfileAndDate(Long profileId, Date date);
+    
     @Query(nativeQuery = true,
             value = "SELECT p.nickname, f.saved_path, c.start_time, c.used_amount, MAX(e.created_at)\n"
                     + "FROM challenge c\n"
