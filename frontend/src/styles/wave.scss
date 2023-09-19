@@ -1,13 +1,45 @@
 @import "theme.css";
+@import "_util.scss";
 @import url(//fonts.googleapis.com/css?family=Lato:300:400);
 
 .homepage {
+  font-family: "IBM Plex Sans KR",sans-serif;
   width: 100%;
   height: 100vh;
   justify-content: center;
   align-items: center;
   margin:auto;
   overflow-y: hidden;
+
+  position: relative;
+
+  .input_purchase{
+    width: 100%;
+    position: absolute;
+    top: 76%;
+  }
+
+  .regist_modal{
+    position: absolute;
+    width: 100%;
+    height: 97%;
+    top: 3%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 1rem;
+
+    z-index: 1;
+
+    background-color: $background_main;
+    
+    .regist_title{
+      color: $font1_main;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  }
 }
 
 .homepage_header{
@@ -171,6 +203,10 @@
   width: 100%;
   height: 50vh;
   background: linear-gradient(0deg, var(--gradation-end) 0%, var(--gradation-start) 100%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .getspace {
