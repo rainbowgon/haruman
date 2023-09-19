@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
+import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
@@ -85,4 +86,11 @@ public class ChallengeController {
         return JsonResponse.ok("챌린지 중인 회원 목록을 성공적으로 가져왔습니다.", userList);
     }
 
+    @GetMapping("/amount")
+    public ResponseEntity<ResponseWrapper<AccumulatedAmountResponseDto>> selectAccumulatedAmount() {
+
+        AccumulatedAmountResponseDto accumulatedAmount = challengeService.selectAccumulatedAmount();
+
+        return JsonResponse.ok("챌린지 누적 잔액을 성공적으로 가져왔습니다.", accumulatedAmount);
+    }
 }

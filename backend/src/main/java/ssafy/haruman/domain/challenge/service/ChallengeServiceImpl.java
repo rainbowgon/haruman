@@ -11,6 +11,7 @@ import ssafy.haruman.domain.category.entity.Category;
 import ssafy.haruman.domain.category.repository.CategoryRepository;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
+import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserInfoDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
@@ -81,7 +82,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         Challenge challenge = expense.getChallenge();
         Category category
                 = categoryRepository.findById(updateRequestDto.getCategoryId()).orElseThrow();
-        
+
         updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(),
                 updateRequestDto.getPayAmount());
 
@@ -144,6 +145,18 @@ public class ChallengeServiceImpl implements ChallengeService {
                         .collect(Collectors.toList());
 
         return userList;
+    }
+
+    @Override
+    public AccumulatedAmountResponseDto selectAccumulatedAmount() {
+
+        // TODO 프로필 유효성 검증
+        Long profileId = null;
+        Integer accumulatedAmount = challengeRepository.findAllByProfileAndStatus(profileId);
+
+        return AccumulatedAmountResponseDto.builder()
+                .accumulatedAmount(accumulatedAmount)
+                .build();
     }
 
     private String getGroupKey(ChallengeUserInfoMapping challenge) {

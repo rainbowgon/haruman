@@ -10,7 +10,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
     @Query("select c from Challenge c join fetch c.profile where c.profile.id=:profileId and  cast(c.startTime as date)=:date")
     Challenge findByProfileAndDate(Long profileId, Date date);
-    
+
     @Query(nativeQuery = true,
             value = "SELECT p.nickname, f.saved_path, c.start_time, c.used_amount, MAX(e.created_at)\n"
                     + "FROM challenge c\n"
@@ -22,4 +22,11 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
                     + "GROUP BY e.challenge_id\n"
                     + "ORDER BY e.created_at, c.start_time")
     List<ChallengeUserInfoMapping> findChallengesByStatus();
+
+    @Query(nativeQuery = true,
+            value = "SELECT SUM(leftover_amount)\n"
+                    + "FROM challenge\n"
+                    + "WHERE profile_id = :profileId\n"
+                    + "AND challenge_status = 'SUCCEED'")
+    Integer findAllByProfileAndStatus(Long profileId);
 }
