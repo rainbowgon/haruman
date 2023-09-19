@@ -5,7 +5,6 @@ import ssafy.haruman.domain.category.dto.request.CategoryCreateRequestDto;
 import ssafy.haruman.domain.category.dto.request.CategoryUpdateRequestDto;
 import ssafy.haruman.domain.category.dto.response.CategoryDetailResponseDto;
 import ssafy.haruman.domain.category.dto.response.CategorySimpleResponseDto;
-import ssafy.haruman.domain.category.entity.Category;
 
 public interface CategoryService {
 
@@ -20,7 +19,5 @@ public interface CategoryService {
     List<CategoryDetailResponseDto> selectCustomCategoryList();
 
     List<CategoryDetailResponseDto> selectOftenCategoryList();
-
-    Category selectOneCategory(Long categoryId);
 
 }

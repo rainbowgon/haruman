@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssafy.haruman.domain.category.entity.Category;
-import ssafy.haruman.domain.category.service.CategoryService;
+import ssafy.haruman.domain.category.repository.CategoryRepository;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
@@ -32,7 +32,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     private final ChallengeRepository challengeRepository;
     private final ExpenseRepository expenseRepository;
-    private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
 
     @Override
     @Transactional
@@ -55,10 +55,12 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     @Override
     @Transactional
-    public ExpenseResponseDto createExpense(Long challengeId,
-            ExpenseCreateRequestDto createRequestDto) {
+    public ExpenseResponseDto createExpense(
+            Long challengeId, ExpenseCreateRequestDto createRequestDto) {
+
         Challenge challenge = getChallenge(challengeId);
-        Category category = categoryService.selectOneCategory(createRequestDto.getCategoryId());
+        Category category =
+                categoryRepository.findById(createRequestDto.getCategoryId()).orElseThrow();
         LocalDateTime payTime = createRequestDto.getPayTime() == null ? LocalDateTime.now()
                 : createRequestDto.getPayTime();
 
@@ -77,8 +79,9 @@ public class ChallengeServiceImpl implements ChallengeService {
     public ExpenseResponseDto updateExpense(ExpenseUpdateRequestDto updateRequestDto) {
         Expense expense = getExpense(updateRequestDto.getExpenseId());
         Challenge challenge = expense.getChallenge();
-        Category category = categoryService.selectOneCategory(updateRequestDto.getCategoryId());
-
+        Category category
+                = categoryRepository.findById(updateRequestDto.getCategoryId()).orElseThrow();
+        
         updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(),
                 updateRequestDto.getPayAmount());
 

@@ -1,6 +1,7 @@
 package ssafy.haruman.domain.challenge.controller;
 
 import java.util.Date;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
