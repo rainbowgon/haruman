@@ -4,22 +4,25 @@ import InputText from "../components/InputText";
 import CenterContainer from "../components/CenterContainer";
 import RegisterButton from "../components/RegistButton";
 import { Link } from "react-router-dom";
-import "../styles/theme.css";
 import LogoImage from "../assets/logo-mainlogo.svg";
 
 //로그인 관련
 
-import { loginServer } from "../apis/user";
+import { loginServer, redirectGoogle } from "../apis/user";
 import { userSliceLogin } from "../stores/userSlice";
 import { HttpStatusCode } from "axios";
 import { useState } from "react";
 import { useAppDispatch } from "../hooks/reduxHook";
 import { useNavigate } from "react-router-dom";
+import { redirectKakao } from "../apis/user";
+
+// style
+import "../styles/theme.css";
 import Checkbox from "../components/CheckBox";
 import styled from "styled-components";
 
 //scss
-import "../styles/user/LoginPageStyle.scss"
+import "../styles/user/LoginPageStyle.scss";
 
 const StyledDiv = styled.div`
   margin-left: 10vw;
@@ -142,11 +145,27 @@ const LoginPage = () => {
           <div className="user_access_links">
             <div className="others_links">
               <div className="link_left">
-                <Link className="others_link" to="/finduserid">아이디 찾기 </Link>
-                <Link className="others_link" to="/temp"> / 비밀번호 발급</Link>
+                <Link
+                  className="others_link"
+                  to="/finduserid"
+                >
+                  아이디 찾기{" "}
+                </Link>
+                <Link
+                  className="others_link"
+                  to="/temp"
+                >
+                  {" "}
+                  / 비밀번호 발급
+                </Link>
               </div>
               <div className="link_right">
-                <Link className="others_link" to="/signup">회원가입</Link>
+                <Link
+                  className="others_link"
+                  to="/signup"
+                >
+                  회원가입
+                </Link>
               </div>
             </div>
           </div>
@@ -154,19 +173,17 @@ const LoginPage = () => {
         <div className="max_div">
           <div className="oauth_links">
             <div className="oauth_line">
-              <div className="oauth_text">
-                easy to start
-              </div>
+              <div className="oauth_text">easy to start</div>
               <div className="oauth_login">
                 <RegisterButton
                   text="Kakao"
                   className="mini_type"
-                  onClick={handleLogin}
+                  onClick={redirectKakao}
                 />
                 <RegisterButton
                   text="Google"
                   className="mini_type"
-                  onClick={handleLogin}
+                  onClick={redirectGoogle}
                 />
               </div>
             </div>
