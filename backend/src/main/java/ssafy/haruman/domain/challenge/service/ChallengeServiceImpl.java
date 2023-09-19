@@ -1,5 +1,6 @@
 package ssafy.haruman.domain.challenge.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,7 @@ import ssafy.haruman.domain.category.repository.CategoryRepository;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
+import ssafy.haruman.domain.challenge.dto.response.ChallengeHistoryResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserInfoDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
@@ -157,6 +159,17 @@ public class ChallengeServiceImpl implements ChallengeService {
         return AccumulatedAmountResponseDto.builder()
                 .accumulatedAmount(accumulatedAmount)
                 .build();
+    }
+
+    @Override
+    public List<ChallengeHistoryResponseDto> selectChallengeHistory(LocalDate yearAndMonth) {
+
+        // TODO 프로필 유효성 검증
+        Long profileId = null;
+        List<Challenge> challengeHistory
+                = challengeRepository.findAllByProfileAndDate(profileId, yearAndMonth);
+
+        return null;
     }
 
     private String getGroupKey(ChallengeUserInfoMapping challenge) {

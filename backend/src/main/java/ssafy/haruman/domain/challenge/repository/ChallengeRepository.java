@@ -1,5 +1,6 @@
 package ssafy.haruman.domain.challenge.repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,10 +24,9 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
                     + "ORDER BY e.created_at, c.start_time")
     List<ChallengeUserInfoMapping> findChallengesByStatus();
 
-    @Query(nativeQuery = true,
-            value = "SELECT SUM(leftover_amount)\n"
-                    + "FROM challenge\n"
-                    + "WHERE profile_id = :profileId\n"
-                    + "AND challenge_status = 'SUCCEED'")
+    @Query("SELECT SUM(c.leftoverAmount) FROM Challenge c WHERE c.profile = :profile AND c.challengeStatus = 'SUCCEED'")
     Integer findAllByProfileAndStatus(Long profileId);
+
+    @Query("SELECT c FROM Challenge c WHERE c.profile = :profile AND SUBSTR(c.startTime, 1, 7) = :yearAndMonth")
+    List<Challenge> findAllByProfileAndDate(Long profileId, LocalDate yearAndMonth);
 }

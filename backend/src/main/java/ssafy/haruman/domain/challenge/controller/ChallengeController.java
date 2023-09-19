@@ -1,5 +1,6 @@
 package ssafy.haruman.domain.challenge.controller;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
+import ssafy.haruman.domain.challenge.dto.response.ChallengeHistoryResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
@@ -92,5 +94,17 @@ public class ChallengeController {
         AccumulatedAmountResponseDto accumulatedAmount = challengeService.selectAccumulatedAmount();
 
         return JsonResponse.ok("챌린지 누적 잔액을 성공적으로 가져왔습니다.", accumulatedAmount);
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<ResponseWrapper<List<ChallengeHistoryResponseDto>>> selectChallengeHistory(
+            @RequestParam(name = "date", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM")
+            LocalDate yearAndMonth) {
+
+        List<ChallengeHistoryResponseDto> challengeHistory
+                = challengeService.selectChallengeHistory(yearAndMonth);
+
+        return JsonResponse.ok("챌린지 월별 내역을 성공적으로 가져왔습니다.", challengeHistory);
     }
 }
