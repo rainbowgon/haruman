@@ -19,6 +19,7 @@
 }
 
 .register_button {
+  font-family: "IBM Plex Sans KR",sans-serif;
   width: 80%;
   height: 6vh;
   border-radius: 40px;
@@ -55,4 +56,11 @@
   background-color: $brand1_main;
   border: none;
   font-size: 0.7rem;
+}
+
+.register_button.white {
+  color: $brand1_main;
+  background-color: $white;
+  border: none;
+  font-size: 1.2rem;
 }
