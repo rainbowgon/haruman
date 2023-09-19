@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+
+// style
 import "../styles/calendar/CalendarpageStyle.scss"
-import CalendarForm from "../components/Calender/CalenderForm";
 import MainStyle from "../components/MainStyle";
+
+// component
+import CalendarForm from "../components/Calender/CalenderForm";
 import ChallengeCounterForm from "../components/Calender/ChallengeCounterForm";
 import ChallengeItemsForm from "../components/Calender/ChallengeItemsForm";
+import InfoItem from "../components/InfoItem";
+
+//interface value
+import { ChallengeItem } from "../constants/interfaces";
 
 const CalendarPage = () => {
+
+  // const [challengeitems, setChallengeitems] = useState<ChallengeItem[]>([]);
+  const [challengeitems, setChallengeitems] = useState<ChallengeItem[]>([
+    {
+      "category": "카페",
+      "content": "메가커피 아메리카노",
+      "pay_amount": 2500
+      
+    },
+    {
+      "category": "식사",
+      "content": "소풍 참치김밥",
+      "pay_amount": 5000
+    }
+  ]);
+
   return (
     <MainStyle>
       <div className="calendarpage">
@@ -28,6 +52,16 @@ const CalendarPage = () => {
         {/* 결제한 아이템 리스트 */}
         <div className="challengeitems_form">
           <ChallengeItemsForm/>
+        </div>
+        <div>
+          {
+            challengeitems.map((item, index) => (
+              // <InfoItem
+              //   value = {item}
+              // />
+              <div>{item.category}</div>
+            ))
+          }
         </div>
       </div>
     </MainStyle>

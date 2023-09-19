@@ -2,7 +2,14 @@
 import React from "react";
 import "../styles/user/AgreementContentSstyle.scss"
 
-const PaymentItem = () => {
+//interface value
+import { ChallengeItem } from "../constants/interfaces";
+
+
+
+export default function InfoItem(
+    value?: ChallengeItem
+  ) {
   const date = new Date();
   const year = date.getFullYear();
   const month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -22,6 +29,4 @@ const PaymentItem = () => {
       </div>
     </div>
   );
-};
-
-export default PaymentItem;
+}
