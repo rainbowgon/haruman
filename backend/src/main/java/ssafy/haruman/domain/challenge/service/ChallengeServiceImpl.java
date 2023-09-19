@@ -12,17 +12,18 @@ import ssafy.haruman.domain.category.service.CategoryService;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserInfoDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
+import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
+import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
 import ssafy.haruman.domain.challenge.entity.Challenge;
+import ssafy.haruman.domain.challenge.entity.ChallengeGroup;
 import ssafy.haruman.domain.challenge.entity.ChallengeStatus;
 import ssafy.haruman.domain.challenge.entity.Expense;
 import ssafy.haruman.domain.challenge.entity.ViewStatus;
 import ssafy.haruman.domain.challenge.repository.ChallengeRepository;
-import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
 import ssafy.haruman.domain.challenge.repository.ChallengeUserInfoMapping;
+import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
 import ssafy.haruman.domain.profile.entity.Profile;
 
 @Service
@@ -133,32 +134,18 @@ public class ChallengeServiceImpl implements ChallengeService {
 
         List<ChallengeUserListResponseDto> userList =
                 challengeList.stream()
-                .collect(Collectors.groupingBy(this::getGroupKey))
-                .entrySet().stream()
-                .map(entry -> ChallengeUserListResponseDto.from(entry.getKey(), convertToUserInfoDto(entry.getValue())))
-                .collect(Collectors.toList());
+                        .collect(Collectors.groupingBy(this::getGroupKey))
+                        .entrySet().stream()
+                        .map(entry -> ChallengeUserListResponseDto.from(entry.getKey(),
+                                convertToUserInfoDto(entry.getValue())))
+                        .collect(Collectors.toList());
 
         return userList;
     }
 
     private String getGroupKey(ChallengeUserInfoMapping challenge) {
-        if (challenge.getUsedAmount() == 0) {
-            return "0원";
-        } else if (challenge.getUsedAmount() <= 2000) {
-            return "2000원 이하";
-        } else if (challenge.getUsedAmount() <= 4000) {
-            return "4000원 이하";
-        } else if (challenge.getUsedAmount() <= 6000) {
-            return "6000원 이하";
-        } else if (challenge.getUsedAmount() <= 8000) {
-            return "8000원 이하";
-        } else if (challenge.getUsedAmount() <= 10000) {
-            return "10000원 이하";
-        } else if (challenge.getUsedAmount() > 10000) {
-            return "챌린지 실패";
-        } else {
-            return "이상값"; // 에러
-        }
+        ChallengeGroup group = ChallengeGroup.getGroup(challenge.getUsedAmount());
+        return group.getGroupKey();
     }
 
     private List<ChallengeUserInfoDto> convertToUserInfoDto(List<ChallengeUserInfoMapping> list) {
