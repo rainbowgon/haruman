@@ -28,4 +28,11 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
                     + "GROUP BY e.challenge_id\n"
                     + "ORDER BY e.created_at, c.start_time")
     List<ChallengeUserInfoMapping> findChallengeAndExpenseAndProfileByStatus();
+
+    @Query("SELECT SUM(c.leftoverAmount) FROM Challenge c WHERE c.profile = :profileId AND c.challengeStatus = 'SUCCEED'")
+    Integer findAllByProfileAndStatus(Long profileId);
+
+    @Query("SELECT c FROM Challenge c WHERE c.profile = :profileId AND SUBSTR(c.startTime, 1, 7) = :date ORDER BY c.startTime")
+    List<Challenge> findAllByProfileAndDate(Long profileId, String date);
+
 }

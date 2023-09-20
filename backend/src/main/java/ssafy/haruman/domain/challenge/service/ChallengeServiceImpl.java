@@ -1,6 +1,9 @@
 package ssafy.haruman.domain.challenge.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
@@ -10,6 +13,8 @@ import ssafy.haruman.domain.category.entity.Category;
 import ssafy.haruman.domain.category.repository.CategoryRepository;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
+import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
+import ssafy.haruman.domain.challenge.dto.response.ChallengeHistoryResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserInfoDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
@@ -29,9 +34,9 @@ import ssafy.haruman.domain.profile.entity.Profile;
 @RequiredArgsConstructor
 public class ChallengeServiceImpl implements ChallengeService {
 
-    private final ChallengeRepository challengeRepository;
     private final ExpenseRepository expenseRepository;
     private final CategoryRepository categoryRepository;
+    private final ChallengeRepository challengeRepository;
 
     @Override
     @Transactional
@@ -58,8 +63,8 @@ public class ChallengeServiceImpl implements ChallengeService {
             Long challengeId, ExpenseCreateRequestDto createRequestDto) {
 
         Challenge challenge = getChallenge(challengeId);
-        Category category =
-                categoryRepository.findById(createRequestDto.getCategoryId()).orElseThrow();
+        Category category = getCategory(createRequestDto.getCategoryId());
+
         LocalDateTime payTime = createRequestDto.getPayTime() == null ? LocalDateTime.now()
                 : createRequestDto.getPayTime();
 
@@ -69,17 +74,16 @@ public class ChallengeServiceImpl implements ChallengeService {
         // 목표금액과 사용금액이 기준. 남은 금액은 매번 변경
         updateChallengeAmount(challenge, challenge.getUsedAmount(), expense.getPayAmount());
 
-        ExpenseResponseDto responseDto = ExpenseResponseDto.from(expense);
-        return responseDto;
+        return ExpenseResponseDto.from(expense);
     }
 
     @Override
     @Transactional
     public ExpenseResponseDto updateExpense(ExpenseUpdateRequestDto updateRequestDto) {
+
         Expense expense = getExpense(updateRequestDto.getExpenseId());
         Challenge challenge = expense.getChallenge();
-        Category category
-                = categoryRepository.findById(updateRequestDto.getCategoryId()).orElseThrow();
+        Category category = getCategory(updateRequestDto.getCategoryId());
 
         updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(),
                 updateRequestDto.getPayAmount());
@@ -93,6 +97,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Override
     @Transactional
     public void deleteExpense(Long expenseId) {
+
         Expense expense = getExpense(expenseId);
         Challenge challenge = expense.getChallenge();
 
@@ -141,6 +146,10 @@ public class ChallengeServiceImpl implements ChallengeService {
         return expenseRepository.findById(expenseId).orElseThrow();
     }
 
+    private Category getCategory(Long categoryId) {
+        return categoryRepository.findById(categoryId).orElseThrow();
+    }
+
     private void updateChallengeAmount(Challenge challenge, Integer beforeUsedAmount,
             Integer payAmount) {
         Integer usedAmount = beforeUsedAmount + payAmount;
@@ -148,20 +157,49 @@ public class ChallengeServiceImpl implements ChallengeService {
         challenge.updateChallengeAmount(usedAmount, leftOverAmount);
     }
 
-
+    
+    @Override
     public List<ChallengeUserListResponseDto> selectDailyUserList() {
 
         List<ChallengeUserInfoMapping> challengeList = challengeRepository.findChallengeAndExpenseAndProfileByStatus();
 
-        List<ChallengeUserListResponseDto> userList =
-                challengeList.stream()
-                        .collect(Collectors.groupingBy(this::getGroupKey))
-                        .entrySet().stream()
-                        .map(entry -> ChallengeUserListResponseDto.from(entry.getKey(),
-                                convertToUserInfoDto(entry.getValue())))
-                        .collect(Collectors.toList());
+        return challengeList.stream()
+                .collect(Collectors.groupingBy(this::getGroupKey))
+                .entrySet().stream()
+                .map(entry -> ChallengeUserListResponseDto.from(entry.getKey(),
+                        convertToUserInfoDto(entry.getValue())))
+                .collect(Collectors.toList());
+    }
 
-        return userList;
+    @Override
+    public AccumulatedAmountResponseDto selectAccumulatedAmount() {
+
+        // TODO 프로필 유효성 검증
+        Long profileId = null;
+
+        Integer accumulatedAmount = challengeRepository.findAllByProfileAndStatus(profileId);
+
+        return AccumulatedAmountResponseDto.builder()
+                .accumulatedAmount(accumulatedAmount)
+                .build();
+    }
+
+    @Override
+    public List<ChallengeHistoryResponseDto> selectChallengeHistory(Date yearAndMonth) {
+
+        // TODO 프로필 유효성 검증
+        Long profileId = null;
+
+        String date = yearAndMonth == null ?
+                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-DD")) :
+                String.valueOf(yearAndMonth);
+
+        List<Challenge> challengeList =
+                challengeRepository.findAllByProfileAndDate(profileId, date);
+
+        return challengeList.stream()
+                .map(ChallengeHistoryResponseDto::from)
+                .collect(Collectors.toList());
     }
 
     private String getGroupKey(ChallengeUserInfoMapping challenge) {
@@ -171,7 +209,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     private List<ChallengeUserInfoDto> convertToUserInfoDto(List<ChallengeUserInfoMapping> list) {
         return list.stream()
-                .map(challenge -> ChallengeUserInfoDto.from(challenge))
+                .map(ChallengeUserInfoDto::from)
                 .collect(Collectors.toList());
     }
 
