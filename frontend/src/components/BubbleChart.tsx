@@ -176,7 +176,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
       u.enter()
         .append<SVGCircleElement>("circle")
-        .attr("r", (d) => d.users * 6)
+        .attr("r", (d) => d.users * 3)
         .attr("fill", "#8884d8")
         .attr("stroke", "#fff")
         .attr("stroke-width", 2)
