@@ -45,10 +45,18 @@
         flex-direction: column;
         text-align: center;
 
-        .color_pointer{
-            width: 3vw;
-            height: 3vw;
-            border-radius: 100%;
+        position: relative;
+
+        .color_pointer_div{
+            position: absolute;
+            width: 55%;
+            top: 10%;
+
+            .color_pointer{
+                width: 3vw;
+                height: 3vw;
+                border-radius: 100%;
+            }
         }
 
         .current{
@@ -60,7 +68,7 @@
         }
 
         .fail{
-            background-color: var(--point1_op_60);
+            background-color: var(--point3_op_60);
         }
 
 

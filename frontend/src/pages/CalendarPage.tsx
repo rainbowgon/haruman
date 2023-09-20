@@ -27,6 +27,28 @@ const CalendarPage = () => {
       "category": "식사",
       "content": "소풍 참치김밥",
       "pay_amount": 5000
+    },
+    {
+      "category": "카페",
+      "content": "메가커피 아메리카노",
+      "pay_amount": 2500
+      
+    },
+    {
+      "category": "식사",
+      "content": "소풍 참치김밥",
+      "pay_amount": 5000
+    },
+    {
+      "category": "카페",
+      "content": "메가커피 아메리카노",
+      "pay_amount": 2500
+      
+    },
+    {
+      "category": "식사",
+      "content": "소풍 참치김밥",
+      "pay_amount": 5000
     }
   ]);
 
@@ -53,15 +75,20 @@ const CalendarPage = () => {
         <div className="challengeitems_form">
           <ChallengeItemsForm/>
         </div>
-        <div>
+        <div className="challengeitems_list">
           {
             challengeitems.map((item, index) => (
-              // <InfoItem
-              //   value = {item}
-              // />
-              <div>{item.category}</div>
+              <InfoItem
+                icon = {item.category}
+                mainValue = {item.content}
+                moneyValue = {item.pay_amount}
+              />
+              // <div>{item.category}</div>
             ))
           }
+        </div>
+
+        <div className="bottom_bar_spacer">
         </div>
       </div>
     </MainStyle>

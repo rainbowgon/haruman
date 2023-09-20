@@ -3,25 +3,34 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
 
 .payment_item {
-    font-family: "IBM Plex Sans KR",sans-serif; */
+    font-family: "IBM Plex Sans KR",sans-serif;
 
-    width: 100%;
-    border-radius: 5%;
+    width: 80%;
+    border-radius: 1rem;
+    background-color: $white;
     height: 60px;
+    margin: 0.5rem auto;
+
     filter: drop-shadow(2px 2px 2px rgb(0,0,0,0.15));
 
     display: grid;
     grid-template-columns: 2fr 6fr 2fr;
 
     .payment_item_category{
-        width: 50px;
-        height: 50px;
-        border: 2px solid $brand1_main;
+        width: 35px;
+        height: 35px;
+        border: 4px solid $brand1_main;
         border-radius: 100%;
         overflow: hidden;
+        margin: auto;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         .payment_item_category_img{
-            width: 50px;
+            width: 25px;
+            filter: invert(22%) sepia(37%) saturate(4891%) hue-rotate(178deg) brightness(96%) contrast(96%);
         }
     }
     .payment_item_name_div{
