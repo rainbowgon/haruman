@@ -1,7 +1,6 @@
 package ssafy.haruman.domain.challenge.service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
@@ -48,8 +47,8 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .leftoverAmount(10000)
                 .isViewed(ViewStatus.NOT_VIEWED)
                 .build();
-
         challengeRepository.save(challenge);
+
         return ChallengeResponseDto.from(challenge);
     }
 
@@ -81,7 +80,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         Challenge challenge = expense.getChallenge();
         Category category
                 = categoryRepository.findById(updateRequestDto.getCategoryId()).orElseThrow();
-        
+
         updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(),
                 updateRequestDto.getPayAmount());
 
@@ -103,17 +102,36 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
-    public DailyChallengeResponseDto selectDailyChallenge(Profile profile, Date date) {
-        Challenge challenge = challengeRepository.findByProfileAndDate(profile.getId(), date);
-        // TODO 챌린지 반환이 1개가 아니면 에러
-        // TODO 페이지네이션
+    @Transactional
+    public DailyChallengeResponseDto selectDailyChallenge(Profile profile) {
+        Challenge challenge = challengeRepository.findFirstChallenge();
+        Integer participantCount = challengeRepository.countByStatus();
 
-        List<ExpenseResponseDto> list = expenseRepository.findAllByChallenge_Id(challenge.getId())
-                .stream()
-                .map(expense -> ExpenseResponseDto.from(expense)).collect(Collectors.toList());
-        return DailyChallengeResponseDto.from(challenge, list);
+        if (challenge.getIsViewed().equals(ViewStatus.VIEWED)) {
+            return null;
+        } else {
+            if (!challenge.getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
+                challenge.updateViewStatus(ViewStatus.VIEWED);
+            }
+            // TODO 페이지네이션
+            List<ExpenseResponseDto> list = expenseRepository.findAllByChallenge_Id(
+                            challenge.getId())
+                    .stream()
+                    .map(expense -> ExpenseResponseDto.from(expense)).collect(Collectors.toList());
+            return DailyChallengeResponseDto.from(challenge, participantCount, list);
+        }
     }
 
+    @Override
+    @Transactional
+    public void endChallenge() {
+        List<Challenge> list = challengeRepository.findAllByStatus();
+        for (Challenge challenge : list) {
+            challenge.updateChallengeStatus(
+                    challenge.getTargetAmount() - challenge.getUsedAmount() < 0
+                            ? ChallengeStatus.FAIL : ChallengeStatus.SUCCESS);
+        }
+    }
 
     private Challenge getChallenge(Long challengeId) {
         return challengeRepository.findById(challengeId).orElseThrow();
