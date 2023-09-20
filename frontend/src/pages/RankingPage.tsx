@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import BubbleChart from "../components/BubbleChart";
 import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
+import InfoItem from "../components/InfoItem";
+
+//interface value
+import { User } from "../constants/interfaces";
 
 const RankingPage = () => {
   interface BalanceData {
@@ -16,6 +20,28 @@ const RankingPage = () => {
     x?: number;
     y?: number;
   }
+
+  // const [challengeitems, setChallengeitems] = useState<ChallengeItem[]>([]);
+  const [Users, setUsers] = useState<User[]>([
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "명정루",
+      leftoverAmount: 4320,
+      latestTime: "2023-09-13T10:26:33"
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "푸더가든",
+      leftoverAmount: 5700,
+      latestTime: "2023-09-13T10:10:10"
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "남고니",
+      leftoverAmount: 5700,
+      latestTime: "2023-09-13T09:55:33"
+    },
+  ]);
 
   const [selectedUsers, setSelectedUsers] = useState<BalanceData[]>([]);
 
@@ -80,6 +106,19 @@ const RankingPage = () => {
         <h3>[]명이 도전중!</h3>
         <h1>[]월 []일 챌린지</h1>
         <BubbleChart onBubbleClick={handleBubbleClick} />
+
+        <div className="challengeitems_list">
+          {
+            Users.map((user, index) => (
+              <InfoItem
+                icon = {user.profileImage}
+                mainValue = {user.nickname}
+                moneyValue = {user.leftoverAmount}
+              />
+              // <div>{item.category}</div>
+            ))
+          }
+        </div>
       </MainStyle>
     </CenterContainer>
   );

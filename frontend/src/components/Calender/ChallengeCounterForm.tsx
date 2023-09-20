@@ -9,7 +9,9 @@ return (
 <>
   <div className="challengecounter">
     <div className="challengecounter_box challengecounter_item">
-      <div className="color_pointer current"/>
+      <div className="color_pointer_div">
+        <div className="color_pointer current"/>
+      </div>
       <div className="challengecounter_counter">11{}</div>
       <div className="challengecounter_text">도전</div>
     </div>
@@ -19,7 +21,9 @@ return (
     </div>
     
     <div className="challengecounter_box challengecounter_item">
-      <div className="color_pointer success"/>
+      <div className="color_pointer_div">
+        <div className="color_pointer success"/>
+      </div>
       <div className="challengecounter_counter">8{}</div>
       <div className="challengecounter_text">성공</div>
     </div>
@@ -29,7 +33,9 @@ return (
     </div>
 
     <div className="challengecounter_box challengecounter_item">
-      <div className="color_pointer fail"/>
+      <div className="color_pointer_div">
+        <div className="color_pointer fail"/>
+      </div>
       <div className="challengecounter_counter">2{}</div>
       <div className="challengecounter_text">실패</div>
     </div>
