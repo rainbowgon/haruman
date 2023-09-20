@@ -1,4 +1,4 @@
-import { SERVER_URL } from "../constants/urls";
+import { API_URL, SERVER_URL } from "../constants/urls";
 import { axiosInstance } from "./instance";
 
 import { axiosServer, axiosServerWithRefresh } from "./server";
@@ -62,9 +62,10 @@ export const getAccessToken = async () => {
 
 // 카카오 로그인 리다이렉트
 export const redirectKakao = () => {
-  const REDIRECT_URI = `${SERVER_URL}/api/oauth/kakao`;
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  window.location.href = KAKAO_AUTH_URL;
+  const REDIRECT_URI = `${API_URL}/api/oauth/kakao`;
+  //카카오에서 인가 코드 받는 곳
+  const KAKAO_AUTH_URL = `https://haruman.site/oauth/kakao/redirect`;
+  window.location.href = REDIRECT_URI;
 };
 
 // 카카오 로그인
@@ -77,8 +78,7 @@ export const loginKakao = async (code: string) => {
 
 // 구글 로그인 리다이렉트
 export const redirectGoogle = () => {
-  const CLIENT_ID =
-    "124626006679-cq05a5rj2anbrqtfcvv1bjtriqs2pjul.apps.googleusercontent.com";
+  const CLIENT_ID = "";
   const REDIRECT_URI = `${SERVER_URL}/api/oauth/google`;
   const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth/oauthchooseaccount?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&service=lso&o2v=1&flowName=GeneralOAuthFlow`;
   // const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth/oauthchooseaccount?client_id=${CLIENT_ID}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogin%2Foauth2%2Fgoogle&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&service=lso&o2v=1&flowName=GeneralOAuthFlow`;
@@ -117,8 +117,7 @@ export const checkNickname = async (nickname: string) => {
 
 // 유튜브 로그인 리다이렉트
 export const redirectYoutube = () => {
-  const CLIENT_ID =
-    "124626006679-cq05a5rj2anbrqtfcvv1bjtriqs2pjul.apps.googleusercontent.com";
+  const CLIENT_ID = "";
   const REDIRECT_URI = `${SERVER_URL}/upload`;
   const GOOGLE_Upload_URL = `https://accounts.google.com/o/oauth2/auth/oauthchooseaccount?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/youtube.upload`;
   window.location.href = GOOGLE_Upload_URL;
