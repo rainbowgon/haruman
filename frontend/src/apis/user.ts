@@ -1,4 +1,4 @@
-import { SERVER_URL } from "../constants/urls";
+import { API_URL, SERVER_URL } from "../constants/urls";
 import { axiosInstance } from "./instance";
 
 import { axiosServer, axiosServerWithRefresh } from "./server";
@@ -62,9 +62,9 @@ export const getAccessToken = async () => {
 
 // 카카오 로그인 리다이렉트
 export const redirectKakao = () => {
-  const REDIRECT_URI = `${SERVER_URL}/api/oauth/kakao`;
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  window.location.href = KAKAO_AUTH_URL;
+  const REDIRECT_URI = `${API_URL}/api/oauth/kakao`;
+  // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  window.location.href = REDIRECT_URI;
 };
 
 // 카카오 로그인
