@@ -1,6 +1,5 @@
 package ssafy.haruman.domain.challenge.service;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
@@ -29,5 +28,5 @@ public interface ChallengeService {
 
     AccumulatedAmountResponseDto selectAccumulatedAmount();
 
-    List<ChallengeHistoryResponseDto> selectChallengeHistory(LocalDate yearAndMonth);
+    List<ChallengeHistoryResponseDto> selectChallengeHistory(Date yearAndMonth);
 }

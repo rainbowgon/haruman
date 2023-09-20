@@ -2,6 +2,7 @@ package ssafy.haruman.domain.challenge.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -133,7 +134,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         challenge.updateChallengeAmount(usedAmount, leftOverAmount);
     }
 
-
+    @Override
     public List<ChallengeUserListResponseDto> selectDailyUserList() {
 
         List<ChallengeUserInfoMapping> challengeList = challengeRepository.findChallengesByStatus();
@@ -154,6 +155,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
         // TODO 프로필 유효성 검증
         Long profileId = null;
+
         Integer accumulatedAmount = challengeRepository.findAllByProfileAndStatus(profileId);
 
         return AccumulatedAmountResponseDto.builder()
@@ -162,14 +164,21 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
-    public List<ChallengeHistoryResponseDto> selectChallengeHistory(LocalDate yearAndMonth) {
+    public List<ChallengeHistoryResponseDto> selectChallengeHistory(Date yearAndMonth) {
 
         // TODO 프로필 유효성 검증
         Long profileId = null;
-        List<Challenge> challengeHistory
-                = challengeRepository.findAllByProfileAndDate(profileId, yearAndMonth);
 
-        return null;
+        String date = yearAndMonth == null ?
+                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-DD")) :
+                String.valueOf(yearAndMonth);
+
+        List<Challenge> challengeList =
+                challengeRepository.findAllByProfileAndDate(profileId, date);
+
+        return challengeList.stream()
+                .map(ChallengeHistoryResponseDto::from)
+                .collect(Collectors.toList());
     }
 
     private String getGroupKey(ChallengeUserInfoMapping challenge) {
@@ -179,7 +188,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     private List<ChallengeUserInfoDto> convertToUserInfoDto(List<ChallengeUserInfoMapping> list) {
         return list.stream()
-                .map(challenge -> ChallengeUserInfoDto.from(challenge))
+                .map(ChallengeUserInfoDto::from)
                 .collect(Collectors.toList());
     }
 
