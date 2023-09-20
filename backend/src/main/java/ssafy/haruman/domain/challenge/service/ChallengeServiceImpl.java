@@ -104,10 +104,10 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Override
     @Transactional
     public DailyChallengeResponseDto selectDailyChallenge(Profile profile) {
-        Challenge challenge = challengeRepository.findFirstChallenge();
+        Challenge challenge = challengeRepository.findFirstChallenge(profile.getId());
         Integer participantCount = challengeRepository.countByStatus();
 
-        if (challenge.getIsViewed().equals(ViewStatus.VIEWED)) {
+        if (challenge == null || challenge.getIsViewed().equals(ViewStatus.VIEWED)) {
             return null;
         } else {
             if (!challenge.getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {

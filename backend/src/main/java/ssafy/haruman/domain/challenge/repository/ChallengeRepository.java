@@ -3,6 +3,7 @@ package ssafy.haruman.domain.challenge.repository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import ssafy.haruman.domain.challenge.entity.Challenge;
 
 public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
@@ -10,7 +11,8 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     @Query("select count(*) from Challenge c where c.challengeStatus='PROGRESS'")
     Integer countByStatus();
 
-    Challenge findFirstChallenge();
+    @Query(value = "SELECT * FROM challenge c JOIN profile USING (profile_id) WHERE c.profile_id =:id ORDER BY c.start_time DESC LIMIT 1;", nativeQuery = true)
+    Challenge findFirstChallenge(@Param(value = "id") Long profileId);
 
     @Query("select c from Challenge c where c.challengeStatus='PROGRESS'")
     List<Challenge> findAllByStatus();

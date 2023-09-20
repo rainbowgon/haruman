@@ -1,6 +1,5 @@
 package ssafy.haruman.domain.challenge.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +35,7 @@ public class ChallengeController {
 
     @PostMapping
     public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> startChallenge() {
-        Profile profile = ps.findOneProfileById(1L);
+        Profile profile = ps.findOneProfileById(2L);
 
         ChallengeResponseDto responseDto = challengeService.startChallenge(profile);
         return JsonResponse.ok("챌린지가 생성되었습니다.", responseDto);
@@ -70,7 +69,7 @@ public class ChallengeController {
 
     @GetMapping
     public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> selectDailyChallenge() {
-        Profile profile = ps.findOneProfileById(1L);
+        Profile profile = ps.findOneProfileById(2L);
 
         DailyChallengeResponseDto responseDto = challengeService.selectDailyChallenge(profile);
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
@@ -84,9 +83,9 @@ public class ChallengeController {
         return JsonResponse.ok("챌린지 중인 회원 목록을 성공적으로 가져왔습니다.", userList);
     }
 
-    @Scheduled(cron = "0 1 * * * *")
+    @Scheduled(cron = "0 0/1 * * * *")
     public ResponseEntity<ResponseWrapper<Nullable>> endChallenge() {
-        System.out.println("now: " + LocalDateTime.now());
+//        System.out.println("now: " + LocalDateTime.now());
 
         challengeService.endChallenge();
         return JsonResponse.ok("챌린지가 종료되고 사용자 정보가 업데이트되었습니다.");
