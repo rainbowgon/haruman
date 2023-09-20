@@ -3,9 +3,8 @@
 import "../styles/components/CategoryStyle.scss"
 
 export interface CategoryProps {
-    color : string;
-    moneyValue : number;
-    icon?: string;
+    color? : string;
+    category? : string;
     type?: string;
     checked?: boolean;
     className?: string;
@@ -14,8 +13,7 @@ export interface CategoryProps {
   export default function Category(
   {
     color = 'category_black_01',
-    moneyValue,
-    icon,
+    category,
     type,
     checked,
     className,
@@ -23,7 +21,7 @@ export interface CategoryProps {
   ) {
   return (
     <div className={`category ${color}`}>
-      
+      {category}
     </div>
   );
 };

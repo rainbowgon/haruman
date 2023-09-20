@@ -111,7 +111,7 @@ const RankingPage = () => {
           {
             Users.map((user, index) => (
               <InfoItem
-                icon = {user.profileImage}
+                image = {user.profileImage}
                 mainValue = {user.nickname}
                 moneyValue = {user.leftoverAmount}
               />

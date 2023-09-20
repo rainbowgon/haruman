@@ -3,6 +3,7 @@ import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
 import ProfileImageUploader from "../components/ProfileImage";
 import RegisterButton from "../components/RegistButton";
+import ShortcutButton from "../components/ShortcutButton";
 
 // style
 import "../styles/MyPageStyle.scss"
@@ -32,21 +33,21 @@ const MyPage = () => {
               <div className="regular_container">
                 <RegisterButton
                   text="프로필 수정"
-                  className="regular_type brand"
+                  className="regular brand"
                   onClick={handleEditProfile}
                 />
                 <RegisterButton
                   text="카테고리 수정"
-                  className="regular_type"
+                  className="regular white"
                   onClick={handleEditCategory}
                 />
               </div>
             </div>
-            <div>
+            <div className="shortcuts_container">
               { features.map((feature) => (
-                <RegisterButton
+                <ShortcutButton
                   text={feature}
-                  className=""  
+                  className="square"
                   onClick={handleEditCategory}
                 />
               ))}

@@ -12,4 +12,12 @@
 .regular_container{
     display: flex;
     width: 80%;
+    padding: 0 10%;
+}
+
+.shortcuts_container{
+    width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
