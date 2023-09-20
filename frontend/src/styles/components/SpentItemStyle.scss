@@ -1,8 +1,7 @@
-@import "../theme.css";
 @import "../_util.scss";
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
 
-.info_item {
+.spent_item {
     font-family: "IBM Plex Sans KR",sans-serif;
 
     width: 80%;
@@ -14,44 +13,41 @@
     filter: drop-shadow(2px 2px 2px rgb(0,0,0,0.15));
 
     display: grid;
-    grid-template-columns: 2fr 6fr 2fr;
+    grid-template-columns: 8fr 2fr;
 
-    .info_item_category{
-        width: 35px;
-        height: 35px;
-        border: 4px solid $brand1_main;
-        border-radius: 100%;
+    .spent_item_category{
+        background-color: $category_black_03;
+        border-radius: 0.5rem;
         overflow: hidden;
         margin: auto;
 
         display: flex;
         justify-content: center;
         align-items: center;
-
-        .info_item_category_img{
-            width: 25px;
-            filter: invert(22%) sepia(37%) saturate(4891%) hue-rotate(178deg) brightness(96%) contrast(96%);
-        }
     }
-    .info_item_name_div{
-        width: 100%;
+
+    .spent_item_name_div{
+        margin: auto;
+        width: 80%;
         height: 100%;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        justify-content: center;
 
-        .info_item_name{
+        .spent_item_name{
+            margin: 0;
             color: $font1_main;
             font-size: 1rem;
         }
     }
 
-    .info_item_price_div{
+    .spent_item_price_div{
         width: 100%;
         height: 100%;
         display: flex;
         align-items: center;
 
-        .info_item_price{
+        .spent_item_price{
             color: $font2_main;
             font-size: 0.8rem;
         }

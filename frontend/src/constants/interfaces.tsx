@@ -1,5 +1,6 @@
 export interface ChallengeItem {
   category: string;
+  //color: string;
   content: string;
   pay_amount: number;
 }
