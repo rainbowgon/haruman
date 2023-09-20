@@ -12,13 +12,13 @@ const [finishedProject, setFinishedProject] = useState('')
 const [countMemory, setCountMemory] = useState(0)
 
 const [attendanceDates, setAttendanceDates] = useState([
-"2023-06-28",
-"2023-07-04",
-"2023-07-12",
-"2023-07-15",
-"2023-07-21",
-"2023-07-25",
-"2023-08-01",
+"2023-08-28",
+"2023-09-04",
+"2023-09-12",
+"2023-09-15",
+"2023-09-21",
+"2023-09-25",
+"2023-10-01",
 ])
 
 // useEffect(() => {
@@ -63,6 +63,7 @@ return (
     locale="en"
     //   onChange:String ={onChange}
     value={value}
+    onClickDay={(value) => alert('Clicked day: ' + value)}
     tileClassName={({ date, view }) => {
       if (attendanceDates.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
       return "highlight2"
