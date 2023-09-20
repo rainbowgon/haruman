@@ -7,7 +7,6 @@
   justify-content: center;
 }
 
-
 .button_container{
   width: 80%;
   max-width: 450px;
@@ -63,4 +62,19 @@
   background-color: $white;
   border: none;
   font-size: 1.2rem;
+}
+
+.regular_type{
+  height: 4vh;
+  border: none;
+  border-radius: 0.5rem;
+  margin: 10px;
+  max-width: 450px;
+  color: $white;
+  font-size: 1rem;
+}
+
+
+.regular_type.brand{
+  background-color: $brand1_main;
 }

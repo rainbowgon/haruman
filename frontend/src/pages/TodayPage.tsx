@@ -47,6 +47,8 @@ const TodayPage = () => {
       }
     ]);
 
+  const [category, setCategory] = useState (new Map([]));
+
   return (
     <CenterContainer>
       <MainStyle>

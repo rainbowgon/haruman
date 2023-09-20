@@ -1,0 +1,17 @@
+.category{
+    width: auto;
+    background-color: $category_black_01;
+    color: $white;
+
+    &_black_01{
+        background-color: $category_black_01;
+    }
+
+    &_black_02{
+        background-color: $category_black_02;
+    }
+
+    &_black_03{
+        background-color: $category_black_03;
+    }
+}

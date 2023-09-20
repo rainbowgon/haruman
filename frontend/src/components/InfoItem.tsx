@@ -65,10 +65,12 @@ export default function InfoItem(
   return (
     <div className="payment_item">
       <div className="payment_item_category">
-        <img className="payment_item_category_img" src={Won} alt={icon}></img>
+        {/* <img className="payment_item_category_img" src={Won} alt={icon}></img> */}
+        {icon}
       </div>
       <div className="payment_item_name_div">
         <p className="payment_item_name">{mainValue}</p>
+        <p>{icon}</p> 
       </div>
       <div className="payment_item_price_div">
         <p className="payment_item_price"> {moneyValue} 원</p>
