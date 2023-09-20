@@ -37,3 +37,8 @@ spring:
         show_sql: true
       logging.level:
         org.hibernate.SQL: debug
+
+cloud:
+  aws:
+    s3:
+      directory: local
