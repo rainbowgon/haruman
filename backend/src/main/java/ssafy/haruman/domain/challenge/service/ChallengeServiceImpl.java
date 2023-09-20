@@ -151,7 +151,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     public List<ChallengeUserListResponseDto> selectDailyUserList() {
 
-        List<ChallengeUserInfoMapping> challengeList = challengeRepository.findChallengesByStatus();
+        List<ChallengeUserInfoMapping> challengeList = challengeRepository.findChallengeAndExpenseAndProfileByStatus();
 
         List<ChallengeUserListResponseDto> userList =
                 challengeList.stream()
