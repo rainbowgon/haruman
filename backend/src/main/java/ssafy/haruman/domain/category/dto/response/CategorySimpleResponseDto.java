@@ -14,10 +14,12 @@ import ssafy.haruman.domain.category.entity.Category;
 public class CategorySimpleResponseDto {
 
     private String name;
+    private String color;
 
     public static CategorySimpleResponseDto from(Category category) {
         return CategorySimpleResponseDto.builder()
                 .name(category.getName())
+                .color(String.valueOf(category.getColor()))
                 .build();
     }
 
