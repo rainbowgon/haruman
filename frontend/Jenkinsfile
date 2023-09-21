@@ -31,7 +31,7 @@ pipeline {
                     sh'''
                         npm install -g yarn
                         yarn install
-                        yarn build
+                        CI=false yarn build
                     '''
                 }
             }
