@@ -16,12 +16,14 @@ public class CategoryDetailResponseDto {
     private Long categoryId;
     private String name;
     private String isDefault;
+    private String color;
 
     public static CategoryDetailResponseDto from(Category category) {
         return CategoryDetailResponseDto.builder()
                 .categoryId(category.getId())
                 .name(category.getName())
                 .isDefault(String.valueOf(category.getIsDefault()))
+                .color(String.valueOf(category.getColor()))
                 .build();
     }
 

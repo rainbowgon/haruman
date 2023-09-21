@@ -42,15 +42,22 @@ public class Category extends BaseEntity {
     @NotNull
     private CustomStatus isDefault;
 
+    @Column(length = 15)
+    @Enumerated(value = EnumType.STRING)
+    @NotNull
+    private ColorCode color;
+
     @Builder
-    public Category(Profile profile, String name, CustomStatus isDefault) {
+    public Category(Profile profile, String name, CustomStatus isDefault, ColorCode color) {
         this.profile = profile;
         this.name = name;
         this.isDefault = isDefault;
+        this.color = color;
     }
 
-    public void updateCategory(String name) {
+    public void updateCategory(String name, ColorCode color) {
         this.name = name;
+        this.color = color;
     }
 
 }
