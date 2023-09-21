@@ -12,7 +12,7 @@ export interface CategoryProps {
   
   export default function Category(
   {
-    color = 'category_black_01',
+    color = 'BLACK_01',
     category,
     type,
     checked,
@@ -20,7 +20,7 @@ export interface CategoryProps {
   } : CategoryProps
   ) {
   return (
-    <div className={`category ${color}`}>
+    <div className={`category ${className} ${color}`}>
       {category}
     </div>
   );
