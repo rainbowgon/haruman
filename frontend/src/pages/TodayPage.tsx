@@ -59,6 +59,8 @@ const TodayPage = () => {
     },
   ]);
 
+  const [category, setCategory] = useState (new Map([]));
+
   return (
     <CenterContainer>
       <MainStyle>
@@ -71,7 +73,7 @@ const TodayPage = () => {
         <div className="challengeitems_list">
           {costItems.map((item, index) => (
             <InfoItem
-              icon={item.category}
+              image={item.category}
               mainValue={item.content}
               moneyValue={item.pay_amount}
             />

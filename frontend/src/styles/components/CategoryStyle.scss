@@ -1,0 +1,25 @@
+@import "../_util.scss";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+
+.category{
+    font-family: "IBM Plex Sans KR",sans-serif;
+
+    width: fit-content;
+    padding: 0 0.5rem;
+    font-size: 0.7rem;
+    border-radius: 0.7rem;
+    background-color: $category_black_01;
+    color: $white;
+
+    &_black_01{
+        background-color: $category_orange_03;
+    }
+
+    &_black_02{
+        background-color: $category_black_02;
+    }
+
+    &_black_03{
+        background-color: $category_black_03;
+    }
+}
