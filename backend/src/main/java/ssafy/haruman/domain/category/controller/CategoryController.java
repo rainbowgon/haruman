@@ -28,9 +28,6 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    /**
-     * 사용자가 카테고리를 생성합니다.
-     */
     @PostMapping
     public ResponseEntity<ResponseWrapper<CategorySimpleResponseDto>> createCategory(
             @RequestBody CategoryCreateRequestDto createDto) {
@@ -40,9 +37,6 @@ public class CategoryController {
         return JsonResponse.of(HttpStatus.CREATED, "카테고리가 성공적으로 생성되었습니다.", createdCategory);
     }
 
-    /**
-     * 사용자가 자신이 생성했던 카테고리를 수정합니다.
-     */
     @PatchMapping
     public ResponseEntity<ResponseWrapper<CategorySimpleResponseDto>> updateCategory(
             @RequestBody CategoryUpdateRequestDto updateDto) {
@@ -52,9 +46,6 @@ public class CategoryController {
         return JsonResponse.ok("카테고리가 성공적으로 수정되었습니다.", updatedCategory);
     }
 
-    /**
-     * 사용자가 자신이 생성했던 카테고리를 삭제합니다.
-     */
     @DeleteMapping("/{category-id}")
     public ResponseEntity<ResponseWrapper<Nullable>> deleteCategory(
             @PathVariable("category-id") Long categoryId) {
