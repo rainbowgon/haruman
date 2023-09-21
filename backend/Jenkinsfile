@@ -1,0 +1,115 @@
+pipeline {
+
+    agent any
+    
+    tools {
+        gradle 'gradle-8.1.1'
+        jdk 'jdk-11'
+        dockerTool 'docker'
+    }
+
+    stages {
+        stage('Clear current directory') {
+            steps {
+                sh'''
+                    rm -rf *
+                '''
+            }
+        }
+
+        
+        stage('Pull from GitLab') {
+            steps {
+                git url: 'https://lab.ssafy.com/s09-fintech-finance-sub2/S09P22A607.git',
+                    branch: 'feat/44',
+                    credentialsId: 'ab6625fd-a8a2-4a73-a301-bd4f0edbb103'
+            }
+        }
+
+        stage('Apply application.yml files') {
+            steps {
+                withCredentials([file(credentialsId: 'application-secret', variable: 'secretFile'),
+                                file(credentialsId: 'application-prod', variable: 'prodFile')]) {
+                    script {
+                        sh 'cp $secretFile backend/src/main/resources/application-secret.yml'
+                        sh 'cp $prodFile backend/src/main/resources/application-prod.yml'
+                    }
+                }
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                dir('backend') {
+                    sh'''
+                        gradle wrapper
+                        chmod +x gradlew
+                        ./gradlew clean build -x test --stacktrace
+                    '''
+                }
+            }
+        }
+
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SSAFY-SonarQube') { 
+        //             dir('backend') {
+        //                 sh './gradlew sonarqube --stacktrace'
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage('Delete existing Docker images and containers') {
+            steps {
+                sh'''
+                    if docker container inspect readed_server >/dev/null 2>&1; then
+                        echo "container exists locally"
+                        docker stop readed_server
+                        docker rm readed_server
+                    else
+                        echo "container does not exist locally"
+                    fi
+                    if docker image inspect server >/dev/null 2>&1; then
+                        echo "Image exists locally"
+                        docker rmi server 
+                    else
+                        echo "Image does not exist locally"
+                    fi
+                '''
+            }
+        }
+
+        stage('Build and Deploy Docker') {
+            steps {
+                dir('backend') {
+                    sh'''
+                        echo [BE] Build Docker Image!
+                        docker build -t server .
+                        echo [BE] Run Docker Container!
+                        docker run -dp 8081:8081 --name readed_server server
+                    '''
+                }
+            }
+        }
+    }
+
+    // post {
+    //     success {
+    //         script {
+    //             def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+    //             def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+    //             def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+    //             mattermostSend(color: 'good', message: "✅ 빌드 & 배포 성공: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})\n<https://sonarqube.ssafy.com/dashboard?id=S09P12A507|SonarQube 분석 바로가기>")
+    //         }
+    //     }
+    //     failure {
+    //         script {
+    //             def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+    //             def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+    //             def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+    //             mattermostSend(color: 'danger', message: "❌ 빌드 & 배포 실패: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})\n<https://sonarqube.ssafy.com/dashboard?id=S09P12A507|SonarQube 분석 바로가기>")
+    //         }
+    //     }
+    // }
+}
