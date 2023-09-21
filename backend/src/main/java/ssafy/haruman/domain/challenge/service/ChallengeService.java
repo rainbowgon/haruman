@@ -1,9 +1,13 @@
 package ssafy.haruman.domain.challenge.service;
 
 import java.util.Date;
+import java.util.List;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
+import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
+import ssafy.haruman.domain.challenge.dto.response.ChallengeHistoryResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
+import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
 import ssafy.haruman.domain.profile.entity.Profile;
@@ -18,5 +22,14 @@ public interface ChallengeService {
 
     void deleteExpense(Long expenseId);
 
-    DailyChallengeResponseDto selectDailyChallenge(Profile profile, Date date);
+    DailyChallengeResponseDto selectDailyChallenge(Profile profile);
+
+    void endChallenge();
+
+    List<ChallengeUserListResponseDto> selectDailyUserList();
+
+    AccumulatedAmountResponseDto selectAccumulatedAmount();
+
+    List<ChallengeHistoryResponseDto> selectChallengeHistory(Date yearAndMonth);
+
 }

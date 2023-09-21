@@ -26,7 +26,7 @@ public class Challenge extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id", columnDefinition = "INT UNSIGNED")
+    @Column(name = "challenge_id", columnDefinition = "INT UNSIGNED")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -71,6 +71,14 @@ public class Challenge extends BaseEntity {
     public void updateChallengeAmount(Integer usedAmount, Integer leftoverAmount) {
         this.usedAmount = usedAmount;
         this.leftoverAmount = leftoverAmount;
+    }
+
+    public void updateViewStatus(ViewStatus isViewed) {
+        this.isViewed = isViewed;
+    }
+
+    public void updateChallengeStatus(ChallengeStatus challengeStatus) {
+        this.challengeStatus = challengeStatus;
     }
 
 
