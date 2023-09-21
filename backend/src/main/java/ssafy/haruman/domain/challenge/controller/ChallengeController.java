@@ -80,7 +80,6 @@ public class ChallengeController {
 
     @Scheduled(cron = "0 0/1 * * * *")
     public ResponseEntity<ResponseWrapper<Nullable>> endChallenge() {
-//        System.out.println("now: " + LocalDateTime.now());
 
         challengeService.endChallenge();
         return JsonResponse.ok("챌린지가 종료되고 사용자 정보가 업데이트되었습니다.");
