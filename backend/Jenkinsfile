@@ -63,10 +63,10 @@ pipeline {
         stage('Delete existing Docker images and containers') {
             steps {
                 sh'''
-                    if docker container inspect readed_server >/dev/null 2>&1; then
+                    if docker container inspect haruman_server >/dev/null 2>&1; then
                         echo "container exists locally"
-                        docker stop readed_server
-                        docker rm readed_server
+                        docker stop haruman_server
+                        docker rm haruman_server
                     else
                         echo "container does not exist locally"
                     fi
@@ -87,7 +87,7 @@ pipeline {
                         echo [BE] Build Docker Image!
                         docker build -t server .
                         echo [BE] Run Docker Container!
-                        docker run -dp 8081:8081 --name readed_server server
+                        docker run -dp 8081:8081 --name haruman_server server
                     '''
                 }
             }
