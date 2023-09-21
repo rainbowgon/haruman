@@ -29,10 +29,10 @@ pipeline {
         stage('Apply application.yml files') {
             steps {
                 withCredentials([file(credentialsId: 'application-secret', variable: 'secretFile'),
-                                file(credentialsId: 'application-prod', variable: 'prodFile')]) {
+                                file(credentialsId: 'application-develop', variable: 'developFile')]) {
                     script {
                         sh 'cp $secretFile backend/src/main/resources/application-secret.yml'
-                        sh 'cp $prodFile backend/src/main/resources/application-prod.yml'
+                        sh 'cp $developFile backend/src/main/resources/application-develop.yml'
                     }
                 }
             }
