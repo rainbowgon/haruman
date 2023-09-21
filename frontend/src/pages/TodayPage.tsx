@@ -4,7 +4,7 @@ import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
 
 // component
-import InfoItem from "../components/InfoItem";
+import SpentItem from "../components/SpentItem";
 
 //interface value
 import { ChallengeItem } from "../constants/interfaces";
@@ -72,8 +72,8 @@ const TodayPage = () => {
         <DonutChart datas={costItems} />
         <div className="challengeitems_list">
           {costItems.map((item, index) => (
-            <InfoItem
-              image={item.category}
+            <SpentItem
+              category={item.category}
               mainValue={item.content}
               moneyValue={item.pay_amount}
             />

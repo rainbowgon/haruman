@@ -15,6 +15,8 @@ const Homepage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [challenge, setChallenge] = useState(true);
   const [height, setHeight] = useState(100);
+  const [categories, setCategories] = useState();
+  const [challengeInfo, setChallengeInfo] = useState();
 
   const handleStartChallenge = () => {
     const nowChallenge = !challenge;
@@ -23,20 +25,40 @@ const Homepage = () => {
     setChallenge(nowChallenge);
 
     startChallenge();
+
+    const wave_height = document.querySelector("#wave_height");
   
+    let curHeight:number = height;
     let targetHeight: number = nowChallenge ? height + 5 : height - 100;
   
-    setTimeout(() => {
-      console.log(targetHeight);
-      setHeight(targetHeight);
-    }, 0);
+    // setTimeout(() => {
+    //   console.log(targetHeight);
+    //   setHeight(targetHeight);
+    // }, 0);
+
+    function frame() {
+      console.log(curHeight);
+      curHeight = lerp(curHeight, targetHeight, 0.01);
+      
+      console.log(curHeight);
+      setHeight(curHeight);
+
+      if(targetHeight - curHeight > 0.1 || targetHeight - curHeight < -0.1){
+        requestAnimationFrame(frame);
+      }
+    }
+    requestAnimationFrame(frame);
+
+    function lerp(s:number, e:number, a:number) {
+      return s + (0-s) * a;
+    }
   };
 
   // 챌린지 관련
   /**
-    startChallenge	
-    챌린지 시작	
-    /challenges	
+    startChallenge   
+    챌린지 시작   
+    /challenges   
     POST
   */
 
@@ -60,7 +82,7 @@ const Homepage = () => {
     // .then((response) => {
     //     console.log("첼린지 시작");
     //     showAlert("success", "첼린지 시작");
-    //     setCurStatus(2);
+    //     setChallengeInfo(response.data);
     // })
     // .catch((error) => {
     //     console.error("서버로부터 챌린지 시작 실패", error);
@@ -70,9 +92,9 @@ const Homepage = () => {
   }
 
   /**
-    createReceipt	
-    지출 내역 영수증 입력	
-    /challenges/receipt/{challenge-id}	
+    createReceipt   
+    지출 내역 영수증 입력   
+    /challenges/receipt/{challenge-id}   
     POST
   */
     const createReceipt = () => {
@@ -142,9 +164,9 @@ const Homepage = () => {
 
 
   /**
-    updateExpense	
-    지출 내역 수정	
-    /challenges	
+    updateExpense   
+    지출 내역 수정   
+    /challenges   
     PATCH
   */
     const updateExpense = () => {
@@ -179,9 +201,9 @@ const Homepage = () => {
 
 
   /**
-    deleteExpense	
-    지출 내역 삭제	
-    /challenges/{expense-id}	
+    deleteExpense   
+    지출 내역 삭제   
+    /challenges/{expense-id}   
     DELETE
   */
   const deleteExpense = () => {
@@ -218,9 +240,9 @@ const Homepage = () => {
 
 
   /**
-    selectDailyChallenge	
-    해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)	
-    /challenges?date={date}	
+    selectDailyChallenge
+    해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)
+    /challenges?date={date}   
     GET
   */
   const selectDailyChallenge = () => {
@@ -230,7 +252,7 @@ const Homepage = () => {
     // axios.get(`${baseURL}${ChallengeAPI}?date={date}`)
     //   .then((response) => {
     //     console.log("해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)");
-    //     setPostList(response.data);
+    //     setChallengeInfo(response.data);
     //   })
     //   .catch((error) => {
     //     console.error('해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트) 조회 실패', error);
@@ -240,9 +262,9 @@ const Homepage = () => {
 
   // 카테고리
   /**
-    selectCategoryList	
+    selectCategoryList   
     카테고리 전체 조회 
-    (default + member’s custom)	/categories	
+    (default + member’s custom)   /categories   
     GET
   */
   const selectCategoryList = () => {
@@ -252,7 +274,7 @@ const Homepage = () => {
     // axios.get(`${baseURL}${ChallengeAPI}/list?size=${itemsPerPage}&page=${currentPage}&sort=noticeIdx,desc`)
     //   .then((response) => {
     //     console.log("카테고리 전체 조회 성공");
-    //     setPostList(response.data);
+    //     setCategories(response.data);
     //   })
     //   .catch((error) => {
     //     console.error('카테고리 전체 조회 실패', error);
@@ -275,7 +297,6 @@ const Homepage = () => {
             ?<>
               <div className="homepage_header_title">
                 <h2 className="homepage_header_title_text">오늘의 챌린지
-                  <div className="style_horizon_line"/>
                 </h2>
               </div>
               <p className="homepage_text">{}명의 유저가 먼저 진행하고 있어요!</p>
@@ -283,9 +304,7 @@ const Homepage = () => {
             :<>
               <div className="homepage_header_title">
                 <h2 className="homepage_header_title_text">13{} : 24{}
-                  <div className="style_horizon_line"/>
                 </h2>
-                
               </div>
               <p className="homepage_text">{}명의 유저와 함께하고 있어요!</p>
             </>
@@ -305,7 +324,7 @@ const Homepage = () => {
                 <Link to="/today" className="linkto_today">
                   <div className="progress_challenge">
                     <div className="progress_challenge_title">
-                      <h2>8,{height}</h2>
+                      <h2>10,000</h2>
                       <h3>원</h3>
                     </div>
                   </div>
@@ -314,7 +333,7 @@ const Homepage = () => {
               }
             </div>
             {
-              <div style={{ height: `${height}vw`}}/>
+              <div id="wave_height" style={{ height: `${height}vw`}}/>
             }
             <div>
               <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
@@ -387,25 +406,15 @@ const Homepage = () => {
               </div>
             </div>
             <div>
-              <RegisterButton
-                text="OCR"
-                className="white"
-                onClick={handleModal}
-              />
-              <RegisterButton
-                text="확인"
-                onClick={handleModal}
-              />
               {/* <RegisterButton
                 text="OCR"
                 className="mini_type white"
                 onClick={handleModal}
-              />
-              <RegisterButton
-                text="➕"
-                className="mini_type white"
-                onClick={handleModal}
               /> */}
+              <RegisterButton
+                text="확인"
+                onClick={handleModal}
+              />
             </div>
           </div>
         }
