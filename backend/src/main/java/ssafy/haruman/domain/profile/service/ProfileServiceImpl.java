@@ -1,6 +1,7 @@
 package ssafy.haruman.domain.profile.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,12 +24,11 @@ public class ProfileServiceImpl implements ProfileService {
     private final String S3_PATH = "image/profile/";
 
     @Override
-    public SingleProfileResponseDto createProfile(String nickname, MultipartFile multipartFile)
+    public SingleProfileResponseDto createProfile(Member member, String nickname, MultipartFile multipartFile)
             throws IOException {
 
-        // TODO 멤버와의 매핑
         Profile profile = Profile.builder()
-//                .member()
+                .member(member)
                 .nickname(nickname)
                 .build();
 
