@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
         // TODO 2) 수정 요청 category가 해당 회원의 custom category인지 확인
 
         // TODO 3) category 수정
-        category.updateCategory(updateDto.getName());
+        category.updateCategory(updateDto.getName(), updateDto.getColor());
 
         return CategorySimpleResponseDto.from(category);
     }

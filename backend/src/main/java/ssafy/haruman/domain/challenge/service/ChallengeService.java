@@ -22,11 +22,14 @@ public interface ChallengeService {
 
     void deleteExpense(Long expenseId);
 
-    DailyChallengeResponseDto selectDailyChallenge(Profile profile, Date date);
+    DailyChallengeResponseDto selectDailyChallenge(Profile profile);
+
+    void endChallenge();
 
     List<ChallengeUserListResponseDto> selectDailyUserList();
 
     AccumulatedAmountResponseDto selectAccumulatedAmount();
 
     List<ChallengeHistoryResponseDto> selectChallengeHistory(Date yearAndMonth);
+
 }

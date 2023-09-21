@@ -23,7 +23,8 @@ public class ProfileServiceImpl implements ProfileService {
     private final String S3_PATH = "image/profile/";
 
     @Override
-    public SingleProfileResponseDto createProfile(String nickname, MultipartFile multipartFile) throws IOException {
+    public SingleProfileResponseDto createProfile(String nickname, MultipartFile multipartFile)
+            throws IOException {
 
         // TODO 멤버와의 매핑
         Profile profile = Profile.builder()
@@ -34,22 +35,26 @@ public class ProfileServiceImpl implements ProfileService {
         String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
         profile.uploadNewProfileImage(S3_PATH, savedFilename);
         profileRepository.save(profile);
-        return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage()));
+        return SingleProfileResponseDto.from(profile,
+                s3FileService.getS3Url(profile.getProfileImage()));
     }
 
     @Override
     @Transactional
-    public SingleProfileResponseDto updateProfile(Long profileId, String nickname, MultipartFile profileImage) throws IOException {
+    public SingleProfileResponseDto updateProfile(Long profileId, String nickname,
+                                                  MultipartFile profileImage) throws IOException {
         Profile profile = this.findOneProfileById(profileId);
         profile.updateProfile(nickname);
         this.uploadNewProfileImage(profile, profileImage);
-        return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage()));
+        return SingleProfileResponseDto.from(profile,
+                s3FileService.getS3Url(profile.getProfileImage()));
     }
 
     @Override
     public SingleProfileResponseDto selectOneProfile(Long profileId) {
         Profile profile = this.findOneProfileById(profileId);
-        return SingleProfileResponseDto.from(profile, s3FileService.getS3Url(profile.getProfileImage())); // TODO S3에서 이미지 찾아서 URL 반환
+        return SingleProfileResponseDto.from(profile,
+                s3FileService.getS3Url(profile.getProfileImage())); // TODO S3에서 이미지 찾아서 URL 반환
     }
 
     @Override
@@ -71,7 +76,8 @@ public class ProfileServiceImpl implements ProfileService {
                 .orElseThrow(() -> ProfileNotFoundException.EXCEPTION);
     }
 
-    private void uploadNewProfileImage(Profile profile, MultipartFile multipartFile) throws IOException {
+    private void uploadNewProfileImage(Profile profile, MultipartFile multipartFile)
+            throws IOException {
         this.deleteExistingProfileImage(profile);
         if (!multipartFile.isEmpty()) {
             String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);

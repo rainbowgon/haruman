@@ -73,5 +73,13 @@ public class Challenge extends BaseEntity {
         this.leftoverAmount = leftoverAmount;
     }
 
+    public void updateViewStatus(ViewStatus isViewed) {
+        this.isViewed = isViewed;
+    }
+
+    public void updateChallengeStatus(ChallengeStatus challengeStatus) {
+        this.challengeStatus = challengeStatus;
+    }
+
 
 }

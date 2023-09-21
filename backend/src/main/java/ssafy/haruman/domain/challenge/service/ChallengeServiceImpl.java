@@ -52,8 +52,8 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .leftoverAmount(10000)
                 .isViewed(ViewStatus.NOT_VIEWED)
                 .build();
-
         challengeRepository.save(challenge);
+
         return ChallengeResponseDto.from(challenge);
     }
 
@@ -107,16 +107,35 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
-    public DailyChallengeResponseDto selectDailyChallenge(Profile profile, Date date) {
+    @Transactional
+    public DailyChallengeResponseDto selectDailyChallenge(Profile profile) {
+        Challenge challenge = challengeRepository.findFirstChallenge(profile.getId());
+        Integer participantCount = challengeRepository.countByStatus();
 
-        Challenge challenge = challengeRepository.findByProfileAndDate(profile.getId(), date);
-        // TODO 챌린지 반환이 1개가 아니면 에러
-        // TODO 페이지네이션
+        if (challenge == null || challenge.getIsViewed().equals(ViewStatus.VIEWED)) {
+            return null;
+        } else {
+            if (!challenge.getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
+                challenge.updateViewStatus(ViewStatus.VIEWED);
+            }
+            // TODO 페이지네이션
+            List<ExpenseResponseDto> list = expenseRepository.findAllByChallenge_Id(
+                            challenge.getId())
+                    .stream()
+                    .map(expense -> ExpenseResponseDto.from(expense)).collect(Collectors.toList());
+            return DailyChallengeResponseDto.from(challenge, participantCount, list);
+        }
+    }
 
-        List<ExpenseResponseDto> list = expenseRepository.findAllByChallenge_Id(challenge.getId())
-                .stream()
-                .map(ExpenseResponseDto::from).collect(Collectors.toList());
-        return DailyChallengeResponseDto.from(challenge, list);
+    @Override
+    @Transactional
+    public void endChallenge() {
+        List<Challenge> list = challengeRepository.findAllByStatus();
+        for (Challenge challenge : list) {
+            challenge.updateChallengeStatus(
+                    challenge.getTargetAmount() - challenge.getUsedAmount() < 0
+                            ? ChallengeStatus.FAIL : ChallengeStatus.SUCCESS);
+        }
     }
 
     private Challenge getChallenge(Long challengeId) {
@@ -138,10 +157,11 @@ public class ChallengeServiceImpl implements ChallengeService {
         challenge.updateChallengeAmount(usedAmount, leftOverAmount);
     }
 
+    
     @Override
     public List<ChallengeUserListResponseDto> selectDailyUserList() {
 
-        List<ChallengeUserInfoMapping> challengeList = challengeRepository.findChallengesByStatus();
+        List<ChallengeUserInfoMapping> challengeList = challengeRepository.findChallengeAndExpenseAndProfileByStatus();
 
         return challengeList.stream()
                 .collect(Collectors.groupingBy(this::getGroupKey))

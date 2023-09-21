@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -70,13 +71,18 @@ public class ChallengeController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> selectDailyChallenge(
-            @RequestParam(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+    public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> selectDailyChallenge() {
         Profile profile = null;
 
-        DailyChallengeResponseDto responseDto = challengeService.selectDailyChallenge(profile,
-                date);
+        DailyChallengeResponseDto responseDto = challengeService.selectDailyChallenge(profile);
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
+    }
+
+    @Scheduled(cron = "0 0/1 * * * *")
+    public ResponseEntity<ResponseWrapper<Nullable>> endChallenge() {
+
+        challengeService.endChallenge();
+        return JsonResponse.ok("챌린지가 종료되고 사용자 정보가 업데이트되었습니다.");
     }
 
     @GetMapping("/people")
@@ -98,8 +104,7 @@ public class ChallengeController {
     @GetMapping("/history")
     public ResponseEntity<ResponseWrapper<List<ChallengeHistoryResponseDto>>> selectChallengeHistory(
             @RequestParam(name = "date", required = false)
-            @DateTimeFormat(pattern = "yyyy-MM")
-            Date yearAndMonth) {
+            @DateTimeFormat(pattern = "yyyy-MM") Date yearAndMonth) {
 
         List<ChallengeHistoryResponseDto> challengeHistory
                 = challengeService.selectChallengeHistory(yearAndMonth);
