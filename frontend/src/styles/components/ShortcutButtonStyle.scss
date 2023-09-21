@@ -1,14 +1,12 @@
 @import '../util.scss';         /*변수파일 - 색상 + 모바일 체크*/
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
 
-.regist_button_box{
-  width: 100%;
+.Shortcut_button_box{
   display: flex;
   justify-content: center;
 }
 
-.button_container{
-  width: 80%;
+.shortcut_button_container{
   max-width: 450px;
   display: flex;
   flex-direction: column;
@@ -17,18 +15,17 @@
   filter: drop-shadow(1px 2px 2px rgb(0,0,0,0.15));
 }
 
-.register_button {
+.shortcut_button {
   font-family: "IBM Plex Sans KR",sans-serif;
   width: 80%;
   height: 6vh;
   border-radius: 40px;
   margin: 10px;
   max-width: 450px;
-  color: $white;
+  color: $brand1_main;
   font-size: 1rem;
 
-  border: 2px solid $brand2_main;
-  background-color: $brand2_main;
+  background-color: $white;
   font-weight: bolder;
   
   &:hover {
@@ -50,49 +47,15 @@
   }
 }
 
-.highlight{
-  background-color: $point2_main;
-  border: none;
-}
-
-.register_button.white {
+.shortcut_button.white {
   color: $brand1_main;
   background-color: $white;
   border: none;
   font-size: 1.2rem;
 }
 
-// mini
-.register_button.mini_type {
-  width: 6vh;
-  background-color: $brand1_main;
-  border: none;
-  font-size: 0.7rem;
-}
-
-
-// regular
-.register_button.regular{
-  height: 4vh;
-  border: none;
-  border-radius: 0.5rem;
-  margin: 10px;
-  max-width: 200px;
-  color: $white;
-  font-size: 0.8rem;
-}
-
-.regular.brand{
-  background-color: $brand1_main;
-}
-
-.regular.white{
-  color: $brand1_main;
-  background-color: $white;
-}
-
 // square
-.register_button.square{
+.shortcut_button.square{
   width: 20vw;
   height: 20vw;
   border: none;
@@ -100,6 +63,6 @@
   margin: 10px;
   max-width: 200px;
   max-height: 200px;
-  color: $white;
   font-size: 0.8rem;
+  overflow-wrap: break-word;
 }

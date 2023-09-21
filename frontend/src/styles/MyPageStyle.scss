@@ -1,0 +1,23 @@
+@import '_util.scss';        
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+
+
+.profile_container{
+    display: flex;
+    height: 90vh;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.regular_container{
+    display: flex;
+    width: 80%;
+    padding: 0 10%;
+}
+
+.shortcuts_container{
+    width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
