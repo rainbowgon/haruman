@@ -61,7 +61,7 @@
   margin : 1rem 0;
 
   .homepage_header_title_text{
-    font-size: 3rem;
+    font-size: 2.7rem;
     height: 5rem;
     margin : 0;
     color: var(--brand1_main);
@@ -128,7 +128,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: 1.5rem;
     box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25), -2px -4px 4px 0px rgba(0, 0, 0, 0.25) inset;
 
 
@@ -163,6 +163,7 @@
     h3{
       font-size: 1.5rem;
       margin: 0;
+      padding-bottom: 1rem;
     }
   }
 }

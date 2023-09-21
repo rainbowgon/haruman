@@ -16,7 +16,7 @@
     grid-template-columns: 8fr 2fr;
 
     .spent_item_category{
-        background-color: $category_black_03;
+        background-color: $BLACK_03;
         border-radius: 0.5rem;
         overflow: hidden;
         margin: auto;
@@ -38,6 +38,7 @@
             margin: 0;
             color: $font1_main;
             font-size: 1rem;
+            text-align: left;
         }
     }
 
