@@ -1,40 +1,52 @@
-// import React from "react";
+import {useState} from "react";
+
+import Category from "./Category";
+
+import "../styles/components/ColorPickerStyle.scss"
 
 const ColorPicker = () => {
-//   const color = [
-    // "category_black_01",
-    // "category_black_02",
-    // "category_black_03",
-    // "category_blue_01",
-    // "category_blue_02",
-    // "category_blue_03",
-    // "category_brown_01",
-    // "category_brown_02",
-    // "category_brown_03",
-    // "category_green_01",
-    // "category_green_02",
-    // "category_green_03",
-    // "category_orange_01",
-    // "category_orange_02",
-    // "category_orange_03",
-    // "category_pink_01",
-    // "category_pink_02",
-    // "category_pink_03",
-    // "category_purple_01",
-    // "category_purple_02",
-    // "category_purple_03",
-    // "category_red_01",
-    // "category_red_02",
-    // "category_red_03",
-    // "category_yellow_01",
-    // "category_yellow_02",
-    // "category_yellow_03",
-//   ]
-
+  
+  const [colors, setColors] = useState<string[]>([
+    "BLACK_01",
+    "BLACK_02",
+    "BLACK_03",
+    "BLUE_01",
+    "BLUE_02",
+    "BLUE_03",
+    "BROWN_01",
+    "BROWN_02",
+    "BROWN_03",
+    "GREEN_01",
+    "GREEN_02",
+    "GREEN_03",
+    "ORANGE_01",
+    "ORANGE_02",
+    "ORANGE_03",
+    "PINK_01",
+    "PINK_02",
+    "PINK_03",
+    "PURPLE_01",
+    "PURPLE_02",
+    "PURPLE_03",
+    "RED_01",
+    "RED_02",
+    "RED_03",
+    "YELLOW_01",
+    "YELLOW_02",
+    "YELLOW_03",
+  ])
   
   return (
-    <div>
-      
+    <div className="colorpicker_style">
+      {
+        colors &&
+        colors.map((color) =>(
+          <Category
+              className="categoryprops"
+              color={color}
+            />
+        ))
+      }
     </div>
   );
 };
