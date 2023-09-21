@@ -1,12 +1,13 @@
 package ssafy.haruman.global.error.errorCode;
 
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import ssafy.haruman.global.error.dto.ErrorReason;
-
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Getter
 @AllArgsConstructor
@@ -23,7 +24,9 @@ public enum GlobalErrorCode implements BaseErrorCode {
     PROFILE_NOT_FOUND(NOT_FOUND, "PROFILE-001", "해당 ID의 프로필이 없습니다."),
 
     /* 카테고리 */
-    CATEGORY_NOT_FOUND(NOT_FOUND, "CATEGRORY_404_1", "해당 ID의 카테고리가 없습니다.");
+    CATEGORY_NOT_FOUND(NOT_FOUND, "CATEGRORY-001", "해당 ID의 카테고리가 없습니다."),
+    CATEGORY_DUPLICATION(CONFLICT, "CATEGRORY-002", "같은 이름의 카테고리가 이미 존재합니다.");
+
 
     private HttpStatus status;
     private String code;
