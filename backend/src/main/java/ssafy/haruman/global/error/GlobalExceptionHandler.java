@@ -11,6 +11,7 @@ import ssafy.haruman.global.error.dto.ErrorResponse;
 import ssafy.haruman.global.error.errorCode.BaseErrorCode;
 import ssafy.haruman.global.error.errorCode.GlobalErrorCode;
 import ssafy.haruman.global.error.exception.CustomException;
+import ssafy.haruman.global.mattermost.NotificationManager;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -20,6 +21,8 @@ import java.util.Enumeration;
 @Slf4j
 @RequiredArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    private final NotificationManager notificationManager;
 
     @ExceptionHandler(CustomException.class) // business Exception
     public ResponseEntity<ErrorResponse> handleBusinessException(CustomException e, HttpServletRequest request) {
@@ -31,11 +34,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request) throws IOException {
-        log.error("INTERNAL_SERVER_ERROR", e);
+        sendMattermost(e, request);
         GlobalErrorCode errorCode = GlobalErrorCode.CUSTOM_INTERNAL_SERVER_ERROR;
         ErrorReason errorReason = errorCode.getErrorReason();
         return ResponseEntity.status(errorCode.getStatus())
                 .body(ErrorResponse.of(errorReason, request.getRequestURL().toString()));
+    }
+
+    private void sendMattermost(Exception e, HttpServletRequest req) {
+        notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
     }
 
     private String getParams(HttpServletRequest req) {
