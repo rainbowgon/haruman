@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.member.repository.MemberRepository;
+import ssafy.haruman.global.error.exception.MemberNotFoundException;
 import ssafy.haruman.global.utils.JwtUtil;
 
 import javax.servlet.FilterChain;
@@ -48,8 +49,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
 
         Long memberId = JwtUtil.getMemberIdFromJwt(token, secretKey);
 
-        // TODO Exception 처리
-        Member member = memberRepository.findById(memberId).orElseThrow();
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> MemberNotFoundException.EXCEPTION);
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(member, null, List.of(new SimpleGrantedAuthority("USER")));
