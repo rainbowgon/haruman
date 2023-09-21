@@ -11,7 +11,11 @@ import ssafy.haruman.domain.category.dto.request.CategoryUpdateRequestDto;
 import ssafy.haruman.domain.category.dto.response.CategoryDetailResponseDto;
 import ssafy.haruman.domain.category.dto.response.CategorySimpleResponseDto;
 import ssafy.haruman.domain.category.entity.Category;
+import ssafy.haruman.domain.category.entity.CustomStatus;
 import ssafy.haruman.domain.category.repository.CategoryRepository;
+import ssafy.haruman.domain.member.entity.Member;
+import ssafy.haruman.global.error.exception.CategoryDuplicateException;
+import ssafy.haruman.global.error.exception.CategoryNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -21,29 +25,30 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public CategorySimpleResponseDto createCategory(CategoryCreateRequestDto createDto) {
+    public CategorySimpleResponseDto createCategory(
+            Member member, CategoryCreateRequestDto createDto) {
 
-        Long profileId = null;
-
-        // TODO 1) 같은 이름의 default category가 존재하는지 확인
-        // TODO 2) 같은 이름의 회원 custom category가 존재하는지 확인
-        Optional<Category> category = categoryRepository.findByName(createDto.getName(), profileId);
+        Optional<Category> category = categoryRepository.findByName(member, createDto.getName());
         if (category.isPresent()) {
-            // TODO 이미 존재하는 카테고리 에러 반환
+            throw new CategoryDuplicateException();
         }
 
-        // TODO 3) category 생성
-        Category createdCategory = categoryRepository.save(createDto.toEntity());
+        Category createdCategory = Category.builder()
+                .member(member)
+                .name(createDto.getName())
+                .isDefault(CustomStatus.CUSTOM)
+                .color(createDto.getColor())
+                .build();
 
-        return CategorySimpleResponseDto.from(createdCategory);
+        return CategorySimpleResponseDto.from(categoryRepository.save(createdCategory));
     }
 
     @Override
     @Transactional
-    public CategorySimpleResponseDto updateCategory(CategoryUpdateRequestDto updateDto) {
+    public CategorySimpleResponseDto updateCategory(
+            Member member, CategoryUpdateRequestDto updateDto) {
 
-        // TODO 1) 수정 요청 category 유효성 검사
-        Category category = categoryRepository.findById(updateDto.getCategoryId()).orElseThrow();
+        Category category = findOneCategoryById(updateDto.getCategoryId());
 
         // TODO 2) 수정 요청 category가 해당 회원의 custom category인지 확인
 
@@ -55,10 +60,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public void deleteCategory(Long categoryId) {
+    public void deleteCategory(Member member, Long categoryId) {
 
-        // TODO 1) 수정 요청 category 유효성 검사
-        Category category = categoryRepository.findById(categoryId).orElseThrow();
+        Category category = findOneCategoryById(categoryId);
 
         // TODO 2) 삭제 요청 category가 해당 회원의 custom category인지 확인
 
@@ -70,12 +74,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDetailResponseDto> selectCategoryList() {
-
-        Long profileId = null;
+    public List<CategoryDetailResponseDto> selectCategoryList(Member member) {
 
         // TODO 요청 회원의 custom category + default category 조회
-        List<Category> categoryList = categoryRepository.findAllByProfileAndStatus(profileId);
+        List<Category> categoryList = categoryRepository.findAllByProfileAndStatus(member);
 
         // TODO 요청 회원의 지출 내역에서 가장 많은 상위 N개의 카테고리 조회 (null 제외)
 
@@ -85,16 +87,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDetailResponseDto> selectCustomCategoryList() {
-
-        Long profileId = null;
+    public List<CategoryDetailResponseDto> selectCustomCategoryList(Member member) {
 
         // TODO 요청 회원의 custom category 조회
-        List<Category> customCategoryList = categoryRepository.findAllByProfile(profileId);
+        List<Category> customCategoryList = categoryRepository.findAllByProfile(member);
 
         return customCategoryList.stream()
                 .map(CategoryDetailResponseDto::from)
                 .collect(Collectors.toList());
+    }
+
+    private Category findOneCategoryById(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(CategoryNotFoundException::new);
     }
 
 }

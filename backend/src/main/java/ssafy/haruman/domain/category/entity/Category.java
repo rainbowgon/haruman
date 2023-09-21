@@ -16,7 +16,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import ssafy.haruman.domain.profile.entity.Profile;
+import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.global.entity.BaseEntity;
 
 @Entity
@@ -30,8 +30,8 @@ public class Category extends BaseEntity {
     private Long id;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_id")
-    private Profile profile;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Column(length = 20)
     @NotBlank
@@ -48,8 +48,8 @@ public class Category extends BaseEntity {
     private ColorCode color;
 
     @Builder
-    public Category(Profile profile, String name, CustomStatus isDefault, ColorCode color) {
-        this.profile = profile;
+    public Category(Member member, String name, CustomStatus isDefault, ColorCode color) {
+        this.member = member;
         this.name = name;
         this.isDefault = isDefault;
         this.color = color;

@@ -5,19 +5,17 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ssafy.haruman.domain.category.entity.Category;
+import ssafy.haruman.domain.member.entity.Member;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Query(nativeQuery = true,
-            value = "SELECT * "
-                    + "FROM (SELECT * FROM category WHERE is_default = 'DEFAULT' OR profile_id = :profileId) "
-                    + "WHERE name = :name")
-    Optional<Category> findByName(String name, Long profileId);
+    @Query("SELECT c FROM (SELECT c FROM Category c WHERE c.isDefault = 'DEFAULT' OR c.member = :member) WHERE c.name = :name")
+    Optional<Category> findByName(Member member, String name);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM category WHERE profile_id = :profileId")
-    List<Category> findAllByProfile(Long profileId);
+    @Query("SELECT c FROM Category c WHERE c.member = :member")
+    List<Category> findAllByProfile(Member member);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM category WHERE is_default = 'DEFAULT' OR profile_id = :profileId")
-    List<Category> findAllByProfileAndStatus(Long profileId);
+    @Query("SELECT c FROM Category c WHERE c.isDefault = 'DEFAULT' OR c.member = :member")
+    List<Category> findAllByProfileAndStatus(Member member);
 
 }
