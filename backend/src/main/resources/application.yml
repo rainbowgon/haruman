@@ -38,7 +38,7 @@ spring:
       logging.level:
         org.hibernate.SQL: debug
 
-cloud:
-  aws:
-    s3:
-      directory: local
+  cloud:
+    aws:
+      s3:
+        directory: local

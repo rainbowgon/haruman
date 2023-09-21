@@ -1,6 +1,7 @@
 package ssafy.haruman.domain.profile.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.profile.dto.response.SingleProfileResponseDto;
 
 import java.io.IOException;
@@ -14,4 +15,6 @@ public interface ProfileService {
     SingleProfileResponseDto selectOneProfile(Long profileId);
 
     void deleteProfile(Long profileId);
+
+    void saveProfileFromOAuth(Member member, String nickname, String oauthProfileImage);
 }

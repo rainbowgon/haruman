@@ -1,4 +1,4 @@
-package ssafy.haruman.global.config;
+package ssafy.haruman.global.oauth.kakao;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

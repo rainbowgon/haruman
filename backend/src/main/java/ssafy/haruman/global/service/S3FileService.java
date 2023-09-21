@@ -20,7 +20,7 @@ public class S3FileService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${cloud.aws.s3.directory}")
+    @Value("${spring.cloud.aws.s3.directory}")
     private String directory;
 
     public String saveFile(String path, MultipartFile multipartFile) throws IOException {
