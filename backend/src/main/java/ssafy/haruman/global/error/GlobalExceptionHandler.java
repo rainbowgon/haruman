@@ -14,7 +14,6 @@ import ssafy.haruman.global.error.exception.CustomException;
 import ssafy.haruman.global.mattermost.NotificationManager;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Enumeration;
 
 @RestControllerAdvice
@@ -33,7 +32,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request) throws IOException {
+    public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request) {
         sendMattermost(e, request);
         GlobalErrorCode errorCode = GlobalErrorCode.CUSTOM_INTERNAL_SERVER_ERROR;
         ErrorReason errorReason = errorCode.getErrorReason();
