@@ -56,7 +56,7 @@ public class CategoryController {
     }
 
     /**
-     * 사용자가 생성한 카테고리 + 기본 카테고리 목록 전체를 조회합니다.
+     * 사용자가 생성한 카테고리 + 기본 카테고리 목록 전체를 조회합니다. 사용자가 자주 쓰는 카테고리 + 나머지 카테고리를 반환합니다.
      */
     @GetMapping
     public ResponseEntity<ResponseWrapper<List<CategoryDetailResponseDto>>> selectCategoryList() {
@@ -75,17 +75,6 @@ public class CategoryController {
         List<CategoryDetailResponseDto> categoryCustomList = categoryService.selectCustomCategoryList();
 
         return JsonResponse.ok("회원 커스텀 카테고리 목록을 성공적으로 가져왔습니다.", categoryCustomList);
-    }
-
-    /**
-     * 사용자가 자주 쓰는 카테고리 목록을 조회합니다.
-     */
-    @GetMapping("/often")
-    public ResponseEntity<ResponseWrapper<List<CategoryDetailResponseDto>>> selectOftenCategoryList() {
-
-        List<CategoryDetailResponseDto> categoryOftenList = categoryService.selectOftenCategoryList();
-
-        return JsonResponse.ok("자주 쓰는 카테고리 목록을 성공적으로 가져왔습니다.", categoryOftenList);
     }
 
 }

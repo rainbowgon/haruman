@@ -18,6 +18,4 @@ public interface CategoryService {
 
     List<CategoryDetailResponseDto> selectCustomCategoryList();
 
-    List<CategoryDetailResponseDto> selectOftenCategoryList();
-
 }

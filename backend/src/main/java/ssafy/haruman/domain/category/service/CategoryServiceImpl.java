@@ -11,7 +11,6 @@ import ssafy.haruman.domain.category.dto.request.CategoryUpdateRequestDto;
 import ssafy.haruman.domain.category.dto.response.CategoryDetailResponseDto;
 import ssafy.haruman.domain.category.dto.response.CategorySimpleResponseDto;
 import ssafy.haruman.domain.category.entity.Category;
-import ssafy.haruman.domain.category.entity.CustomStatus;
 import ssafy.haruman.domain.category.repository.CategoryRepository;
 
 @Service
@@ -76,8 +75,9 @@ public class CategoryServiceImpl implements CategoryService {
         Long profileId = null;
 
         // TODO 요청 회원의 custom category + default category 조회
-        List<Category> categoryList = categoryRepository.findAllByProfileAndStatus(
-                profileId, String.valueOf(CustomStatus.DEFAULT));
+        List<Category> categoryList = categoryRepository.findAllByProfileAndStatus(profileId);
+
+        // TODO 요청 회원의 지출 내역에서 가장 많은 상위 N개의 카테고리 조회 (null 제외)
 
         return categoryList.stream()
                 .map(CategoryDetailResponseDto::from)
@@ -95,16 +95,6 @@ public class CategoryServiceImpl implements CategoryService {
         return customCategoryList.stream()
                 .map(CategoryDetailResponseDto::from)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<CategoryDetailResponseDto> selectOftenCategoryList() {
-
-        Long profileId = null;
-
-        // TODO 요청 회원의 지출 내역에서 가장 많은 상위 N개의 카테고리 조회 (null 제외)
-
-        return null;
     }
 
 }
