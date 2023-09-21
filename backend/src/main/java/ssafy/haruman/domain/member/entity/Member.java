@@ -13,15 +13,16 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(uniqueConstraints = {
-        @UniqueConstraint(
-                name = "oauth_id_unique",
-                columnNames = {
-                        "oauth_server_id",
-                        "oauth_server"
-                }
-        ),
-})
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "oauth_id_unique",
+                        columnNames = {
+                                "oauth_server_id",
+                                "oauth_server_type"
+                        }
+                ),
+        })
 public class Member {
 
     @Id
@@ -40,19 +41,19 @@ public class Member {
     private String password;
 
     @Embedded
-    private OAuthId oAuthId;
+    private OAuthId oauthId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
     @Builder
-    public Member(String name, String email, LocalDateTime brithDate, String password, OAuthId oAuthId) {
+    public Member(String name, String email, LocalDateTime brithDate, String password, OAuthId oauthId) {
         this.name = name;
         this.email = email;
         this.brithDate = brithDate;
         this.password = password;
-        this.oAuthId = oAuthId;
+        this.oauthId = oauthId;
     }
 
     public Profile createProfile(String nickname) {

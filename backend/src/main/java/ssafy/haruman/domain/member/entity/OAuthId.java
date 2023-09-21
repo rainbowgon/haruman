@@ -16,10 +16,10 @@ import javax.persistence.Enumerated;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OAuthId {
 
-    @Column(nullable = false)
+    @Column(name = "oauth_server_id")
     private String oauthServerId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "oauth_server_type")
     private OAuthServerType oauthServerType;
 }

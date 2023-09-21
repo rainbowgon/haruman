@@ -31,9 +31,9 @@ public class OAuthServiceImpl implements OAuthService {
 
     public String oauthLogin(OAuthServerType oauthServerType, String authCode) {
         OAuthResponseDto oauthResponseDto = oauthMemberClientComposite.fetch(oauthServerType, authCode);
-        Member savedMember = memberRepository.findByOAuthId(oauthResponseDto.getOAuthId())
+        Member savedMember = memberRepository.findByOauthId(oauthResponseDto.getOAuthId())
                 .orElseGet(() -> {
-                    Member newMember = Member.builder().oAuthId(oauthResponseDto.getOAuthId()).build();
+                    Member newMember = Member.builder().oauthId(oauthResponseDto.getOAuthId()).build();
                     profileService.saveProfileFromOAuth(newMember, oauthResponseDto.getNickname(), oauthResponseDto.getProfileImageUrl());
                     return memberRepository.save(newMember);
                 });
