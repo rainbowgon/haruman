@@ -9,9 +9,9 @@ import InputText from "../components/InputText";
 import RegisterButton from "../components/RegistButton";
 
 const Homepage = () => {
-  const baseURL = 'https://i9a608.p.ssafy.io:8000';
-  const ChallengeAPI = '/challenges';
-  const CategorieAPI = '/categories';
+  // const baseURL = 'https://i9a608.p.ssafy.io:8000';
+  // const ChallengeAPI = '/challenges';
+  // const CategorieAPI = '/categories';
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [challenge, setChallenge] = useState(true);
   const [height, setHeight] = useState(100);
@@ -38,7 +38,7 @@ const Homepage = () => {
 
     function frame() {
       console.log(curHeight);
-      curHeight = lerp(curHeight, targetHeight, 0.01);
+      curHeight = lerp(curHeight, targetHeight, 0.02);
       
       console.log(curHeight);
       setHeight(curHeight);
@@ -351,7 +351,10 @@ const Homepage = () => {
             <div className="main_circle_gradation"/>
           </div>
         </div>
-          <div className="getspace"/>
+          {/* <div className="getspace"/> */}
+          {
+            <div id="wave_height" style={{ height: `${height}vw`}}/>
+          }
           <div>
             <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
               <defs>
@@ -367,11 +370,22 @@ const Homepage = () => {
           <div className="bottom_gradation"/>
         </div>
         <div className="input_purchase">
-          <RegisterButton
-            text="지출 입력"
-            className="white"
-            onClick={handleModal}
-          />
+          {
+            challenge
+            ?
+            <div className="information_block">
+              <div className="information_block_button">
+                <p className="information_block_title">챌린지 시작 가능 시간</p>
+                <p className="information_block_content">05:00 ~ 12:00</p>
+              </div>
+            </div>
+            :
+            <RegisterButton
+              text="지출 입력"
+              className="white"
+              onClick={handleModal}
+            />
+          }
         </div>
         {
           isModalOpen &&

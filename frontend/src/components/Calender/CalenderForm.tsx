@@ -12,13 +12,13 @@ const [finishedProject, setFinishedProject] = useState('')
 const [countMemory, setCountMemory] = useState(0)
 
 const [attendanceDates, setAttendanceDates] = useState([
-"2023-08-28",
+"2023-09-01",
 "2023-09-04",
+"2023-09-07",
+"2023-09-08",
 "2023-09-12",
 "2023-09-15",
-"2023-09-21",
-"2023-09-25",
-"2023-10-01",
+"2023-09-20",
 ])
 
 // useEffect(() => {
@@ -61,12 +61,14 @@ return (
   <div className="mypage_calenders">
   <Calendar
     locale="en"
-    //   onChange:String ={onChange}
     value={value}
+    //   onChange:String ={onChange}
     onClickDay={(value) => alert('Clicked day: ' + value)}
-    tileClassName={({ date, view }) => {
-      if (attendanceDates.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-      return "highlight2"
+    tileClassName={({ date }) => {
+      // attendanceDates 배열에 있는 날짜와 현재 날짜(date)를 비교하여 클래스를 추가합니다.
+      const dateString = moment(date).format("YYYY-MM-DD");
+      if (attendanceDates.includes(dateString)) {
+        return "highlight2"; // 스타일을 지정할 클래스 이름
       }
     }}
   />

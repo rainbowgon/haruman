@@ -19,6 +19,37 @@
     top: 76%;
   }
 
+  .information_block{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .information_block_button{
+      width: 80%;
+      background-color: $white;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      border-radius: 1rem;
+      padding: 0.5rem 0;
+      filter: drop-shadow(0px 2px 2px rgb(0, 0, 0, 0.15));
+
+      p {
+        margin: 0;
+      }
+
+      .information_block_title{
+        font-weight: 600;
+        font-size: 1rem;
+        color: $font1_main;
+      }
+
+      .information_block_content{
+        font-size: 0.7rem;
+        color: $font1_main;
+      }
+    }
+  }
+
   .regist_modal{
     position: absolute;
     width: 100%;
