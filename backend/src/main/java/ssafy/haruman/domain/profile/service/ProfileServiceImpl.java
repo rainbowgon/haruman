@@ -1,15 +1,17 @@
 package ssafy.haruman.domain.profile.service;
 
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.profile.dto.response.SingleProfileResponseDto;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.domain.profile.repository.ProfileRepository;
 import ssafy.haruman.global.error.exception.ProfileNotFoundException;
 import ssafy.haruman.global.service.S3FileService;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +42,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional
     public SingleProfileResponseDto updateProfile(Long profileId, String nickname,
-            MultipartFile profileImage) throws IOException {
+                                                  MultipartFile profileImage) throws IOException {
         Profile profile = this.findOneProfileById(profileId);
         profile.updateProfile(nickname);
         this.uploadNewProfileImage(profile, profileImage);
@@ -60,7 +62,16 @@ public class ProfileServiceImpl implements ProfileService {
         profileRepository.deleteById(profileId);
     }
 
-    public Profile findOneProfileById(Long profileId) {
+    @Override
+    public void saveProfileFromOAuth(Member member, String nickname, String oauthProfileImage) {
+        Profile profile = Profile.builder().member(member).nickname(nickname).build();
+
+        // TODO 프로필 URL에서 다운 받아 S3에 업로드 해야 합니다.
+
+        profileRepository.save(profile);
+    }
+
+    private Profile findOneProfileById(Long profileId) {
         return profileRepository.findById(profileId)
                 .orElseThrow(() -> ProfileNotFoundException.EXCEPTION);
     }
