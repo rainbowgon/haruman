@@ -1,15 +1,21 @@
 package ssafy.haruman.domain.challenge.repository;
 
-import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import ssafy.haruman.domain.challenge.entity.Challenge;
 
 public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
-    @Query("select c from Challenge c join fetch c.profile where c.profile.id=:profileId and  cast(c.startTime as date)=:date")
-    Challenge findByProfileAndDate(Long profileId, Date date);
+    @Query("select count(*) from Challenge c where c.challengeStatus='PROGRESS'")
+    Integer countByStatus();
+
+    @Query(value = "SELECT * FROM challenge c JOIN profile USING (profile_id) WHERE c.profile_id =:id ORDER BY c.start_time DESC LIMIT 1;", nativeQuery = true)
+    Challenge findFirstChallenge(@Param(value = "id") Long profileId);
+
+    @Query("select c from Challenge c where c.challengeStatus='PROGRESS'")
+    List<Challenge> findAllByStatus();
 
     @Query(nativeQuery = true,
             value = "SELECT p.nickname, f.saved_path, c.start_time, c.used_amount, MAX(e.created_at)\n"
@@ -21,11 +27,12 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
                     + "WHERE c.challenge_status = 'PROGRESS'\n"
                     + "GROUP BY e.challenge_id\n"
                     + "ORDER BY e.created_at, c.start_time")
-    List<ChallengeUserInfoMapping> findChallengesByStatus();
+    List<ChallengeUserInfoMapping> findChallengeAndExpenseAndProfileByStatus();
 
     @Query("SELECT SUM(c.leftoverAmount) FROM Challenge c WHERE c.profile = :profileId AND c.challengeStatus = 'SUCCEED'")
     Integer findAllByProfileAndStatus(Long profileId);
 
     @Query("SELECT c FROM Challenge c WHERE c.profile = :profileId AND SUBSTR(c.startTime, 1, 7) = :date ORDER BY c.startTime")
     List<Challenge> findAllByProfileAndDate(Long profileId, String date);
+
 }
