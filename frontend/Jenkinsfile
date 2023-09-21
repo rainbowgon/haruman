@@ -20,7 +20,7 @@ pipeline {
         stage('Pull from GitLab') {
             steps {
                 git url: 'https://lab.ssafy.com/s09-fintech-finance-sub2/S09P22A607.git',
-                    branch: 'feat/58',
+                    branch: 'fe/develop',
                     credentialsId: 'ab6625fd-a8a2-4a73-a301-bd4f0edbb103'
             }
         }
