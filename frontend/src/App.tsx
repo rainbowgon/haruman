@@ -25,6 +25,7 @@ import { useAppSelector } from "./hooks/reduxHook";
 
 // react-router-dom
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import RedirectPage from "./pages/RedirectPage";
 
 const AppContainer = styled.div`
   height: 100vh;
@@ -88,6 +89,10 @@ const App: React.FC = () => {
               path="/ranking"
               element={<RankingPage />}
             />
+            <Route
+              path="/oauth/kakao/redirect"
+              element={<RedirectPage />}
+            ></Route>
             {/* to exception */}
             <Route
               path="/*"
