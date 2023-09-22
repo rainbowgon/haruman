@@ -3,6 +3,7 @@ import MainStyle from "../components/MainStyle";
 import InputText from "../components/InputText";
 import CenterContainer from "../components/CenterContainer";
 import RegisterButton from "../components/RegistButton";
+// import KakaoLoginButton from "../components/KakaoLoginButton";
 import { Link } from "react-router-dom";
 import LogoImage from "../assets/logo-mainlogo.svg";
 
@@ -23,6 +24,7 @@ import styled from "styled-components";
 
 //scss
 import "../styles/user/LoginPageStyle.scss";
+import KakaoLoginButton from "../components/KakaoLoginButton";
 
 const StyledDiv = styled.div`
   margin-left: 10vw;
@@ -180,11 +182,7 @@ const LoginPage = () => {
                   className="mini_type"
                   onClick={redirectKakao}
                 />
-                <RegisterButton
-                  text="Google"
-                  className="mini_type"
-                  onClick={redirectGoogle}
-                />
+                <KakaoLoginButton />
               </div>
             </div>
           </div>
