@@ -2,6 +2,7 @@ package ssafy.haruman.domain.challenge.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,11 @@ import ssafy.haruman.domain.challenge.repository.ChallengeRepository;
 import ssafy.haruman.domain.challenge.repository.ChallengeUserInfoMapping;
 import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
 import ssafy.haruman.domain.profile.entity.Profile;
+import ssafy.haruman.global.error.exception.CategoryNotFoundException;
+import ssafy.haruman.global.error.exception.ChallengeAlreadyExistsException;
+import ssafy.haruman.global.error.exception.ChallengeNotAvailableException;
+import ssafy.haruman.global.error.exception.ChallengeNotFoundException;
+import ssafy.haruman.global.error.exception.ExpenseNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +47,15 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Override
     @Transactional
     public ChallengeResponseDto startChallenge(Profile profile) {
+
+        if (challengeRepository.findFirstChallenge(profile.getId()) != null) {
+            throw ChallengeAlreadyExistsException.EXCEPTION;
+        }
+
+        if (LocalTime.now().isBefore(LocalTime.of(5, 0))
+                || LocalTime.now().isAfter(LocalTime.of(12, 0))) {
+            throw ChallengeNotAvailableException.EXCEPTION;
+        }
 
         Challenge challenge = Challenge.builder()
                 .profile(profile)
@@ -71,7 +86,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         Expense expense = Expense.createExpense(challenge, category, createRequestDto, payTime);
         expenseRepository.save(expense);
 
-        // 목표금액과 사용금액이 기준. 남은 금액은 매번 변경
+        // 목표금액과 사용금액이 기준이 됨 -> 남은 금액은 매번 변경
         updateChallengeAmount(challenge, challenge.getUsedAmount(), expense.getPayAmount());
 
         return ExpenseResponseDto.from(expense);
@@ -110,6 +125,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Transactional
     public DailyChallengeResponseDto selectDailyChallenge(Profile profile) {
         Challenge challenge = challengeRepository.findFirstChallenge(profile.getId());
+        // 챌린지가 없다면 return null
         Integer participantCount = challengeRepository.countByStatus();
 
         if (challenge == null || challenge.getIsViewed().equals(ViewStatus.VIEWED)) {
@@ -118,7 +134,6 @@ public class ChallengeServiceImpl implements ChallengeService {
             if (!challenge.getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
                 challenge.updateViewStatus(ViewStatus.VIEWED);
             }
-            // TODO 페이지네이션
             List<ExpenseResponseDto> list = expenseRepository.findAllByChallenge_Id(
                             challenge.getId())
                     .stream()
@@ -131,6 +146,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Transactional
     public void endChallenge() {
         List<Challenge> list = challengeRepository.findAllByStatus();
+        // 챌린지가 없을 때 빈리스트가 반환되어 아무 결과 처리 없음
         for (Challenge challenge : list) {
             challenge.updateChallengeStatus(
                     challenge.getTargetAmount() - challenge.getUsedAmount() < 0
@@ -139,15 +155,21 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     private Challenge getChallenge(Long challengeId) {
-        return challengeRepository.findById(challengeId).orElseThrow();
+
+        return challengeRepository.findById(challengeId)
+                .orElseThrow(() -> ChallengeNotFoundException.EXCEPTION);
     }
 
     private Expense getExpense(Long expenseId) {
-        return expenseRepository.findById(expenseId).orElseThrow();
+
+        return expenseRepository.findById(expenseId)
+                .orElseThrow(() -> ExpenseNotFoundException.EXCEPTION);
     }
 
     private Category getCategory(Long categoryId) {
-        return categoryRepository.findById(categoryId).orElseThrow();
+
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(() -> CategoryNotFoundException.EXCEPTION);
     }
 
     private void updateChallengeAmount(Challenge challenge, Integer beforeUsedAmount,
@@ -157,7 +179,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         challenge.updateChallengeAmount(usedAmount, leftOverAmount);
     }
 
-    
+
     @Override
     public List<ChallengeUserListResponseDto> selectDailyUserList() {
 
