@@ -13,7 +13,7 @@ public interface CategoryService {
 
     CategorySimpleResponseDto updateCategory(Member member, CategoryUpdateRequestDto updateDto);
 
-    void deleteCategory(Member member, Long categoryId);
+    Integer deleteCategory(Member member, Long categoryId);
 
     List<CategoryDetailResponseDto> selectCategoryList(Member member);
 
