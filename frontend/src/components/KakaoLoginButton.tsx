@@ -51,7 +51,6 @@ function KakaoLoginButton() {
     if (code) {
       try {
         const data = await loginKakao(code);
-        window.location.href = "/home";
 
         // 여기서 필요한 후속 작업 수행 (예: 토큰 저장, 사용자 정보 표시 등)
       } catch (error) {
