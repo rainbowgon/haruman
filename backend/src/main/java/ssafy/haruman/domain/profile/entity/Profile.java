@@ -26,8 +26,7 @@ public class Profile extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(20)")
     private String nickname;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "profile")
     private Member member;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -54,5 +53,4 @@ public class Profile extends BaseEntity {
                 .profile(this)
                 .build();
     }
-
 }

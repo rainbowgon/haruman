@@ -37,3 +37,19 @@ spring:
         show_sql: true
       logging.level:
         org.hibernate.SQL: debug
+
+  cloud:
+    aws:
+      s3:
+        directory: local
+
+  notification:
+    mattermost:
+      enabled: false
+      webhook-url:
+      channel:
+      pretext:
+      color:
+      author-name:
+      author-icon:
+      footer:
