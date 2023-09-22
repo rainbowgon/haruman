@@ -3,8 +3,10 @@ package ssafy.haruman.domain.profile.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.profile.dto.response.SingleProfileResponseDto;
 import ssafy.haruman.domain.profile.service.ProfileService;
 import ssafy.haruman.global.response.JsonResponse;
@@ -21,9 +23,10 @@ public class ProfileController {
 
     @PostMapping
     public ResponseEntity<ResponseWrapper<SingleProfileResponseDto>> createProfile(
+            @AuthenticationPrincipal Member member,
             @RequestParam String nickname,
             @RequestParam MultipartFile profileImage) throws IOException {
-        SingleProfileResponseDto singleProfileResponseDto = profileService.createProfile(nickname, profileImage);
+        SingleProfileResponseDto singleProfileResponseDto = profileService.createProfile(member, nickname, profileImage);
         return JsonResponse.of(HttpStatus.CREATED, "프로필이 성공적으로 생성되었습니다.", singleProfileResponseDto);
     }
 
