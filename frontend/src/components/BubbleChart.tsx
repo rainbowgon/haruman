@@ -5,6 +5,8 @@ import axios from "axios";
 
 // style
 import "../styles/bubblechart.css";
+import "../styles/_util.scss";
+import "../styles/theme.css";
 
 type BalanceData = {
   balance: number;
@@ -21,17 +23,48 @@ interface DataPoint {
   label: string;
   x?: number;
   y?: number;
+  color?: string;
 }
 
 const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   onBubbleClick,
 }) => {
   const [ranges, setRanges] = useState<DataPoint[]>([
-    { min: 0, max: 2000, users: 0, label: "0~2000원" },
-    { min: 2001, max: 4000, users: 0, label: "2001~4000원" },
-    { min: 4001, max: 6000, users: 0, label: "4001~6000원" },
-    { min: 6001, max: 8000, users: 0, label: "6001~8000원" },
-    { min: 8001, max: 10000, users: 0, label: "8001~10000원" },
+    {
+      min: 0,
+      max: 2000,
+      users: 0,
+      label: "0~2000원",
+      color: "var(--brand1_main)",
+    },
+    {
+      min: 2001,
+      max: 4000,
+      users: 0,
+      label: "2001~4000원",
+      color: "var(--brand2_main)",
+    },
+    {
+      min: 4001,
+      max: 6000,
+      users: 0,
+      label: "4001~6000원",
+      color: "var(--brand2_sub)",
+    },
+    {
+      min: 6001,
+      max: 8000,
+      users: 0,
+      label: "6001~8000원",
+      color: "var(--point2_main)",
+    },
+    {
+      min: 8001,
+      max: 10000,
+      users: 0,
+      label: "8001~10000원",
+      color: "var(--brand1_sub)",
+    },
   ]);
 
   const [data, setData] = useState<DataPoint[]>(ranges);
@@ -142,7 +175,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
   const createForceBubbleChart = (data: typeof ranges) => {
     console.log("버블차트 생성시 받아오는 데이터", data);
-    const margin = { top: 70, right: 30, bottom: 20, left: -30 };
+    const margin = { top: 70, right: 100, bottom: 20, left: -30 };
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
@@ -177,7 +210,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       u.enter()
         .append<SVGCircleElement>("circle")
         .attr("r", (d) => d.users * 3)
-        .attr("fill", "#8884d8")
+        .attr("fill", (d) => d.color || "#8884d8")
         .attr("stroke", "#fff")
         .attr("stroke-width", 2)
         .on("mouseover", (event, d) => {
