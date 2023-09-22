@@ -65,10 +65,9 @@ return (
     //   onChange:String ={onChange}
     onClickDay={(value) => alert('Clicked day: ' + value)}
     tileClassName={({ date }) => {
-      // attendanceDates 배열에 있는 날짜와 현재 날짜(date)를 비교하여 클래스를 추가합니다.
       const dateString = moment(date).format("YYYY-MM-DD");
       if (attendanceDates.includes(dateString)) {
-        return "highlight2"; // 스타일을 지정할 클래스 이름
+        return "highlight2";
       }
     }}
   />

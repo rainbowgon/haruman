@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+
+// style
 import MainStyle from "../components/MainStyle";
 import "../styles/theme.css";
 import "../styles/wave.scss";
-import { Link } from "react-router-dom";
 
 // components
 import InputText from "../components/InputText";
@@ -12,13 +15,39 @@ const Homepage = () => {
   // const baseURL = 'https://i9a608.p.ssafy.io:8000';
   // const ChallengeAPI = '/challenges';
   // const CategorieAPI = '/categories';
+  const canStart:number[] = [5, 12];
+
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [challenge, setChallenge] = useState(true);
   const [height, setHeight] = useState(100);
   const [categories, setCategories] = useState();
   const [challengeInfo, setChallengeInfo] = useState();
 
+
+  // 매 초마다 시간 재설정
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   const handleStartChallenge = () => {
+    // 테스트 끝나면 open
+
+    // if(currentDate.getHours() < canStart[0]) {
+    //   showAlert(`${canStart[0]}시에 시작할 수 있습니다.`);
+    //   return;
+    // }
+
+    // if(currentDate.getHours() >= canStart[1]){
+    //   showAlert(`시작 가능한 시간이 지났습니다. 내일 도전해 보세요!`);
+    //   return;
+    // }
+
+
     const nowChallenge = !challenge;
   
     //챌린지 시작 
@@ -286,12 +315,20 @@ const Homepage = () => {
     setIsModalOpen(!isModalOpen);
   }
   
+
+  const showAlert = (text:string) => {
+    Swal.fire({
+      text,
+    });
+  };
+
+
   return (
     <MainStyle>
       <div className="homepage">
         <div className="homepage_header">
           {/* <p className="homepage_text">{}월 {}일</p> */}
-          <p className="homepage_text">12월 31일</p>
+          <p className="homepage_text">{currentDate.getMonth()+1}월 {currentDate.getDate()}일</p>
           {
             challenge
             ?<>
@@ -303,7 +340,26 @@ const Homepage = () => {
             </>
             :<>
               <div className="homepage_header_title">
-                <h2 className="homepage_header_title_text">13{} : 24{}
+                <h2 className="homepage_header_title_text">
+                  {
+                    currentDate.getHours() < 10 &&
+                    "0"
+                  }
+                  {
+                    currentDate.getHours()
+                  } : {
+                    currentDate.getMinutes() < 10 &&
+                    "0"
+                  }
+                  {
+                  currentDate.getMinutes()
+                  } : {
+                    currentDate.getSeconds() < 10 &&
+                    "0"
+                  }
+                  {
+                  currentDate.getSeconds()
+                  }
                 </h2>
               </div>
               <p className="homepage_text">{}명의 유저와 함께하고 있어요!</p>
@@ -341,9 +397,9 @@ const Homepage = () => {
                   <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
                 </defs>
                 <g className="parallax">
-                  <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(93,215,190,0.7)" />
-                  <use xlinkHref="#gentle-wave" x="48" y="5" fill="var(--brand2_op_40)" />
-                  <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(93,215,190,0.3)" />
+                  <use xlinkHref="#gentle-wave" x="48" y="0" fill="var(--brand2_op_60)" />
+                  <use xlinkHref="#gentle-wave" x="48" y="3" fill="var(--brand2_op_40)" />
+                  <use xlinkHref="#gentle-wave" x="48" y="5" fill="var(--brand2_op_20)" />
                   <use xlinkHref="#gentle-wave" x="48" y="5" fill="var(--gradation-start)" />
                 </g>
               </svg>
@@ -351,22 +407,22 @@ const Homepage = () => {
             <div className="main_circle_gradation"/>
           </div>
         </div>
+        <div>
           {/* <div className="getspace"/> */}
           {
             <div id="wave_height" style={{ height: `${height}vw`}}/>
           }
-          <div>
-            <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-              <defs>
-                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-              </defs>
-              <g className="parallax">
-                <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(93,215,190,0.7" />
-                <use xlinkHref="#gentle-wave" x="48" y="3" fill="var(--brand2_op_40)" />
-                <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(93,215,190,0.3)" />
-                <use xlinkHref="#gentle-wave" x="48" y="8" fill="var(--gradation-start)" />
-              </g>
-            </svg>
+          <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+              <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g className="parallax">
+              <use xlinkHref="#gentle-wave" x="48" y="0" fill="var(--brand2_op_60)" />
+              <use xlinkHref="#gentle-wave" x="48" y="3" fill="var(--brand2_op_40)" />
+              <use xlinkHref="#gentle-wave" x="48" y="5" fill="var(--brand2_op_20)" />
+              <use xlinkHref="#gentle-wave" x="48" y="8" fill="var(--gradation-start)" />
+            </g>
+          </svg>
           <div className="bottom_gradation"/>
         </div>
         <div className="input_purchase">
