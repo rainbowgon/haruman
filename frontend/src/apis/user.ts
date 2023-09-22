@@ -63,10 +63,8 @@ export const getAccessToken = async () => {
 // 카카오 로그인 리다이렉트
 export const redirectKakao = () => {
   const REDIRECT_URI = `${API_URL}/api/oauth/kakao`;
-  // const REDIRECT_URI = `http://localhost:3000/api/oauth/kakao`;
   //카카오에서 인가 코드 받는 곳
   const KAKAO_AUTH_URL = `https://haruman.site/oauth/kakao/redirect`;
-  // const KAKAO_AUTH_URL = `http://localhost:3000//oauth/kakao/redirect`;
   window.location.href = REDIRECT_URI;
 };
 
