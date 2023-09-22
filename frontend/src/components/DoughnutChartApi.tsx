@@ -41,7 +41,7 @@ const DonutChart: React.FC = () => {
   const selectDailyChallenge = () => {
     const accessToken = sessionStorage.getItem("accessToken");
     // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-    const date = new Date("");
+    const date = new Date();
     axios
       .get(`${API_URL}/api/challenges`, {
         headers: {
