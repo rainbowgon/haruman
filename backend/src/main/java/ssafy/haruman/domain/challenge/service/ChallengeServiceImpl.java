@@ -129,7 +129,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         Integer participantCount = challengeRepository.countByStatus();
 
         if (challenge == null || challenge.getIsViewed().equals(ViewStatus.VIEWED)) {
-            return null;
+            return DailyChallengeResponseDto.fromEmpty(participantCount);
         } else {
             if (!challenge.getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
                 challenge.updateViewStatus(ViewStatus.VIEWED);
