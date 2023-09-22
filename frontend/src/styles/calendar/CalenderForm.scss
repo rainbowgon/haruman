@@ -1,4 +1,5 @@
 @import "../theme.css";
+@import "../_util.scss";
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
 
 
@@ -26,7 +27,7 @@
   font-family: "IBM Plex Sans KR",sans-serif;
   line-height: 1.125em;
   border-radius: 2rem;
-  background-color: var(--background_main);
+  background-color: $background_main;
   filter: drop-shadow(0px 2px 2px rgb(0, 0, 0, 0.15));
 
 }
@@ -74,20 +75,19 @@
 .react-calendar__navigation button {
   min-width: 44px;
   background: none;
-  transition: background-color 0.5s;
+  transition: $background_main 0.5s;
   border-radius: 3rem;
   font-weight: bold;
 }
 
 .react-calendar__navigation button:disabled {
-  background: var(--backGround_2);
+  background: $background_2;
   border-radius: 3rem;
   transition: background-color 0.5s;
 }
 
-.react-calendar__navigation button:enabled:hover,
 .react-calendar__navigation button:enabled:focus {
-  background: var(--point1_2);
+  background: $BLUE_03;
   border-radius: 3rem;
 }
 
@@ -111,25 +111,25 @@
 }
 
 .react-calendar__month-view__days__day--weekend {
-  color: var(--brand1_main);
+  color: $brand1_main;
   font-weight: 700;
 }
 
 .react-calendar__month-view__days__day--neighboringMonth {
-  color: var(--font2_op_60);
+  color: $font2_op_40;
   border-radius: 2.5rem;
 }
 
 .react-calendar__year-view .react-calendar__tile,
 .react-calendar__decade-view .react-calendar__tile,
 .react-calendar__century-view .react-calendar__tile {
-  padding: 1rem 0.5rem;
+  padding: 1rem 1rem;
   border-radius: 3rem;
 }
 
 .react-calendar__tile {
   max-width: 100%;
-  padding: 10px 6.6667px;
+  padding: 0.5rem 0.5rem;
   background: none;
   text-align: center;
   line-height: 24px;
@@ -142,65 +142,65 @@
   transition: background-color 0.5s;
 }
 
-.react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
-  background: var(--point3_op_60);
+  background: $background_2;
   border-radius: 3rem;
   transition: background-color 0.5s;
 }
 
 .react-calendar__tile--now {
-  background: var(--brand3_main);
+  background: $brand2_op_60;
   border-radius: 3rem;
-  color: var(--white);
+  color: $white;
   transition: background-color 0.5s;
 }
 
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
-  background: var(--point1_main);
+  background: $point1_main;
   border-radius: 3rem;
 }
 
 .react-calendar__tile--hasActive {
-  background: var(--brand2_main);
+  background: $brand2_op_60;
   border-radius: 3rem;
-  color: white;
+  color: $white;
 }
 
 .react-calendar__tile--hasActive:enabled:hover,
 .react-calendar__tile--hasActive:enabled:focus {
-  background: var(--point1_main);
+  background: $point2_main;
   border-radius: 3rem;
-  color: white;
+  color: $white;
 }
 
 .react-calendar__tile--active {
-  background: var(--brand1_main);
+  background: $brand1_op_60;
   border-radius: 3rem;
-  color: white;
+  color: $white;
   transition: background-color 0.5s;
 }
 
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
-  background: var(--point2_main);
+  background: $point2_main;
   border-radius: 3rem;
-  color: white;
+  color: $white;
 }
 
 .react-calendar--selectRange .react-calendar__tile--hover {
-  background: var(--point2_main);
+  background: $point2_main;
   border-radius: 3rem;
   transition: background-color 0.5s;
 }
 
 .highlight1 {
-  background: var(--point3_main);
+  background: $point3_main;
 }
 .highlight2 {
   background-size: 39px 39px;
   background-repeat: no-repeat;
   background-position: center;
-  //border-image: url("../assets/images/stamp/stamp_best.svg");
+  background-color: $brand2_op_60;
+  padding: 10px; 
 }

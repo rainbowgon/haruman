@@ -73,4 +73,41 @@
     /* gradation */
     --gradation-start : #5DD1BDFF;
     --gradation-end : #62A0B7FF;
+
+
+    /* category */
+    --BLACK_01: #CFCFCFFF;
+    --BLACK_02: #A5A5A5FF;
+    --BLACK_03: #757575FF;
+    --BLUE_01: #8FC7F1FF;
+    --BLUE_02: #4EA4E6FF;
+    --BLUE_03: #3274F6FF;
+    --BROWN_01: #B8A38EFF;
+    --BROWN_02: #97795BFF;
+    --BROWN_03: #6D4729FF;
+    --GREEN_01: #C9D56AFF;
+    --GREEN_02: #99C355FF;
+    --GREEN_03: #5D9E67FF;
+    --ORANGE_01: #F9AF63FF;
+    --ORANGE_02: #F09639FF;
+    --ORANGE_03: #E9841BFF;
+    --PINK_01: #F9C8D7FF;
+    --PINK_02: #EF98B4FF;
+    --PINK_03: #E96A93FF;
+    --PURPLE_01: #D7B5F9FF;
+    --PURPLE_02: #BA88ECFF;
+    --PURPLE_03: #AD68ECFF;
+    --RED_01: #F49A9FFF;
+    --RED_02: #E25A62FF;
+    --RED_03: #DA353FFF;
+    --YELLOW_01: #FAE088FF;
+    --YELLOW_02: #F3CF55FF;
+    --YELLOW_03: #E8BC27FF;
+    
+    /* graph */
+    --GRAPH_01: #C9E9FBFF;
+    --GRAPH_02: #61BACFFF;
+    --GRAPH_03: #55BDC8FF;
+    --GRAPH_04: #4E93AFFF;
+    --GRAPH_05: #4AC1B5FF;
 }
