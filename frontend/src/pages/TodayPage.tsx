@@ -1,7 +1,13 @@
 import React, { useState } from "react";
+// 더미용
 import DonutChart from "../components/DoughnutChart";
 import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
+// api용
+// import DonutChart from "../components/DoughnutChartApi";
+
+// styles
+import "../styles/calendar/CalendarpageStyle.scss";
 
 // component
 import SpentItem from "../components/SpentItem";
@@ -66,7 +72,7 @@ const TodayPage = () => {
       <MainStyle>
         <h1>하루 소비 지출 현황</h1>
         {/* api용 */}
-        {/* <DonutChart/> */}
+        {/* <DonutChart /> */}
 
         {/* 더미용 */}
         <DonutChart datas={costItems} />
@@ -79,6 +85,7 @@ const TodayPage = () => {
             />
           ))}
         </div>
+        <div className="bottom_bar_spacer"></div>
       </MainStyle>
     </CenterContainer>
   );

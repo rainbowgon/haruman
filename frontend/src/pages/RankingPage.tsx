@@ -27,19 +27,19 @@ const RankingPage = () => {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "명정루",
       leftoverAmount: 4320,
-      latestTime: "2023-09-13T10:26:33"
+      latestTime: "2023-09-13T10:26:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "푸더가든",
       leftoverAmount: 5700,
-      latestTime: "2023-09-13T10:10:10"
+      latestTime: "2023-09-13T10:10:10",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "남고니",
       leftoverAmount: 5700,
-      latestTime: "2023-09-13T09:55:33"
+      latestTime: "2023-09-13T09:55:33",
     },
   ]);
 
@@ -108,16 +108,14 @@ const RankingPage = () => {
         <BubbleChart onBubbleClick={handleBubbleClick} />
 
         <div className="challengeitems_list">
-          {
-            Users.map((user, index) => (
-              <InfoItem
-                image = {user.profileImage}
-                mainValue = {user.nickname}
-                moneyValue = {user.leftoverAmount}
-              />
-              // <div>{item.category}</div>
-            ))
-          }
+          {Users.map((user, index) => (
+            <InfoItem
+              image={user.profileImage}
+              mainValue={user.nickname}
+              moneyValue={user.leftoverAmount}
+            />
+            // <div>{item.category}</div>
+          ))}
         </div>
       </MainStyle>
     </CenterContainer>
