@@ -7,6 +7,14 @@ import axios from "axios";
 import "../styles/bubblechart.css";
 import "../styles/_util.scss";
 import "../styles/theme.css";
+import { API_URL } from "../constants/urls";
+
+type UserData = {
+  profileImage: string;
+  nickname: string;
+  leftoverAmount: number;
+  latestTime: string;
+};
 
 type BalanceData = {
   balance: number;
@@ -145,29 +153,41 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
     ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
-    // axios
-    //   .get("/api/users/balances")
+    // const accessToken = sessionStorage.getItem("accessToken");
+    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
+    // axios.get(`${API_URL}/api/challenges/people`, {
+    //   headers: {
+    //     Authorization: accessToken,
+    //   },
+    // });
     //   .then((response) => {
-    //     const balances: BalanceData[] = response.data;
-    //     // 각 범위별로 사용자 수를 계산
-    //     const updatedData = [...ranges];
-    //     for (let balanceData of balances) {
-    //       for (let range of updatedData) {
-    //         if (
-    //           balanceData.balance >= range.min &&
-    //           balanceData.balance <= range.max
-    //         ) {
-    //           range.users++;
-    //           break;
+    //       const usersData: UserData[][] = response.data.data;
+
+    //       // 모든 사용자 데이터를 하나의 배열로 펼치기
+    //       const flattenedUsers = usersData.flat();
+
+    //       // 각 범위별로 사용자 수를 계산
+    //       const updatedData = [...ranges];
+    //       for (let user of flattenedUsers) {
+    //         for (let range of updatedData) {
+    //           if (
+    //             user.leftoverAmount >= range.min &&
+    //             user.leftoverAmount <= range.max
+    //           ) {
+    //             range.users++;
+    //             break;
+    //           }
     //         }
     //       }
-    //     }
-    //     setData(updatedData);
-    //     createForceBubbleChart(updatedData);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching balance data:", error);
-    //   });
+
+    //       setData(updatedData);
+    //       setRanges(updatedData);
+    //       createForceBubbleChart(updatedData);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error fetching user data:", error);
+    //     });
+    // }, []);
     ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
