@@ -1,9 +1,3 @@
-## Part
-
-- [ ] BE
-- [ ] FE
-- [ ] Infra
-
 ## 개발사항
 
 - example1
