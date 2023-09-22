@@ -1,24 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+
+// style
 import MainStyle from "../components/MainStyle";
 import "../styles/theme.css";
 import "../styles/wave.scss";
-import { Link } from "react-router-dom";
 
 // components
 import InputText from "../components/InputText";
 import RegisterButton from "../components/RegistButton";
 
 const Homepage = () => {
-  const baseURL = "https://i9a608.p.ssafy.io:8000";
-  const ChallengeAPI = "/challenges";
-  const CategorieAPI = "/categories";
+  // const baseURL = 'https://i9a608.p.ssafy.io:8000';
+  // const ChallengeAPI = '/challenges';
+  // const CategorieAPI = '/categories';
+  const canStart: number[] = [5, 12];
+
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [challenge, setChallenge] = useState(true);
   const [height, setHeight] = useState(100);
   const [categories, setCategories] = useState();
   const [challengeInfo, setChallengeInfo] = useState();
 
+  // 매 초마다 시간 재설정
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   const handleStartChallenge = () => {
+    // 테스트 끝나면 open
+
+    // if(currentDate.getHours() < canStart[0]) {
+    //   showAlert(`${canStart[0]}시에 시작할 수 있습니다.`);
+    //   return;
+    // }
+    // if(currentDate.getHours() >= canStart[1]){
+    //   showAlert(`시작 가능한 시간이 지났습니다. 내일 도전해 보세요!`);
+    //   return;
+    // }
+
     const nowChallenge = !challenge;
 
     //챌린지 시작
@@ -38,7 +64,7 @@ const Homepage = () => {
 
     function frame() {
       console.log(curHeight);
-      curHeight = lerp(curHeight, targetHeight, 0.01);
+      curHeight = lerp(curHeight, targetHeight, 0.02);
 
       console.log(curHeight);
       setHeight(curHeight);
@@ -269,12 +295,20 @@ const Homepage = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const showAlert = (text: string) => {
+    Swal.fire({
+      text,
+    });
+  };
+
   return (
     <MainStyle>
       <div className="homepage">
         <div className="homepage_header">
           {/* <p className="homepage_text">{}월 {}일</p> */}
-          <p className="homepage_text">12월 31일</p>
+          <p className="homepage_text">
+            {currentDate.getMonth() + 1}월 {currentDate.getDate()}일
+          </p>
           {challenge ? (
             <>
               <div className="homepage_header_title">
@@ -288,7 +322,12 @@ const Homepage = () => {
             <>
               <div className="homepage_header_title">
                 <h2 className="homepage_header_title_text">
-                  13{} : 24{}
+                  {currentDate.getHours() < 10 && "0"}
+                  {currentDate.getHours()} :{" "}
+                  {currentDate.getMinutes() < 10 && "0"}
+                  {currentDate.getMinutes()} :{" "}
+                  {currentDate.getSeconds() < 10 && "0"}
+                  {currentDate.getSeconds()}
                 </h2>
               </div>
               <p className="homepage_text">{}명의 유저와 함께하고 있어요!</p>
@@ -347,19 +386,19 @@ const Homepage = () => {
                     xlinkHref="#gentle-wave"
                     x="48"
                     y="0"
-                    fill="rgba(93,215,190,0.7)"
-                  />
-                  <use
-                    xlinkHref="#gentle-wave"
-                    x="48"
-                    y="5"
-                    fill="var(--brand2_op_40)"
+                    fill="var(--brand2_op_60)"
                   />
                   <use
                     xlinkHref="#gentle-wave"
                     x="48"
                     y="3"
-                    fill="rgba(93,215,190,0.3)"
+                    fill="var(--brand2_op_40)"
+                  />
+                  <use
+                    xlinkHref="#gentle-wave"
+                    x="48"
+                    y="5"
+                    fill="var(--brand2_op_20)"
                   />
                   <use
                     xlinkHref="#gentle-wave"
@@ -373,8 +412,14 @@ const Homepage = () => {
             <div className="main_circle_gradation" />
           </div>
         </div>
-        <div className="getspace" />
         <div>
+          {/* <div className="getspace"/> */}
+          {
+            <div
+              id="wave_height"
+              style={{ height: `${height}vw` }}
+            />
+          }
           <svg
             className="waves"
             xmlns="http://www.w3.org/2000/svg"
@@ -394,7 +439,7 @@ const Homepage = () => {
                 xlinkHref="#gentle-wave"
                 x="48"
                 y="0"
-                fill="rgba(93,215,190,0.7"
+                fill="var(--brand2_op_60)"
               />
               <use
                 xlinkHref="#gentle-wave"
@@ -406,7 +451,7 @@ const Homepage = () => {
                 xlinkHref="#gentle-wave"
                 x="48"
                 y="5"
-                fill="rgba(93,215,190,0.3)"
+                fill="var(--brand2_op_20)"
               />
               <use
                 xlinkHref="#gentle-wave"
@@ -419,11 +464,20 @@ const Homepage = () => {
           <div className="bottom_gradation" />
         </div>
         <div className="input_purchase">
-          <RegisterButton
-            text="지출 입력"
-            className="white"
-            onClick={handleModal}
-          />
+          {challenge ? (
+            <div className="information_block">
+              <div className="information_block_button">
+                <p className="information_block_title">챌린지 시작 가능 시간</p>
+                <p className="information_block_content">05:00 ~ 12:00</p>
+              </div>
+            </div>
+          ) : (
+            <RegisterButton
+              text="지출 입력"
+              className="white"
+              onClick={handleModal}
+            />
+          )}
         </div>
         {isModalOpen && (
           <div className="regist_modal">
