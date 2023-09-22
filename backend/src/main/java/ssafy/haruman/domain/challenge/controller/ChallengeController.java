@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,6 +26,7 @@ import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
 import ssafy.haruman.domain.challenge.service.ChallengeService;
+import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.response.JsonResponse;
 import ssafy.haruman.global.response.ResponseWrapper;
@@ -37,8 +39,9 @@ public class ChallengeController {
     private final ChallengeService challengeService;
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> startChallenge() {
-        Profile profile = null;
+    public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> startChallenge(
+            @AuthenticationPrincipal Member member) {
+        Profile profile = member.getProfile();
 
         ChallengeResponseDto responseDto = challengeService.startChallenge(profile);
         return JsonResponse.ok("챌린지가 생성되었습니다.", responseDto);
@@ -71,14 +74,15 @@ public class ChallengeController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> selectDailyChallenge() {
-        Profile profile = null;
+    public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> selectDailyChallenge(
+            @AuthenticationPrincipal Member member) {
+        Profile profile = member.getProfile();
 
         DailyChallengeResponseDto responseDto = challengeService.selectDailyChallenge(profile);
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
     }
 
-    @Scheduled(cron = "0 0/1 * * * *")
+    @Scheduled(cron = "0 0 2 * * *")
     public ResponseEntity<ResponseWrapper<Nullable>> endChallenge() {
 
         challengeService.endChallenge();
