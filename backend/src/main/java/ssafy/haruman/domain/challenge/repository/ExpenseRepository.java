@@ -17,4 +17,5 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                     + "WHERE challenge_id IN (SELECT challenge_id FROM challenge WHERE profile_id = :profileId)\n"
                     + "AND category_id = :categoryId")
     Integer updateCategory(Long profileId, Long categoryId);
+
 }

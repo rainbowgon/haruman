@@ -12,6 +12,7 @@ import ssafy.haruman.domain.category.dto.response.CategoryDetailResponseDto;
 import ssafy.haruman.domain.category.dto.response.CategorySimpleResponseDto;
 import ssafy.haruman.domain.category.entity.Category;
 import ssafy.haruman.domain.category.entity.CustomStatus;
+import ssafy.haruman.domain.category.repository.CategoryCountInfoMapping;
 import ssafy.haruman.domain.category.repository.CategoryRepository;
 import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
 import ssafy.haruman.domain.member.entity.Member;
@@ -85,13 +86,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDetailResponseDto> selectCategoryList(Member member) {
 
-        List<Category> categoryList =
-                categoryRepository.findAllByProfileAndStatus(member.getProfile());
+//        List<Category> categoryList =
+//                categoryRepository.findAllByProfileAndStatus(member.getProfile());
 
         // TODO 요청 회원의 지출 내역에서 가장 많은 상위 N개의 카테고리 조회 (null 제외)
+        List<CategoryCountInfoMapping> categoryList =
+                categoryRepository.findAllByProfileOrderByCount(member.getProfile().getId());
 
         return categoryList.stream()
-                .map(CategoryDetailResponseDto::from)
+                .map(CategoryDetailResponseDto::fromCountInfo)
                 .collect(Collectors.toList());
     }
 
