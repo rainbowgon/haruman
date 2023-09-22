@@ -26,6 +26,7 @@
 
   .information_block{
     width: 100%;
+    max-width: 450px;
     display: flex;
     justify-content: center;
     .information_block_button{
@@ -52,28 +53,6 @@
         font-size: 0.7rem;
         color: $font1_main;
       }
-    }
-  }
-
-  .regist_modal{
-    position: absolute;
-    width: 100%;
-    height: 97%;
-    top: 3%;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-radius: 1rem;
-
-    z-index: 1;
-
-    background-color: $background_main;
-    
-    .regist_title{
-      color: $font1_main;
-      font-size: 1.5rem;
-      font-weight: bold;
     }
   }
 }
