@@ -6,6 +6,7 @@ export interface CategoryProps {
     color? : string;
     category? : string;
     type?: string;
+    onClick?: (event: any) => void;
     checked?: boolean;
     className?: string;
   }

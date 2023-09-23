@@ -76,7 +76,7 @@ const Homepage = () => {
     startChallenge();
 
     let curHeight:number = height;
-    let targetHeight: number = nowChallenge ? height + 5 : height - 100;
+    let targetHeight: number = nowChallenge ? height + 5 : height - 100;  // min : 0(vw), max : 60(vw)
   
     function frame() {
       curHeight = lerp(curHeight, targetHeight, 0.02);
@@ -331,23 +331,23 @@ const Homepage = () => {
               <div className="homepage_header_title">
                 <h2 className="homepage_header_title_text">
                   {
-                    currentDate.getHours() < 10 &&
+                    currentDate.getHours() > 14 &&
                     "0"
                   }
                   {
-                    currentDate.getHours()
+                    23 - currentDate.getHours()
                   } : {
-                    currentDate.getMinutes() < 10 &&
+                    currentDate.getMinutes() >= 50 &&
                     "0"
                   }
                   {
-                  currentDate.getMinutes()
+                  59 - currentDate.getMinutes()
                   } : {
-                    currentDate.getSeconds() < 10 &&
+                    currentDate.getSeconds() >= 50 &&
                     "0"
                   }
                   {
-                  currentDate.getSeconds()
+                  59 - currentDate.getSeconds()
                   }
                 </h2>
               </div>

@@ -12,7 +12,7 @@ import XmarkIcon from "../assets/icons/icon-xmark.svg"
 import InputText from "../components/InputText";
 import RegisterButton from "../components/RegistButton";
 import Category from "./Category";
-import { ChallengeItem } from "../constants/interfaces";
+import { ChallengeItem, SpentItem } from "../constants/interfaces";
 
 export interface RegistModalProps {
     isModalOpen : boolean;
@@ -20,8 +20,16 @@ export interface RegistModalProps {
 }
 
 export default function RegistModal({ isModalOpen, setIsModalOpen }: RegistModalProps) {
+  // context-path = `/api`;
+  // const baseURL = 'https://haruman.site';
   // const baseURL = 'https://i9a608.p.ssafy.io:8000';
   // const CategorieAPI = '/categories';
+  const [spentItem, setSpentItem] = useState<SpentItem>({
+    category : null,
+    color : null,
+    content : null,
+    payAmount : null,
+  });
   const [categories, setCategories] = useState<ChallengeItem[]>([]);
 
   // 카테고리
@@ -45,8 +53,8 @@ export default function RegistModal({ isModalOpen, setIsModalOpen }: RegistModal
     //   });
   };
 
+  //모달 컨트롤
   const handleModal = () => {    
-    //모달 컨트롤
     setIsModalOpen(!isModalOpen);
   }
 
@@ -60,37 +68,40 @@ export default function RegistModal({ isModalOpen, setIsModalOpen }: RegistModal
         </div>
         <div className="inputprice_space">
           <InputText
-            className="InputText input_price"
+            className="InputText input_price disable_pliceholder"
             type="number"
             // alt="Input Email"
             placeholder="금액"
-            value=""
-            // 추후 email이 들어온다면 sending
-            onChange={(e) => console.log(e.target.value)}
-            // onKeyPress={handleKeyPress}
+            value={spentItem.payAmount}
+            onChange={(e) => setSpentItem({...spentItem, payAmount : e.target.value})} 
           />
           <p className="inputprice_space_text">원</p>
         </div>
-        <div>
+        <div className="categoryselect_space">
         {
-          categories.length !== 0 &&
-          categories.map((categoriy) => (
+          categories.length !== 0 ?
+          categories.map((category) => (
             <Category
-              category = {categoriy.category}
+              category = {category.category}
             //   color = {categoriy.color}
+              onClick = {(e) => setSpentItem({...spentItem, category : e.target.category})}
             />
           ))
+          :
+          <div>
+            생성된 카테고리가 없습니다!
+          </div>
         }
         </div>
         <div className="inputprice_space">
           <InputText
-            className="InputText input_memo"
+            className="InputText input_memo disable_pliceholder"
             type="string"
             // alt="Input Email"
             placeholder="메모"
             value=""
             // 추후 email이 들어온다면 sending
-            onChange={(e) => console.log(e.target.value)}
+            onChange={(e) => setSpentItem({...spentItem, content : e.target.value})} 
             // onKeyPress={handleKeyPress}
           />
         </div>
@@ -105,6 +116,7 @@ export default function RegistModal({ isModalOpen, setIsModalOpen }: RegistModal
         className="setspentitem"
         text="확인"
         onClick={handleModal}
+        // onKeyPress={handleKeyPress}
       />
     </div>
   </div>

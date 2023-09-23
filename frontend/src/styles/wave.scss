@@ -62,7 +62,8 @@
   grid-template-columns: 1fr;
   justify-content: center;
   text-align: center;
-  padding: 3vh 0;
+  padding: 2.5vh 0;
+  margin: 5vh;
 }
 
 .homepage_header_title{
@@ -76,16 +77,10 @@
   margin : 1rem 0;
 
   .homepage_header_title_text{
-    font-size: 2.7rem;
+    font-size: 2.5rem;
     height: 5rem;
     margin : 0;
     color: var(--brand1_main);
-  }
-
-  .style_horizon_line{
-    width: 100%;
-    border:1px solid var(--brand1_main);
-    border-radius: 1px;
   }
 }
 
@@ -98,12 +93,12 @@
 }
 
 .main_circle {
-  width: 80vw;
+  width: 65vw;
   max-width: 450px;
-  height: 80vw;
+  height: 65vw;
   max-height: 450px;
   justify-content: center;
-  margin:auto;
+  margin: 4vh auto;
   position:relative;
   text-align:center;
   background-color: var(--white);
@@ -171,12 +166,12 @@
     color: var(--white);
 
     h2{
-      font-size: 4rem;
+      font-size: 3rem;
       margin: 0 1rem;
     }
 
     h3{
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       margin: 0;
       padding-bottom: 1rem;
     }
@@ -185,6 +180,7 @@
 
 .linkto_today{
   text-decoration: none;
+  font-size: 0.8rem;
   color: var(--white);
 }
 
