@@ -27,8 +27,11 @@
   .information_block{
     width: 100%;
     max-width: 450px;
+    margin: auto;
+    
     display: flex;
     justify-content: center;
+    
     .information_block_button{
       width: 80%;
       background-color: $white;
@@ -101,12 +104,13 @@
   margin: 4vh auto;
   position:relative;
   text-align:center;
+  border: 1px solid $brand1_main;
   background-color: var(--white);
 
-  border: 4px solid var(--gradation-start);
   border-radius: 100%;
 
   overflow: hidden;
+  filter: drop-shadow(0px 2px 2px rgb(0, 0, 0, 0.15));
 
   .div{
     transition: height 0.5s ease;
@@ -205,7 +209,7 @@
 .waves {
   position:relative;
   width: 100%;
-  height: 10%;
+  height: 100%;
   margin-bottom:-7px;
   min-height:10px;
   max-height:300px;
@@ -214,7 +218,8 @@
 .bottom_gradation {
   width: 100%;
   height: 50vh;
-  background: linear-gradient(0deg, var(--gradation-end) 0%, var(--gradation-start) 100%);
+  opacity: 80%;
+  background: var(--gradation-end);
 
   display: flex;
   justify-content: center;
@@ -256,7 +261,7 @@
 
 @media (max-width: 768px) {
   .waves {
-    height:40px;
+    height:100%;
     min-height:40px;
   }
   .content {

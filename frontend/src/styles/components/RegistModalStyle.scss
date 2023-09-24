@@ -74,11 +74,12 @@
     font-weight: bold;
     
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     
     margin: 5% auto;
-    padding: 2vh 0;
+    padding: 2vh 2vw;
 
     border-radius: 1rem;
 

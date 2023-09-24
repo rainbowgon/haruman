@@ -82,9 +82,11 @@ const Homepage = () => {
       curHeight = lerp(curHeight, targetHeight, 0.02);
       
       setHeight(curHeight);
-
+      
       if(targetHeight - curHeight > 0.1 || targetHeight - curHeight < -0.1){
         requestAnimationFrame(frame);
+      } else {
+        setHeight(targetHeight);
       }
     }
     requestAnimationFrame(frame);
@@ -380,20 +382,23 @@ const Homepage = () => {
             {
               <div id="wave_height" style={{ height: `${height}vw`}}/>
             }
-            <div>
-              <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <div className="wavess">
+              <svg width="500" height="500" className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 500" preserveAspectRatio="none" shape-rendering="auto">
                 <defs>
-                  <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                  <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v500h-352z" />
+                  <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color = "var(--gradation-start)" />
+                    <stop offset="100%" stop-color = "var(--gradation-end)" />
+                  </linearGradient>
                 </defs>
                 <g className="parallax">
-                  <use xlinkHref="#gentle-wave" x="48" y="0" fill="var(--brand2_op_60)" />
-                  <use xlinkHref="#gentle-wave" x="48" y="3" fill="var(--brand2_op_40)" />
-                  <use xlinkHref="#gentle-wave" x="48" y="5" fill="var(--brand2_op_20)" />
-                  <use xlinkHref="#gentle-wave" x="48" y="5" fill="var(--gradation-start)" />
+                  <use xlinkHref="#gentle-wave" x="48" y="0" fill="url(#wave-gradient)" opacity="20%" />
+                  <use xlinkHref="#gentle-wave" x="48" y="9" fill="url(#wave-gradient)" opacity="40%" />
+                  <use xlinkHref="#gentle-wave" x="48" y="16" fill="url(#wave-gradient)" opacity="60%"/>
                 </g>
               </svg>
             </div>
-            <div className="main_circle_gradation"/>
+            <div className="bottom_gradation"/>
           </div>
         </div>
         <div>
@@ -401,15 +406,18 @@ const Homepage = () => {
           {
             <div id="wave_height" style={{ height: `${height}vw`}}/>
           }
-          <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+          <svg width="500" height="500" className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 500" preserveAspectRatio="none" shape-rendering="auto">
             <defs>
-              <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+              <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v500h-352z" />
+              <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color = "var(--gradation-start)" />
+                <stop offset="100%" stop-color = "var(--gradation-end)" />
+              </linearGradient>
             </defs>
             <g className="parallax">
-              <use xlinkHref="#gentle-wave" x="48" y="0" fill="var(--brand2_op_60)" />
-              <use xlinkHref="#gentle-wave" x="48" y="3" fill="var(--brand2_op_40)" />
-              <use xlinkHref="#gentle-wave" x="48" y="5" fill="var(--brand2_op_20)" />
-              <use xlinkHref="#gentle-wave" x="48" y="8" fill="var(--gradation-start)" />
+              <use xlinkHref="#gentle-wave" x="48" y="0" fill="url(#wave-gradient)" opacity="20%" />
+              <use xlinkHref="#gentle-wave" x="48" y="9" fill="url(#wave-gradient)" opacity="40%" />
+              <use xlinkHref="#gentle-wave" x="48" y="16" fill="url(#wave-gradient)" opacity="60%"/>
             </g>
           </svg>
           <div className="bottom_gradation"/>

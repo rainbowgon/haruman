@@ -12,6 +12,7 @@ import SpentItem from "../components/SpentItem";
 
 //interface value
 import { ChallengeItem } from "../constants/interfaces";
+import BottomBarSpace from "../components/BottomBarSpace";
 
 const CalendarPage = () => {
 
@@ -94,8 +95,7 @@ const CalendarPage = () => {
           }
         </div>
 
-        <div className="bottom_bar_spacer">
-        </div>
+        <BottomBarSpace/>
       </div>
     </MainStyle>
   );
