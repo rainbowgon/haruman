@@ -31,18 +31,18 @@ public class CustomJwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        log.info("authentication : {}", authorization);
+        log.info("authentication : {}", authorization); // TODO log 삭제
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
-            log.error("authorization이 없습니다.");
+            log.error("authorization이 없습니다."); // TODO log 삭제
             filterChain.doFilter(request, response);
-            return;
+            throw MemberNotFoundException.EXCEPTION;
         }
 
         String token = authorization.split(" ")[1];
 
         if (JwtUtil.isExpired(token, secretKey)) {
-            log.error("Token이 만료되었습니다.");
+            log.error("Token이 만료되었습니다."); // TODO log 삭제
             filterChain.doFilter(request, response);
             return;
         }
