@@ -30,6 +30,9 @@ public class AuthenticationConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
+                .antMatchers(
+                        "/oauth/**"
+                ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
@@ -39,10 +42,4 @@ public class AuthenticationConfig {
                 .build();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers(
-                "/api/oauth/**"
-        );
-    }
 }
