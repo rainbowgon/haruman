@@ -30,7 +30,7 @@ public class DailyChallengeResponseDto {
                 .build();
     }
 
-    public static DailyChallengeResponseDto fromEmpty(Integer participantCount) {
+    public static DailyChallengeResponseDto from(Integer participantCount) {
         return DailyChallengeResponseDto.builder()
                 .participantCount(participantCount)
                 .leftoverAmount(0)
