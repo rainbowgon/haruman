@@ -50,15 +50,15 @@ pipeline {
             }
         }
 
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         withSonarQubeEnv('SSAFY-SonarQube') { 
-        //             dir('backend') {
-        //                 sh './gradlew sonarqube --stacktrace'
-        //             }
-        //         }
-        //     }
-        // }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube-haruman') { 
+                    dir('backend') {
+                        sh './gradlew sonarqube --stacktrace'
+                    }
+                }
+            }
+        }
 
         stage('Delete existing Docker images and containers') {
             steps {
@@ -100,7 +100,7 @@ pipeline {
                 def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
                 def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
                 def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
-                mattermostSend(color: 'good', message: "✅ 빌드 & 배포 성공: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})\n<https://sonarqube.ssafy.com/dashboard?id=S09P12A507|SonarQube 분석 바로가기>")
+                mattermostSend(color: 'good', message: "✅ 빌드 & 배포 성공: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})\n<https://sonarqube.ssafy.com/dashboard?id=S09P22A607|SonarQube 분석 바로가기>")
             }
         }
         failure {
@@ -108,7 +108,7 @@ pipeline {
                 def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
                 def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
                 def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
-                mattermostSend(color: 'danger', message: "❌ 빌드 & 배포 실패: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})\n<https://sonarqube.ssafy.com/dashboard?id=S09P12A507|SonarQube 분석 바로가기>")
+                mattermostSend(color: 'danger', message: "❌ 빌드 & 배포 실패: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})\n<https://sonarqube.ssafy.com/dashboard?id=S09P22A607|SonarQube 분석 바로가기>")
             }
         }
     }
