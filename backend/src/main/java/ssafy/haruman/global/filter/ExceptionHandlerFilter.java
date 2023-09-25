@@ -1,6 +1,7 @@
 package ssafy.haruman.global.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ssafy.haruman.global.error.dto.ErrorReason;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
-    
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
@@ -30,6 +31,8 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         ErrorReason errorReason = code.getErrorReason();
 
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
         response.setStatus(errorReason.getStatus().value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         ErrorResponse errorResponse = ErrorResponse.of(errorReason, requestUrl);
