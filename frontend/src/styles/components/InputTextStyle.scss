@@ -24,6 +24,10 @@
         color: $brand1_main;
         font-weight: 600;
         margin-bottom: 1%;
+
+        &.disable_pliceholder{
+            display: none;
+        }
     }
 }
 
@@ -39,10 +43,42 @@
     
     text-align: left;
     padding-left: 1rem;
+
+    &.input_price{
+        width: 100%;
+        height: 4vh;
+        padding: 0;
+        padding: 0;
+        margin: 15% 0;
+        border: none;
+        border-bottom: 2px solid $brand1_main;
+        border-radius: 0;
+
+        font-weight: bold;
+        background-color: $transparent;
     
-    &::placeholder {
-        font-size: 0.7rem;
-        color: $font2_main;
+        &::placeholder {
+            font-size: 1.2rem;
+            color: $font2_op_60;
+        }
+    }
+
+    &.input_memo{
+        width: 100%;
+        height: 3vh;
+        padding: 0;
+        margin: 15% 0;
+        border: none;
+        border-bottom: 2px solid $brand1_main;
+        border-radius: 0;
+
+        font-weight: bold;
+        background-color: $transparent;
+    
+        &::placeholder {
+            font-size: 1rem;
+            color: $font2_op_60;
+        }
     }
     
     @include mobile{ 
