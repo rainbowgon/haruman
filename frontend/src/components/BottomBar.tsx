@@ -20,6 +20,9 @@ const BottomBar: React.FC = () => {
   const activePage = useSelector((state: AppState) => state.activePage);
   const navigate = useNavigate();
   const location = useLocation();
+  const [isNavUp, setIsNavUp] = useState(false);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+  const delta = 5;
 
   const [pages] = useState([
     { name: "Calendar", icon: CalendarIcon, path: "/calendar" },
@@ -29,15 +32,66 @@ const BottomBar: React.FC = () => {
     { name: "MyPage", icon: BurgermenuIcon, path: "/mypage" },
   ]);
 
+  // useEffect(() => {
+  //   const handleScroll = (): void => {
+  //     const currentScrollPosition = window.scrollY;
+
+  //     if (currentScrollPosition > lastScrollPosition) {
+  //       setIsHidden(true);
+  //     } else {
+  //       // 위로 스크롤
+  //       setIsHidden(false);
+  //     }
+
+  //     setLastScrollPosition(currentScrollPosition);
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [lastScrollPosition]);
+  // console.log("lastScrollPosition", lastScrollPosition);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const st = window.scrollY;
+
+      if (Math.abs(lastScrollTop - st) <= delta) return;
+
+      if (st > lastScrollTop) {
+        setIsNavUp(true); // 아래로 스크롤할 때
+      } else if (
+        st + window.innerHeight <
+        document.documentElement.scrollHeight
+      ) {
+        setIsNavUp(false); // 위로 스크롤할 때
+      }
+
+      setLastScrollTop(st);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollTop]);
+
+  const bottomBarStyle = isNavUp
+    ? { transform: "translateY(100%)" }
+    : { transform: "translateY(0)" };
   useEffect(() => {
     const currentPage = pages.findIndex((p) => p.path === location.pathname);
     if (currentPage !== -1) {
       dispatch(setActivePage(currentPage));
     }
   }, [location.pathname, pages, dispatch]);
-
+  // const bottomBarStyle = isHidden
+  // ? { transform: "translateY(100%)" }
+  // : { transform: "translateY(0)" };
   return (
-    <div className="bottom-bar">
+    <div
+      className="bottom-bar"
+      style={bottomBarStyle}
+    >
       {pages.map((menu, index) => (
         <button
           key={index}
