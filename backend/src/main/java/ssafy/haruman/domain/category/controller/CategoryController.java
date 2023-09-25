@@ -35,7 +35,8 @@ public class CategoryController {
             @AuthenticationPrincipal Member member,
             @RequestBody CategoryCreateRequestDto createDto) {
 
-        CategorySimpleResponseDto createdCategory = categoryService.createCategory(member, createDto);
+        CategorySimpleResponseDto createdCategory =
+                categoryService.createCategory(member.getProfile(), createDto);
 
         return JsonResponse.of(HttpStatus.CREATED, "카테고리가 성공적으로 생성되었습니다.", createdCategory);
     }
@@ -45,7 +46,8 @@ public class CategoryController {
             @AuthenticationPrincipal Member member,
             @RequestBody CategoryUpdateRequestDto updateDto) {
 
-        CategorySimpleResponseDto updatedCategory = categoryService.updateCategory(member, updateDto);
+        CategorySimpleResponseDto updatedCategory =
+                categoryService.updateCategory(member.getProfile(), updateDto);
 
         return JsonResponse.ok("카테고리가 성공적으로 수정되었습니다.", updatedCategory);
     }
@@ -55,7 +57,7 @@ public class CategoryController {
             @AuthenticationPrincipal Member member,
             @PathVariable("category-id") Long categoryId) {
 
-        categoryService.deleteCategory(member, categoryId);
+        categoryService.deleteCategory(member.getProfile(), categoryId);
 
         return JsonResponse.ok("카테고리 삭제에 성공했습니다.");
     }
@@ -67,7 +69,8 @@ public class CategoryController {
     public ResponseEntity<ResponseWrapper<List<CategoryDetailResponseDto>>> selectCategoryList(
             @AuthenticationPrincipal Member member) {
 
-        List<CategoryDetailResponseDto> categoryList = categoryService.selectCategoryList(member);
+        List<CategoryDetailResponseDto> categoryList =
+                categoryService.selectCategoryList(member.getProfile());
 
         return JsonResponse.ok("카테고리 목록을 성공적으로 가져왔습니다.", categoryList);
     }
@@ -79,7 +82,8 @@ public class CategoryController {
     public ResponseEntity<ResponseWrapper<List<CategoryDetailResponseDto>>> selectCustomCategoryList(
             @AuthenticationPrincipal Member member) {
 
-        List<CategoryDetailResponseDto> categoryCustomList = categoryService.selectCustomCategoryList(member);
+        List<CategoryDetailResponseDto> categoryCustomList =
+                categoryService.selectCustomCategoryList(member.getProfile());
 
         return JsonResponse.ok("회원 커스텀 카테고리 목록을 성공적으로 가져왔습니다.", categoryCustomList);
     }
