@@ -1,3 +1,10 @@
+export interface SpentItem {
+  category: string | null;
+  color: string | null;
+  content: string | null;
+  payAmount: string | number | null;
+}
+
 export interface ChallengeItem {
   category: string;
   //color: string;
