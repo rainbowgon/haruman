@@ -6,12 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ssafy.haruman.domain.member.repository.MemberRepository;
 import ssafy.haruman.global.filter.CustomJwtFilter;
+import ssafy.haruman.global.filter.ExceptionHandlerFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -30,19 +30,17 @@ public class AuthenticationConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
+                .antMatchers(
+                        "/oauth/**"
+                ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(new CustomJwtFilter(memberRepository, secretKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new ExceptionHandlerFilter(), CustomJwtFilter.class)
                 .build();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers(
-                "/api/oauth/**"
-        );
-    }
 }
