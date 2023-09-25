@@ -32,8 +32,8 @@ public class CategoryServiceImpl implements CategoryService {
     public CategorySimpleResponseDto createCategory(
             Member member, CategoryCreateRequestDto createDto) {
 
-        Optional<Category> category =
-                categoryRepository.findByName(member.getProfile(), createDto.getName());
+        Optional<Category> category = categoryRepository.findByProfileAndStatusAndName(
+                member.getProfile(), createDto.getName());
 
         if (category.isPresent()) {
             throw CategoryDuplicateException.EXCEPTION;
