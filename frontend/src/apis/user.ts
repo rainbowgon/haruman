@@ -71,7 +71,7 @@ export const redirectKakao = () => {
 // 카카오 로그인
 export const loginKakao = async (code: string) => {
   const res = await axiosInstance.get<any>(
-    `/api/oauth/login/kakao?code=${code}`,
+    `api/oauth/kakao/login?code=${code}`,
   );
   return res.data;
 };
