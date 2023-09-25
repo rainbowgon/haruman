@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -31,18 +32,18 @@ public class CustomJwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        log.info("authentication : {}", authorization);
+        log.info("authentication : {}", authorization); // TODO log 삭제
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
-            log.error("authorization이 없습니다.");
+            log.error("authorization이 없습니다."); // TODO log 삭제
             filterChain.doFilter(request, response);
-            return;
+            throw MemberNotFoundException.EXCEPTION;
         }
 
         String token = authorization.split(" ")[1];
 
         if (JwtUtil.isExpired(token, secretKey)) {
-            log.error("Token이 만료되었습니다.");
+            log.error("Token이 만료되었습니다."); // TODO log 삭제
             filterChain.doFilter(request, response);
             return;
         }
@@ -57,5 +58,12 @@ public class CustomJwtFilter extends OncePerRequestFilter {
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String[] excludePath = { "/api/oauth/" };
+        String path = request.getRequestURI();
+        return Arrays.stream(excludePath).anyMatch(path::startsWith);
     }
 }
