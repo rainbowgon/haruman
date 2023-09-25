@@ -1,13 +1,11 @@
 package ssafy.haruman.global.error.errorCode;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import ssafy.haruman.global.error.dto.ErrorReason;
+
+import static org.springframework.http.HttpStatus.*;
 
 @Getter
 @AllArgsConstructor
@@ -31,13 +29,15 @@ public enum GlobalErrorCode implements BaseErrorCode {
 
     /* 카테고리 */
     CATEGORY_NOT_FOUND(NOT_FOUND, "CATEGRORY_404_1", "해당 ID의 카테고리가 없습니다."),
+    CATEGORY_DUPLICATION(CONFLICT, "CATEGORY-002", "같은 이름의 카테고리가 이미 존재합니다."),
+    CATEGORY_UNAUTHORIZED(UNAUTHORIZED, "CATEGORY-003", "해당 카테고리에 접근 권한이 없습니다."),
 
     /* OAUTH */
     OAUTH_NOT_FOUND(NOT_FOUND, "OAUTH-001", "지원하지 않는 소셜 로그인 타입입니다."),
 
     /* 멤버 */
-    MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER-001", "주어진 ID에 해당하는 Member가 없습니다.");
-
+    MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER-001", "주어진 ID에 해당하는 Member가 없습니다."),
+    MEMBER_UNAUTHORIZED(UNAUTHORIZED, "MEMBER-002", "인증되지 않은 요청입니다.");
 
     private HttpStatus status;
     private String code;

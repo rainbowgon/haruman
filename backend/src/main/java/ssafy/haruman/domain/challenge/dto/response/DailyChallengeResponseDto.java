@@ -29,4 +29,14 @@ public class DailyChallengeResponseDto {
                 .expenseList(expenseList)
                 .build();
     }
+
+    public static DailyChallengeResponseDto from(Integer participantCount) {
+        return DailyChallengeResponseDto.builder()
+                .participantCount(participantCount)
+                .leftoverAmount(0)
+                .challengeStatus(null)
+                .expenseList(null)
+                .build();
+    }
+
 }

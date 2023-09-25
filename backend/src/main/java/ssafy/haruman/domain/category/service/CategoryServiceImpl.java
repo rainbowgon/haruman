@@ -12,43 +12,54 @@ import ssafy.haruman.domain.category.dto.response.CategoryDetailResponseDto;
 import ssafy.haruman.domain.category.dto.response.CategorySimpleResponseDto;
 import ssafy.haruman.domain.category.entity.Category;
 import ssafy.haruman.domain.category.entity.CustomStatus;
+import ssafy.haruman.domain.category.repository.CategoryCountInfoMapping;
 import ssafy.haruman.domain.category.repository.CategoryRepository;
+import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
+import ssafy.haruman.domain.profile.entity.Profile;
+import ssafy.haruman.global.error.exception.CategoryDuplicateException;
+import ssafy.haruman.global.error.exception.CategoryNotFoundException;
+import ssafy.haruman.global.error.exception.CategoryUnauthorizedException;
 
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ExpenseRepository expenseRepository;
 
     @Override
     @Transactional
-    public CategorySimpleResponseDto createCategory(CategoryCreateRequestDto createDto) {
+    public CategorySimpleResponseDto createCategory(
+            Profile profile, CategoryCreateRequestDto createDto) {
 
-        Long profileId = null;
+        Optional<Category> category =
+                categoryRepository.findByProfileAndStatusAndName(profile, createDto.getName());
 
-        // TODO 1) 같은 이름의 default category가 존재하는지 확인
-        // TODO 2) 같은 이름의 회원 custom category가 존재하는지 확인
-        Optional<Category> category = categoryRepository.findByName(createDto.getName(), profileId);
         if (category.isPresent()) {
-            // TODO 이미 존재하는 카테고리 에러 반환
+            throw CategoryDuplicateException.EXCEPTION;
         }
 
-        // TODO 3) category 생성
-        Category createdCategory = categoryRepository.save(createDto.toEntity());
+        Category createdCategory = Category.builder()
+                .profile(profile)
+                .name(createDto.getName())
+                .isDefault(CustomStatus.CUSTOM)
+                .color(createDto.getColor())
+                .build();
 
-        return CategorySimpleResponseDto.from(createdCategory);
+        return CategorySimpleResponseDto.from(categoryRepository.save(createdCategory));
     }
 
     @Override
     @Transactional
-    public CategorySimpleResponseDto updateCategory(CategoryUpdateRequestDto updateDto) {
+    public CategorySimpleResponseDto updateCategory(
+            Profile profile, CategoryUpdateRequestDto updateDto) {
 
-        // TODO 1) 수정 요청 category 유효성 검사
-        Category category = categoryRepository.findById(updateDto.getCategoryId()).orElseThrow();
+        Category category = findOneCategoryById(updateDto.getCategoryId());
 
-        // TODO 2) 수정 요청 category가 해당 회원의 custom category인지 확인
+        if (!category.getProfile().equals(profile)) {
+            throw CategoryUnauthorizedException.EXCEPTION;
+        }
 
-        // TODO 3) category 수정
         category.updateCategory(updateDto.getName(), updateDto.getColor());
 
         return CategorySimpleResponseDto.from(category);
@@ -56,55 +67,50 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public void deleteCategory(Long categoryId) {
+    public Integer deleteCategory(Profile profile, Long categoryId) {
 
-        // TODO 1) 수정 요청 category 유효성 검사
-        Category category = categoryRepository.findById(categoryId).orElseThrow();
+        Category category = findOneCategoryById(categoryId);
 
-        // TODO 2) 삭제 요청 category가 해당 회원의 custom category인지 확인
+        if (!category.getProfile().equals(profile)) {
+            throw CategoryUnauthorizedException.EXCEPTION;
+        }
 
-        // TODO 3) 삭제 요청 category에 해당되는 지출 내역 처리 (기타 카테고리로 변경) ** 벌크연산
+        Integer updatedExpenseCnt =
+                expenseRepository.updateCategory(profile.getId(), category.getId());
 
-        // TODO 4) category 삭제
         categoryRepository.delete(category);
 
+        return updatedExpenseCnt;
     }
 
     @Override
-    public List<CategoryDetailResponseDto> selectCategoryList() {
+    public List<CategoryDetailResponseDto> selectCategoryList(Profile profile) {
 
-        Long profileId = null;
+//        List<Category> categoryList =
+//                categoryRepository.findAllByProfileAndStatus(member.getProfile());
 
-        // TODO 요청 회원의 custom category + default category 조회
-        List<Category> categoryList = categoryRepository.findAllByProfileAndStatus(
-                profileId, String.valueOf(CustomStatus.DEFAULT));
+        // TODO 요청 회원의 지출 내역에서 가장 많은 상위 N개의 카테고리 조회 (null 제외)
+        List<CategoryCountInfoMapping> categoryList =
+                categoryRepository.findAllByProfileOrderByCount(profile.getId());
 
         return categoryList.stream()
-                .map(CategoryDetailResponseDto::from)
+                .map(CategoryDetailResponseDto::fromCountInfo)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<CategoryDetailResponseDto> selectCustomCategoryList() {
+    public List<CategoryDetailResponseDto> selectCustomCategoryList(Profile profile) {
 
-        Long profileId = null;
-
-        // TODO 요청 회원의 custom category 조회
-        List<Category> customCategoryList = categoryRepository.findAllByProfile(profileId);
+        List<Category> customCategoryList = categoryRepository.findAllByProfile(profile);
 
         return customCategoryList.stream()
                 .map(CategoryDetailResponseDto::from)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<CategoryDetailResponseDto> selectOftenCategoryList() {
-
-        Long profileId = null;
-
-        // TODO 요청 회원의 지출 내역에서 가장 많은 상위 N개의 카테고리 조회 (null 제외)
-
-        return null;
+    private Category findOneCategoryById(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(CategoryNotFoundException::new);
     }
 
 }
