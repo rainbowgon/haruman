@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -8,21 +8,21 @@ import "../styles/theme.css";
 import "../styles/wave.scss";
 
 // components
-import InputText from "../components/InputText";
 import RegisterButton from "../components/RegistButton";
+import RegistModal from "../components/RegistModal";
 
 const Homepage = () => {
   // const baseURL = 'https://i9a608.p.ssafy.io:8000';
   // const ChallengeAPI = '/challenges';
-  // const CategorieAPI = '/categories';
-  const canStart: number[] = [5, 12];
+  const canStart:number[] = [5, 12];
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTop, setModalTop] = useState(100);
   const [challenge, setChallenge] = useState(true);
   const [height, setHeight] = useState(100);
-  const [categories, setCategories] = useState();
   const [challengeInfo, setChallengeInfo] = useState();
+  const sidebarRef = useRef();
 
   // 매 초마다 시간 재설정
   useEffect(() => {
@@ -32,6 +32,29 @@ const Homepage = () => {
 
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    // const regist_modal = document.querySelector("#regist_modal");
+  
+    // let curModalTop:number = modalTop;
+    // let targetModalTop: number = isModalOpen ? 97: 0;
+  
+    // function modalframe() {
+    //   curModalTop = lerp(curModalTop, targetModalTop, 0.1);
+      
+    //   console.log("targetModalTop - curModalTop" , isModalOpen, targetModalTop, curModalTop);
+    //   setModalTop(curModalTop);
+
+    //   if(targetModalTop - curModalTop > 0.1 || targetModalTop - curModalTop < -0.1){
+    //     requestAnimationFrame(modalframe);
+    //   }
+    // }
+    // requestAnimationFrame(modalframe);
+
+    // function lerp(s:number, e:number, a:number) {
+    //   return s + (0-s) * a;
+    // }
+  }, [isModalOpen]);
 
   const handleStartChallenge = () => {
     // 테스트 끝나면 open
@@ -46,37 +69,30 @@ const Homepage = () => {
     // }
 
     const nowChallenge = !challenge;
-
-    //챌린지 시작
+  
+    //챌린지 시작 
     setChallenge(nowChallenge);
 
     startChallenge();
 
-    const wave_height = document.querySelector("#wave_height");
-
-    let curHeight: number = height;
-    let targetHeight: number = nowChallenge ? height + 5 : height - 100;
-
-    // setTimeout(() => {
-    //   console.log(targetHeight);
-    //   setHeight(targetHeight);
-    // }, 0);
-
+    let curHeight:number = height;
+    let targetHeight: number = nowChallenge ? height + 5 : height - 100;  // min : 0(vw), max : 60(vw)
+  
     function frame() {
-      console.log(curHeight);
       curHeight = lerp(curHeight, targetHeight, 0.02);
-
-      console.log(curHeight);
+      
       setHeight(curHeight);
-
-      if (targetHeight - curHeight > 0.1 || targetHeight - curHeight < -0.1) {
+      
+      if(targetHeight - curHeight > 0.1 || targetHeight - curHeight < -0.1){
         requestAnimationFrame(frame);
+      } else {
+        setHeight(targetHeight);
       }
     }
     requestAnimationFrame(frame);
 
-    function lerp(s: number, e: number, a: number) {
-      return s + (0 - s) * a;
+    function lerp(s:number, e:number, a:number) {
+      return s + (0-s) * a;
     }
   };
 
@@ -91,12 +107,14 @@ const Homepage = () => {
   const startChallenge = () => {
     // const accessToken = sessionStorage.getItem("accessToken")
     // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
+
     // let guest_id = null;
     // if (from === "FriendList"){
     //   guest_id = parseInt(friend.userId, 10);
     // } else {
     //   guest_id = parseInt(friend.idx, 10);
     // }
+
     // axios.post(`${baseURL}${ChallengeAPI}`, null,
     // {
     //   headers: {
@@ -113,7 +131,7 @@ const Homepage = () => {
     //     showAlert("error", "챌린지 시작 실패입니다.");
     //     console.error(error.code);
     // });
-  };
+  }
 
   /**
     createReceipt   
@@ -121,32 +139,35 @@ const Homepage = () => {
     /challenges/receipt/{challenge-id}   
     POST
   */
-  const createReceipt = () => {
-    // const accessToken = sessionStorage.getItem("accessToken")
-    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-    // let guest_id = null;
-    // if (from === "FriendList"){
-    //   guest_id = parseInt(friend.userId, 10);
-    // } else {
-    //   guest_id = parseInt(friend.idx, 10);
-    // }
-    // axios.post(`${baseURL}${ChallengeAPI}/receipt/{challenge-id}`, null,
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`
-    //   }
-    // })
-    // .then((response) => {
-    //     console.log("지출 내역 영수증 입력");
-    //     showAlert("success", "지출 내역 영수증 입력");
-    //     setCurStatus(2);
-    // })
-    // .catch((error) => {
-    //     console.error("서버로부터 지출 내역 영수증 입력 실패", error);
-    //     showAlert("error", "지출 내역 영수증 입력 실패입니다.");
-    //     console.error(error.code);
-    // });
-  };
+    const createReceipt = () => {
+      // const accessToken = sessionStorage.getItem("accessToken")
+      // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
+  
+      // let guest_id = null;
+      // if (from === "FriendList"){
+      //   guest_id = parseInt(friend.userId, 10);
+      // } else {
+      //   guest_id = parseInt(friend.idx, 10);
+      // }
+      // const challenge_id = sdlkfsdj;
+      // axios.post(`${baseURL}${ChallengeAPI}/receipt/${challenge_id}`, null,
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`
+      //   }
+      // })
+      // .then((response) => {
+      //     console.log("지출 내역 영수증 입력");
+      //     showAlert("success", "지출 내역 영수증 입력");
+      //     setCurStatus(2);
+      // })
+      // .catch((error) => {
+      //     console.error("서버로부터 지출 내역 영수증 입력 실패", error);
+      //     showAlert("error", "지출 내역 영수증 입력 실패입니다.");
+      //     console.error(error.code);
+      // });
+    }
+  
 
   /**
     createExpense
@@ -154,32 +175,35 @@ const Homepage = () => {
     /challenges/{challenge-id}
     POST
   */
-  const createExpense = () => {
-    // const accessToken = sessionStorage.getItem("accessToken")
-    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-    // let guest_id = null;
-    // if (from === "FriendList"){
-    //   guest_id = parseInt(friend.userId, 10);
-    // } else {
-    //   guest_id = parseInt(friend.idx, 10);
-    // }
-    // axios.post(`${baseURL}${ChallengeAPI}/{challenge-id}`, null,
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`
-    //   }
-    // })
-    // .then((response) => {
-    //     console.log("지출 내역 직접 입력");
-    //     showAlert("success", "지출 내역 직접 입력");
-    //     setCurStatus(2);
-    // })
-    // .catch((error) => {
-    //     console.error("서버로부터 지출 내역 직접 입력 실패", error);
-    //     showAlert("error", "지출 내역 직접 입력 실패입니다.");
-    //     console.error(error.code);
-    // });
-  };
+    const createExpense = () => {
+      // const accessToken = sessionStorage.getItem("accessToken")
+      // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
+  
+      // let guest_id = null;
+      // if (from === "FriendList"){
+      //   guest_id = parseInt(friend.userId, 10);
+      // } else {
+      //   guest_id = parseInt(friend.idx, 10);
+      // }
+  
+      // axios.post(`${baseURL}${ChallengeAPI}/{challenge-id}`, null,
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`
+      //   }
+      // })
+      // .then((response) => {
+      //     console.log("지출 내역 직접 입력");
+      //     showAlert("success", "지출 내역 직접 입력");
+      //     setCurStatus(2);
+      // })
+      // .catch((error) => {
+      //     console.error("서버로부터 지출 내역 직접 입력 실패", error);
+      //     showAlert("error", "지출 내역 직접 입력 실패입니다.");
+      //     console.error(error.code);
+      // });
+    }
+
 
   /**
     updateExpense   
@@ -187,32 +211,36 @@ const Homepage = () => {
     /challenges   
     PATCH
   */
-  const updateExpense = () => {
-    // const accessToken = sessionStorage.getItem("accessToken")
-    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-    // let guest_id = null;
-    // if (from === "FriendList"){
-    //   guest_id = parseInt(friend.userId, 10);
-    // } else {
-    //   guest_id = parseInt(friend.idx, 10);
-    // }
-    // axios.patch(`${baseURL}${ChallengeAPI}`, "edit",
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`
-    //   }
-    // })
-    // .then((response) => {
-    //     console.log("지출 내역 수정");
-    //     showAlert("success", "지출 내역 수정");
-    //     setCurStatus(2);
-    // })
-    // .catch((error) => {
-    //     console.error("서버로부터 지출 내역 수정 실패", error);
-    //     showAlert("error", "지출 내역 수정 실패입니다.");
-    //     console.error(error.code);
-    // });
-  };
+    const updateExpense = () => {
+      // const accessToken = sessionStorage.getItem("accessToken")
+      // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
+  
+      // let guest_id = null;
+      // if (from === "FriendList"){
+      //   guest_id = parseInt(friend.userId, 10);
+      // } else {
+      //   guest_id = parseInt(friend.idx, 10);
+      // }
+  
+      // axios.patch(`${baseURL}${ChallengeAPI}`, "edit",
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`
+      //   }
+      // })
+      // .then((response) => {
+      //     console.log("지출 내역 수정");
+      //     showAlert("success", "지출 내역 수정");
+      //     setCurStatus(2);
+      // })
+      // .catch((error) => {
+      //     console.error("서버로부터 지출 내역 수정 실패", error);
+      //     showAlert("error", "지출 내역 수정 실패입니다.");
+      //     console.error(error.code);
+      // });
+    }
+
+
 
   /**
     deleteExpense   
@@ -223,12 +251,14 @@ const Homepage = () => {
   const deleteExpense = () => {
     // const accessToken = sessionStorage.getItem("accessToken")
     // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
+
     // let guest_id = null;
     // if (from === "FriendList"){
     //     guest_id = parseInt(friend.userId, 10);
     // } else {
     //     guest_id = parseInt(friend.idx, 10);
     // }
+
     // axios.delete(`${baseURL}${ChallengeAPI}/{expense-id}`,
     // {
     //   params: {
@@ -248,7 +278,8 @@ const Homepage = () => {
     //   showAlert("error", "지출 내역 삭제 요청 실패입니다.");
     //   console.error(error.code);
     // });
-  };
+  }
+
 
   /**
     selectDailyChallenge
@@ -259,7 +290,7 @@ const Homepage = () => {
   const selectDailyChallenge = () => {
     // const accessToken = sessionStorage.getItem("accessToken")
     // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-    //
+    // 
     // axios.get(`${baseURL}${ChallengeAPI}?date={date}`)
     //   .then((response) => {
     //     console.log("해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)");
@@ -270,86 +301,74 @@ const Homepage = () => {
     //   });
   };
 
-  // 카테고리
-  /**
-    selectCategoryList   
-    카테고리 전체 조회 
-    (default + member’s custom)   /categories   
-    GET
-  */
-  const selectCategoryList = () => {
-    // const accessToken = sessionStorage.getItem("accessToken")
-    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-    //
-    // axios.get(`${baseURL}${ChallengeAPI}/list?size=${itemsPerPage}&page=${currentPage}&sort=noticeIdx,desc`)
-    //   .then((response) => {
-    //     console.log("카테고리 전체 조회 성공");
-    //     setCategories(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error('카테고리 전체 조회 실패', error);
-    //   });
-  };
-
-  const handleModal = () => {
+  
+  const handleModal = () => {    
+    //모달 컨트롤
     setIsModalOpen(!isModalOpen);
-  };
+  }
+  
 
-  const showAlert = (text: string) => {
+  const showAlert = (text:string) => {
     Swal.fire({
       text,
     });
   };
 
+
   return (
     <MainStyle>
       <div className="homepage">
         <div className="homepage_header">
-          {/* <p className="homepage_text">{}월 {}일</p> */}
-          <p className="homepage_text">
-            {currentDate.getMonth() + 1}월 {currentDate.getDate()}일
-          </p>
-          {challenge ? (
-            <>
+          <p className="homepage_text">{currentDate.getMonth()+1}월 {currentDate.getDate()}일</p>
+          {
+            challenge
+            ?<>
               <div className="homepage_header_title">
-                <h2 className="homepage_header_title_text">오늘의 챌린지</h2>
+                <h2 className="homepage_header_title_text">오늘의 챌린지
+                </h2>
               </div>
-              <p className="homepage_text">
-                {}명의 유저가 먼저 진행하고 있어요!
-              </p>
+              <p className="homepage_text">{}명의 유저가 먼저 진행하고 있어요!</p>
             </>
-          ) : (
-            <>
+            :<>
               <div className="homepage_header_title">
                 <h2 className="homepage_header_title_text">
-                  {currentDate.getHours() < 10 && "0"}
-                  {currentDate.getHours()} :{" "}
-                  {currentDate.getMinutes() < 10 && "0"}
-                  {currentDate.getMinutes()} :{" "}
-                  {currentDate.getSeconds() < 10 && "0"}
-                  {currentDate.getSeconds()}
+                  {
+                    currentDate.getHours() > 14 &&
+                    "0"
+                  }
+                  {
+                    23 - currentDate.getHours()
+                  } : {
+                    currentDate.getMinutes() >= 50 &&
+                    "0"
+                  }
+                  {
+                  59 - currentDate.getMinutes()
+                  } : {
+                    currentDate.getSeconds() >= 50 &&
+                    "0"
+                  }
+                  {
+                  59 - currentDate.getSeconds()
+                  }
                 </h2>
               </div>
               <p className="homepage_text">{}명의 유저와 함께하고 있어요!</p>
             </>
-          )}
+          }
         </div>
         <div>
           <div className="main_circle">
             <div className="start_challenge">
-              {challenge ? (
-                <div
-                  className="start_challenge_button"
-                  onClick={handleStartChallenge}
-                >
+              {
+                challenge 
+                ?
+                <div className="start_challenge_button" onClick={handleStartChallenge}>
                   <h2 className="start_challenge_button_title">챌린지</h2>
                   <h2 className="start_challenge_button_title">시작</h2>
                 </div>
-              ) : (
-                <Link
-                  to="/today"
-                  className="linkto_today"
-                >
+                :
+                <Link to="/today" className="linkto_today">
                   <div className="progress_challenge">
                     <div className="progress_challenge_title">
                       <h2>10,000</h2>
@@ -358,165 +377,77 @@ const Homepage = () => {
                   </div>
                   <p className="challenge_link_text">지출내역으로 이동</p>
                 </Link>
-              )}
+              }
             </div>
             {
-              <div
-                id="wave_height"
-                style={{ height: `${height}vw` }}
-              />
+              <div id="wave_height" style={{ height: `${height}vw`}}/>
             }
-            <div>
-              <svg
-                className="waves"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlnsXlink="http://www.w3.org/1999/xlink"
-                viewBox="0 24 150 28"
-                preserveAspectRatio="none"
-                shape-rendering="auto"
-              >
+            <div className="wavess">
+              <svg width="500" height="500" className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 500" preserveAspectRatio="none" shape-rendering="auto">
                 <defs>
-                  <path
-                    id="gentle-wave"
-                    d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-                  />
+                  <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v500h-352z" />
+                  <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color = "var(--gradation-start)" />
+                    <stop offset="100%" stop-color = "var(--gradation-end)" />
+                  </linearGradient>
                 </defs>
                 <g className="parallax">
-                  <use
-                    xlinkHref="#gentle-wave"
-                    x="48"
-                    y="0"
-                    fill="var(--brand2_op_60)"
-                  />
-                  <use
-                    xlinkHref="#gentle-wave"
-                    x="48"
-                    y="3"
-                    fill="var(--brand2_op_40)"
-                  />
-                  <use
-                    xlinkHref="#gentle-wave"
-                    x="48"
-                    y="5"
-                    fill="var(--brand2_op_20)"
-                  />
-                  <use
-                    xlinkHref="#gentle-wave"
-                    x="48"
-                    y="5"
-                    fill="var(--gradation-start)"
-                  />
+                  <use xlinkHref="#gentle-wave" x="48" y="0" fill="url(#wave-gradient)" opacity="20%" />
+                  <use xlinkHref="#gentle-wave" x="48" y="9" fill="url(#wave-gradient)" opacity="40%" />
+                  <use xlinkHref="#gentle-wave" x="48" y="16" fill="url(#wave-gradient)" opacity="60%"/>
                 </g>
               </svg>
             </div>
-            <div className="main_circle_gradation" />
+            <div className="bottom_gradation"/>
           </div>
         </div>
         <div>
           {/* <div className="getspace"/> */}
           {
-            <div
-              id="wave_height"
-              style={{ height: `${height}vw` }}
-            />
+            <div id="wave_height" style={{ height: `${height}vw`}}/>
           }
-          <svg
-            className="waves"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-            viewBox="0 24 150 28"
-            preserveAspectRatio="none"
-            shape-rendering="auto"
-          >
+          <svg width="500" height="500" className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 500" preserveAspectRatio="none" shape-rendering="auto">
             <defs>
-              <path
-                id="gentle-wave"
-                d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-              />
+              <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v500h-352z" />
+              <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color = "var(--gradation-start)" />
+                <stop offset="100%" stop-color = "var(--gradation-end)" />
+              </linearGradient>
             </defs>
             <g className="parallax">
-              <use
-                xlinkHref="#gentle-wave"
-                x="48"
-                y="0"
-                fill="var(--brand2_op_60)"
-              />
-              <use
-                xlinkHref="#gentle-wave"
-                x="48"
-                y="3"
-                fill="var(--brand2_op_40)"
-              />
-              <use
-                xlinkHref="#gentle-wave"
-                x="48"
-                y="5"
-                fill="var(--brand2_op_20)"
-              />
-              <use
-                xlinkHref="#gentle-wave"
-                x="48"
-                y="8"
-                fill="var(--gradation-start)"
-              />
+              <use xlinkHref="#gentle-wave" x="48" y="0" fill="url(#wave-gradient)" opacity="20%" />
+              <use xlinkHref="#gentle-wave" x="48" y="9" fill="url(#wave-gradient)" opacity="40%" />
+              <use xlinkHref="#gentle-wave" x="48" y="16" fill="url(#wave-gradient)" opacity="60%"/>
             </g>
           </svg>
-          <div className="bottom_gradation" />
+          <div className="bottom_gradation"/>
         </div>
         <div className="input_purchase">
-          {challenge ? (
+          {
+            challenge
+            ?
             <div className="information_block">
               <div className="information_block_button">
                 <p className="information_block_title">챌린지 시작 가능 시간</p>
                 <p className="information_block_content">05:00 ~ 12:00</p>
               </div>
             </div>
-          ) : (
+            :
             <RegisterButton
               text="지출 입력"
               className="white"
               onClick={handleModal}
             />
-          )}
+          }
         </div>
-        {isModalOpen && (
-          <div className="regist_modal">
-            <div>
-              <div>
-                <button onClick={handleModal}>✖</button>
-              </div>
-              <div>
-                <h2 className="regist_title">사용 내역 입력</h2>
-              </div>
-              <div>price 원</div>
-              <div>카테고리</div>
-              <div>
-                <InputText
-                  className="InputText"
-                  type="email"
-                  // alt="Input Email"
-                  placeholder="내용"
-                  value=""
-                  // 추후 email이 들어온다면 sending
-                  onChange={(e) => console.log(e.target.value)}
-                  // onKeyPress={handleKeyPress}
-                />
-              </div>
-              <div>메모</div>
-            </div>
-            <div>
-              {/* <RegisterButton
-                text="OCR"
-                className="mini_type white"
-                onClick={handleModal}
-              /> */}
-              <RegisterButton
-                text="확인"
-                onClick={handleModal}
-              />
-            </div>
-          </div>
-        )}
+        {
+          isModalOpen &&
+          // <div id="regist_modal" className="regist_modal" style={{ top: `${modalTop}vh`}}>
+          <RegistModal
+            isModalOpen = {isModalOpen}
+            setIsModalOpen = {setIsModalOpen}
+          />
+        }
       </div>
     </MainStyle>
   );

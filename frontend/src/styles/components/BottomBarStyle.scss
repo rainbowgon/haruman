@@ -1,0 +1,43 @@
+.bottom-bar{
+  width: 100vw;
+  height: 70px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+  background-color: var(--white);
+  box-shadow: 0px -2px 4px 0px rgba(0, 0, 0, 0.15);
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  button {
+    width: 100%;
+    background-color: var(--Transparent);
+    border: var(--Transparent);
+
+    span{
+      height: 35px;
+      .bottom-bar-image{
+        height: 35px;
+        opacity: 50%;
+      }
+    }
+  }
+}
+
+.active{
+}
+
+.inactive{
+}
+
+.active-icon {
+  width: 100%;
+  filter: invert(68%) sepia(33%) saturate(4817%) hue-rotate(122deg) brightness(90%) contrast(98%);
+}
+.inactive-icon {
+  width: 100%;
+  filter: invert(55%) sepia(0%) saturate(1289%) hue-rotate(191deg) brightness(87%) contrast(90%);
+}
