@@ -19,9 +19,9 @@ import static ssafy.haruman.global.mattermost.MattermostMessageDto.Attachments;
 public class MattermostSender {
     private Logger log = LoggerFactory.getLogger(MattermostSender.class);
 
-    @Value("${notification.mattermost.enabled}")
+    @Value("${spring.notification.mattermost.enabled}")
     private boolean mmEnabled;
-    @Value("${notification.mattermost.webhook-url}")
+    @Value("${spring.notification.mattermost.webhook-url}")
     private String webhookUrl;
 
     private final RestTemplate restTemplate;

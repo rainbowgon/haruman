@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public interface ProfileService {
 
-    SingleProfileResponseDto createProfile(String nickname, MultipartFile multipartFile) throws IOException;
+    SingleProfileResponseDto createProfile(Member member, String nickname, MultipartFile multipartFile) throws IOException;
 
     SingleProfileResponseDto updateProfile(Long profileId, String nickname, MultipartFile profileImage) throws IOException;
 
