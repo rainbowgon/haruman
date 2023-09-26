@@ -2,11 +2,11 @@ package ssafy.haruman.global.error.exception;
 
 import ssafy.haruman.global.error.errorCode.GlobalErrorCode;
 
-public class CategoryDuplicateException extends CustomException {
+public class MemberProfileNotFoundException extends CustomException {
 
-    public static final CustomException EXCEPTION = new CategoryDuplicateException();
+    public static final CustomException EXCEPTION = new MemberProfileNotFoundException();
 
-    public CategoryDuplicateException() {
-        super(GlobalErrorCode.CATEGORY_DUPLICATION);
+    public MemberProfileNotFoundException() {
+        super(GlobalErrorCode.MEMBER_PROFILE_NOT_FOUND);
     }
 }

@@ -20,6 +20,7 @@ public enum GlobalErrorCode implements BaseErrorCode {
 
     /* 프로필 */
     PROFILE_NOT_FOUND(NOT_FOUND, "PROFILE-001", "해당 ID의 프로필이 없습니다."),
+    MEMBER_PROFILE_NOT_FOUND(NOT_FOUND, "PROFILE-002", "해당 멤버의 프로필이 없습니다."),
 
     /* 챌린지 */
     CHALLENGE_NOT_FOUND(NOT_FOUND, "CHALLENGE-001", "해당 ID의 챌린지가 없습니다."),
