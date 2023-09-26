@@ -12,24 +12,24 @@ function KakaoLoginButton() {
     redirectKakao();
 
     // URL에 인증 코드가 있는지 체크 (실제로는 리다이렉트 후 새로운 페이지/컴포넌트에서 수행됩니다)
-    const url = new URL(window.location.href);
-    const code = url.searchParams.get("code");
+    // const url = new URL(window.location.href);
+    // const code = url.searchParams.get("code");
 
-    if (code) {
-      try {
-        // 2. 백엔드 서버에 로그인 요청
-        const data = await loginKakao(code);
+    // if (code) {
+    //   try {
+    // 2. 백엔드 서버에 로그인 요청
+    // const data = await loginKakao(code);
 
-        // data 처리 (예: 로컬 스토리지에 토큰 저장)
-        localStorage.setItem("token", data.token);
+    // data 처리 (예: 로컬 스토리지에 토큰 저장)
+    // localStorage.setItem("token", data.token);
 
-        // 3. 사용자를 대시보드 페이지 등으로 리다이렉트
-        window.location.href = "/home";
-      } catch (error) {
-        console.error("카카오 로그인 실패:", error);
-        setIsLoading(false);
-      }
-    }
+    // 3. 사용자를 대시보드 페이지 등으로 리다이렉트
+    // window.location.href = "/home";
+    // } catch (error) {
+    // console.error("카카오 로그인 실패:", error);
+    // setIsLoading(false);
+    // }
+    // }
   };
 
   return (
