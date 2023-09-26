@@ -87,13 +87,20 @@ pipeline {
 
                     if curl -s "http://3.34.135.50:8081" > /dev/null
                     then
-                        deployment_target_ip=3.34.135.50:8082
+                        deployment_target_port=8082
+                        deployment_target=green
                     else
-                        deployment_target_ip=3.34.135.50:8081
+                        deployment_target_port=8081
+                        deployment_target=blue
                     fi
 
                     scp -o StrictHostKeyChecking=no ./build/libs/haruman-0.0.1-SNAPSHOT.jar root@${deployment_target_ip}:/home/ssafy/haruman
-                    ssh root@${deployment_target_ip} "nohup java -jar /home/ssafy/haruman/haruman-0.0.1-SNAPSHOT.jar > /dev/null &" &
+                    ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io "nohup java -jar /home/ssafy/haruman/haruman-0.0.1-SNAPSHOT.jar > /dev/null &" &
+
+                    echo [BE] Build Docker Image!
+                    docker build -t server .
+                    echo [BE] Run Docker Container!
+                    docker run -dp ${deployment_target_port}:${deployment_target_port} --name haruman_server_${deployment_target} server
                 '''
             }
         }
