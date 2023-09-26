@@ -13,7 +13,7 @@ import BurgermenuIcon from "../assets/icons/icon-burgermenu.svg";
 
 // css
 import "../styles/theme.css";
-import "../styles/BottomBar.scss";
+import "../styles/components/BottomBarStyle.scss";
 
 const BottomBar: React.FC = () => {
   const dispatch = useDispatch();

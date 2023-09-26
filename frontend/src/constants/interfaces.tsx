@@ -1,3 +1,10 @@
+export interface CategoryItem {
+  categoryId: number;
+  category: string;
+  color: string;
+  isDefault: string;
+}
+
 export interface SpentItem {
   category: string | null;
   color: string | null;

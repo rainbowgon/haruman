@@ -13,6 +13,7 @@ import RegistModal from "../components/RegistModal";
 
 const Homepage = () => {
   // const baseURL = 'https://i9a608.p.ssafy.io:8000';
+  // const API = `/api`;
   // const ChallengeAPI = '/challenges';
   const canStart:number[] = [5, 12];
 
@@ -34,45 +35,31 @@ const Homepage = () => {
   }, []);
 
   useEffect(() => {
-    // const regist_modal = document.querySelector("#regist_modal");
-  
-    // let curModalTop:number = modalTop;
-    // let targetModalTop: number = isModalOpen ? 97: 0;
-  
-    // function modalframe() {
-    //   curModalTop = lerp(curModalTop, targetModalTop, 0.1);
-      
-    //   console.log("targetModalTop - curModalTop" , isModalOpen, targetModalTop, curModalTop);
-    //   setModalTop(curModalTop);
-
-    //   if(targetModalTop - curModalTop > 0.1 || targetModalTop - curModalTop < -0.1){
-    //     requestAnimationFrame(modalframe);
-    //   }
-    // }
-    // requestAnimationFrame(modalframe);
-
-    // function lerp(s:number, e:number, a:number) {
-    //   return s + (0-s) * a;
-    // }
+    let targetModalTop: number = isModalOpen ? 25: 100;
+    if (isModalOpen){
+      console.log("[True] targetModalTop : ", targetModalTop);
+      setModalTop(targetModalTop);
+    } else {
+      console.log("[False] targetModalTop : ", targetModalTop);
+      setModalTop(targetModalTop);
+    }
   }, [isModalOpen]);
 
   const handleStartChallenge = () => {
     // 테스트 끝나면 open
 
-    // if(currentDate.getHours() < canStart[0]) {
-    //   showAlert(`${canStart[0]}시에 시작할 수 있습니다.`);
-    //   return;
-    // }
-    // if(currentDate.getHours() >= canStart[1]){
-    //   showAlert(`시작 가능한 시간이 지났습니다. 내일 도전해 보세요!`);
-    //   return;
-    // }
+    if(currentDate.getHours() < canStart[0]) {
+      showAlert(`${canStart[0]}시에 시작할 수 있습니다.`);
+      // return;
+    }
+    if(currentDate.getHours() >= canStart[1]){
+      showAlert(`시작 가능한 시간이 지났습니다. 내일 도전해 보세요!`);
+      // return;
+    }
 
     const nowChallenge = !challenge;
   
-    //챌린지 시작 
     setChallenge(nowChallenge);
-
     startChallenge();
 
     let curHeight:number = height;
@@ -84,7 +71,7 @@ const Homepage = () => {
       setHeight(curHeight);
       
       if(targetHeight - curHeight > 0.1 || targetHeight - curHeight < -0.1){
-        requestAnimationFrame(frame);
+        setTimeout(frame, 20);
       } else {
         setHeight(targetHeight);
       }
@@ -107,13 +94,6 @@ const Homepage = () => {
   const startChallenge = () => {
     // const accessToken = sessionStorage.getItem("accessToken")
     // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-
-    // let guest_id = null;
-    // if (from === "FriendList"){
-    //   guest_id = parseInt(friend.userId, 10);
-    // } else {
-    //   guest_id = parseInt(friend.idx, 10);
-    // }
 
     // axios.post(`${baseURL}${ChallengeAPI}`, null,
     // {
@@ -142,13 +122,7 @@ const Homepage = () => {
     const createReceipt = () => {
       // const accessToken = sessionStorage.getItem("accessToken")
       // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-  
-      // let guest_id = null;
-      // if (from === "FriendList"){
-      //   guest_id = parseInt(friend.userId, 10);
-      // } else {
-      //   guest_id = parseInt(friend.idx, 10);
-      // }
+
       // const challenge_id = sdlkfsdj;
       // axios.post(`${baseURL}${ChallengeAPI}/receipt/${challenge_id}`, null,
       // {
@@ -178,14 +152,7 @@ const Homepage = () => {
     const createExpense = () => {
       // const accessToken = sessionStorage.getItem("accessToken")
       // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-  
-      // let guest_id = null;
-      // if (from === "FriendList"){
-      //   guest_id = parseInt(friend.userId, 10);
-      // } else {
-      //   guest_id = parseInt(friend.idx, 10);
-      // }
-  
+
       // axios.post(`${baseURL}${ChallengeAPI}/{challenge-id}`, null,
       // {
       //   headers: {
@@ -214,13 +181,6 @@ const Homepage = () => {
     const updateExpense = () => {
       // const accessToken = sessionStorage.getItem("accessToken")
       // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-  
-      // let guest_id = null;
-      // if (from === "FriendList"){
-      //   guest_id = parseInt(friend.userId, 10);
-      // } else {
-      //   guest_id = parseInt(friend.idx, 10);
-      // }
   
       // axios.patch(`${baseURL}${ChallengeAPI}`, "edit",
       // {
@@ -251,13 +211,6 @@ const Homepage = () => {
   const deleteExpense = () => {
     // const accessToken = sessionStorage.getItem("accessToken")
     // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-
-    // let guest_id = null;
-    // if (from === "FriendList"){
-    //     guest_id = parseInt(friend.userId, 10);
-    // } else {
-    //     guest_id = parseInt(friend.idx, 10);
-    // }
 
     // axios.delete(`${baseURL}${ChallengeAPI}/{expense-id}`,
     // {
@@ -319,10 +272,10 @@ const Homepage = () => {
     <MainStyle>
       <div className="homepage">
         <div className="homepage_header">
-          <p className="homepage_text">{currentDate.getMonth()+1}월 {currentDate.getDate()}일</p>
           {
             challenge
             ?<>
+              <p className="homepage_text">{currentDate.getMonth()+1}월 {currentDate.getDate()}일</p>
               <div className="homepage_header_title">
                 <h2 className="homepage_header_title_text">오늘의 챌린지
                 </h2>
@@ -330,6 +283,7 @@ const Homepage = () => {
               <p className="homepage_text">{}명의 유저가 먼저 진행하고 있어요!</p>
             </>
             :<>
+              <p className="homepage_text">남은 시간</p>
               <div className="homepage_header_title">
                 <h2 className="homepage_header_title_text">
                   {
@@ -440,14 +394,11 @@ const Homepage = () => {
             />
           }
         </div>
-        {
-          isModalOpen &&
-          // <div id="regist_modal" className="regist_modal" style={{ top: `${modalTop}vh`}}>
-          <RegistModal
-            isModalOpen = {isModalOpen}
-            setIsModalOpen = {setIsModalOpen}
-          />
-        }
+        <RegistModal
+          isModalOpen = {isModalOpen}
+          modalTop = {modalTop}
+          setIsModalOpen = {setIsModalOpen}
+        />
       </div>
     </MainStyle>
   );
