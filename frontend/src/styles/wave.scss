@@ -6,6 +6,11 @@
   font-family: "IBM Plex Sans KR",sans-serif;
   width: 100%;
   height: 100vh;
+
+  display: grid;
+
+  grid-template-columns: 1fr;
+
   justify-content: center;
   align-items: center;
   margin:auto;
@@ -17,6 +22,37 @@
     width: 100%;
     position: absolute;
     top: 76%;
+  }
+
+  .information_block{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .information_block_button{
+      width: 80%;
+      background-color: $white;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      border-radius: 1rem;
+      padding: 0.5rem 0;
+      filter: drop-shadow(0px 2px 2px rgb(0, 0, 0, 0.15));
+
+      p {
+        margin: 0;
+      }
+
+      .information_block_title{
+        font-weight: 600;
+        font-size: 1rem;
+        color: $font1_main;
+      }
+
+      .information_block_content{
+        font-size: 0.7rem;
+        color: $font1_main;
+      }
+    }
   }
 
   .regist_modal{
@@ -61,7 +97,7 @@
   margin : 1rem 0;
 
   .homepage_header_title_text{
-    font-size: 3rem;
+    font-size: 2.7rem;
     height: 5rem;
     margin : 0;
     color: var(--brand1_main);
@@ -128,7 +164,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: 1.5rem;
     box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25), -2px -4px 4px 0px rgba(0, 0, 0, 0.25) inset;
 
 
@@ -163,6 +199,7 @@
     h3{
       font-size: 1.5rem;
       margin: 0;
+      padding-bottom: 1rem;
     }
   }
 }

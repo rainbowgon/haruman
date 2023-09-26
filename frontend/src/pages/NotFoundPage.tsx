@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/NotFoundPageStyle.scss"
+import ColorPicker from "../components/ColorPicker";
 
 const NotFoundPage = () => {
   const [errorLog, setErrorLog] = useState("404");

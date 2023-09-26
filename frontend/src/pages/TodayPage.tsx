@@ -4,7 +4,7 @@ import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
 
 // component
-import InfoItem from "../components/InfoItem";
+import SpentItem from "../components/SpentItem";
 
 //interface value
 import { ChallengeItem } from "../constants/interfaces";
@@ -44,7 +44,7 @@ const TodayPage = () => {
     },
     {
       category: "쇼핑",
-      content: "변정원 팬티 구매",
+      content: "셔츠 구매",
       pay_amount: 17000,
     },
     {
@@ -59,7 +59,7 @@ const TodayPage = () => {
     },
   ]);
 
-  const [category, setCategory] = useState (new Map([]));
+  const [category, setCategory] = useState(new Map([]));
 
   return (
     <CenterContainer>
@@ -72,8 +72,8 @@ const TodayPage = () => {
         <DonutChart datas={costItems} />
         <div className="challengeitems_list">
           {costItems.map((item, index) => (
-            <InfoItem
-              image={item.category}
+            <SpentItem
+              category={item.category}
               mainValue={item.content}
               moneyValue={item.pay_amount}
             />

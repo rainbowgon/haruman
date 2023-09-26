@@ -5,6 +5,14 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
+
+    .calendar_header{
+        width: 100%;
+        height: 12vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 }
 
 .calendar_form{
