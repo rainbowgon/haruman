@@ -9,15 +9,13 @@ import "../styles/_util.scss";
 import "../styles/theme.css";
 import { API_URL } from "../constants/urls";
 
-type UserData = {
-  profileImage: string;
-  nickname: string;
-  leftoverAmount: number;
-  latestTime: string;
-};
+import { User } from "../constants/interfaces";
 
 type BalanceData = {
-  balance: number;
+  nickname: string;
+  profileImage: string;
+  leftoverAmount: number;
+  latestTime: String;
 };
 
 interface BubbleChartForceProps {
@@ -79,51 +77,222 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   const dummyBalances: BalanceData[] = [
-    { balance: 1500 },
-    { balance: 2300 },
-    { balance: 5000 },
-    { balance: 7500 },
-    { balance: 9000 },
-    { balance: 1200 },
-    { balance: 2400 },
-    { balance: 5200 },
-    { balance: 5400 },
-    { balance: 2300 },
-    { balance: 2300 },
-    { balance: 2300 },
-    { balance: 2300 },
-    { balance: 1200 },
-    { balance: 1200 },
-    { balance: 1200 },
-    { balance: 1200 },
-    { balance: 1200 },
-    { balance: 1200 },
-    { balance: 1200 },
-    { balance: 1200 },
-    { balance: 1200 },
-    { balance: 4400 },
-    { balance: 8900 },
-    { balance: 7500 },
-    { balance: 4600 },
-    { balance: 5400 },
-    { balance: 7700 },
-    { balance: 4400 },
-    { balance: 1100 },
-    { balance: 2200 },
-    { balance: 3300 },
-    { balance: 4400 },
-    { balance: 5500 },
-    { balance: 6600 },
-    { balance: 7700 },
-    { balance: 7700 },
-    { balance: 8800 },
-    { balance: 8800 },
-    { balance: 8800 },
-    { balance: 8800 },
-    { balance: 8800 },
-    { balance: 8800 },
-    { balance: 8800 },
-    { balance: 9900 },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "명정루",
+      leftoverAmount: 4320,
+      latestTime: "2023-09-13T10:26:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "푸더가든",
+      leftoverAmount: 2700,
+      latestTime: "2023-09-13T10:10:10",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "다이어터",
+      leftoverAmount: 1700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "지각대장",
+      leftoverAmount: 6700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "남고니",
+      leftoverAmount: 8700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "여배우",
+      leftoverAmount: 5700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "명정루",
+      leftoverAmount: 4320,
+      latestTime: "2023-09-13T10:26:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "푸더가든",
+      leftoverAmount: 2700,
+      latestTime: "2023-09-13T10:10:10",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "다이어터",
+      leftoverAmount: 1700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "지각대장",
+      leftoverAmount: 6700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "남고니",
+      leftoverAmount: 8700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "여배우",
+      leftoverAmount: 5700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "명정루",
+      leftoverAmount: 4320,
+      latestTime: "2023-09-13T10:26:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "푸더가든",
+      leftoverAmount: 2700,
+      latestTime: "2023-09-13T10:10:10",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "다이어터",
+      leftoverAmount: 1700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "지각대장",
+      leftoverAmount: 6700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "남고니",
+      leftoverAmount: 8700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "여배우",
+      leftoverAmount: 5700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "명정루",
+      leftoverAmount: 4320,
+      latestTime: "2023-09-13T10:26:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "푸더가든",
+      leftoverAmount: 2700,
+      latestTime: "2023-09-13T10:10:10",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "다이어터",
+      leftoverAmount: 1700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "지각대장",
+      leftoverAmount: 6700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "남고니",
+      leftoverAmount: 8700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "여배우",
+      leftoverAmount: 5700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "명정루",
+      leftoverAmount: 4320,
+      latestTime: "2023-09-13T10:26:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "푸더가든",
+      leftoverAmount: 2700,
+      latestTime: "2023-09-13T10:10:10",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "다이어터",
+      leftoverAmount: 1700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "지각대장",
+      leftoverAmount: 6700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "남고니",
+      leftoverAmount: 8700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "여배우",
+      leftoverAmount: 5700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "명정루",
+      leftoverAmount: 4320,
+      latestTime: "2023-09-13T10:26:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "푸더가든",
+      leftoverAmount: 2700,
+      latestTime: "2023-09-13T10:10:10",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "다이어터",
+      leftoverAmount: 1700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "지각대장",
+      leftoverAmount: 6700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "남고니",
+      leftoverAmount: 8700,
+      latestTime: "2023-09-13T09:55:33",
+    },
+    {
+      profileImage: "image_url_kajdskjfasdfegjalad",
+      nickname: "여배우",
+      leftoverAmount: 5700,
+      latestTime: "2023-09-13T09:55:33",
+    },
   ];
 
   useEffect(() => {
@@ -138,8 +307,8 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
     for (let balanceData of balances) {
       for (let range of updatedData) {
         if (
-          balanceData.balance >= range.min &&
-          balanceData.balance <= range.max
+          balanceData.leftoverAmount >= range.min &&
+          balanceData.leftoverAmount <= range.max
         ) {
           range.users++;
           break;
