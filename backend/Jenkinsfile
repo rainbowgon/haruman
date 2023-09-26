@@ -94,8 +94,8 @@ pipeline {
                         deployment_target=blue
                     fi
 
-                    scp -o StrictHostKeyChecking=no ./build/libs/haruman-0.0.1-SNAPSHOT.jar root@${deployment_target_ip}:/home/ssafy/haruman
-                    ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io "nohup java -jar /home/ssafy/haruman/haruman-0.0.1-SNAPSHOT.jar > /dev/null &" &
+                    // scp -o StrictHostKeyChecking=no ./build/libs/haruman-0.0.1-SNAPSHOT.jar root@${deployment_target_ip}:/home/ssafy/haruman
+                    // ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io "nohup java -jar /home/ssafy/haruman/haruman-0.0.1-SNAPSHOT.jar > /dev/null &" &
 
                     echo [BE] Build Docker Image!
                     docker build -t server .
