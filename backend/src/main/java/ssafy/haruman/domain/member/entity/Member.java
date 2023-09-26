@@ -43,8 +43,7 @@ public class Member {
     @Embedded
     private OAuthId oauthId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_id")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "member")
     private Profile profile;
 
     @Builder
