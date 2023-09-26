@@ -95,7 +95,7 @@ pipeline {
                     fi
 
                     echo [BE] Build Docker Image!
-                    docker build -t server .
+                    docker build -t server ./backend
                     echo [BE] Run Docker Container!
                     docker run -dp ${deployment_target_port}:${deployment_target_port} --name haruman_server_${deployment_target} server
                 '''
@@ -125,7 +125,7 @@ pipeline {
                     done
 
                     ssh root@${nginx_ip} "echo 'set \\\$service_url http://3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc && service nginx reload"
-                    echo "Switch the reverse proxy direction of nginx to ${deployment_target_ip} 🔄"
+                    echo "Switch the reverse proxy direction of nginx to http://3.34.135.50:${deployment_target_port} 🔄"
 
                     if [ "${deployment_target_ip}" == "${blue_ip}" ]
                     then
