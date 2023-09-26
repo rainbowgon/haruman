@@ -47,7 +47,7 @@ pipeline {
                         ./gradlew clean build -x test --stacktrace
                         pwd
                         ls
-                        cd build
+                        cd build/libs
                         ls
                     '''
                 }
