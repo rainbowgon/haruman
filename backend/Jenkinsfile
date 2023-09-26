@@ -45,10 +45,6 @@ pipeline {
                         gradle wrapper
                         chmod +x gradlew
                         ./gradlew clean build -x test --stacktrace
-                        pwd
-                        ls
-                        cd build/libs
-                        ls
                     '''
                 }
             }
@@ -96,12 +92,19 @@ pipeline {
                         deployment_target_ip=3.34.135.50:8081
                     fi
 
-                    scp -o StrictHostKeyChecking=no ./build/libs/zero-downtime-deployment-practice-0.0.1-SNAPSHOT.jar root@${deployment_target_ip}:/home/ubuntu
-                    ssh root@${deployment_target_ip} "nohup java -jar /home/ubuntu/zero-downtime-deployment-practice-0.0.1-SNAPSHOT.jar > /dev/null &" &
+                    scp -o StrictHostKeyChecking=no ./build/libs/haruman-0.0.1-SNAPSHOT.jar root@${deployment_target_ip}:/home/ssafy/haruman
+                    ssh root@${deployment_target_ip} "nohup java -jar /home/ssafy/haruman/haruman-0.0.1-SNAPSHOT.jar > /dev/null &" &
+                '''
+            }
+        }
 
+
+        stage('10s Green Health Check') {
+            steps {
+                sh'''
                     for retry_count in \$(seq 10)
                     do
-                      if curl -s "http://${deployment_target_ip}:8080" > /dev/null
+                      if curl -s "http://${deployment_target_ip}:8081" > /dev/null
                       then
                           echo "Health check success ✅"
                           break
@@ -117,14 +120,14 @@ pipeline {
                       sleep 10
                     done
 
-                    ssh root@${nginx_ip} "echo 'set \\\$service_url http://${deployment_target_ip}:8080;' > /etc/nginx/conf.d/service-url.inc && service nginx reload"
+                    ssh root@${nginx_ip} "echo 'set \\\$service_url http://${deployment_target_ip}:8081;' > /etc/nginx/conf.d/service-url.inc && service nginx reload"
                     echo "Switch the reverse proxy direction of nginx to ${deployment_target_ip} 🔄"
 
                     if [ "${deployment_target_ip}" == "${blue_ip}" ]
                     then
-                        ssh root@${green_ip} "fuser -s -k 8080/tcp"
+                        ssh root@${green_ip} "fuser -s -k 8081/tcp"
                     else
-                        ssh root@${blue_ip} "fuser -s -k 8080/tcp"
+                        ssh root@${blue_ip} "fuser -s -k 8081/tcp"
                     fi
                     echo "Kill the process on the opposite server."
                 '''
