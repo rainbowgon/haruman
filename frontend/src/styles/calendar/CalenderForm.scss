@@ -2,25 +2,9 @@
 @import "../_util.scss";
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
 
-
-.calendar_header{
-  text-align: center;
-  margin: 3rem 0 1.5rem 0;
-  .sub_title{
-    margin: 0;
-    font-size: 1rem;
-    color: var(--font2_main);
-  }
-  .main_title{
-    margin: 0;
-    font-size: 2rem;
-    color: var(--font1_main);
-  }
-}
-
 .react-calendar {
   width: 90vw;
-  max-width: 1200px;
+  max-width: 512px;
   padding: 20px;
   border: none;
   color: var(--font1_main);
@@ -198,9 +182,8 @@
   background: $point3_main;
 }
 .highlight2 {
-  background-size: 39px 39px;
+  background-size: 35px 35px;
   background-repeat: no-repeat;
   background-position: center;
   background-color: $brand2_op_60;
-  padding: 10px; 
 }

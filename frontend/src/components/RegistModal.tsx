@@ -12,25 +12,118 @@ import XmarkIcon from "../assets/icons/icon-xmark.svg"
 import InputText from "../components/InputText";
 import RegisterButton from "../components/RegistButton";
 import Category from "./Category";
-import { ChallengeItem, SpentItem } from "../constants/interfaces";
+import { CategoryItem, SpentItem } from "../constants/interfaces";
 
 export interface RegistModalProps {
     isModalOpen : boolean;
+    modalTop: number;
     setIsModalOpen : any;
 }
 
-export default function RegistModal({ isModalOpen, setIsModalOpen }: RegistModalProps) {
-  // context-path = `/api`;
-  // const baseURL = 'https://haruman.site';
-  // const baseURL = 'https://i9a608.p.ssafy.io:8000';
-  // const CategorieAPI = '/categories';
+export default function RegistModal(
+  { 
+    isModalOpen, 
+    modalTop,
+    setIsModalOpen 
+  }: RegistModalProps) {
+    // const baseURL = 'https://haruman.site';
+    // const contextPath = `/api`;
+    // const CategorieAPI = '/categories';
   const [spentItem, setSpentItem] = useState<SpentItem>({
     category : null,
     color : null,
     content : null,
     payAmount : null,
   });
-  const [categories, setCategories] = useState<ChallengeItem[]>([]);
+  const [categories, setCategories] = useState<CategoryItem[]>([
+    {
+      categoryId :2,
+      category :"식사",
+      color :"YELLOW_01",
+      isDefault :"DEFAULT"
+    },
+    {
+      categoryId :3,
+      category :"카페",
+      color :"BROWN_01",
+      isDefault :"DEFAULT"
+    },
+    {
+      categoryId :4,
+      category :"군것질",
+      color :"ORANGE_01",
+      isDefault :"DEFAULT"
+    },
+    {
+      categoryId :5,
+      category :"패션/뷰티",
+      color :"RED_01",
+      isDefault :"DEFAULT"
+    },
+    {
+      categoryId :6,
+      category :"생활",
+      color :"GREEN_01",
+      isDefault :"DEFAULT"
+    },
+    {
+      categoryId :7,
+      category :"건강",
+      color :"BLUE_01",
+      isDefault :"DEFAULT"
+    },
+    {
+      categoryId :8,
+      category :"유흥",
+      color :"PINK_01",
+      isDefault :"DEFAULT"
+    },
+    {
+      categoryId :9,
+      category :"교통",
+      color :"BLACK_02",
+      isDefault :"DEFAULT"
+    },
+    {
+      categoryId :10,
+      category :"여가",
+      color :"PURPLE_01",
+      isDefault :"DEFAULT"
+    },
+    {
+      categoryId :1,
+      category :"기타",
+      color :"BLACK_01",
+      isDefault :"DEFAULT"
+    },
+  ]);
+
+  /**
+    createExpense
+    지출 내역 직접 입력
+    /challenges/{challenge-id}
+    POST
+  */
+  const createExpense = () => {
+    // const accessToken = sessionStorage.getItem("accessToken")
+
+    // axios.post(`${baseURL}${contextPath}${ChallengeAPI}/{challenge-id}`, null,
+    // {
+    //   headers: {
+    //     Authorization: `Bearer ${accessToken}`
+    //   }
+    // })
+    // .then((response) => {
+    //     console.log("지출 내역 직접 입력");
+    //     showAlert("success", "지출 내역 직접 입력");
+    //     setCurStatus(2);
+    // })
+    // .catch((error) => {
+    //     console.error("서버로부터 지출 내역 직접 입력 실패", error);
+    //     showAlert("error", "지출 내역 직접 입력 실패입니다.");
+    //     console.error(error.code);
+    // });
+  }
 
   // 카테고리
   /**
@@ -59,7 +152,7 @@ export default function RegistModal({ isModalOpen, setIsModalOpen }: RegistModal
   }
 
   return (
-    <div id="regist_modal" className="regist_modal">
+    <div id="regist_modal" className="regist_modal"  style={{ top: `${modalTop}%`}}>
       <div>
         <div className="close_regist_modal">
           <button className="close_regist_modal_button" onClick={handleModal}>
@@ -79,11 +172,11 @@ export default function RegistModal({ isModalOpen, setIsModalOpen }: RegistModal
         </div>
         <div className="categoryselect_space">
         {
-          categories.length !== 0 ?
+          categories ?
           categories.map((category) => (
             <Category
               category = {category.category}
-            //   color = {categoriy.color}
+              color = {category.color}
               onClick = {(e) => setSpentItem({...spentItem, category : e.target.category})}
             />
           ))
