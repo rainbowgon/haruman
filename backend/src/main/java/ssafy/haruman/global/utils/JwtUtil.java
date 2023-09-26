@@ -3,7 +3,6 @@ package ssafy.haruman.global.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
 import java.util.Date;
 import java.util.UUID;
 
@@ -26,8 +25,8 @@ public class JwtUtil {
                 .getBody().getExpiration().before(new Date());
     }
 
-    public static Long getMemberIdFromJwt(String token, String secretKey) {
+    public static String getMemberIdFromJwt(String token, String secretKey) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().get("member_id", Long.class);
+                .getBody().get("member_id", String.class);
     }
 }
