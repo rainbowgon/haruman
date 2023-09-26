@@ -47,6 +47,8 @@ pipeline {
                         ./gradlew clean build -x test --stacktrace
                         pwd
                         ls
+                        cd build
+                        ls
                     '''
                 }
             }
@@ -89,7 +91,7 @@ pipeline {
 
                     if curl -s "http://3.34.135.50:8081" > /dev/null
                     then
-                        deployment_target_ip=3.34.135.50:8081
+                        deployment_target_ip=3.34.135.50:8082
                     else
                         deployment_target_ip=3.34.135.50:8081
                     fi
