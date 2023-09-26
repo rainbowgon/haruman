@@ -16,6 +16,7 @@ import ResetPasswordPage from "./pages/TemporaryPassPage";
 import TodayPage from "./pages/TodayPage";
 import RankingPage from "./pages/RankingPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import LoginForEmailPage from "./pages/LoginForEmailPage"
 
 // NavigationBar
 import BottomBar from "./components/BottomBar";
@@ -58,6 +59,14 @@ const App: React.FC = () => {
               element={<HomePage />}
             />
             <Route
+              path="/login"
+              element={<LoginPage />}
+            />
+            <Route
+              path="/Login/email"
+              element={<LoginForEmailPage />}
+            />
+            <Route
               path="/signup"
               element={<SignUpPage />}
             />
@@ -68,10 +77,6 @@ const App: React.FC = () => {
             <Route
               path="/calendar"
               element={<CalendarPage />}
-            />
-            <Route
-              path="/login"
-              element={<LoginPage />}
             />
             <Route
               path="/finduserid"
