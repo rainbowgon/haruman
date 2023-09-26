@@ -1,4 +1,4 @@
-.bottom-bar{
+.bottom-bar {
   width: 100vw;
   height: 70px;
   display: grid;
@@ -11,15 +11,16 @@
   left: 0;
   right: 0;
   bottom: 0;
+  transition: transform 0.3s ease;
 
   button {
     width: 100%;
     background-color: var(--Transparent);
     border: var(--Transparent);
 
-    span{
+    span {
       height: 35px;
-      .bottom-bar-image{
+      .bottom-bar-image {
         height: 35px;
         opacity: 50%;
       }
@@ -27,17 +28,19 @@
   }
 }
 
-.active{
+.active {
 }
 
-.inactive{
+.inactive {
 }
 
 .active-icon {
   width: 100%;
-  filter: invert(68%) sepia(33%) saturate(4817%) hue-rotate(122deg) brightness(90%) contrast(98%);
+  filter: invert(68%) sepia(33%) saturate(4817%) hue-rotate(122deg)
+    brightness(90%) contrast(98%);
 }
 .inactive-icon {
   width: 100%;
-  filter: invert(55%) sepia(0%) saturate(1289%) hue-rotate(191deg) brightness(87%) contrast(90%);
+  filter: invert(55%) sepia(0%) saturate(1289%) hue-rotate(191deg)
+    brightness(87%) contrast(90%);
 }

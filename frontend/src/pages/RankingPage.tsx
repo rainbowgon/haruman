@@ -7,6 +7,9 @@ import InfoItem from "../components/InfoItem";
 //interface value
 import { User } from "../constants/interfaces";
 
+// styles
+import "../styles/RankinPageStyle.scss";
+
 const RankingPage = () => {
   interface BalanceData {
     balance: number;
@@ -103,19 +106,23 @@ const RankingPage = () => {
   return (
     <CenterContainer>
       <MainStyle>
-        <h3>[]명이 도전중!</h3>
-        <h1>[]월 []일 챌린지</h1>
-        <BubbleChart onBubbleClick={handleBubbleClick} />
+        <div className="rankingpage">
+          <div className="ranking_header">
+            <h3 className="sub_title">[]명이 도전중!</h3>
+            <h1 className="main_title">[]월 []일 챌린지</h1>
+          </div>
+          <BubbleChart onBubbleClick={handleBubbleClick} />
 
-        <div className="challengeitems_list">
-          {Users.map((user, index) => (
-            <InfoItem
-              image={user.profileImage}
-              mainValue={user.nickname}
-              moneyValue={user.leftoverAmount}
-            />
-            // <div>{item.category}</div>
-          ))}
+          <div className="challengeitems_list">
+            {Users.map((user, index) => (
+              <InfoItem
+                image={user.profileImage}
+                mainValue={user.nickname}
+                moneyValue={user.leftoverAmount}
+              />
+              // <div>{item.category}</div>
+            ))}
+          </div>
         </div>
       </MainStyle>
     </CenterContainer>
