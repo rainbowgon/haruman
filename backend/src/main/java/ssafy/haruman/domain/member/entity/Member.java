@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ssafy.haruman.domain.profile.entity.Profile;
+import ssafy.haruman.global.entity.BaseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,7 +24,7 @@ import java.util.UUID;
                         }
                 ),
         })
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue
