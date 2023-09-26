@@ -7,6 +7,9 @@ import InfoItem from "../components/InfoItem";
 //interface value
 import { User } from "../constants/interfaces";
 
+// styles
+import "../styles/RankinPageStyle.scss";
+
 const RankingPage = () => {
   interface BalanceData {
     balance: number;
@@ -27,19 +30,19 @@ const RankingPage = () => {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "명정루",
       leftoverAmount: 4320,
-      latestTime: "2023-09-13T10:26:33"
+      latestTime: "2023-09-13T10:26:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "푸더가든",
       leftoverAmount: 5700,
-      latestTime: "2023-09-13T10:10:10"
+      latestTime: "2023-09-13T10:10:10",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "남고니",
       leftoverAmount: 5700,
-      latestTime: "2023-09-13T09:55:33"
+      latestTime: "2023-09-13T09:55:33",
     },
   ]);
 
@@ -103,21 +106,23 @@ const RankingPage = () => {
   return (
     <CenterContainer>
       <MainStyle>
-        <h3>[]명이 도전중!</h3>
-        <h1>[]월 []일 챌린지</h1>
-        <BubbleChart onBubbleClick={handleBubbleClick} />
+        <div className="rankingpage">
+          <div className="ranking_header">
+            <h3 className="sub_title">[]명이 도전중!</h3>
+            <h1 className="main_title">[]월 []일 챌린지</h1>
+          </div>
+          <BubbleChart onBubbleClick={handleBubbleClick} />
 
-        <div className="challengeitems_list">
-          {
-            Users.map((user, index) => (
+          <div className="challengeitems_list">
+            {Users.map((user, index) => (
               <InfoItem
-                image = {user.profileImage}
-                mainValue = {user.nickname}
-                moneyValue = {user.leftoverAmount}
+                image={user.profileImage}
+                mainValue={user.nickname}
+                moneyValue={user.leftoverAmount}
               />
               // <div>{item.category}</div>
-            ))
-          }
+            ))}
+          </div>
         </div>
       </MainStyle>
     </CenterContainer>

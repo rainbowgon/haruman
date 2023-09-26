@@ -82,7 +82,7 @@
   font-size: 0.8rem;
 }
 
-.regular.brand{
+.brand{
   background-color: $brand1_main;
 }
 
@@ -102,4 +102,14 @@
   max-height: 200px;
   color: $white;
   font-size: 0.8rem;
+}
+
+.setspentitem{
+  background-color: $white;
+  width: 100%;
+  filter: none;
+  border: none;
+  color: $brand1_main;
+  border-radius: 0%;
+  margin-bottom: 5%;
 }

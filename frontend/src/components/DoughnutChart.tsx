@@ -47,7 +47,7 @@ const DonutChart: React.FC<DonutChartProps> = ({ datas }) => {
 
   // api용
   //   axios
-  //     .get("api명세서가 나오면 작성할게요!")
+  //     .get(`api/challenges/{date}`)
   //     .then((response) => {
   //       const aggregatedData = aggregateByCategory(response.data);
   //       setData(aggregatedData);

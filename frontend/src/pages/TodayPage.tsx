@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+// 더미용
 import DonutChart from "../components/DoughnutChart";
 import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
+// api용
+// import DonutChart from "../components/DoughnutChartApi";
+
+// styles
+import "../styles/calendar/CalendarpageStyle.scss";
+import "../styles/TodayPageStyle.scss";
 
 // component
 import SpentItem from "../components/SpentItem";
@@ -64,20 +71,25 @@ const TodayPage = () => {
   return (
     <CenterContainer>
       <MainStyle>
-        <h1>하루 소비 지출 현황</h1>
-        {/* api용 */}
-        {/* <DonutChart/> */}
+        <div className="todaypage">
+          <div className="today_header">
+            <h2 className="main_title">하루 소비 지출 현황</h2>
+          </div>
+          {/* api용 */}
+          {/* <DonutChart /> */}
 
-        {/* 더미용 */}
-        <DonutChart datas={costItems} />
-        <div className="challengeitems_list">
-          {costItems.map((item, index) => (
-            <SpentItem
-              category={item.category}
-              mainValue={item.content}
-              moneyValue={item.pay_amount}
-            />
-          ))}
+          {/* 더미용 */}
+          <DonutChart datas={costItems} />
+          <div className="challengeitems_list">
+            {costItems.map((item, index) => (
+              <SpentItem
+                category={item.category}
+                mainValue={item.content}
+                moneyValue={item.pay_amount}
+              />
+            ))}
+          </div>
+          <div className="bottom_bar_spacer"></div>
         </div>
       </MainStyle>
     </CenterContainer>
