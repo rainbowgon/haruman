@@ -39,7 +39,7 @@ public enum GlobalErrorCode implements BaseErrorCode {
     /* 멤버 */
     MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER-001", "주어진 ID에 해당하는 Member가 없습니다."),
     MEMBER_NO_AUTHORIZATION(FORBIDDEN, "MEMBER-002", "Authorization Code가 없습니다."),
-    MEMBER_UNAUTHORIZED(UNAUTHORIZED, "MEMBER-003", "인증되지 않은 요청입니다.");
+    MEMBER_TOKEN_EXPIRED(UNAUTHORIZED, "MEMBER-003", "토큰이 만료되었습니다.");
 
     private HttpStatus status;
     private String code;
