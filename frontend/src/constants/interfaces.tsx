@@ -5,6 +5,18 @@ export interface CategoryItem {
   isDefault: string;
 }
 
+export interface ChallengeState {
+  id: number;
+  nickname: string;
+  startTime: string;
+  endTime: string;
+  challengeStatus: string;
+  targetAmount: number;
+  usedAmount: number;
+  leftoverAmount: number;
+  isViewed: String;
+}
+
 export interface SpentItem {
   category: string | null;
   color: string | null;

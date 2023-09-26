@@ -26,10 +26,9 @@ export default function RegistModal(
     modalTop,
     setIsModalOpen 
   }: RegistModalProps) {
-  // context-path = `/api`;
-  // const baseURL = 'https://haruman.site';
-  // const baseURL = 'https://i9a608.p.ssafy.io:8000';
-  // const CategorieAPI = '/categories';
+    // const baseURL = 'https://haruman.site';
+    // const contextPath = `/api`;
+    // const CategorieAPI = '/categories';
   const [spentItem, setSpentItem] = useState<SpentItem>({
     category : null,
     color : null,
@@ -98,6 +97,33 @@ export default function RegistModal(
       isDefault :"DEFAULT"
     },
   ]);
+
+  /**
+    createExpense
+    지출 내역 직접 입력
+    /challenges/{challenge-id}
+    POST
+  */
+  const createExpense = () => {
+    // const accessToken = sessionStorage.getItem("accessToken")
+
+    // axios.post(`${baseURL}${contextPath}${ChallengeAPI}/{challenge-id}`, null,
+    // {
+    //   headers: {
+    //     Authorization: `Bearer ${accessToken}`
+    //   }
+    // })
+    // .then((response) => {
+    //     console.log("지출 내역 직접 입력");
+    //     showAlert("success", "지출 내역 직접 입력");
+    //     setCurStatus(2);
+    // })
+    // .catch((error) => {
+    //     console.error("서버로부터 지출 내역 직접 입력 실패", error);
+    //     showAlert("error", "지출 내역 직접 입력 실패입니다.");
+    //     console.error(error.code);
+    // });
+  }
 
   // 카테고리
   /**

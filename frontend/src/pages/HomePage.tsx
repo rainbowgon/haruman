@@ -10,10 +10,11 @@ import "../styles/wave.scss";
 // components
 import RegisterButton from "../components/RegistButton";
 import RegistModal from "../components/RegistModal";
+import { ChallengeState } from "../constants/interfaces";
 
 const Homepage = () => {
   // const baseURL = 'https://i9a608.p.ssafy.io:8000';
-  // const API = `/api`;
+  // const contextPath = `/api`;
   // const ChallengeAPI = '/challenges';
   const canStart:number[] = [5, 12];
 
@@ -22,8 +23,12 @@ const Homepage = () => {
   const [modalTop, setModalTop] = useState(100);
   const [challenge, setChallenge] = useState(true);
   const [height, setHeight] = useState(100);
-  const [challengeInfo, setChallengeInfo] = useState();
+  const [challengeInfo, setChallengeInfo] = useState<ChallengeState>();
   const sidebarRef = useRef();
+
+  useEffect(() => {
+    selectDailyChallenge();
+  }, []);
 
   // 매 초마다 시간 재설정
   useEffect(() => {
@@ -93,9 +98,8 @@ const Homepage = () => {
 
   const startChallenge = () => {
     // const accessToken = sessionStorage.getItem("accessToken")
-    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
 
-    // axios.post(`${baseURL}${ChallengeAPI}`, null,
+    // axios.post(`${baseURL}${contextPath}${ChallengeAPI}`, null,
     // {
     //   headers: {
     //     Authorization: `Bearer ${accessToken}`
@@ -103,74 +107,14 @@ const Homepage = () => {
     // })
     // .then((response) => {
     //     console.log("첼린지 시작");
-    //     showAlert("success", "첼린지 시작");
+    //     showAlert("첼린지 시작");
     //     setChallengeInfo(response.data);
     // })
     // .catch((error) => {
-    //     console.error("서버로부터 챌린지 시작 실패", error);
-    //     showAlert("error", "챌린지 시작 실패입니다.");
-    //     console.error(error.code);
+    //     console.error("챌린지 시작 실패", error);
+    //     showAlert("챌린지 시작 실패입니다.");
     // });
   }
-
-  /**
-    createReceipt   
-    지출 내역 영수증 입력   
-    /challenges/receipt/{challenge-id}   
-    POST
-  */
-    const createReceipt = () => {
-      // const accessToken = sessionStorage.getItem("accessToken")
-      // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-
-      // const challenge_id = sdlkfsdj;
-      // axios.post(`${baseURL}${ChallengeAPI}/receipt/${challenge_id}`, null,
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`
-      //   }
-      // })
-      // .then((response) => {
-      //     console.log("지출 내역 영수증 입력");
-      //     showAlert("success", "지출 내역 영수증 입력");
-      //     setCurStatus(2);
-      // })
-      // .catch((error) => {
-      //     console.error("서버로부터 지출 내역 영수증 입력 실패", error);
-      //     showAlert("error", "지출 내역 영수증 입력 실패입니다.");
-      //     console.error(error.code);
-      // });
-    }
-  
-
-  /**
-    createExpense
-    지출 내역 직접 입력
-    /challenges/{challenge-id}
-    POST
-  */
-    const createExpense = () => {
-      // const accessToken = sessionStorage.getItem("accessToken")
-      // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-
-      // axios.post(`${baseURL}${ChallengeAPI}/{challenge-id}`, null,
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`
-      //   }
-      // })
-      // .then((response) => {
-      //     console.log("지출 내역 직접 입력");
-      //     showAlert("success", "지출 내역 직접 입력");
-      //     setCurStatus(2);
-      // })
-      // .catch((error) => {
-      //     console.error("서버로부터 지출 내역 직접 입력 실패", error);
-      //     showAlert("error", "지출 내역 직접 입력 실패입니다.");
-      //     console.error(error.code);
-      // });
-    }
-
 
   /**
     updateExpense   
@@ -182,7 +126,7 @@ const Homepage = () => {
       // const accessToken = sessionStorage.getItem("accessToken")
       // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
   
-      // axios.patch(`${baseURL}${ChallengeAPI}`, "edit",
+      // axios.patch(`${baseURL}${contextPath}${ChallengeAPI}`, "edit",
       // {
       //   headers: {
       //     Authorization: `Bearer ${accessToken}`
@@ -210,21 +154,16 @@ const Homepage = () => {
   */
   const deleteExpense = () => {
     // const accessToken = sessionStorage.getItem("accessToken")
-    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
+    // const expenseId = e.target;
 
-    // axios.delete(`${baseURL}${ChallengeAPI}/{expense-id}`,
+    // axios.delete(`${baseURL}${contextPath}${ChallengeAPI}/{expense-id}`,
     // {
-    //   params: {
-    //     guest_id:guest_id,
-    //     host_id:host_id
-    //   },
     //   headers: {
     //     Authorization: `Bearer ${accessToken}`
     //   }
     // })
     // .then((response) => {
     //   showAlert("success", "지출 내역 삭제 요청 취소 성공입니다.");
-    //   setCurStatus(0);
     // })
     // .catch((error) => {
     //   console.error("서버로부터 지출 내역 삭제 요청 실패", error);
@@ -241,10 +180,10 @@ const Homepage = () => {
     GET
   */
   const selectDailyChallenge = () => {
+    console.log("selectDailyChallenge");
     // const accessToken = sessionStorage.getItem("accessToken")
-    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
     // 
-    // axios.get(`${baseURL}${ChallengeAPI}?date={date}`)
+    // axios.get(`${baseURL}${contextPath}${ChallengeAPI}`)
     //   .then((response) => {
     //     console.log("해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)");
     //     setChallengeInfo(response.data);
@@ -287,7 +226,7 @@ const Homepage = () => {
               <div className="homepage_header_title">
                 <h2 className="homepage_header_title_text">
                   {
-                    currentDate.getHours() > 14 &&
+                    currentDate.getHours() >= 14 &&
                     "0"
                   }
                   {
