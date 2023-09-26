@@ -16,12 +16,16 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.entity.BaseEntity;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE category SET is_valid = 'DELETED' WHERE category_id = ?")
+@Where(clause = "is_valid = 'VALID'")
 public class Category extends BaseEntity {
 
     @Id
