@@ -34,6 +34,6 @@ export interface ChallengeItem {
 export interface User {
   nickname: string;
   profileImage: string;
-  leftoverAmount: number;
+  usedAmount: number;
   latestTime: String;
 }

@@ -14,7 +14,7 @@ import { User } from "../constants/interfaces";
 type BalanceData = {
   nickname: string;
   profileImage: string;
-  leftoverAmount: number;
+  usedAmount: number;
   latestTime: String;
 };
 
@@ -66,9 +66,9 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
     },
     {
       min: 8001,
-      max: 10000,
+      max: 9999,
       users: 0,
-      label: "8001~10000원",
+      label: "8001~9999원",
       color: "var(--GRAPH_01)",
     },
   ]);
@@ -80,217 +80,217 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "명정루",
-      leftoverAmount: 4320,
+      usedAmount: 4320,
       latestTime: "2023-09-13T10:26:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "푸더가든",
-      leftoverAmount: 2700,
+      usedAmount: 2700,
       latestTime: "2023-09-13T10:10:10",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "다이어터",
-      leftoverAmount: 1700,
+      usedAmount: 1700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "지각대장",
-      leftoverAmount: 6700,
+      usedAmount: 6700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "남고니",
-      leftoverAmount: 8700,
+      usedAmount: 8700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "여배우",
-      leftoverAmount: 5700,
+      usedAmount: 5700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "명정루",
-      leftoverAmount: 4320,
+      usedAmount: 4320,
       latestTime: "2023-09-13T10:26:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "푸더가든",
-      leftoverAmount: 2700,
+      usedAmount: 2700,
       latestTime: "2023-09-13T10:10:10",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "다이어터",
-      leftoverAmount: 1700,
+      usedAmount: 1700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "지각대장",
-      leftoverAmount: 6700,
+      usedAmount: 6700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "남고니",
-      leftoverAmount: 8700,
+      usedAmount: 8700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "여배우",
-      leftoverAmount: 5700,
+      usedAmount: 5700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "명정루",
-      leftoverAmount: 4320,
+      usedAmount: 4320,
       latestTime: "2023-09-13T10:26:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "푸더가든",
-      leftoverAmount: 2700,
+      usedAmount: 2700,
       latestTime: "2023-09-13T10:10:10",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "다이어터",
-      leftoverAmount: 1700,
+      usedAmount: 1700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "지각대장",
-      leftoverAmount: 6700,
+      usedAmount: 6700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "남고니",
-      leftoverAmount: 8700,
+      usedAmount: 8700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "여배우",
-      leftoverAmount: 5700,
+      usedAmount: 5700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "명정루",
-      leftoverAmount: 4320,
+      usedAmount: 4320,
       latestTime: "2023-09-13T10:26:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "푸더가든",
-      leftoverAmount: 2700,
+      usedAmount: 2700,
       latestTime: "2023-09-13T10:10:10",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "다이어터",
-      leftoverAmount: 1700,
+      usedAmount: 1700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "지각대장",
-      leftoverAmount: 6700,
+      usedAmount: 6700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "남고니",
-      leftoverAmount: 8700,
+      usedAmount: 8700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "여배우",
-      leftoverAmount: 5700,
+      usedAmount: 5700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "명정루",
-      leftoverAmount: 4320,
+      usedAmount: 4320,
       latestTime: "2023-09-13T10:26:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "푸더가든",
-      leftoverAmount: 2700,
+      usedAmount: 2700,
       latestTime: "2023-09-13T10:10:10",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "다이어터",
-      leftoverAmount: 1700,
+      usedAmount: 1700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "지각대장",
-      leftoverAmount: 6700,
+      usedAmount: 6700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "남고니",
-      leftoverAmount: 8700,
+      usedAmount: 8700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "여배우",
-      leftoverAmount: 5700,
+      usedAmount: 5700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "명정루",
-      leftoverAmount: 4320,
+      usedAmount: 4320,
       latestTime: "2023-09-13T10:26:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "푸더가든",
-      leftoverAmount: 2700,
+      usedAmount: 2700,
       latestTime: "2023-09-13T10:10:10",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "다이어터",
-      leftoverAmount: 1700,
+      usedAmount: 1700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "지각대장",
-      leftoverAmount: 6700,
+      usedAmount: 6700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "남고니",
-      leftoverAmount: 8700,
+      usedAmount: 8700,
       latestTime: "2023-09-13T09:55:33",
     },
     {
       profileImage: "image_url_kajdskjfasdfegjalad",
       nickname: "여배우",
-      leftoverAmount: 5700,
+      usedAmount: 5700,
       latestTime: "2023-09-13T09:55:33",
     },
   ];
@@ -307,8 +307,8 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
     for (let balanceData of balances) {
       for (let range of updatedData) {
         if (
-          balanceData.leftoverAmount >= range.min &&
-          balanceData.leftoverAmount <= range.max
+          balanceData.usedAmount >= range.min &&
+          balanceData.usedAmount <= range.max
         ) {
           range.users++;
           break;
@@ -330,6 +330,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
     //   },
     // });
     //   .then((response) => {
+    //      const allUsers =
     //       const usersData: UserData[][] = response.data.data;
 
     //       // 모든 사용자 데이터를 하나의 배열로 펼치기
@@ -364,6 +365,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
   const createForceBubbleChart = (data: typeof ranges) => {
     console.log("버블차트 생성시 받아오는 데이터", data);
+    const allUsers = dummyBalances.length;
     const margin = { top: 70, right: 100, bottom: 20, left: -30 };
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
@@ -377,8 +379,8 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const width = 600;
-    const height = 300;
+    const width = 400;
+    const height = 350;
 
     const simulation = d3
       .forceSimulation<DataPoint>(data)
@@ -388,7 +390,9 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .force("y", d3.forceY(height / 2).strength(0.05))
       .force(
         "collide",
-        d3.forceCollide((d: any) => d.users * 3),
+        d3.forceCollide(
+          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.2),
+        ),
       )
       .on("tick", ticked);
 
@@ -398,7 +402,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
       u.enter()
         .append<SVGCircleElement>("circle")
-        .attr("r", (d) => d.users * 3)
+        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.2))
         .attr("fill", (d) => d.color || "#8884d8")
         .attr("stroke", "#fff")
         .attr("stroke-width", 2)
