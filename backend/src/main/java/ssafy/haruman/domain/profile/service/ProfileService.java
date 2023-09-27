@@ -16,5 +16,5 @@ public interface ProfileService {
 
     void deleteProfile(Long profileId);
 
-    void saveProfileFromOAuth(Member member, String nickname, String oauthProfileImage);
+    void saveProfileFromOAuth(Member member, String nickname, String oauthProfileImage) throws IOException;
 }

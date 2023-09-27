@@ -8,7 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ssafy.haruman.global.entity.File;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.UUID;
 
 @Service
@@ -26,12 +32,38 @@ public class S3FileService {
     public String saveFile(String path, MultipartFile multipartFile) throws IOException {
         String savedFilename = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
 
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(multipartFile.getSize());
-        metadata.setContentType(multipartFile.getContentType());
-
-        amazonS3.putObject(bucket, getFullFilename(path, savedFilename), multipartFile.getInputStream(), metadata);
+        uploadFile(path, multipartFile.getSize(), multipartFile.getContentType(), savedFilename, multipartFile.getInputStream());
         return savedFilename;
+    }
+
+    public String saveFile(String path, String imageUrl, String originalFilename) throws IOException {
+        String extension = imageUrl.substring(imageUrl.lastIndexOf(".") + 1);
+        ByteArrayOutputStream byteArrayOutputStream = extractByteArrayOutputStreamFromUrl(imageUrl, extension);
+
+        long size = byteArrayOutputStream.size();
+        InputStream is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        byteArrayOutputStream.flush();
+
+        String savedFilename = UUID.randomUUID() + "-" + originalFilename + "." + extension;
+
+        uploadFile(path, size, extension, savedFilename, is);
+        return savedFilename;
+    }
+
+    private ByteArrayOutputStream extractByteArrayOutputStreamFromUrl(String imageUrl, String extension) throws IOException {
+        URL imgURL = new URL(imageUrl);
+        BufferedImage image = ImageIO.read(imgURL);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, extension, baos);
+        return baos;
+    }
+
+    private void uploadFile(String path, long size, String extension, String savedFilename, InputStream inputStream) {
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(size);
+        metadata.setContentType(extension);
+        System.out.println("metadata = " + metadata);
+        amazonS3.putObject(bucket, getFullFilename(path, savedFilename), inputStream, metadata);
     }
 
     public String getS3Url(File file) {
