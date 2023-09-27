@@ -131,7 +131,7 @@ pipeline {
                     cd backend
                     pwd
                     ls
-                    ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io "echo 'set \\http://3.34.135.50:8081; http://3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc && service nginx reload"
+                    ssh -o StrictHostKeyChecking=no root@0778b6315c61 "echo 'set \\http://3.34.135.50:8081; http://3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc && service nginx reload"
                     echo "Switch the reverse proxy direction of nginx to http://3.34.135.50:${deployment_target_port} 🔄"
 
                     if [ "${deployment_target}" == blue ]
