@@ -46,7 +46,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     let curWave:number = waveTop;
-    let targetWave: number = 50;
+    let targetWave: number = 0;
   
     function frame() {
       curWave = lerp(curWave, targetWave, 0.02);
@@ -130,7 +130,7 @@ const LoginPage = () => {
       <MainStyle>
         <div className="login_page">
           <div className="login_header">
-            <div className="login_wave" style={{ top: `${waveTop}%`}}>
+            <div className="login_wave" style={{ top: `${40 + waveTop}%`}}>
               <svg width="500" height="500" className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 500" preserveAspectRatio="none" shape-rendering="auto">
                 <defs>
                   <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v500h-352z" />
@@ -145,6 +145,10 @@ const LoginPage = () => {
                   <use xlinkHref="#gentle-wave" x="48" y="16" fill="url(#wave-gradient)" opacity="60%"/>
                 </g>
               </svg>
+            </div>
+            <div className="introduce_div">
+              <h1 className="introduce_title">하루만</h1>
+              <p className="introduce_text">하루 만 원으로 시작해보는<br/>당신의 절약습관</p>
             </div>
           </div>
           <div className="max_div">

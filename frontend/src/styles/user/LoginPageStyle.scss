@@ -2,8 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
 
 .login_page{
+    font-family: "IBM Plex Sans KR",sans-serif;
     height: 100%;
     display: grid;
+    background-color: $background_main;
     grid-template-rows: 1fr 1fr;
 }
 
@@ -25,12 +27,37 @@
     position: relative;
     background-color: white;
     filter: drop-shadow(0px -4px 5px rgb(0,0,0,0.15));
-    
+
     .logo_div{
         position: absolute;
         width: 100%;
         margin: auto;
         top: -26px;
+    }
+}
+.introduce_div{
+    position: absolute;
+    z-index: 1;
+    top: 67%;
+    
+    width: 100%;
+    margin-left: 1rem;
+
+    color: $background_main;
+    text-align: left;
+    
+    display: grid;
+    grid-template-columns: 1fr;
+    
+    filter: none;
+    
+    .introduce_title{
+        margin: 0;
+        font-size: 1.6rem;
+    }
+    .introduce_text{
+        margin: 0;
+        font-size: 1.1rem;
     }
 }
 

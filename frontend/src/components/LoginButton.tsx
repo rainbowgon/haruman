@@ -2,6 +2,12 @@ import { useState } from "react";
 import axios from "axios";
 import { redirectKakao, loginKakao } from "../apis/user";
 
+import Kakao from "../assets/icons/oauth-kakao.svg"
+import Google from "../assets/icons/oauth-google.svg"
+import Email from "../assets/icons/icon-email.svg"
+
+// scss
+import "../styles/user/LoginButtonStyle.scss"
 
 export interface LoginProps {
   type: string;
@@ -31,13 +37,25 @@ function LoginButton({
     }
   }
 
+  function handleSelectIcon() {
+    
+    if (type === "kakao"){
+      return Kakao;
+    } else if (type === "google"){
+      return Google;
+    } else {
+      return Email;
+    }
+  }
+
   return (
     <button
       className={`LoginButton ${type}`}
       onClick={handleLogin}
       disabled={isLoading}
     >
-      {isLoading ? "로딩..." : `${value}로 로그인`}
+      <img className="login_icon" src={`${handleSelectIcon()}`} alt={`${type} icon`}></img>
+      {isLoading ? "로딩..." : `${value} 로그인`}
     </button>
   );
 }
