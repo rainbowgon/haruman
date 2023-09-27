@@ -29,7 +29,7 @@ public enum GlobalErrorCode implements BaseErrorCode {
     CHALLENGE_NOT_AVAILABLE(METHOD_NOT_ALLOWED, "CHALLENGE-004", "해당 시간에는 챌린지 시작이 불가합니다."),
 
     /* 카테고리 */
-    CATEGORY_NOT_FOUND(NOT_FOUND, "CATEGRORY_404_1", "해당 ID의 카테고리가 없습니다."),
+    CATEGORY_NOT_FOUND(NOT_FOUND, "CATEGORY-001", "해당 ID의 카테고리가 없습니다."),
     CATEGORY_DUPLICATION(CONFLICT, "CATEGORY-002", "같은 이름의 카테고리가 이미 존재합니다."),
     CATEGORY_UNAUTHORIZED(UNAUTHORIZED, "CATEGORY-003", "해당 카테고리에 접근 권한이 없습니다."),
 

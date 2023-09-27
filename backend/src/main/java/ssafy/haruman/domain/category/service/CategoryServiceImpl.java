@@ -1,15 +1,12 @@
 package ssafy.haruman.domain.category.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssafy.haruman.domain.category.dto.request.CategoryCreateRequestDto;
 import ssafy.haruman.domain.category.dto.request.CategoryUpdateRequestDto;
 import ssafy.haruman.domain.category.dto.response.CategoryDetailResponseDto;
 import ssafy.haruman.domain.category.dto.response.CategorySimpleResponseDto;
+import ssafy.haruman.domain.category.dto.response.CategoryWithCountResponseDto;
 import ssafy.haruman.domain.category.entity.Category;
 import ssafy.haruman.domain.category.entity.CustomStatus;
 import ssafy.haruman.domain.category.repository.CategoryCountInfoMapping;
@@ -19,6 +16,11 @@ import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.error.exception.CategoryDuplicateException;
 import ssafy.haruman.global.error.exception.CategoryNotFoundException;
 import ssafy.haruman.global.error.exception.CategoryUnauthorizedException;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = findOneCategoryById(updateDto.getCategoryId());
 
-        if (!category.getProfile().equals(profile)) {
+        if (category.getIsDefault() == CustomStatus.DEFAULT || !category.getProfile().getId().equals(profile.getId())) {
             throw CategoryUnauthorizedException.EXCEPTION;
         }
 
@@ -71,7 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = findOneCategoryById(categoryId);
 
-        if (!category.getProfile().equals(profile)) {
+        if (!category.getProfile().getId().equals(profile.getId())) {
             throw CategoryUnauthorizedException.EXCEPTION;
         }
 
@@ -84,17 +86,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDetailResponseDto> selectCategoryList(Profile profile) {
+    public List<CategoryWithCountResponseDto> selectCategoryList(Profile profile) {
 
-//        List<Category> categoryList =
-//                categoryRepository.findAllByProfileAndStatus(member.getProfile());
-
-        // TODO 요청 회원의 지출 내역에서 가장 많은 상위 N개의 카테고리 조회 (null 제외)
         List<CategoryCountInfoMapping> categoryList =
                 categoryRepository.findAllByProfileOrderByCount(profile.getId());
 
         return categoryList.stream()
-                .map(CategoryDetailResponseDto::fromCountInfo)
+                .map(CategoryWithCountResponseDto::from)
                 .collect(Collectors.toList());
     }
 
