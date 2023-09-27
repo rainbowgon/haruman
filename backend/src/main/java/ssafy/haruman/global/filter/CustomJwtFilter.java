@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,7 +33,8 @@ public class CustomJwtFilter extends OncePerRequestFilter {
     private final String secretKey;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -46,7 +48,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
             throw MemberTokenExpired.EXCEPTION;
         }
 
-        Long memberId = JwtUtil.getMemberIdFromJwt(token, secretKey);
+        UUID memberId = JwtUtil.getMemberIdFromJwt(token, secretKey);
 
         Member member = memberRepository.findById(memberId).orElseThrow(() -> MemberNotFoundException.EXCEPTION);
         if (member.getProfile() == null) {
