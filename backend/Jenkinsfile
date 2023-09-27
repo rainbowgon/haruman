@@ -95,9 +95,9 @@ pipeline {
                     fi
 
                     echo [BE] Green Build Docker Image!
-                    docker build -t server ./backend --build-arg target_port=${deployment_target_port}
+                    docker build -t server ./backend
                     echo [BE] Green Run Docker Container!
-                    docker run -dp ${deployment_target_port}:${deployment_target_port} --name haruman_server_${deployment_target} server
+                    docker run -dp ${deployment_target_port}:8081 --name haruman_server_${deployment_target} server
  
 
 
