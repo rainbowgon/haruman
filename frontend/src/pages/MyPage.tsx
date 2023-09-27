@@ -1,23 +1,27 @@
 import React, {useState} from "react";
+import { useNavigate } from "react-router";
+
+// style
+import "../styles/MyPageStyle.scss"
+
+// components
 import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
 import ProfileImageUploader from "../components/ProfileImage";
 import RegisterButton from "../components/RegistButton";
 import ShortcutButton from "../components/ShortcutButton";
 
-// style
-import "../styles/MyPageStyle.scss"
-
 const MyPage = () => {
 
   const [features, setFeatures] = useState(["HomePage", "TodayExpensePage", "CalendarPage", "RankingPage", "plus"]);
-  
+  const navigate = useNavigate();
+
   const handleEditProfile = () => {
 
   }
 
   const handleEditCategory = () => {
-
+      navigate("/error");
   }
 
   return (
