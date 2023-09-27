@@ -8,7 +8,7 @@ import Category from "./Category";
 export interface SpentItemProps {
   mainValue : string;
   moneyValue : number;
-  category? : string;
+  name? : string;
   color? : string;
   type?: string;
   placeholder?: string;
@@ -21,7 +21,7 @@ export default function SpentItem(
   {
     mainValue,
     moneyValue,
-    category,
+    name,
     color,
     type,
     placeholder,
@@ -37,7 +37,7 @@ export default function SpentItem(
         <p className="spent_item_name">{mainValue}</p>
         <Category
           color={color}
-          category={category}
+          name={name}
         />
       </div>
       <div className="spent_item_price_div">
