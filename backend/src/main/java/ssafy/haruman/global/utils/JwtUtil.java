@@ -26,8 +26,8 @@ public class JwtUtil {
                 .getBody().getExpiration().before(new Date());
     }
 
-    public static Long getMemberIdFromJwt(String token, String secretKey) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().get("member_id", Long.class);
+    public static UUID getMemberIdFromJwt(String token, String secretKey) {
+        return UUID.fromString(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                                       .getBody().get("member_id", String.class));
     }
 }

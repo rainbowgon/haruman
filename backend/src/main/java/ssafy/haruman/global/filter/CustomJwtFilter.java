@@ -10,7 +10,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.member.repository.MemberRepository;
+import ssafy.haruman.global.error.exception.MemberNoAuthorizationException;
 import ssafy.haruman.global.error.exception.MemberNotFoundException;
+import ssafy.haruman.global.error.exception.MemberProfileNotFoundException;
+import ssafy.haruman.global.error.exception.MemberTokenExpired;
 import ssafy.haruman.global.utils.JwtUtil;
 
 import javax.servlet.FilterChain;
@@ -20,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,28 +33,27 @@ public class CustomJwtFilter extends OncePerRequestFilter {
     private final String secretKey;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        log.info("authentication : {}", authorization); // TODO log 삭제
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
-            log.error("authorization이 없습니다."); // TODO log 삭제
-            filterChain.doFilter(request, response);
-            throw MemberNotFoundException.EXCEPTION;
+            throw MemberNoAuthorizationException.EXCEPTION;
         }
 
         String token = authorization.split(" ")[1];
 
         if (JwtUtil.isExpired(token, secretKey)) {
-            log.error("Token이 만료되었습니다."); // TODO log 삭제
-            filterChain.doFilter(request, response);
-            return;
+            throw MemberTokenExpired.EXCEPTION;
         }
 
-        Long memberId = JwtUtil.getMemberIdFromJwt(token, secretKey);
+        UUID memberId = JwtUtil.getMemberIdFromJwt(token, secretKey);
 
         Member member = memberRepository.findById(memberId).orElseThrow(() -> MemberNotFoundException.EXCEPTION);
+        if (member.getProfile() == null) {
+            throw MemberProfileNotFoundException.EXCEPTION;
+        }
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(member, null, List.of(new SimpleGrantedAuthority("USER")));

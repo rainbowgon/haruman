@@ -4,7 +4,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import ssafy.haruman.domain.profile.entity.Profile;
+import ssafy.haruman.global.entity.BaseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,7 +26,9 @@ import java.util.UUID;
                         }
                 ),
         })
-public class Member {
+@SQLDelete(sql = "UPDATE member SET is_valid = 'DELETED' WHERE member_id = ?")
+@Where(clause = "is_valid = 'VALID'")
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -43,8 +48,7 @@ public class Member {
     @Embedded
     private OAuthId oauthId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_id")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "member")
     private Profile profile;
 
     @Builder

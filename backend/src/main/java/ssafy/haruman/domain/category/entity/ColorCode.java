@@ -11,5 +11,5 @@ public enum ColorCode {
     PURPLE_01, PURPLE_02, PURPLE_03,
     BLACK_01, BLACK_02, BLACK_03,
     BROWN_01, BROWN_02, BROWN_03,
-    
+    ;
 }

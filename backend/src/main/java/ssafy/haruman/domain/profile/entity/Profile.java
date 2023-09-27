@@ -26,7 +26,8 @@ public class Profile extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(20)")
     private String nickname;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "profile")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
