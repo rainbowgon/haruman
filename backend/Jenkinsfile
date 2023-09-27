@@ -84,7 +84,7 @@ pipeline {
             steps {
                 sh'''
                     #!/bin/bash
-                    echo ****** Blue Health Check & Build ******
+                    echo "****** Blue Health Check & Build ******"
 
                     if curl -s "http://3.34.135.50:8081" > /dev/null
                     then
