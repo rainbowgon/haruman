@@ -125,7 +125,7 @@ pipeline {
 
                     echo "\n****** Nginx Proxy Redirect & Kill Blue ******"
 
-                    ssh root@3.34.135.50:80 "echo 'set \\\haruman.site http://3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc && service nginx reload"
+                    ssh root@3.34.135.50:80 "echo 'set \\haruman.site http://3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc && service nginx reload"
                     echo "Switch the reverse proxy direction of nginx to http://3.34.135.50:${deployment_target_port} 🔄"
 
                     if [ "${deployment_target}" == blue ]
