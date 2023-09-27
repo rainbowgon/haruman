@@ -2,7 +2,6 @@ package ssafy.haruman.domain.challenge.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +15,6 @@ import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeHistoryResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserInfoDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
@@ -32,7 +30,6 @@ import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.error.exception.CategoryNotFoundException;
 import ssafy.haruman.global.error.exception.ChallengeAlreadyExistsException;
-import ssafy.haruman.global.error.exception.ChallengeNotAvailableException;
 import ssafy.haruman.global.error.exception.ChallengeNotFoundException;
 import ssafy.haruman.global.error.exception.ExpenseNotFoundException;
 
@@ -46,16 +43,17 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     @Override
     @Transactional
-    public ChallengeResponseDto startChallenge(Profile profile) {
+    public DailyChallengeResponseDto startChallenge(Profile profile) {
 
-        if (challengeRepository.findFirstChallenge(profile.getId()) != null) {
+        Challenge challengeCheck = challengeRepository.findFirstChallenge(profile.getId());
+        if (challengeCheck != null && challengeCheck.getChallengeStatus() == ChallengeStatus.PROGRESS) {
             throw ChallengeAlreadyExistsException.EXCEPTION;
         }
 
-        if (LocalTime.now().isBefore(LocalTime.of(5, 0))
-                || LocalTime.now().isAfter(LocalTime.of(12, 0))) {
-            throw ChallengeNotAvailableException.EXCEPTION;
-        }
+//        if (LocalTime.now().isBefore(LocalTime.of(5, 0))
+//                || LocalTime.now().isAfter(LocalTime.of(12, 0))) {
+//            throw ChallengeNotAvailableException.EXCEPTION;
+//        }
 
         Challenge challenge = Challenge.builder()
                 .profile(profile)
@@ -69,7 +67,8 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .build();
         challengeRepository.save(challenge);
 
-        return ChallengeResponseDto.from(challenge);
+        return DailyChallengeResponseDto.from(challengeRepository.findFirstChallenge(profile.getId()),
+                challengeRepository.countByStatus());
     }
 
     @Override
@@ -122,6 +121,14 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
+    public List<ExpenseResponseDto> selectDailyExpenseList(Long challengeId) {
+
+        return expenseRepository.findAllByChallenge_Id(challengeId)
+                .stream()
+                .map(expense -> ExpenseResponseDto.from(expense)).collect(Collectors.toList());
+    }
+
+    @Override
     @Transactional
     public DailyChallengeResponseDto selectDailyChallenge(Profile profile) {
         Challenge challenge = challengeRepository.findFirstChallenge(profile.getId());
@@ -134,11 +141,7 @@ public class ChallengeServiceImpl implements ChallengeService {
             if (!challenge.getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
                 challenge.updateViewStatus(ViewStatus.VIEWED);
             }
-            List<ExpenseResponseDto> list = expenseRepository.findAllByChallenge_Id(
-                            challenge.getId())
-                    .stream()
-                    .map(expense -> ExpenseResponseDto.from(expense)).collect(Collectors.toList());
-            return DailyChallengeResponseDto.from(challenge, participantCount, list);
+            return DailyChallengeResponseDto.from(challenge, participantCount);
         }
     }
 
@@ -147,6 +150,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     public void endChallenge() {
         List<Challenge> list = challengeRepository.findAllByStatus();
         // 챌린지가 없을 때 빈리스트가 반환되어 아무 결과 처리 없음
+
         for (Challenge challenge : list) {
             challenge.updateChallengeStatus(
                     challenge.getTargetAmount() - challenge.getUsedAmount() < 0

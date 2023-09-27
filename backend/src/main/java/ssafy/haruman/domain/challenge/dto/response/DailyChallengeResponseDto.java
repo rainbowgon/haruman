@@ -1,6 +1,5 @@
 package ssafy.haruman.domain.challenge.dto.response;
 
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,26 +15,28 @@ import ssafy.haruman.domain.challenge.entity.ChallengeStatus;
 public class DailyChallengeResponseDto {
 
     private Integer participantCount;
+    private Integer targetAmount;
+    private Integer usedAmount;
     private Integer leftoverAmount;
     private ChallengeStatus challengeStatus;
-    private List<ExpenseResponseDto> expenseList;
 
-    public static DailyChallengeResponseDto from(Challenge challenge, Integer participantCount,
-            List<ExpenseResponseDto> expenseList) {
+    public static DailyChallengeResponseDto from(Challenge challenge, Integer participantCount) {
         return DailyChallengeResponseDto.builder()
                 .participantCount(participantCount)
+                .targetAmount(challenge.getTargetAmount())
+                .usedAmount(challenge.getUsedAmount())
                 .leftoverAmount(challenge.getLeftoverAmount())
                 .challengeStatus(challenge.getChallengeStatus())
-                .expenseList(expenseList)
                 .build();
     }
 
     public static DailyChallengeResponseDto from(Integer participantCount) {
         return DailyChallengeResponseDto.builder()
                 .participantCount(participantCount)
+                .targetAmount(10000)
+                .usedAmount(0)
                 .leftoverAmount(0)
                 .challengeStatus(null)
-                .expenseList(null)
                 .build();
     }
 

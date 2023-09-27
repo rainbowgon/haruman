@@ -6,7 +6,6 @@ import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeHistoryResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
@@ -14,7 +13,7 @@ import ssafy.haruman.domain.profile.entity.Profile;
 
 public interface ChallengeService {
 
-    ChallengeResponseDto startChallenge(Profile profile);
+    DailyChallengeResponseDto startChallenge(Profile profile);
 
     ExpenseResponseDto createExpense(Long challengeId, ExpenseCreateRequestDto createRequestDto);
 
@@ -22,6 +21,8 @@ public interface ChallengeService {
 
     void deleteExpense(Long expenseId);
 
+    List<ExpenseResponseDto> selectDailyExpenseList(Long challengeId);
+    
     DailyChallengeResponseDto selectDailyChallenge(Profile profile);
 
     void endChallenge();
