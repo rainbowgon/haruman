@@ -5,11 +5,11 @@ import ssafy.haruman.domain.category.entity.CustomStatus;
 
 public interface CategoryCountInfoMapping {
 
-    Long getCategoryId();
+    Long getId();
 
     String getName();
 
-    CustomStatus getIsDefault();
+    CustomStatus getStatus();
 
     ColorCode getColor();
 
