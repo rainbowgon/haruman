@@ -21,7 +21,6 @@ import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeHistoryResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
@@ -39,11 +38,11 @@ public class ChallengeController {
     private final ChallengeService challengeService;
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper<ChallengeResponseDto>> startChallenge(
+    public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> startChallenge(
             @AuthenticationPrincipal Member member) {
         Profile profile = member.getProfile();
 
-        ChallengeResponseDto responseDto = challengeService.startChallenge(profile);
+        DailyChallengeResponseDto responseDto = challengeService.startChallenge(profile);
         return JsonResponse.ok("챌린지가 생성되었습니다.", responseDto);
     }
 
@@ -73,6 +72,14 @@ public class ChallengeController {
         return JsonResponse.ok("지출내역이 삭제되었습니다.");
     }
 
+    @GetMapping("/{challenge-id}")
+    public ResponseEntity<ResponseWrapper<List<ExpenseResponseDto>>> selectDailyExpenseList(
+            @PathVariable(name = "challenge-id") Long challengeId) {
+
+        List<ExpenseResponseDto> responseDto = challengeService.selectDailyExpenseList(challengeId);
+        return JsonResponse.ok("지출내역 리스트를 불러왔습니다.", responseDto);
+    }
+
     @GetMapping
     public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> selectDailyChallenge(
             @AuthenticationPrincipal Member member) {
@@ -82,7 +89,7 @@ public class ChallengeController {
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
     }
 
-    @Scheduled(cron = "0 0 2 * * *")
+    @Scheduled(cron = "0 0 4 * * *")
     public ResponseEntity<ResponseWrapper<Nullable>> endChallenge() {
 
         challengeService.endChallenge();
