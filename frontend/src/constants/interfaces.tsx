@@ -1,20 +1,15 @@
 export interface CategoryItem {
   categoryId: number;
-  category: string;
+  name: string;
   color: string;
   isDefault: string;
 }
 
 export interface ChallengeState {
-  id: number;
-  nickname: string;
-  startTime: string;
-  endTime: string;
-  challengeStatus: string;
   targetAmount: number;
-  usedAmount: number;
   leftoverAmount: number;
-  isViewed: String;
+  challengeId: number;
+  challengeStatus: string;
 }
 
 export interface SpentItem {

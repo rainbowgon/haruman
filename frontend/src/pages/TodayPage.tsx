@@ -83,7 +83,7 @@ const TodayPage = () => {
           <div className="challengeitems_list">
             {costItems.map((item, index) => (
               <SpentItem
-                category={item.category}
+                name={item.category}
                 mainValue={item.content}
                 moneyValue={item.pay_amount}
               />

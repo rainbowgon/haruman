@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { API_URL, SERVER_URL } from "../constants/urls";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -11,11 +12,11 @@ import "../styles/wave.scss";
 import RegisterButton from "../components/RegistButton";
 import RegistModal from "../components/RegistModal";
 import { ChallengeState } from "../constants/interfaces";
+import axios from "axios";
 
 const Homepage = () => {
-  // const baseURL = 'https://i9a608.p.ssafy.io:8000';
-  // const contextPath = `/api`;
-  // const ChallengeAPI = '/challenges';
+  const contextPath = `/api`;
+  const ChallengeAPI = '/challenges';
   const canStart:number[] = [5, 12];
 
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -97,23 +98,23 @@ const Homepage = () => {
   */
 
   const startChallenge = () => {
-    // const accessToken = sessionStorage.getItem("accessToken")
+    const accessToken = sessionStorage.getItem("accessToken")
 
-    // axios.post(`${baseURL}${contextPath}${ChallengeAPI}`, null,
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`
-    //   }
-    // })
-    // .then((response) => {
-    //     console.log("첼린지 시작");
-    //     showAlert("첼린지 시작");
-    //     setChallengeInfo(response.data);
-    // })
-    // .catch((error) => {
-    //     console.error("챌린지 시작 실패", error);
-    //     showAlert("챌린지 시작 실패입니다.");
-    // });
+    axios.post(`${API_URL}${contextPath}${ChallengeAPI}`, null,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+    .then((response) => {
+      console.log("첼린지 시작");
+      showAlert("첼린지 시작");
+      setChallengeInfo(response.data);
+    })
+    .catch((error) => {
+      console.error("챌린지 시작 실패", error);
+      showAlert("챌린지 시작 실패입니다.");
+    });
   }
 
   /**
@@ -126,7 +127,7 @@ const Homepage = () => {
       // const accessToken = sessionStorage.getItem("accessToken")
       // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
   
-      // axios.patch(`${baseURL}${contextPath}${ChallengeAPI}`, "edit",
+      // axios.patch(`${API_URL}${contextPath}${ChallengeAPI}`, "edit",
       // {
       //   headers: {
       //     Authorization: `Bearer ${accessToken}`
@@ -156,7 +157,7 @@ const Homepage = () => {
     // const accessToken = sessionStorage.getItem("accessToken")
     // const expenseId = e.target;
 
-    // axios.delete(`${baseURL}${contextPath}${ChallengeAPI}/{expense-id}`,
+    // axios.delete(`${API_URL}${contextPath}${ChallengeAPI}/{expense-id}`,
     // {
     //   headers: {
     //     Authorization: `Bearer ${accessToken}`
@@ -181,16 +182,21 @@ const Homepage = () => {
   */
   const selectDailyChallenge = () => {
     console.log("selectDailyChallenge");
-    // const accessToken = sessionStorage.getItem("accessToken")
-    // 
-    // axios.get(`${baseURL}${contextPath}${ChallengeAPI}`)
-    //   .then((response) => {
-    //     console.log("해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)");
-    //     setChallengeInfo(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error('해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트) 조회 실패', error);
-    //   });
+    const accessToken = sessionStorage.getItem("accessToken")
+    
+    axios.get(`${API_URL}${contextPath}${ChallengeAPI}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then((response) => {
+        console.log("해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)", response.data);
+        setChallengeInfo(response.data);
+      })
+      .catch((error) => {
+        console.error('해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트) 조회 실패', error);
+      });
   };
 
   
