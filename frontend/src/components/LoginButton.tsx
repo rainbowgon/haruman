@@ -2,12 +2,14 @@ import { useState } from "react";
 import axios from "axios";
 import { redirectKakao, loginKakao } from "../apis/user";
 
+// icons
 import Kakao from "../assets/icons/oauth-kakao.svg"
 import Google from "../assets/icons/oauth-google.svg"
 import Email from "../assets/icons/icon-email.svg"
 
 // scss
 import "../styles/user/LoginButtonStyle.scss"
+import Swal from "sweetalert2";
 
 export interface LoginProps {
   type: string;
@@ -31,8 +33,10 @@ function LoginButton({
       console.log("handleKakaoLogin");
       handleKakaoLogin();
     } else if (type === "google") {
+      showAlert(`google 로그인은 준비중이에요!`);
       //handleGoogleLogin();
     } else {
+      showAlert(`Email 로그인은 준비중이에요!`);
       // handleEmail();
     }
   }
@@ -47,6 +51,12 @@ function LoginButton({
       return Email;
     }
   }
+  
+  const showAlert = (text:string) => {
+    Swal.fire({
+      text,
+    });
+  };
 
   return (
     <button
@@ -55,7 +65,7 @@ function LoginButton({
       disabled={isLoading}
     >
       <img className="login_icon" src={`${handleSelectIcon()}`} alt={`${type} icon`}></img>
-      {isLoading ? "로딩..." : `${value} 로그인`}
+      {isLoading ? "로딩중" : `${value} 로그인`}
     </button>
   );
 }
