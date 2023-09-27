@@ -41,35 +41,35 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       max: 2000,
       users: 0,
       label: "0~2000원",
-      color: "var(--brand1_main)",
+      color: "var(--GRAPH_05)",
     },
     {
       min: 2001,
       max: 4000,
       users: 0,
       label: "2001~4000원",
-      color: "var(--brand2_main)",
+      color: "var(--GRAPH_02)",
     },
     {
       min: 4001,
       max: 6000,
       users: 0,
       label: "4001~6000원",
-      color: "var(--brand2_sub)",
+      color: "var(--GRAPH_04)",
     },
     {
       min: 6001,
       max: 8000,
       users: 0,
       label: "6001~8000원",
-      color: "var(--point2_main)",
+      color: "var(--GRAPH_03)",
     },
     {
       min: 8001,
       max: 10000,
       users: 0,
       label: "8001~10000원",
-      color: "var(--brand1_sub)",
+      color: "var(--GRAPH_01)",
     },
   ]);
 
@@ -388,7 +388,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .force("y", d3.forceY(height / 2).strength(0.05))
       .force(
         "collide",
-        d3.forceCollide((d: any) => d.users + 29),
+        d3.forceCollide((d: any) => d.users * 3),
       )
       .on("tick", ticked);
 
@@ -403,16 +403,14 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
         .attr("stroke", "#fff")
         .attr("stroke-width", 2)
         .on("mouseover", (event, d) => {
-          const tooltip = d3
-            .select("body")
-            .append("div")
-            .classed("tooltip", true)
-            .style("position", "absolute")
-            .style("background-color", "white")
-            .style("padding", "8px")
-            .style("border", "1px solid #ccc")
-            .style("border-radius", "4px")
-            .text(`${d.label}: ${d.users} users`);
+          const tooltip = d3.select("body").append("div");
+          //   .classed("tooltip", true)
+          //   .style("position", "absolute")
+          //   .style("background-color", "white")
+          //   .style("padding", "8px")
+          //   .style("border", "1px solid #ccc")
+          //   .style("border-radius", "4px");
+          // .text(`${d.label}: ${d.users} users`);
 
           const { pageX, pageY } = event;
           tooltip
