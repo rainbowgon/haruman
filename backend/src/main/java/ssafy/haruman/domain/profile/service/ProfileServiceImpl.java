@@ -1,7 +1,6 @@
 package ssafy.haruman.domain.profile.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +35,7 @@ public class ProfileServiceImpl implements ProfileService {
         profile.uploadNewProfileImage(S3_PATH, savedFilename);
         profileRepository.save(profile);
         return SingleProfileResponseDto.from(profile,
-                s3FileService.getS3Url(profile.getProfileImage()));
+                                             s3FileService.getS3Url(profile.getProfileImage()));
     }
 
     @Override
@@ -47,14 +46,14 @@ public class ProfileServiceImpl implements ProfileService {
         profile.updateProfile(nickname);
         this.uploadNewProfileImage(profile, profileImage);
         return SingleProfileResponseDto.from(profile,
-                s3FileService.getS3Url(profile.getProfileImage()));
+                                             s3FileService.getS3Url(profile.getProfileImage()));
     }
 
     @Override
     public SingleProfileResponseDto selectOneProfile(Long profileId) {
         Profile profile = this.findOneProfileById(profileId);
         return SingleProfileResponseDto.from(profile,
-                s3FileService.getS3Url(profile.getProfileImage())); // TODO S3에서 이미지 찾아서 URL 반환
+                                             s3FileService.getS3Url(profile.getProfileImage())); // TODO S3에서 이미지 찾아서 URL 반환
     }
 
     @Override
