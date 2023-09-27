@@ -13,6 +13,7 @@ import SpentItem from "../components/SpentItem";
 //interface value
 import { ChallengeItem } from "../constants/interfaces";
 import BottomBarSpace from "../components/BottomBarSpace";
+import HeaderTitle from "../components/HeaderTitle";
 
 const CalendarPage = () => {
 
@@ -63,11 +64,11 @@ const CalendarPage = () => {
     <MainStyle>
       <div className="calendarpage">
         {/* 캘린더 페이지 헤더 */}
-        <div className="calendar_header">
-          <h2 className="sub_title">지금까지 모은금액!</h2>
-          <h1 className="main_title">{} 원</h1>
-        </div>
-
+        <HeaderTitle
+          SubTitle = "지금까지 모은금액!"
+          // MainTitle = {`${} 원`}
+          MainTitle = {`25900 원`}
+        />
         {/* 캘린더 */}
         <div className="calendar_form">
           <CalendarForm />
@@ -86,7 +87,7 @@ const CalendarPage = () => {
           {
             challengeitems.map((item, index) => (
               <SpentItem
-                category = {item.category}
+                name = {item.category}
                 mainValue = {item.content}
                 moneyValue = {item.pay_amount}
               />

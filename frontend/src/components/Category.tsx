@@ -4,7 +4,7 @@ import "../styles/components/CategoryStyle.scss"
 
 export interface CategoryProps {
     color? : string;
-    category? : string;
+    name? : string;
     type?: string;
     onClick?: (event: any) => void;
     checked?: boolean;
@@ -14,7 +14,7 @@ export interface CategoryProps {
   export default function Category(
   {
     color = 'BLACK_01',
-    category,
+    name,
     type,
     checked,
     className,
@@ -22,7 +22,7 @@ export interface CategoryProps {
   ) {
   return (
     <div className={`category ${className} ${color}`}>
-      {category}
+      {name}
     </div>
   );
 };

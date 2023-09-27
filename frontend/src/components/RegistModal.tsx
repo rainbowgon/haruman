@@ -1,5 +1,5 @@
 // react
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 // scss
 import "../styles/components/RegistButtonStyle.scss";
@@ -8,11 +8,15 @@ import "../styles/components/RegistModalStyle.scss";
 // icon
 import XmarkIcon from "../assets/icons/icon-xmark.svg"
 
+// urls
+import { API_URL, SERVER_URL } from "../constants/urls";
+
 // components
 import InputText from "../components/InputText";
 import RegisterButton from "../components/RegistButton";
 import Category from "./Category";
 import { CategoryItem, SpentItem } from "../constants/interfaces";
+import axios from "axios";
 
 export interface RegistModalProps {
     isModalOpen : boolean;
@@ -26,9 +30,11 @@ export default function RegistModal(
     modalTop,
     setIsModalOpen 
   }: RegistModalProps) {
-    // const baseURL = 'https://haruman.site';
-    // const contextPath = `/api`;
-    // const CategorieAPI = '/categories';
+
+  // const baseURL = 'https://haruman.site';
+  const contextPath = `/api`;
+  const CategorieAPI = '/categories';
+
   const [spentItem, setSpentItem] = useState<SpentItem>({
     category : null,
     color : null,
@@ -38,65 +44,69 @@ export default function RegistModal(
   const [categories, setCategories] = useState<CategoryItem[]>([
     {
       categoryId :2,
-      category :"식사",
+      name :"식사",
       color :"YELLOW_01",
       isDefault :"DEFAULT"
     },
     {
       categoryId :3,
-      category :"카페",
+      name :"카페",
       color :"BROWN_01",
       isDefault :"DEFAULT"
     },
     {
       categoryId :4,
-      category :"군것질",
+      name :"군것질",
       color :"ORANGE_01",
       isDefault :"DEFAULT"
     },
     {
       categoryId :5,
-      category :"패션/뷰티",
+      name :"패션/뷰티",
       color :"RED_01",
       isDefault :"DEFAULT"
     },
     {
       categoryId :6,
-      category :"생활",
+      name :"생활",
       color :"GREEN_01",
       isDefault :"DEFAULT"
     },
     {
       categoryId :7,
-      category :"건강",
+      name :"건강",
       color :"BLUE_01",
       isDefault :"DEFAULT"
     },
     {
       categoryId :8,
-      category :"유흥",
+      name :"유흥",
       color :"PINK_01",
       isDefault :"DEFAULT"
     },
     {
       categoryId :9,
-      category :"교통",
+      name :"교통",
       color :"BLACK_02",
       isDefault :"DEFAULT"
     },
     {
       categoryId :10,
-      category :"여가",
+      name :"여가",
       color :"PURPLE_01",
       isDefault :"DEFAULT"
     },
     {
       categoryId :1,
-      category :"기타",
+      name :"기타",
       color :"BLACK_01",
       isDefault :"DEFAULT"
     },
   ]);
+
+  useEffect(() => {
+    selectCategoryList();
+  }, [])
 
   /**
     createExpense
@@ -133,17 +143,25 @@ export default function RegistModal(
     GET
   */
   const selectCategoryList = () => {
-    // const accessToken = sessionStorage.getItem("accessToken")
+    const accessToken = sessionStorage.getItem("accessToken")
     // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-    // 
-    // axios.get(`${baseURL}${ChallengeAPI}/list?size=${itemsPerPage}&page=${currentPage}&sort=noticeIdx,desc`)
-    //   .then((response) => {
-    //     console.log("카테고리 전체 조회 성공");
-    //     setCategories(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error('카테고리 전체 조회 실패', error);
-    //   });
+    
+    console.log("카테고리 전체 조회");
+
+    axios.get(`${API_URL}${contextPath}${CategorieAPI}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then((response) => {
+        console.log("카테고리 전체 조회 성공", response.data.data);
+        setCategories(response.data.data);
+      })
+      .catch((error) => {
+        console.error('카테고리 전체 조회 실패', error);
+        setCategories([]);
+      });
   };
 
   //모달 컨트롤
@@ -175,7 +193,7 @@ export default function RegistModal(
           categories ?
           categories.map((category) => (
             <Category
-              category = {category.category}
+              name = {category.name}
               color = {category.color}
               onClick = {(e) => setSpentItem({...spentItem, category : e.target.category})}
             />
