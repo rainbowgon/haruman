@@ -34,7 +34,7 @@ pipeline {
                     script {
                         sh 'cp $secretFile backend/src/main/resources/application-secret.yml'
                         sh 'cp $developFile backend/src/main/resources/application-develop.yml'
-                        sh 'cp $pemkey backend/J9A607T.pem'
+                        // sh 'cp $pemkey backend/J9A607T.pem'
                     }
                 }
             }
