@@ -169,6 +169,8 @@
 
     color: var(--white);
 
+    text-shadow: -1px 0 $brand1_main, 0 1px $brand1_main, 1px 0 $brand1_main, 0 -1px $brand1_main;
+
     h2{
       font-size: 3rem;
       margin: 0 1rem;
@@ -192,6 +194,7 @@
   font-family: "IBM Plex Sans KR",sans-serif;
   margin: 0;
   font-weight: bold;
+  text-shadow: -1px 0 $brand1_main, 0 1px $brand1_main, 1px 0 $brand1_main, 0 -1px $brand1_main;
 }
 
 .flex { /*Flexbox for containers*/
