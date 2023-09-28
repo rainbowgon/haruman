@@ -69,10 +69,11 @@
 }
 
 .oauth_line{
-    margin-top: 50px;
+    margin: 15% auto;
     width: 80%;
     display: flex;
     flex-direction: column;
+    justify-content: end;
     align-items: center;
 }
 
