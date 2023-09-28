@@ -16,7 +16,9 @@ import InputText from "../components/InputText";
 import RegisterButton from "../components/RegistButton";
 import Category from "./Category";
 import { ChallengeState, CategoryItem, SpentItem } from "../constants/interfaces";
+import { ChallengeState, CategoryItem, SpentItem } from "../constants/interfaces";
 import axios from "axios";
+import Swal from "sweetalert2";
 import Swal from "sweetalert2";
 
 export interface RegistModalProps {
@@ -184,6 +186,8 @@ export default function RegistModal(
 
     console.log("accessToken", accessToken);
 
+    console.log("accessToken", accessToken);
+
     axios.get(`${API_URL}${contextPath}${CategorieAPI}`,
       {
         headers: {
@@ -258,6 +262,7 @@ export default function RegistModal(
             placeholder="금액"
             value={spentItem.payAmount}
             onChange={(e) => setSpentItem({...spentItem, payAmount : parseInt(e.target.value, 10)})}
+            onChange={(e) => setSpentItem({...spentItem, payAmount : parseInt(e.target.value, 10)})}
           />
           <p className="inputprice_space_text">원</p>
         </div>
@@ -284,6 +289,7 @@ export default function RegistModal(
             type="string"
             placeholder="메모"
             value={spentItem.content}
+            value={spentItem.content}
             onChange={(e) => setSpentItem({...spentItem, content : e.target.value})} 
             // onKeyPress={handleKeyPress}
           />
@@ -298,6 +304,7 @@ export default function RegistModal(
       <RegisterButton
         className="setspentitem"
         text="확인"
+        onClick={RegisterValue}
         onClick={RegisterValue}
         // onKeyPress={handleKeyPress}
       />
