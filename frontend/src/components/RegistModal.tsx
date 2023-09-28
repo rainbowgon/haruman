@@ -9,98 +9,121 @@ import "../styles/components/RegistModalStyle.scss";
 import XmarkIcon from "../assets/icons/icon-xmark.svg"
 
 // urls
-import { API_URL, SERVER_URL } from "../constants/urls";
+import { API_URL } from "../constants/urls";
 
 // components
 import InputText from "../components/InputText";
 import RegisterButton from "../components/RegistButton";
 import Category from "./Category";
-import { CategoryItem, SpentItem } from "../constants/interfaces";
+import { ChallengeState, CategoryItem, SpentItem } from "../constants/interfaces";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export interface RegistModalProps {
     isModalOpen : boolean;
     modalTop: number;
     setIsModalOpen : any;
+    challengeInfo : ChallengeState;
+    handleWave : any;
+
 }
 
 export default function RegistModal(
   { 
     isModalOpen, 
     modalTop,
-    setIsModalOpen 
+    setIsModalOpen,
+    challengeInfo,
+    handleWave,
   }: RegistModalProps) {
+    // 테스트용
+    // const accessToken = process.env.REACT_APP_accessToken;
 
-  // const baseURL = 'https://haruman.site';
+    // 배포용
+    const accessToken = sessionStorage.getItem("accessToken");
+
   const contextPath = `/api`;
+  
+  const challengeAPI = '/challenges';
   const CategorieAPI = '/categories';
 
   const [spentItem, setSpentItem] = useState<SpentItem>({
-    category : null,
-    color : null,
-    content : null,
+    categoryId : null,
+    payTime : null,
     payAmount : null,
+    content : null,
   });
+  
   const [categories, setCategories] = useState<CategoryItem[]>([
     {
       categoryId :2,
       name :"식사",
       color :"YELLOW_01",
-      isDefault :"DEFAULT"
+      isDefault :"DEFAULT",
+      cnt : null
     },
     {
       categoryId :3,
       name :"카페",
       color :"BROWN_01",
-      isDefault :"DEFAULT"
+      isDefault :"DEFAULT",
+      cnt : null
     },
     {
       categoryId :4,
       name :"군것질",
       color :"ORANGE_01",
-      isDefault :"DEFAULT"
+      isDefault :"DEFAULT",
+      cnt : null
     },
     {
       categoryId :5,
       name :"패션/뷰티",
       color :"RED_01",
-      isDefault :"DEFAULT"
+      isDefault :"DEFAULT",
+      cnt : null
     },
     {
       categoryId :6,
       name :"생활",
       color :"GREEN_01",
-      isDefault :"DEFAULT"
+      isDefault :"DEFAULT",
+      cnt : null
     },
     {
       categoryId :7,
       name :"건강",
       color :"BLUE_01",
-      isDefault :"DEFAULT"
+      isDefault :"DEFAULT",
+      cnt : null
     },
     {
       categoryId :8,
       name :"유흥",
       color :"PINK_01",
-      isDefault :"DEFAULT"
+      isDefault :"DEFAULT",
+      cnt : null
     },
     {
       categoryId :9,
       name :"교통",
       color :"BLACK_02",
-      isDefault :"DEFAULT"
+      isDefault :"DEFAULT",
+      cnt : null
     },
     {
       categoryId :10,
       name :"여가",
       color :"PURPLE_01",
-      isDefault :"DEFAULT"
+      isDefault :"DEFAULT",
+      cnt : null
     },
     {
       categoryId :1,
       name :"기타",
       color :"BLACK_01",
-      isDefault :"DEFAULT"
+      isDefault :"DEFAULT",
+      cnt : null
     },
   ]);
 
@@ -115,24 +138,38 @@ export default function RegistModal(
     POST
   */
   const createExpense = () => {
-    // const accessToken = sessionStorage.getItem("accessToken")
+    console.log(spentItem);
 
-    // axios.post(`${baseURL}${contextPath}${ChallengeAPI}/{challenge-id}`, null,
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`
-    //   }
-    // })
-    // .then((response) => {
-    //     console.log("지출 내역 직접 입력");
-    //     showAlert("success", "지출 내역 직접 입력");
-    //     setCurStatus(2);
-    // })
-    // .catch((error) => {
-    //     console.error("서버로부터 지출 내역 직접 입력 실패", error);
-    //     showAlert("error", "지출 내역 직접 입력 실패입니다.");
-    //     console.error(error.code);
-    // });
+    if (spentItem.payAmount === null || isNaN(spentItem.payAmount) || spentItem.payAmount === 0) {
+      showAlert("금액을 입력해주세요!");
+      return
+    }
+    if (challengeInfo.challengeId === undefined) {
+      showAlert("챌린지가 정상적인지 확인해 주세요!");
+      return
+    }
+    console.log(spentItem);
+
+    // if (1===1) {return}
+
+    axios.post(`${API_URL}${contextPath}${challengeAPI}/${challengeInfo.challengeId}`, 
+    spentItem,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+    .then((response) => {
+        console.log("지출 내역 직접 입력");
+        showAlert("지출 내역이 등록되었어요!");
+        handleWave(challengeInfo.targetAmount, challengeInfo.leftoverAmount - (spentItem.payAmount?spentItem.payAmount:0));
+        resetSpentItem();
+        handleModal();
+    })
+    .catch((error) => {
+        console.error("서버로부터 지출 내역 직접 입력 실패", error);
+        showAlert("지출 내역이 등록이 실패했어요");
+    });
   }
 
   // 카테고리
@@ -143,10 +180,9 @@ export default function RegistModal(
     GET
   */
   const selectCategoryList = () => {
-    const accessToken = sessionStorage.getItem("accessToken")
-    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-    
     console.log("카테고리 전체 조회");
+
+    console.log("accessToken", accessToken);
 
     axios.get(`${API_URL}${contextPath}${CategorieAPI}`,
       {
@@ -169,6 +205,44 @@ export default function RegistModal(
     setIsModalOpen(!isModalOpen);
   }
 
+  // 제출 시간 삽입
+  const RegisterValue = () => {
+    console.log("spentItem.payTime === null || spentItem.payTime === ", spentItem.payTime === null || spentItem.payTime === "");
+    if (spentItem.payTime === null || spentItem.payTime === "") {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      const hours = String(currentDate.getHours()).padStart(2, '0');
+      const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+      const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+      const milliseconds = String(currentDate.getMilliseconds()).padStart(6, '0');
+  
+      const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
+  
+      console.log(formattedDate);
+      setSpentItem({...spentItem, payTime : formattedDate})
+    }
+    createExpense();
+  }
+
+  const resetSpentItem = () => {
+    setSpentItem(
+      {
+        categoryId : 0,
+        payTime : "",
+        payAmount : 0,
+        content : "",
+      }
+    );
+  }
+
+  const showAlert = (text:string) => {
+    Swal.fire({
+      text,
+    });
+  };
+
   return (
     <div id="regist_modal" className="regist_modal"  style={{ top: `${modalTop}%`}}>
       <div>
@@ -181,10 +255,9 @@ export default function RegistModal(
           <InputText
             className="InputText input_price disable_pliceholder"
             type="number"
-            // alt="Input Email"
             placeholder="금액"
             value={spentItem.payAmount}
-            onChange={(e) => setSpentItem({...spentItem, payAmount : e.target.value})} 
+            onChange={(e) => setSpentItem({...spentItem, payAmount : parseInt(e.target.value, 10)})}
           />
           <p className="inputprice_space_text">원</p>
         </div>
@@ -195,7 +268,8 @@ export default function RegistModal(
             <Category
               name = {category.name}
               color = {category.color}
-              onClick = {(e) => setSpentItem({...spentItem, category : e.target.category})}
+              onClick = {(e) => setSpentItem({...spentItem, categoryId : category.categoryId})}
+              className={spentItem.categoryId === category.categoryId ? 'highlighted' : ''}
             />
           ))
           :
@@ -208,10 +282,8 @@ export default function RegistModal(
           <InputText
             className="InputText input_memo disable_pliceholder"
             type="string"
-            // alt="Input Email"
             placeholder="메모"
-            value=""
-            // 추후 email이 들어온다면 sending
+            value={spentItem.content}
             onChange={(e) => setSpentItem({...spentItem, content : e.target.value})} 
             // onKeyPress={handleKeyPress}
           />
@@ -226,7 +298,7 @@ export default function RegistModal(
       <RegisterButton
         className="setspentitem"
         text="확인"
-        onClick={handleModal}
+        onClick={RegisterValue}
         // onKeyPress={handleKeyPress}
       />
     </div>
