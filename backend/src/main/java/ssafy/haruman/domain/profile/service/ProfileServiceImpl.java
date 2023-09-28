@@ -1,7 +1,7 @@
 package ssafy.haruman.domain.profile.service;
 
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,8 +11,6 @@ import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.domain.profile.repository.ProfileRepository;
 import ssafy.haruman.global.error.exception.ProfileNotFoundException;
 import ssafy.haruman.global.service.S3FileService;
-
-import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +30,7 @@ public class ProfileServiceImpl implements ProfileService {
                 .nickname(nickname)
                 .build();
 
-        String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
-        profile.uploadNewProfileImage(S3_PATH, savedFilename);
+        this.uploadNewProfileImage(profile, multipartFile);
         profileRepository.save(profile);
         return SingleProfileResponseDto.from(profile,
                 s3FileService.getS3Url(profile.getProfileImage()));
@@ -42,7 +39,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional
     public SingleProfileResponseDto updateProfile(Long profileId, String nickname,
-                                                  MultipartFile profileImage) throws IOException {
+            MultipartFile profileImage) throws IOException {
         Profile profile = this.findOneProfileById(profileId);
         profile.updateProfile(nickname);
         this.uploadNewProfileImage(profile, profileImage);
@@ -64,10 +61,12 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void saveProfileFromOAuth(Member member, String nickname, String oauthProfileImage) {
-        Profile profile = Profile.builder().member(member).nickname(nickname).build();
+        Profile profile = Profile.builder()
+                .member(member)
+                .nickname(nickname)
+                .build();
 
-        // TODO 프로필 URL에서 다운 받아 S3에 업로드 해야 합니다.
-
+        this.uploadNewProfileImage(profile, oauthProfileImage);
         profileRepository.save(profile);
     }
 
@@ -82,6 +81,19 @@ public class ProfileServiceImpl implements ProfileService {
         if (!multipartFile.isEmpty()) {
             String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
             profile.uploadNewProfileImage(S3_PATH, savedFilename);
+        }
+    }
+
+    private void uploadNewProfileImage(Profile profile, String imageUrl) {
+        this.deleteExistingProfileImage(profile);
+        if (imageUrl != null) {
+            String savedFilename = null;
+            try {
+                savedFilename = s3FileService.saveFile(S3_PATH, imageUrl, profile.getNickname());
+                profile.uploadNewProfileImage(S3_PATH, savedFilename);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
