@@ -35,10 +35,11 @@ public class DailyChallengeResponseDto {
     public static DailyChallengeResponseDto from(Integer participantCount) {
         return DailyChallengeResponseDto.builder()
                 .participantCount(participantCount)
+                .challengeId(0L)
                 .targetAmount(10000)
                 .usedAmount(0)
                 .leftoverAmount(0)
-                .challengeStatus(null)
+                .challengeStatus(ChallengeStatus.READY)
                 .build();
     }
 
