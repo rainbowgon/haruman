@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { API_URL, SERVER_URL } from "../constants/urls";
+import { API_URL } from "../constants/urls";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -15,6 +15,11 @@ import { ChallengeState } from "../constants/interfaces";
 import axios from "axios";
 
 const Homepage = () => {
+  // 테스트용
+  const accessToken = process.env.REACT_APP_accessToken;
+  // 배포용
+  //const accessToken = sessionStorage.getItem("accessToken");
+
   const contextPath = `/api`;
   const ChallengeAPI = '/challenges';
   const canStart:number[] = [5, 12];
@@ -43,10 +48,8 @@ const Homepage = () => {
   useEffect(() => {
     let targetModalTop: number = isModalOpen ? 25: 100;
     if (isModalOpen){
-      console.log("[True] targetModalTop : ", targetModalTop);
       setModalTop(targetModalTop);
     } else {
-      console.log("[False] targetModalTop : ", targetModalTop);
       setModalTop(targetModalTop);
     }
   }, [isModalOpen]);
@@ -98,8 +101,6 @@ const Homepage = () => {
   */
 
   const startChallenge = () => {
-    const accessToken = sessionStorage.getItem("accessToken")
-
     axios.post(`${API_URL}${contextPath}${ChallengeAPI}`, null,
     {
       headers: {
@@ -182,7 +183,6 @@ const Homepage = () => {
   */
   const selectDailyChallenge = () => {
     console.log("selectDailyChallenge");
-    const accessToken = sessionStorage.getItem("accessToken")
     
     axios.get(`${API_URL}${contextPath}${ChallengeAPI}`,
       {
@@ -339,11 +339,16 @@ const Homepage = () => {
             />
           }
         </div>
-        <RegistModal
-          isModalOpen = {isModalOpen}
-          modalTop = {modalTop}
-          setIsModalOpen = {setIsModalOpen}
-        />
+        {
+          challengeInfo
+          &&
+          <RegistModal
+            isModalOpen = {isModalOpen}
+            modalTop = {modalTop}
+            setIsModalOpen = {setIsModalOpen}
+            challengeInfo = {challengeInfo}
+          />
+        }
       </div>
     </MainStyle>
   );

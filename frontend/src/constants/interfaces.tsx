@@ -13,10 +13,10 @@ export interface ChallengeState {
 }
 
 export interface SpentItem {
-  category: string | null;
-  color: string | null;
-  content: string | null;
-  payAmount: string | number | null;
+  categoryId? : number;
+  payTime? : string;
+  payAmount? : number;
+  content? : string;
 }
 
 export interface ChallengeItem {
