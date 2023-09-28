@@ -3,20 +3,23 @@ export interface CategoryItem {
   name: string;
   color: string;
   isDefault: string;
+  cnt : number | null;
 }
 
 export interface ChallengeState {
-  targetAmount: number;
-  leftoverAmount: number;
   challengeId: number;
+  participantCount: number;
+  targetAmount: number;
+  usedAmount: number;
+  leftoverAmount: number;
   challengeStatus: string;
 }
 
 export interface SpentItem {
-  category: string | null;
-  color: string | null;
-  content: string | null;
-  payAmount: string | number | null;
+  categoryId : number | null;
+  payTime : string | null;
+  payAmount : number | null;
+  content : string | null;
 }
 
 export interface ChallengeItem {

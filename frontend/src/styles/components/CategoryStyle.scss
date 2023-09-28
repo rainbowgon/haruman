@@ -15,6 +15,8 @@
     border: 1px solid $font1_main;
     border-radius: 0.2rem;
 
+    transition: 350ms;
+
     &.categoryprops{
         width: 2.5rem;
         height: 2.5rem;
@@ -25,110 +27,175 @@
 
     // BLACK
     &.BLACK_01{
+        border-color: $BLACK_01;
+        color: $BLACK_01;
+
         &.categoryprops{
             background-color: $BLACK_01;
         }
-        border-color: $BLACK_01;
-        color: $BLACK_01;
+        &.highlighted{
+            background-color: $BLACK_01;
+            color: $white;
+        }
     }
 
     &.BLACK_02{
+        border-color: $BLACK_02;
+        color: $BLACK_02;
+
         &.categoryprops{
             background-color: $BLACK_02;
         }
-        border-color: $BLACK_02;
-        color: $BLACK_02;
+        &.highlighted{
+            background-color: $BLACK_02;
+            color: $white;
+        }
     }
 
     &.BLACK_03{
+        border-color: $BLACK_03;
+        color: $BLACK_03;
+
         &.categoryprops{
             background-color: $BLACK_03;
         }
-        border-color: $BLACK_03;
-        color: $BLACK_03;
+        &.highlighted{
+            background-color: $BLACK_03;
+            color: $white;
+        }
     }
 
     // BLUE
     &.BLUE_01{
+        border-color: $BLUE_01;
+        color: $BLUE_01;
+
         &.categoryprops{
             background-color: $BLUE_01;
         }
-        border-color: $BLUE_01;
-        color: $BLUE_01;
+        &.highlighted{
+            background-color: $BLUE_01;
+            color: $white;
+        }
     }
 
     &.BLUE_02{
+        border-color: $BLUE_02;
+        color: $BLUE_02;
+
         &.categoryprops{
             background-color: $BLUE_02;
         }
-        border-color: $BLUE_02;
-        color: $BLUE_02;
+        &.highlighted{
+            background-color: $BLUE_02;
+            color: $white;
+        }
     }
 
     &.BLUE_03{
+        border-color: $BLUE_03;
+        color: $BLUE_03;
+
         &.categoryprops{
             background-color: $BLUE_03;
         }
-        border-color: $BLUE_03;
-        color: $BLUE_03;
+        &.highlighted{
+            background-color: $BLUE_03;
+            color: $white;
+        }
     }
 
     //BROWN
     &.BROWN_01{
+        border-color: $BROWN_01;
+        color: $BROWN_01;
+
         &.categoryprops{
             background-color: $BROWN_01;
         }
-        border-color: $BROWN_01;
-        color: $BROWN_01;
+        &.highlighted{
+            background-color: $BROWN_01;
+            color: $white;
+        }
     }
 
     &.BROWN_02{
+        border-color: $BROWN_02;
+        color: $BROWN_02;
+
         &.categoryprops{
             background-color: $BROWN_02;
         }
-        border-color: $BROWN_02;
-        color: $BROWN_02;
+        &.highlighted{
+            background-color: $BROWN_02;
+            color: $white;
+        }
     }
 
     &.BROWN_03{
+        border-color: $BROWN_03;
+        color: $BROWN_03;
+
         &.categoryprops{
             background-color: $BROWN_03;
         }
-        border-color: $BROWN_03;
-        color: $BROWN_03;
+        &.highlighted{
+            background-color: $BROWN_03;
+            color: $white;
+        }
     }
 
     //GREEN
     &.GREEN_01{
+        border-color: $GREEN_01;
+        color: $GREEN_01;
+
         &.categoryprops{
             background-color: $GREEN_01;
         }
-        border-color: $GREEN_01;
-        color: $GREEN_01;
+        &.highlighted{
+            background-color: $GREEN_01;
+            color: $white;
+        }
     }
 
     &.GREEN_02{
+        border-color: $GREEN_02;
+        color: $GREEN_02;
+
         &.categoryprops{
             background-color: $GREEN_02;
         }
-        border-color: $GREEN_02;
-        color: $GREEN_02;
+        &.highlighted{
+            background-color: $GREEN_02;
+            color: $white;
+        }
     }
 
     &.GREEN_03{
+        border-color: $GREEN_03;
+        color: $GREEN_03;
+
         &.categoryprops{
             background-color: $GREEN_03;
         }
-        border-color: $GREEN_03;
-        color: $GREEN_03;
+        &.highlighted{
+            background-color: $GREEN_03;
+            color: $white;
+        }
     }
     //ORANGE
     &.ORANGE_01{
+        border-color: $ORANGE_01;
+        color: $ORANGE_01;
+
         &.categoryprops{
             background-color: $ORANGE_01;
         }
-        border-color: $ORANGE_01;
-        color: $ORANGE_01;
+        &.highlighted{
+            background-color: $ORANGE_01;
+            color: $white;
+        }
     }
 
     &.ORANGE_02{
@@ -137,112 +204,185 @@
         }
         border-color: $ORANGE_02;
         color: $ORANGE_02;
+
+        &.categoryprops{
+            background-color: $ORANGE_02;
+        }
+        &.highlighted{
+            background-color: $ORANGE_02;
+            color: $white;
+        }
     }
 
     &.ORANGE_03{
+        border-color: $ORANGE_03;
+        color: $ORANGE_03;
+
         &.categoryprops{
             background-color: $ORANGE_03;
         }
-        border-color: $ORANGE_03;
-        color: $ORANGE_03;
+        &.highlighted{
+            background-color: $ORANGE_03;
+            color: $white;
+        }
     }
     // PINK
     &.PINK_01{
+        border-color: $PINK_01;
+        color: $PINK_01;
+
         &.categoryprops{
             background-color: $PINK_01;
         }
-        border-color: $PINK_01;
-        color: $PINK_01;
+        &.highlighted{
+            background-color: $PINK_01;
+            color: $white;
+        }
     }
 
     &.PINK_02{
+        border-color: $PINK_02;
+        color: $PINK_02;
+
         &.categoryprops{
             background-color: $PINK_02;
         }
-        border-color: $PINK_02;
-        color: $PINK_02;
+        &.highlighted{
+            background-color: $PINK_02;
+            color: $white;
+        }
     }
 
     &.PINK_03{
+        border-color: $PINK_03;
+        color: $PINK_03;
+
         &.categoryprops{
             background-color: $PINK_03;
         }
-        border-color: $PINK_03;
-        color: $PINK_03;
+        &.highlighted{
+            background-color: $PINK_03;
+            color: $white;
+        }
     }
     
     // PURPLE
     &.PURPLE_01{
+        border-color: $PURPLE_01;
+        color: $PURPLE_01;
+
         &.categoryprops{
             background-color: $PURPLE_01;
         }
-        border-color: $PURPLE_01;
-        color: $PURPLE_01;
+        &.highlighted{
+            background-color: $PURPLE_01;
+            color: $white;
+        }
     }
 
     &.PURPLE_02{
+        border-color: $PURPLE_02;
+        color: $PURPLE_02;
+
         &.categoryprops{
             background-color: $PURPLE_02;
         }
-        border-color: $PURPLE_02;
-        color: $PURPLE_02;
+        &.highlighted{
+            background-color: $PURPLE_02;
+            color: $white;
+        }
     }
 
     &.PURPLE_03{
+        border-color: $PURPLE_03;
+        color: $PURPLE_03;
+
         &.categoryprops{
             background-color: $PURPLE_03;
         }
-        border-color: $PURPLE_03;
-        color: $PURPLE_03;
+        &.highlighted{
+            background-color: $PURPLE_03;
+            color: $white;
+        }
     }
     
     // RED
     &.RED_01{
+        border-color: $RED_01;
+        color: $RED_01;
+
         &.categoryprops{
             background-color: $RED_01;
         }
-        border-color: $RED_01;
-        color: $RED_01;
+        &.highlighted{
+            background-color: $RED_01;
+            color: $white;
+        }
     }
 
     &.RED_02{
+        border-color: $RED_02;
+        color: $RED_02;
+
         &.categoryprops{
             background-color: $RED_02;
         }
-        border-color: $RED_02;
-        color: $RED_02;
+        &.highlighted{
+            background-color: $RED_02;
+            color: $white;
+        }
     }
 
     &.RED_03{
+        border-color: $RED_03;
+        color: $RED_03;
+
         &.categoryprops{
             background-color: $RED_03;
         }
-        border-color: $RED_03;
-        color: $RED_03;
+        &.highlighted{
+            background-color: $RED_03;
+            color: $white;
+        }
     }
     
     // YELLOW
     &.YELLOW_01{
+        border-color: $YELLOW_01;
+        color: $YELLOW_01;
+
         &.categoryprops{
             background-color: $YELLOW_01;
         }
-        border-color: $YELLOW_01;
-        color: $YELLOW_01;
+        &.highlighted{
+            background-color: $YELLOW_01;
+            color: $white;
+        }
     }
 
     &.YELLOW_02{
+        border-color: $YELLOW_02;
+        color: $YELLOW_02;
+
         &.categoryprops{
             background-color: $YELLOW_02;
         }
-        border-color: $YELLOW_02;
-        color: $YELLOW_02;
+        &.highlighted{
+            background-color: $YELLOW_02;
+            color: $white;
+        }
     }
 
     &.YELLOW_03{
+        border-color: $YELLOW_03;
+        color: $YELLOW_03;
+
         &.categoryprops{
             background-color: $YELLOW_03;
         }
-        border-color: $YELLOW_03;
-        color: $YELLOW_03;
+        &.highlighted{
+            background-color: $YELLOW_03;
+            color: $white;
+        }
     }
 }

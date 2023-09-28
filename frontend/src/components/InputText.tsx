@@ -5,7 +5,7 @@ import "../styles/components/InputTextStyle.scss";
 export interface InputProps {
   type: string;
   placeholder?: string;
-  value: any;
+  value?: any;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   readonly?: boolean;
   checked?: boolean;
@@ -23,6 +23,8 @@ export default function Input({
   style,
   className,
 }: InputProps) {
+  // value를 숫자로 변환
+
   return (
     <div className="input_box">
       <div className="text_container">

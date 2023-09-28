@@ -16,12 +16,16 @@ export interface CategoryProps {
     color = 'BLACK_01',
     name,
     type,
+    onClick,
     checked,
     className,
   } : CategoryProps
   ) {
   return (
-    <div className={`category ${className} ${color}`}>
+    <div 
+      className={`category ${className} ${color}`}
+      onClick={onClick}
+    >
       {name}
     </div>
   );
