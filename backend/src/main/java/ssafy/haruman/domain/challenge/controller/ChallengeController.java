@@ -89,7 +89,7 @@ public class ChallengeController {
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
     }
 
-    @Scheduled(cron = "0 0 4 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public ResponseEntity<ResponseWrapper<Nullable>> endChallenge() {
 
         challengeService.endChallenge();
