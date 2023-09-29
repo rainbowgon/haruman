@@ -15,6 +15,7 @@ import ssafy.haruman.domain.challenge.entity.ChallengeStatus;
 public class DailyChallengeResponseDto {
 
     private Integer participantCount;
+    private Long challengeId;
     private Integer targetAmount;
     private Integer usedAmount;
     private Integer leftoverAmount;
@@ -23,6 +24,7 @@ public class DailyChallengeResponseDto {
     public static DailyChallengeResponseDto from(Challenge challenge, Integer participantCount) {
         return DailyChallengeResponseDto.builder()
                 .participantCount(participantCount)
+                .challengeId(challenge.getId())
                 .targetAmount(challenge.getTargetAmount())
                 .usedAmount(challenge.getUsedAmount())
                 .leftoverAmount(challenge.getLeftoverAmount())
@@ -33,10 +35,11 @@ public class DailyChallengeResponseDto {
     public static DailyChallengeResponseDto from(Integer participantCount) {
         return DailyChallengeResponseDto.builder()
                 .participantCount(participantCount)
+                .challengeId(0L)
                 .targetAmount(10000)
                 .usedAmount(0)
                 .leftoverAmount(0)
-                .challengeStatus(null)
+                .challengeStatus(ChallengeStatus.READY)
                 .build();
     }
 
