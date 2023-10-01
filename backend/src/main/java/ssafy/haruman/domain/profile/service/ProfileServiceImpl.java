@@ -53,7 +53,7 @@ public class ProfileServiceImpl implements ProfileService {
     public SingleProfileResponseDto selectOneProfile(Long profileId) {
         Profile profile = this.findOneProfileById(profileId);
         return SingleProfileResponseDto.from(profile,
-                                             s3FileService.getS3Url(profile.getProfileImage())); // TODO S3에서 이미지 찾아서 URL 반환
+                                             s3FileService.getS3Url(profile.getProfileImage()));
     }
 
     @Override
