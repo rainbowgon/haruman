@@ -107,8 +107,40 @@ class ProfileServiceImplTest {
 
         //then
         assertThat(profileRepository.findById(profile.getId())).isEqualTo(Optional.empty());
+        List<ProfileImage> foundResultList = getProfileImageById(profileImage);
+        assertThat(foundResultList.size()).isEqualTo(0);
+    }
+
+
+    @Test
+    @DisplayName("새로운 이미지 파일이 연결되면 이전의 이미지 파일은 삭제된다.")
+    void deletePreviousProfileImage() throws Exception {
+        //given
+        final String BEFORE_PROFILE_IMAGE = "before_profile_image";
+        final String AFTER_PROFILE_IMAGE = "after_profile_image";
+
+        Profile profile = Profile.builder()
+                .nickname("TEST_PROFILE").build();
+        profile.uploadNewProfileImage(S3_PATH, BEFORE_PROFILE_IMAGE);
+        ProfileImage beforeProfileImage = profile.getProfileImage();
+        profileRepository.save(profile);
+
+        //when
+        profile.uploadNewProfileImage(S3_PATH, AFTER_PROFILE_IMAGE);
+        ProfileImage afterProfileImage = profile.getProfileImage();
+
+        //then
+        List<ProfileImage> beforeResult = getProfileImageById(beforeProfileImage);
+        assertThat(beforeResult.size()).isEqualTo(0);
+
+        List<ProfileImage> afterResult = getProfileImageById(afterProfileImage);
+        assertThat(afterResult.size()).isEqualTo(1);
+
+    }
+
+    private List<ProfileImage> getProfileImageById(ProfileImage profileImage) {
         TypedQuery<ProfileImage> query = entityManager.createQuery("select pi from ProfileImage pi where pi.id = :profileImageId", ProfileImage.class);
         List<ProfileImage> foundResultList = query.setParameter("profileImageId", profileImage.getId()).getResultList();
-        assertThat(foundResultList.size()).isEqualTo(0);
+        return foundResultList;
     }
 }
