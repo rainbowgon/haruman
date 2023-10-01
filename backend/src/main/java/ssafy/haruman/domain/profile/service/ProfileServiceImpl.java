@@ -1,6 +1,5 @@
 package ssafy.haruman.domain.profile.service;
 
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +10,8 @@ import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.domain.profile.repository.ProfileRepository;
 import ssafy.haruman.global.error.exception.ProfileNotFoundException;
 import ssafy.haruman.global.service.S3FileService;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -29,29 +30,30 @@ public class ProfileServiceImpl implements ProfileService {
                 .member(member)
                 .nickname(nickname)
                 .build();
+        member.createNewProfile(profile);
 
         this.uploadNewProfileImage(profile, multipartFile);
         profileRepository.save(profile);
         return SingleProfileResponseDto.from(profile,
-                s3FileService.getS3Url(profile.getProfileImage()));
+                                             s3FileService.getS3Url(profile.getProfileImage()));
     }
 
     @Override
     @Transactional
     public SingleProfileResponseDto updateProfile(Long profileId, String nickname,
-            MultipartFile profileImage) throws IOException {
+                                                  MultipartFile profileImage) throws IOException {
         Profile profile = this.findOneProfileById(profileId);
         profile.updateProfile(nickname);
         this.uploadNewProfileImage(profile, profileImage);
         return SingleProfileResponseDto.from(profile,
-                s3FileService.getS3Url(profile.getProfileImage()));
+                                             s3FileService.getS3Url(profile.getProfileImage()));
     }
 
     @Override
     public SingleProfileResponseDto selectOneProfile(Long profileId) {
         Profile profile = this.findOneProfileById(profileId);
         return SingleProfileResponseDto.from(profile,
-                s3FileService.getS3Url(profile.getProfileImage())); // TODO S3에서 이미지 찾아서 URL 반환
+                                             s3FileService.getS3Url(profile.getProfileImage())); // TODO S3에서 이미지 찾아서 URL 반환
     }
 
     @Override
@@ -65,6 +67,7 @@ public class ProfileServiceImpl implements ProfileService {
                 .member(member)
                 .nickname(nickname)
                 .build();
+        member.createNewProfile(profile);
 
         this.uploadNewProfileImage(profile, oauthProfileImage);
         profileRepository.save(profile);
