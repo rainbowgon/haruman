@@ -90,9 +90,8 @@ public class ProfileServiceImpl implements ProfileService {
     private void uploadNewProfileImage(Profile profile, String imageUrl) {
         this.deleteExistingProfileImage(profile);
         if (imageUrl != null) {
-            String savedFilename = null;
             try {
-                savedFilename = s3FileService.saveFile(S3_PATH, imageUrl, profile.getNickname());
+                String savedFilename = s3FileService.saveFile(S3_PATH, imageUrl, profile.getNickname());
                 profile.uploadNewProfileImage(S3_PATH, savedFilename);
             } catch (IOException e) {
                 throw new RuntimeException(e);
