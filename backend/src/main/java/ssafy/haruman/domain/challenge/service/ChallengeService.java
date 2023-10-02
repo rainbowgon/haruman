@@ -1,15 +1,12 @@
 package ssafy.haruman.domain.challenge.service;
 
-import java.util.Date;
-import java.util.List;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
-import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ChallengeHistoryResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
+import ssafy.haruman.domain.challenge.dto.response.*;
 import ssafy.haruman.domain.profile.entity.Profile;
+
+import java.util.Date;
+import java.util.List;
 
 public interface ChallengeService {
 
@@ -22,15 +19,15 @@ public interface ChallengeService {
     void deleteExpense(Long expenseId);
 
     List<ExpenseResponseDto> selectDailyExpenseList(Long challengeId);
-    
+
     DailyChallengeResponseDto selectDailyChallenge(Profile profile);
 
     void endChallenge();
 
     List<ChallengeUserListResponseDto> selectDailyUserList();
 
-    AccumulatedAmountResponseDto selectAccumulatedAmount();
+    AccumulatedAmountResponseDto selectAccumulatedAmount(Profile profile);
 
-    List<ChallengeHistoryResponseDto> selectChallengeHistory(Date yearAndMonth);
+    List<ChallengeHistoryResponseDto> selectChallengeHistory(Profile profile, Date yearAndMonth);
 
 }
