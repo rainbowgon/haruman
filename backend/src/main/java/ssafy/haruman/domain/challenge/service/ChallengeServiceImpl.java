@@ -1,29 +1,13 @@
 package ssafy.haruman.domain.challenge.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssafy.haruman.domain.category.entity.Category;
 import ssafy.haruman.domain.category.repository.CategoryRepository;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
-import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ChallengeHistoryResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ChallengeUserInfoDto;
-import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
-import ssafy.haruman.domain.challenge.entity.Challenge;
-import ssafy.haruman.domain.challenge.entity.ChallengeGroup;
-import ssafy.haruman.domain.challenge.entity.ChallengeStatus;
-import ssafy.haruman.domain.challenge.entity.Expense;
-import ssafy.haruman.domain.challenge.entity.ViewStatus;
+import ssafy.haruman.domain.challenge.dto.response.*;
+import ssafy.haruman.domain.challenge.entity.*;
 import ssafy.haruman.domain.challenge.repository.ChallengeRepository;
 import ssafy.haruman.domain.challenge.repository.ChallengeUserInfoMapping;
 import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
@@ -32,6 +16,16 @@ import ssafy.haruman.global.error.exception.CategoryNotFoundException;
 import ssafy.haruman.global.error.exception.ChallengeAlreadyExistsException;
 import ssafy.haruman.global.error.exception.ChallengeNotFoundException;
 import ssafy.haruman.global.error.exception.ExpenseNotFoundException;
+
+import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -68,7 +62,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         challengeRepository.save(challenge);
 
         return DailyChallengeResponseDto.from(challengeRepository.findFirstChallenge(profile.getId()),
-                challengeRepository.countByStatus());
+                                              challengeRepository.countByStatus());
     }
 
     @Override
@@ -99,11 +93,9 @@ public class ChallengeServiceImpl implements ChallengeService {
         Challenge challenge = expense.getChallenge();
         Category category = getCategory(updateRequestDto.getCategoryId());
 
-        updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(),
-                updateRequestDto.getPayAmount());
+        updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(), updateRequestDto.getPayAmount());
 
-        expense.updateExpense(category, updateRequestDto.getPayAmount(),
-                updateRequestDto.getContent());
+        expense.updateExpense(category, updateRequestDto.getPayAmount(), updateRequestDto.getContent());
 
         return ExpenseResponseDto.from(expense);
     }
@@ -176,8 +168,7 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .orElseThrow(() -> CategoryNotFoundException.EXCEPTION);
     }
 
-    private void updateChallengeAmount(Challenge challenge, Integer beforeUsedAmount,
-            Integer payAmount) {
+    private void updateChallengeAmount(Challenge challenge, Integer beforeUsedAmount, Integer payAmount) {
         Integer usedAmount = beforeUsedAmount + payAmount;
         Integer leftOverAmount = Math.max(challenge.getTargetAmount() - usedAmount, 0);
         challenge.updateChallengeAmount(usedAmount, leftOverAmount);
@@ -192,36 +183,26 @@ public class ChallengeServiceImpl implements ChallengeService {
         return challengeList.stream()
                 .collect(Collectors.groupingBy(this::getGroupKey))
                 .entrySet().stream()
-                .map(entry -> ChallengeUserListResponseDto.from(entry.getKey(),
-                        convertToUserInfoDto(entry.getValue())))
+                .map(entry -> ChallengeUserListResponseDto.from(entry.getKey(), convertToUserInfoDto(entry.getValue())))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public AccumulatedAmountResponseDto selectAccumulatedAmount() {
+    public AccumulatedAmountResponseDto selectAccumulatedAmount(Profile profile) {
 
-        // TODO 프로필 유효성 검증
-        Long profileId = null;
+        Integer accumulatedAmount = challengeRepository.sumByProfileAndStatus(profile.getId());
 
-        Integer accumulatedAmount = challengeRepository.findAllByProfileAndStatus(profileId);
-
-        return AccumulatedAmountResponseDto.builder()
-                .accumulatedAmount(accumulatedAmount)
-                .build();
+        return AccumulatedAmountResponseDto.builder().accumulatedAmount(accumulatedAmount).build();
     }
 
     @Override
-    public List<ChallengeHistoryResponseDto> selectChallengeHistory(Date yearAndMonth) {
+    public List<ChallengeHistoryResponseDto> selectChallengeHistory(Profile profile, Date yearAndMonth) {
 
-        // TODO 프로필 유효성 검증
-        Long profileId = null;
-
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
         String date = yearAndMonth == null ?
-                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-DD")) :
-                String.valueOf(yearAndMonth);
+                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM")) : dateFormat.format(yearAndMonth);
 
-        List<Challenge> challengeList =
-                challengeRepository.findAllByProfileAndDate(profileId, date);
+        List<Challenge> challengeList = challengeRepository.findAllByProfileAndDate(profile.getId(), date);
 
         return challengeList.stream()
                 .map(ChallengeHistoryResponseDto::from)
