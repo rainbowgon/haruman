@@ -1,34 +1,23 @@
 package ssafy.haruman.domain.challenge.controller;
 
-import java.util.Date;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
-import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ChallengeHistoryResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
-import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
+import ssafy.haruman.domain.challenge.dto.response.*;
 import ssafy.haruman.domain.challenge.service.ChallengeService;
 import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.response.JsonResponse;
 import ssafy.haruman.global.response.ResponseWrapper;
+
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/challenges")
@@ -51,8 +40,7 @@ public class ChallengeController {
             @PathVariable(name = "challenge-id") Long challengeId,
             @RequestBody ExpenseCreateRequestDto createRequestDto) {
 
-        ExpenseResponseDto reponseDto = challengeService.createExpense(challengeId,
-                createRequestDto);
+        ExpenseResponseDto reponseDto = challengeService.createExpense(challengeId, createRequestDto);
         return JsonResponse.ok("지출내역이 입력되었습니다.", reponseDto);
     }
 
@@ -105,20 +93,22 @@ public class ChallengeController {
     }
 
     @GetMapping("/amount")
-    public ResponseEntity<ResponseWrapper<AccumulatedAmountResponseDto>> selectAccumulatedAmount() {
+    public ResponseEntity<ResponseWrapper<AccumulatedAmountResponseDto>> selectAccumulatedAmount(
+            @AuthenticationPrincipal Member member) {
 
-        AccumulatedAmountResponseDto accumulatedAmount = challengeService.selectAccumulatedAmount();
+        AccumulatedAmountResponseDto accumulatedAmount = challengeService.selectAccumulatedAmount(member.getProfile());
 
         return JsonResponse.ok("챌린지 누적 잔액을 성공적으로 가져왔습니다.", accumulatedAmount);
     }
 
     @GetMapping("/history")
     public ResponseEntity<ResponseWrapper<List<ChallengeHistoryResponseDto>>> selectChallengeHistory(
+            @AuthenticationPrincipal Member member,
             @RequestParam(name = "date", required = false)
             @DateTimeFormat(pattern = "yyyy-MM") Date yearAndMonth) {
 
-        List<ChallengeHistoryResponseDto> challengeHistory
-                = challengeService.selectChallengeHistory(yearAndMonth);
+        List<ChallengeHistoryResponseDto> challengeHistory =
+                challengeService.selectChallengeHistory(member.getProfile(), yearAndMonth);
 
         return JsonResponse.ok("챌린지 월별 내역을 성공적으로 가져왔습니다.", challengeHistory);
     }
