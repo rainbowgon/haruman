@@ -6,7 +6,7 @@ public interface ChallengeUserInfoMapping {
 
     String getNickname();
 
-    String getSavedPath();
+    String getProfileImage();
 
     LocalDateTime getStartTime();
 
