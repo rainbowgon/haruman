@@ -1,8 +1,7 @@
-package ssafy.haruman.domain.deposit.dto.response;
+package ssafy.haruman.global.gpt.dto.response;
 
-import com.theokanning.openai.completion.chat.ChatCompletionChoice;
-import com.theokanning.openai.completion.chat.ChatCompletionResult;
-import com.theokanning.openai.completion.chat.ChatMessage;
+import com.theokanning.openai.completion.CompletionChoice;
+import com.theokanning.openai.completion.CompletionResult;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompletionChatResponse {
+public class CompletionResponse {
 
   private String id;
 
@@ -26,23 +25,26 @@ public class CompletionChatResponse {
 
   private Usage usage;
 
+
   @Getter
   @NoArgsConstructor
   @AllArgsConstructor
   public static class Message {
 
-    private String role;
+    private String text;
 
-    private String message;
+    private Integer index;
 
-    public static Message of(ChatMessage chatMessage) {
+    private String finishReason;
+
+    public static Message of(CompletionChoice choice) {
       return new Message(
-          chatMessage.getRole(),
-          chatMessage.getContent()
+          choice.getText(),
+          choice.getIndex(),
+          choice.getFinish_reason()
       );
     }
   }
-
 
   @Getter
   @NoArgsConstructor
@@ -64,14 +66,14 @@ public class CompletionChatResponse {
     }
   }
 
-  public static List<Message> toResponseListBy(List<ChatCompletionChoice> choices) {
+  public static List<Message> toResponseListBy(List<CompletionChoice> choices) {
     return choices.stream()
-        .map(completionChoice -> Message.of(completionChoice.getMessage()))
+        .map(Message::of)
         .collect(Collectors.toList());
   }
 
-  public static CompletionChatResponse of(ChatCompletionResult result) {
-    return new CompletionChatResponse(
+  public static CompletionResponse of(CompletionResult result) {
+    return new CompletionResponse(
         result.getId(),
         result.getObject(),
         result.getCreated(),

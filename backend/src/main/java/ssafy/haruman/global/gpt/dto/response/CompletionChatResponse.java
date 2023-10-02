@@ -1,7 +1,8 @@
-package ssafy.haruman.domain.deposit.dto.response;
+package ssafy.haruman.global.gpt.dto.response;
 
-import com.theokanning.openai.completion.CompletionChoice;
-import com.theokanning.openai.completion.CompletionResult;
+import com.theokanning.openai.completion.chat.ChatCompletionChoice;
+import com.theokanning.openai.completion.chat.ChatCompletionResult;
+import com.theokanning.openai.completion.chat.ChatMessage;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompletionResponse {
+public class CompletionChatResponse {
 
   private String id;
 
@@ -25,26 +26,23 @@ public class CompletionResponse {
 
   private Usage usage;
 
-
   @Getter
   @NoArgsConstructor
   @AllArgsConstructor
   public static class Message {
 
-    private String text;
+    private String role;
 
-    private Integer index;
+    private String message;
 
-    private String finishReason;
-
-    public static Message of(CompletionChoice choice) {
+    public static Message of(ChatMessage chatMessage) {
       return new Message(
-          choice.getText(),
-          choice.getIndex(),
-          choice.getFinish_reason()
+          chatMessage.getRole(),
+          chatMessage.getContent()
       );
     }
   }
+
 
   @Getter
   @NoArgsConstructor
@@ -66,14 +64,14 @@ public class CompletionResponse {
     }
   }
 
-  public static List<Message> toResponseListBy(List<CompletionChoice> choices) {
+  public static List<Message> toResponseListBy(List<ChatCompletionChoice> choices) {
     return choices.stream()
-        .map(Message::of)
+        .map(completionChoice -> Message.of(completionChoice.getMessage()))
         .collect(Collectors.toList());
   }
 
-  public static CompletionResponse of(CompletionResult result) {
-    return new CompletionResponse(
+  public static CompletionChatResponse of(ChatCompletionResult result) {
+    return new CompletionChatResponse(
         result.getId(),
         result.getObject(),
         result.getCreated(),

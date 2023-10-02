@@ -1,4 +1,4 @@
-package ssafy.haruman.domain.deposit.dto.request;
+package ssafy.haruman.global.gpt.dto.request;
 
 import com.theokanning.openai.completion.CompletionRequest;
 import lombok.AllArgsConstructor;

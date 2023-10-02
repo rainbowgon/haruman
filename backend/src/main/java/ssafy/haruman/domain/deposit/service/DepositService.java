@@ -13,10 +13,12 @@ import java.util.List;
 public interface DepositService {
 
     DepositSimpleResponseDto createDeposit(Profile profile, DepositCreateRequestDto createDto);
-
+    List<DepositSimpleResponseDto> createDepositList(Profile profile, List<DepositCreateRequestDto> createDtoList);
     DepositSimpleResponseDto updateDeposit(Profile profile, DepositUpdateRequestDto updateDto);
 
-    Integer deleteDeposit(Profile profile, Long depositId);
+    void deleteDeposit(Profile profile, Long depositId);
+
+    void deleteDepositAll(Profile profile);
 
     List<DepositSimpleResponseDto> selectDepositSimpleList(Profile profile);
     List<DepositDetailResponseDto> selectDepositDetailList(Profile profile);
