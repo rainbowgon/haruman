@@ -14,6 +14,7 @@ import ssafy.haruman.domain.challenge.service.ChallengeService;
 import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.response.JsonResponse;
+import ssafy.haruman.global.response.PageInfo;
 import ssafy.haruman.global.response.ResponseWrapper;
 
 import java.util.Date;
@@ -89,7 +90,14 @@ public class ChallengeController {
 
         List<ChallengeUserListResponseDto> userList = challengeService.selectDailyUserList();
 
-        return JsonResponse.ok("챌린지 중인 회원 목록을 성공적으로 가져왔습니다.", userList);
+        int size = 0;
+        for (ChallengeUserListResponseDto group : userList) {
+            size += group.getGroup().size();
+        }
+        
+        PageInfo listSize = PageInfo.builder().size(size).build();
+
+        return JsonResponse.ok("챌린지 중인 회원 목록을 성공적으로 가져왔습니다.", userList, listSize);
     }
 
     @GetMapping("/amount")
@@ -110,6 +118,8 @@ public class ChallengeController {
         List<ChallengeHistoryResponseDto> challengeHistory =
                 challengeService.selectChallengeHistory(member.getProfile(), yearAndMonth);
 
-        return JsonResponse.ok("챌린지 월별 내역을 성공적으로 가져왔습니다.", challengeHistory);
+        PageInfo listSize = PageInfo.builder().size(challengeHistory.size()).build();
+
+        return JsonResponse.ok("챌린지 월별 내역을 성공적으로 가져왔습니다.", challengeHistory, listSize);
     }
 }
