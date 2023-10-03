@@ -84,7 +84,8 @@ pipeline {
 
         stage('Zero Downtime Deployment') {
             steps {
-                sh'''
+                sh'''#!/bin/bash
+
                     echo "\n****** Blue Health Check & Build ******"
 
                     # 8081 포트가 살아있다면 -> 8082 포트 그린에 배포
