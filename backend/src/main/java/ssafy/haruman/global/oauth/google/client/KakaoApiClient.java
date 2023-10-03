@@ -1,10 +1,10 @@
-package ssafy.haruman.global.oauth.kakao.client;
+package ssafy.haruman.global.oauth.google.client;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
-import ssafy.haruman.global.oauth.kakao.dto.KakaoMemberResponse;
-import ssafy.haruman.global.oauth.kakao.dto.KakaoToken;
+import ssafy.haruman.global.oauth.google.dto.KakaoMemberResponse;
+import ssafy.haruman.global.oauth.google.dto.KakaoToken;
 import ssafy.haruman.global.utils.WebClientUtil;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class KakaoApiClient {
 
         return kakaoToken;
     }
-    
+
     public KakaoMemberResponse fetchMember(String bearerToken) {
         WebClient kakaoUserDetailClient = WebClientUtil.createWebClient(KAKAO_USER_URL);
 

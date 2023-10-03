@@ -1,4 +1,4 @@
-package ssafy.haruman.global.oauth.kakao.dto;
+package ssafy.haruman.global.oauth.google.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;

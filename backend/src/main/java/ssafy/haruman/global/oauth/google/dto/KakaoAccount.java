@@ -1,4 +1,4 @@
-package ssafy.haruman.global.oauth.kakao.dto;
+package ssafy.haruman.global.oauth.google.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
@@ -10,6 +10,7 @@ import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseS
 @Getter
 @JsonNaming(SnakeCaseStrategy.class)
 public class KakaoAccount {
+
     private boolean profileNeedsAgreement;
     private boolean profileNicknameNeedsAgreement;
     private boolean profileImageNeedsAgreement;

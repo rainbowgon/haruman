@@ -9,19 +9,19 @@ import ssafy.haruman.global.oauth.google.GoogleOAuthConfig;
 
 @Component
 @RequiredArgsConstructor
-public class KakaoAuthCodeRequestUrlProvider implements AuthCodeRequestUrlProvider {
+public class GoogleAuthCodeRequestUrlProvider implements AuthCodeRequestUrlProvider {
 
     private final GoogleOAuthConfig googleOAuthConfig;
 
     @Override
     public OAuthServerType supportServer() {
-        return OAuthServerType.KAKAO;
+        return OAuthServerType.GOOGLE;
     }
 
     @Override
     public String provide() {
         return UriComponentsBuilder
-                .fromUriString("https://kauth.kakao.com/oauth/authorize")
+                .fromUriString("https://accounts.google.com/o/oauth2/v2/auth")
                 .queryParam("response_type", "code")
                 .queryParam("client_id", googleOAuthConfig.getClientId())
                 .queryParam("redirect_uri", googleOAuthConfig.getRedirectUri())

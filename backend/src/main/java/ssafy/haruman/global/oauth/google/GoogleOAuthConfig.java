@@ -1,4 +1,4 @@
-package ssafy.haruman.global.oauth.kakao;
+package ssafy.haruman.global.oauth.google;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,17 +6,17 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Component
-public class KakaoOAuthConfig {
+public class GoogleOAuthConfig {
 
-    @Value("${oauth.kakao.redirect_uri}")
+    @Value("${oauth.google.redirect_uri}")
     private String redirectUri;
 
-    @Value("${oauth.kakao.client_id}")
+    @Value("${oauth.google.client_id}")
     private String clientId;
 
-    @Value("${oauth.kakao.client_secret}")
+    @Value("${oauth.google.client_secret}")
     private String clientSecret;
 
-    @Value("${oauth.kakao.scope}")
+    @Value("${oauth.google.scope}")
     private String[] scope;
 }
