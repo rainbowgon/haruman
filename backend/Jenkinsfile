@@ -84,7 +84,7 @@ pipeline {
 
         stage('Zero Downtime Deployment') {
             steps {
-                sh'''#!/bin/bash
+                sh'''
 
                     echo "\n****** Blue Health Check & Build ******"
 
