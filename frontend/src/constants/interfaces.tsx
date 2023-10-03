@@ -3,7 +3,7 @@ export interface CategoryItem {
   name: string;
   color: string;
   isDefault: string;
-  cnt : number | null;
+  cnt: number | null;
 }
 
 export interface ChallengeState {
@@ -16,10 +16,10 @@ export interface ChallengeState {
 }
 
 export interface SpentItem {
-  categoryId : number | null;
-  payTime : string | null;
-  payAmount : number | null;
-  content : string | null;
+  categoryId: number | null;
+  payTime: string | null;
+  payAmount: number | null;
+  content: string | null;
 }
 // "id": 1,
 // "challengeId": 1,
@@ -27,7 +27,7 @@ export interface SpentItem {
 // "payTime": "2023-09-27T15:38:19.68047",
 // "payAmount": 8000,
 // "content": "참치김밥"
- 
+
 export interface ChallengeItem {
   category: string;
   //color: string;

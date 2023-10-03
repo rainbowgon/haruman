@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // 더미용
-import DonutChart from "../components/DoughnutChart";
+// import DonutChart from "../components/DoughnutChart";
 import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
 // api용
-// import DonutChart from "../components/DoughnutChartApi";
+import DonutChart, { ExpenseItem } from "../components/DoughnutChartApi";
 
 // styles
 import "../styles/calendar/CalendarpageStyle.scss";
@@ -14,59 +14,35 @@ import "../styles/TodayPageStyle.scss";
 import SpentItem from "../components/SpentItem";
 
 //interface value
-import { ChallengeItem } from "../constants/interfaces";
+import { CategoryItem, ChallengeItem } from "../constants/interfaces";
+import axios from "axios";
+import { API_URL } from "../constants/urls";
 
 const TodayPage = () => {
   // const [costItems, setCostItems] = useState<ChallengeItem[]>([]);
-  const [costItems, setCostItems] = useState<ChallengeItem[]>([
-    {
-      category: "카페",
-      content: "메가커피 아메리카노",
-      pay_amount: 2500,
-    },
-    {
-      category: "식사",
-      content: "소풍 참치김밥",
-      pay_amount: 5000,
-    },
-    {
-      category: "카페",
-      content: "메가커피 아메리카노",
-      pay_amount: 2500,
-    },
-    {
-      category: "식사",
-      content: "소풍 참치김밥",
-      pay_amount: 5000,
-    },
-    {
-      category: "카페",
-      content: "메가커피 아메리카노",
-      pay_amount: 2500,
-    },
-    {
-      category: "식사",
-      content: "소풍 참치김밥",
-      pay_amount: 5000,
-    },
-    {
-      category: "쇼핑",
-      content: "셔츠 구매",
-      pay_amount: 17000,
-    },
-    {
-      category: "교통",
-      content: "101번 버스",
-      pay_amount: 2000,
-    },
-    {
-      category: "교통",
-      content: "지하철 3호선",
-      pay_amount: 2000,
-    },
-  ]);
 
-  const [category, setCategory] = useState(new Map([]));
+  // const [category, setCategory] = useState(new Map([]));
+  const [costItems, setCostItems] = useState<ExpenseItem[]>([]);
+
+  const accessToken = process.env.REACT_APP_accessToken;
+  const contextPath = `/api`;
+  const challengeAPI = "/challenges/24";
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}${contextPath}${challengeAPI}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        setCostItems(response.data.data);
+        console.log("TodayPage에서 받아오는 것", response.data.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching expense data:", error);
+      });
+  }, []);
 
   return (
     <CenterContainer>
@@ -76,16 +52,16 @@ const TodayPage = () => {
             <h2 className="main_title">하루 소비 지출 현황</h2>
           </div>
           {/* api용 */}
-          {/* <DonutChart /> */}
+          <DonutChart />
 
           {/* 더미용 */}
-          <DonutChart datas={costItems} />
+          {/* <DonutChart datas={costItems} /> */}
           <div className="challengeitems_list">
             {costItems.map((item, index) => (
               <SpentItem
-                name={item.category}
+                name={item.categoryName}
                 mainValue={item.content}
-                moneyValue={item.pay_amount}
+                moneyValue={item.payAmount}
               />
             ))}
           </div>

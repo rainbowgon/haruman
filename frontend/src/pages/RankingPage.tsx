@@ -7,7 +7,7 @@ import Register from "../components/RegistButton";
 import axios from "axios";
 
 //interface value
-import { User } from "../constants/interfaces";
+import { ChallengeState, User } from "../constants/interfaces";
 
 // styles
 import "../styles/RankinPageStyle.scss";
@@ -17,9 +17,9 @@ import { API_URL } from "../constants/urls";
 const selectChallengeUserList = async () => {
   console.log("selectChallengeUserList");
   // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
+  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  const accessToken = sessionStorage.getItem("accessToken");
+  // const accessToken = sessionStorage.getItem("accessToken");
   axios
     .get(`${API_URL}/api/challenges/people`, {
       headers: {
@@ -272,6 +272,14 @@ const RankingPage = () => {
   ]);
 
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+  const [challengeInfo, setChallengeInfo] = useState<ChallengeState>({
+    challengeId: -1,
+    participantCount: 0,
+    targetAmount: 0,
+    usedAmount: 0,
+    leftoverAmount: 0,
+    challengeStatus: "null",
+  });
 
   const handleBubbleClick = (range: DataPoint) => {
     const usersInRange = Users.filter(
@@ -285,7 +293,9 @@ const RankingPage = () => {
         <BottomBarSpace />
         <div className="rankingpage">
           <div className="ranking_header">
-            <h3 className="sub_title">[]명이 도전중!</h3>
+            <h3 className="sub_title">
+              {challengeInfo && challengeInfo.participantCount}명이 도전중!
+            </h3>
             <h1 className="main_title">
               {currentDate.getMonth() + 1}월 {currentDate.getDate()}일 챌린지
             </h1>
