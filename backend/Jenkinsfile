@@ -62,101 +62,101 @@ pipeline {
         //     }
         // }
 
-        stage('Delete existing Docker images and containers') {
-            steps {
-                sh'''
-                    if docker container inspect haruman_server >/dev/null 2>&1; then
-                        echo "container exists locally"
-                        docker stop haruman_server
-                        docker rm haruman_server
-                    else
-                        echo "container does not exist locally"
-                    fi
-                    if docker image inspect server >/dev/null 2>&1; then
-                        echo "Image exists locally"
-                        docker rmi server 
-                    else
-                        echo "Image does not exist locally"
-                    fi
-                '''
-            }
-        }
-
-        // stage('Zero Downtime Deployment') {
+        // stage('Delete existing Docker images and containers') {
         //     steps {
         //         sh'''
-        //             echo "\n****** Blue Health Check & Build ******"
-
-        //             if curl -s "http://3.34.135.50:8081" > /dev/null
-        //             then
-        //                 deployment_target_port=8082
-        //                 deployment_target=green
+        //             if docker container inspect haruman_server >/dev/null 2>&1; then
+        //                 echo "container exists locally"
+        //                 docker stop haruman_server
+        //                 docker rm haruman_server
         //             else
-        //                 deployment_target_port=8081
-        //                 deployment_target=blue
+        //                 echo "container does not exist locally"
         //             fi
-
-        //             echo [BE] Green Build Docker Image!
-        //             docker build -t server ./backend
-        //             echo [BE] Green Run Docker Container!
-        //             docker run -dp ${deployment_target_port}:8081 --name haruman_server_${deployment_target} server
- 
-
-
-        //             echo "\n****** Continuous Green Health Check ******"
-
-        //             for retry_count in \$(seq 10)
-        //             do
-        //               if curl -s "http://3.34.135.50:${deployment_target_port}" > /dev/null
-        //               then
-        //                   echo "Health check success ✅"
-        //                   break
-        //               fi
-
-        //               if [ $retry_count -eq 10 ]
-        //               then
-        //                 echo "Health check failed ❌"
-        //                 exit 1
-        //               fi
-
-        //               echo "The server is not alive yet. Retry health check in 10 seconds..."
-        //               sleep 10
-        //             done
-
-
-
-        //             echo "\n****** Nginx Proxy Redirect & Kill Blue ******"
-
-        //             pwd
-        //             cd backend
-        //             pwd
-        //             ls
-        //             ssh -o StrictHostKeyChecking=no -i J9A607T.pem ubuntu@j9a607.p.ssafy.io "echo 'set \\http://3.34.135.50:8081; http://3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc && service nginx reload"
-        //             echo "Switch the reverse proxy direction of nginx to http://3.34.135.50:${deployment_target_port} 🔄"
-
-        //             if [ "${deployment_target}" == blue ]
-        //             then
-        //                 ssh root@${green_ip} "fuser -s -k 8081/tcp"
+        //             if docker image inspect server >/dev/null 2>&1; then
+        //                 echo "Image exists locally"
+        //                 docker rmi server 
         //             else
-        //                 ssh root@${blue_ip} "fuser -s -k 8081/tcp"
+        //                 echo "Image does not exist locally"
         //             fi
-        //             echo "Kill the process on the opposite server."
         //         '''
         //     }
         // }
 
-        stage('Build and Deploy Docker') {
+        stage('Zero Downtime Deployment') {
             steps {
-                dir('backend') {
-                    sh'''
-                        echo [BE] Build Docker Image!
-                        docker build -t server .
-                        echo [BE] Run Docker Container!
-                        docker run -dp 8081:8081 --name haruman_server server
-                    '''
-                }
+                sh'''
+                    echo "\n****** Blue Health Check & Build ******"
+
+                    if curl -s "http://3.34.135.50:8081" > /dev/null
+                    then
+                        deployment_target_port=8082
+                        deployment_target=green
+                    else
+                        deployment_target_port=8081
+                        deployment_target=blue
+                    fi
+
+                    echo [BE] Green Build Docker Image!
+                    docker build -t server ./backend
+                    echo [BE] Green Run Docker Container!
+                    docker run -dp ${deployment_target_port}:8081 --name haruman_server_${deployment_target} server
+ 
+
+
+                    echo "\n****** Continuous Green Health Check ******"
+
+                    for retry_count in \$(seq 10)
+                    do
+                      if curl -s "http://3.34.135.50:${deployment_target_port}" > /dev/null
+                      then
+                          echo "Health check success ✅"
+                          break
+                      fi
+
+                      if [ $retry_count -eq 10 ]
+                      then
+                        echo "Health check failed ❌"
+                        exit 1
+                      fi
+
+                      echo "The server is not alive yet. Retry health check in 10 seconds..."
+                      sleep 10
+                    done
+
+
+
+                    echo "\n****** Nginx Proxy Redirect & Kill Blue ******"
+
+                    cd backend
+                    ssh -o StrictHostKeyChecking=no -i J9A607T.pem ubuntu@j9a607.p.ssafy.io
+                    docker exec -it haruman_nginx_1 /bin/bash
+
+                    echo 'set \\http://3.34.135.50:8081; http://3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc && service nginx reload
+                    echo "Switch the reverse proxy direction of nginx to http://3.34.135.50:${deployment_target_port} 🔄"
+
+                    if [ "${deployment_target}" == blue ]
+                    then
+                        ssh root@${green_ip} "fuser -s -k 8081/tcp"
+                    else
+                        ssh root@${blue_ip} "fuser -s -k 8081/tcp"
+                    fi
+                    echo "Kill the process on the opposite server."
+                '''
             }
         }
+
+        // stage('Build and Deploy Docker') {
+        //     steps {
+        //         dir('backend') {
+        //             sh'''
+        //                 echo [BE] Build Docker Image!
+        //                 docker build -t server .
+        //                 echo [BE] Run Docker Container!
+        //                 docker run -dp 8081:8081 --name haruman_server server
+        //             '''
+        //         }
+        //     }
+        // }
     }
 
     // post {
