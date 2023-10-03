@@ -13,7 +13,6 @@ import ssafy.haruman.global.gpt.dto.response.CompletionResponse;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class GPTChatRestService {
 
     private final OpenAiService openAiService;
