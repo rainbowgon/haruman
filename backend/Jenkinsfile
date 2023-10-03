@@ -87,6 +87,8 @@ pipeline {
                 sh'''
                     echo "\n****** Blue Health Check & Build ******"
 
+                    # 8081 포트가 살아있다면 -> 8082 포트 그린에 배포
+                    # 8081 포트가 죽어있다면 -> 8081 포트 블루에 배포
                     if curl -s "http://3.34.135.50:8081" > /dev/null
                     then
                         deployment_target_port=8082
@@ -96,6 +98,8 @@ pipeline {
                         deployment_target=blue
                     fi
 
+                    # 백 빌드를 해서 타겟포트(호스트) 8081(컨테이너내부) 이미지로 만들어서
+                    # 블루 그린 이름을 붙여서 도커 run
                     echo [BE] Green Build Docker Image!
                     docker build -t server ./backend
                     echo [BE] Green Run Docker Container!
@@ -105,6 +109,8 @@ pipeline {
 
                     echo "\n****** Continuous Green Health Check ******"
 
+                    # 10초마다 헬스 체크 10번 -> 실패하면 그린 배포 멈춤
+                    # 주로 2번 정도 돌아가면 성공함
                     for retry_count in \$(seq 10)
                     do
                       if curl -s "http://3.34.135.50:${deployment_target_port}" > /dev/null
@@ -127,12 +133,14 @@ pipeline {
 
                     echo "\n****** Nginx Proxy Redirect & Kill Blue ******"
 
+                    # nginx 컨테이너 접속
                     cd backend
-                    ssh -o StrictHostKeyChecking=no -i J9A607T.pem ubuntu@j9a607.p.ssafy.io
-                    docker exec -it haruman_nginx_1 /bin/bash
-
+                    ssh -o StrictHostKeyChecking=no -i J9A607T.pem ubuntu@j9a607.p.ssafy.io docker exec -it haruman_nginx_1 /bin/bash
                     echo 'set \\http://3.34.135.50:8081; http://3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc && service nginx reload
                     echo "Switch the reverse proxy direction of nginx to http://3.34.135.50:${deployment_target_port} 🔄"
+
+                    # 블루 8081 -> 그린 8082로 바꿈
+                    # 그린 8082 -> 블루 8081로 바꿈
 
                     if [ "${deployment_target}" == blue ]
                     then
