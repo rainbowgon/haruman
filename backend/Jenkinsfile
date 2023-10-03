@@ -135,8 +135,8 @@ pipeline {
 
                     # nginx 컨테이너 접속
                     ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io /bin/bash
-                    docker exec haruman_nginx_1 ls
-                    docker exec haruman_nginx_1 echo 'set \\\$service_url; http://3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc && service nginx reload
+                    docker exec haruman_nginx_1 bash
+                    echo 'set \\\$service_url; http://3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc && service nginx reload
                     echo "Switch the reverse proxy direction of nginx to http://3.34.135.50:${deployment_target_port} 🔄"
 
                     # 블루 8081 -> 그린 8082로 바꿈
