@@ -135,6 +135,7 @@ pipeline {
 
                     # nginx 컨테이너 접속
                     ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io /bin/bash
+                    docker exec -it haruman_nginx_1 /bin/bash
                     echo 'set \$service_url; http://3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc && service nginx reload
                     echo "Switch the reverse proxy direction of nginx to http://3.34.135.50:${deployment_target_port} 🔄"
 
