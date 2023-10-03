@@ -113,7 +113,7 @@
 
 .react-calendar__tile {
   max-width: 100%;
-  padding: 0.5rem 0.5rem;
+  padding: 0.3rem 0.3rem;
   background: none;
   text-align: center;
   line-height: 24px;
@@ -126,23 +126,10 @@
   transition: background-color 0.5s;
 }
 
-.react-calendar__tile:enabled:focus {
-  background: $background_2;
-  border-radius: 3rem;
-  transition: background-color 0.5s;
-}
-
 .react-calendar__tile--now {
-  background: $brand2_op_60;
   border-radius: 3rem;
   color: $white;
   transition: background-color 0.5s;
-}
-
-.react-calendar__tile--now:enabled:hover,
-.react-calendar__tile--now:enabled:focus {
-  background: $point1_main;
-  border-radius: 3rem;
 }
 
 .react-calendar__tile--hasActive {
@@ -159,17 +146,18 @@
 }
 
 .react-calendar__tile--active {
-  background: $brand1_op_60;
-  border-radius: 3rem;
-  color: $white;
-  transition: background-color 0.5s;
-}
-
-.react-calendar__tile--active:enabled:hover,
-.react-calendar__tile--active:enabled:focus {
-  background: $point2_main;
-  border-radius: 3rem;
-  color: $white;
+  abbr{
+    background-color: $brand1_op_60;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+    color: $white;
+  }
 }
 
 .react-calendar--selectRange .react-calendar__tile--hover {
@@ -179,11 +167,42 @@
 }
 
 .highlight1 {
-  background: $point3_main;
+  abbr{
+    background: $point3_op_60;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+  }
 }
 .highlight2 {
-  background-size: 35px 35px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: $brand2_op_60;
+  abbr{
+    background-color: $brand2_op_60;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+  }
+}
+
+.highlight3 {
+  abbr{
+    background: $background_2;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+  }
 }

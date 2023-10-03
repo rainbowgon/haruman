@@ -1,5 +1,6 @@
 // @import "../styles/theme.css";
 @import "theme.css";
+@import "util.scss";
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
 
 .rankingpage {
@@ -19,7 +20,8 @@
 .calendar_form {
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items:center;
 }
 
 .challengecounter_form {
@@ -43,4 +45,17 @@
   justify-content: center;
   grid-template-columns: 1fr;
   margin-top: 1rem;
+}
+
+.challengeitems_emptylist{
+  width: 100%;
+  font-size: 1.2rem;
+  color: $font2_main;
+
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr;
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: bold;
 }
