@@ -10,18 +10,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GPTCompletionRequest {
 
-  private String model;
+    private String model;
 
-  private String prompt;
+    private String prompt;
 
-  private Integer maxToken;
+    private Integer maxToken;
 
 
-  public static CompletionRequest of(GPTCompletionRequest restRequest) {
-    return CompletionRequest.builder()
-        .model(restRequest.getModel())
-        .prompt(restRequest.getPrompt())
-        .maxTokens(restRequest.getMaxToken())
-        .build();
-  }
+    public static CompletionRequest of(GPTCompletionRequest restRequest) {
+        return CompletionRequest.builder()
+                .model(restRequest.getModel())
+                .prompt(restRequest.getPrompt())
+                .maxTokens(restRequest.getMaxToken())
+                .build();
+    }
 }

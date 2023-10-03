@@ -19,7 +19,7 @@ public class AppStartupRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         GPTCompletionChatRequest gptCompletionChatRequest = new GPTCompletionChatRequest(
-                "gpt-3.5-turbo", "user" ,"" +
+                "gpt-3.5-turbo", "user", "" +
                 "My저금통 나의 소비내역을 바탕으로 알아서 저축해주는 똑똑한 통장 \\n" +
                 " 데일리 워킹 적금 걸음 수에 따라 우대금리 혜택을 받을 수 있는 적금 상품 \\n" +
                 " 우리 으쓱(ESG) 적금 대중교통 이용 및 환경보호 실천운동 달성 시 우대혜택 \\n" +
@@ -50,7 +50,7 @@ public class AppStartupRunner implements ApplicationRunner {
                 " 26주 적금 with 카카오웹툰 적금 계좌를 개설하고 26주 동안 납입금을 매주 자동 이체한 고객은 최대 연 7%에 달하는 카카오뱅크 적용 금리에 더해 총 7회에 걸쳐 최대 2만원 상당의 카카오웹툰 캐시를 지급\\n" +
                 " 26주 적금 with GS25 카카오뱅크의 26주적금을 통해 GS25 편의점과 GS더프레시 등 GS리테일 매장에서 이용할 수 있는 포인트를 제공하는 상품\\n" +
                 " My저금통 나의 소비내역을 바탕으로 알아서 저축해주는 똑똑한 통장\\n" +
-                " 데일리 워킹 적금 걸음 수에 따라 우대금리 혜택을 받을 수 있는 적금 상품",1000);
+                " 데일리 워킹 적금 걸음 수에 따라 우대금리 혜택을 받을 수 있는 적금 상품", 1000);
 
         CompletionChatResponse response = gptChatRestService.completionChat(gptCompletionChatRequest);
         System.out.printf(response.getMessages().get(0).getMessage());

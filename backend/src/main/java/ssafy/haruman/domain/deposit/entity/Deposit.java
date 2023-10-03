@@ -1,24 +1,17 @@
 package ssafy.haruman.domain.deposit.entity;
 
-import java.math.BigDecimal;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.entity.BaseEntity;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -52,7 +45,7 @@ public class Deposit extends BaseEntity {
     private BigDecimal interestRate;
 
     @Builder
-    public Deposit(Profile profile, String bank, String name, String description,BigDecimal interestRate) {
+    public Deposit(Profile profile, String bank, String name, String description, BigDecimal interestRate) {
         this.profile = profile;
         this.bank = bank;
         this.name = name;
@@ -60,7 +53,7 @@ public class Deposit extends BaseEntity {
         this.interestRate = interestRate;
     }
 
-    public void updateDeposit(String bank,String name, String description,BigDecimal interestRate) {
+    public void updateDeposit(String bank, String name, String description, BigDecimal interestRate) {
         this.bank = bank;
         this.name = name;
         this.description = description;

@@ -1,32 +1,35 @@
 package ssafy.haruman.domain.deposit.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ssafy.haruman.domain.deposit.entity.Deposit;
 import ssafy.haruman.domain.deposit.dto.request.DepositCreateRequestDto;
 import ssafy.haruman.domain.deposit.dto.request.DepositUpdateRequestDto;
 import ssafy.haruman.domain.deposit.dto.response.DepositDetailResponseDto;
 import ssafy.haruman.domain.deposit.dto.response.DepositSimpleResponseDto;
+import ssafy.haruman.domain.deposit.entity.Deposit;
 import ssafy.haruman.domain.deposit.repository.DepositRepository;
 import ssafy.haruman.domain.profile.entity.Profile;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
 @RequiredArgsConstructor
-public class DepositServiceImpl implements DepositService{
+public class DepositServiceImpl implements DepositService {
+
     private final DepositRepository depositRepository;
+
     @Override
     @Transactional
     public DepositSimpleResponseDto createDeposit(Profile profile,
-            DepositCreateRequestDto createDto) {
+                                                  DepositCreateRequestDto createDto) {
 
         Optional<Deposit> deposit =
-                depositRepository.findByProfileAndName(profile,createDto.getName());
+                depositRepository.findByProfileAndName(profile, createDto.getName());
 
 //        if(deposit.isPresent()){
 //            throw DepositDuplicateException.EXCEPTION;
@@ -51,7 +54,7 @@ public class DepositServiceImpl implements DepositService{
         List<Deposit> depositsToCreate = new ArrayList<>();
 
         List<Deposit> existingDeposit = depositRepository.findAllByProfile(profile);
-        if(!existingDeposit.isEmpty()){
+        if (!existingDeposit.isEmpty()) {
             depositRepository.deleteAll(existingDeposit);
         }
 
@@ -86,7 +89,7 @@ public class DepositServiceImpl implements DepositService{
     @Override
     @Transactional
     public DepositSimpleResponseDto updateDeposit(Profile profile,
-            DepositUpdateRequestDto updateDto) {
+                                                  DepositUpdateRequestDto updateDto) {
 
         Deposit deposit = depositRepository.findById(updateDto.getDepositId()).get();
 
@@ -109,6 +112,7 @@ public class DepositServiceImpl implements DepositService{
 //        }
         depositRepository.delete(deposit);
     }
+
     @Override
     @Transactional
     public void deleteDepositAll(Profile profile) {

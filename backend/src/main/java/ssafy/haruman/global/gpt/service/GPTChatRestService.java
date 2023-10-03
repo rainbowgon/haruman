@@ -15,25 +15,26 @@ import ssafy.haruman.global.gpt.dto.response.CompletionResponse;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class GPTChatRestService {
-  private final OpenAiService openAiService;
 
-  @Transactional
-  public CompletionResponse completion(final GPTCompletionRequest restRequest) {
-    CompletionResult result = openAiService.createCompletion(GPTCompletionRequest.of(restRequest));
-    CompletionResponse response = CompletionResponse.of(result);
+    private final OpenAiService openAiService;
 
-
-    return response;
-  }
-
-  @Transactional
-  public CompletionChatResponse completionChat(GPTCompletionChatRequest gptCompletionChatRequest) {
-    ChatCompletionResult chatCompletion = openAiService.createChatCompletion(
-        GPTCompletionChatRequest.of(gptCompletionChatRequest));
-
-    CompletionChatResponse response = CompletionChatResponse.of(chatCompletion);
+    @Transactional
+    public CompletionResponse completion(final GPTCompletionRequest restRequest) {
+        CompletionResult result = openAiService.createCompletion(GPTCompletionRequest.of(restRequest));
+        CompletionResponse response = CompletionResponse.of(result);
 
 
-    return response;
-  }
+        return response;
+    }
+
+    @Transactional
+    public CompletionChatResponse completionChat(GPTCompletionChatRequest gptCompletionChatRequest) {
+        ChatCompletionResult chatCompletion = openAiService.createChatCompletion(
+                GPTCompletionChatRequest.of(gptCompletionChatRequest));
+
+        CompletionChatResponse response = CompletionChatResponse.of(chatCompletion);
+
+
+        return response;
+    }
 }

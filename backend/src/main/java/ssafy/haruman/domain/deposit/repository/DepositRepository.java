@@ -1,12 +1,12 @@
 package ssafy.haruman.domain.deposit.repository;
 
-import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import ssafy.haruman.domain.category.entity.Category;
 import ssafy.haruman.domain.deposit.entity.Deposit;
 import ssafy.haruman.domain.profile.entity.Profile;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface DepositRepository extends JpaRepository<Deposit, Long> {
 

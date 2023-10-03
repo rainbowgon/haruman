@@ -1,19 +1,11 @@
 package ssafy.haruman.domain.deposit.controller;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ssafy.haruman.domain.deposit.dto.request.DepositCreateRequestDto;
 import ssafy.haruman.domain.deposit.dto.request.DepositUpdateRequestDto;
 import ssafy.haruman.domain.deposit.dto.response.DepositDetailResponseDto;
@@ -22,6 +14,8 @@ import ssafy.haruman.domain.deposit.service.DepositService;
 import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.global.response.JsonResponse;
 import ssafy.haruman.global.response.ResponseWrapper;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/deposits")
@@ -42,6 +36,7 @@ public class DeopositController {
 
         return JsonResponse.of(HttpStatus.CREATED, "적금이 성공적으로 저장되었습니다.", createdDeposit);
     }
+
     /**
      * 유저에게 적합한 적금을 받아와 저장합니다.(한꺼번에)
      */
@@ -93,6 +88,7 @@ public class DeopositController {
 
         return JsonResponse.ok("적금 목록(simple)을 성공적으로 가져왔습니다.", depositSimpleList);
     }
+
     @GetMapping("/detail")
     public ResponseEntity<ResponseWrapper<List<DepositDetailResponseDto>>> selectDepositDetailList(
             @AuthenticationPrincipal Member member) {
