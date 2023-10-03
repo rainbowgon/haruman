@@ -26,7 +26,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
                     "LEFT JOIN profile p ON p.profile_id = c.profile_id\n" +
                     "LEFT JOIN profile_image i ON p.profile_id = i.profile_id\n" +
                     "LEFT JOIN file f ON f.file_id = i.file_id\n" +
-                    "WHERE c.challenge_status = 'PROGRESS' AND c.is_valid = 'VALID' AND p.is_valid = 'VALID' AND f.is_valid = 'VALID'\n" +
+                    "WHERE c.challenge_status = 'PROGRESS' AND c.is_valid = 'VALID' AND p.is_valid = 'VALID'\n" +
                     "ORDER BY e.created_at IS NULL ASC, c.start_time DESC")
     List<ChallengeUserInfoMapping> findChallengeAndExpenseAndProfileByStatus();
 

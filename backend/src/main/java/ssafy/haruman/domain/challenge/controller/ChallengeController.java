@@ -92,9 +92,9 @@ public class ChallengeController {
 
         int size = 0;
         for (ChallengeUserListResponseDto group : userList) {
-            size += group.getGroup().size();
+            size += group.getUserList().size();
         }
-        
+
         PageInfo listSize = PageInfo.builder().size(size).build();
 
         return JsonResponse.ok("챌린지 중인 회원 목록을 성공적으로 가져왔습니다.", userList, listSize);
