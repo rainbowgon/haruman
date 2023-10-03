@@ -85,7 +85,6 @@ pipeline {
         stage('Zero Downtime Deployment') {
             steps {
                 sh'''
-
                     echo "\n****** Blue Health Check & Build ******"
 
                     # 8081 포트가 살아있다면 -> 8082 포트 그린에 배포
@@ -135,6 +134,8 @@ pipeline {
                     echo "\n****** Nginx Proxy Redirect & Kill Blue ******"
 
                     # nginx 컨테이너 접속
+                    chmod 777 J9A607T.pem
+
                     ssh -o StrictHostKeyChecking=no -i J9A607T.pem root@d2970445b929 /bin/bash
                     echo 'set \$service_url; http://3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc && service nginx reload
                     echo "Switch the reverse proxy direction of nginx to http://3.34.135.50:${deployment_target_port} 🔄"
