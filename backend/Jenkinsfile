@@ -134,7 +134,7 @@ pipeline {
                     echo "\n****** Nginx Proxy Redirect & Kill Blue ******"
 
                     # nginx 컨테이너 접속
-                    chmod 777 J9A607T.pem
+                    chmod 600 J9A607T.pem
 
                     ssh -o StrictHostKeyChecking=no -i J9A607T.pem root@d2970445b929 /bin/bash
                     echo 'set \$service_url; http://3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc && service nginx reload
