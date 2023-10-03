@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BubbleChart from "../components/BubbleChart";
 import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
@@ -13,6 +13,7 @@ import { ChallengeState, User } from "../constants/interfaces";
 import "../styles/RankinPageStyle.scss";
 import BottomBarSpace from "../components/BottomBarSpace";
 import { API_URL } from "../constants/urls";
+import HeaderTitle from "../components/HeaderTitle";
 
 const selectChallengeUserList = async () => {
   console.log("selectChallengeUserList");
@@ -280,6 +281,9 @@ const RankingPage = () => {
     leftoverAmount: 0,
     challengeStatus: "null",
   });
+  useEffect(() => {
+    console.log("[useEffect] challengeInfo : ", challengeInfo);
+  }, [challengeInfo]);
 
   const handleBubbleClick = (range: DataPoint) => {
     const usersInRange = Users.filter(
@@ -290,16 +294,16 @@ const RankingPage = () => {
   return (
     <CenterContainer>
       <MainStyle>
-        <BottomBarSpace />
+        {/* <BottomBarSpace /> */}
         <div className="rankingpage">
-          <div className="ranking_header">
-            <h3 className="sub_title">
-              {challengeInfo && challengeInfo.participantCount}명이 도전중!
-            </h3>
-            <h1 className="main_title">
-              {currentDate.getMonth() + 1}월 {currentDate.getDate()}일 챌린지
-            </h1>
-          </div>
+          <HeaderTitle
+            SubTitle={`${
+              challengeInfo && challengeInfo.participantCount
+            }명의 유저가 먼저 진행하고 있어요!`}
+            MainTitle={`${
+              currentDate.getMonth() + 1
+            }월 ${currentDate.getDate()}일 챌린지`}
+          />
           <BubbleChart onBubbleClick={handleBubbleClick} />
           <div className="regular_container">
             <Register
