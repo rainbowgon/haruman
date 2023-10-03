@@ -1,12 +1,9 @@
 package ssafy.haruman.domain.challenge.dto.response;
 
-import java.time.LocalDateTime;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ssafy.haruman.domain.challenge.repository.ChallengeUserInfoMapping;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -23,7 +20,7 @@ public class ChallengeUserInfoDto {
     public static ChallengeUserInfoDto from(ChallengeUserInfoMapping info) {
         return ChallengeUserInfoDto.builder()
                 .nickname(info.getNickname())
-                .profileImage(info.getSavedPath())
+                .profileImage(info.getProfileImage())
                 .usedAmount(info.getUsedAmount())
                 .challengeStartTime(info.getStartTime())
                 .latestExpensePayTime(info.getCreatedAt())
