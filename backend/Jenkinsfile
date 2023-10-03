@@ -134,7 +134,7 @@ pipeline {
                     echo "\n****** Nginx Proxy Redirect & Kill Blue ******"
 
                     # nginx 컨테이너 접속
-                    ssh -o StrictHostKeyChecking=no -i J9A607T.pem root@0778b6315c61 /bin/bash
+                    ssh -o StrictHostKeyChecking=no -i J9A607T.pem root@d2970445b929 /bin/bash
                     echo 'set \$service_url; http://3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc && service nginx reload
                     echo "Switch the reverse proxy direction of nginx to http://3.34.135.50:${deployment_target_port} 🔄"
 
