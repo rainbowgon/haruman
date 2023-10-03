@@ -37,10 +37,10 @@ export default function RegistModal(
     handleWave,
   }: RegistModalProps) {
     // 테스트용
-    // const accessToken = process.env.REACT_APP_accessToken;
+    const accessToken = process.env.REACT_APP_accessToken;
 
     // 배포용
-    const accessToken = sessionStorage.getItem("accessToken");
+    // const accessToken = sessionStorage.getItem("accessToken");
 
   const contextPath = `/api`;
   
@@ -48,7 +48,7 @@ export default function RegistModal(
   const CategorieAPI = '/categories';
 
   const [spentItem, setSpentItem] = useState<SpentItem>({
-    categoryId : null,
+    categoryId : 1,
     payTime : null,
     payAmount : null,
     content : null,
@@ -148,6 +148,10 @@ export default function RegistModal(
       showAlert("챌린지가 정상적인지 확인해 주세요!");
       return
     }
+    if (spentItem.categoryId === null || isNaN(spentItem.categoryId)) {
+      showAlert("챌린지가 정상적인지 확인해 주세요!");
+      return
+    }
     console.log(spentItem);
 
     // if (1===1) {return}
@@ -181,9 +185,6 @@ export default function RegistModal(
   */
   const selectCategoryList = () => {
     console.log("카테고리 전체 조회");
-
-    console.log("accessToken", accessToken);
-
     console.log("accessToken", accessToken);
 
     axios.get(`${API_URL}${contextPath}${CategorieAPI}`,
@@ -231,7 +232,7 @@ export default function RegistModal(
   const resetSpentItem = () => {
     setSpentItem(
       {
-        categoryId : 0,
+        categoryId : 1,
         payTime : "",
         payAmount : 0,
         content : "",

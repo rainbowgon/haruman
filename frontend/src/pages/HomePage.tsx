@@ -16,9 +16,9 @@ import axios from "axios";
 
 const Homepage = () => {
   // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
+  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  const accessToken = sessionStorage.getItem("accessToken");
+  // const accessToken = sessionStorage.getItem("accessToken");
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -108,63 +108,6 @@ const Homepage = () => {
   }
 
   /**
-    updateExpense   
-    지출 내역 수정   
-    /challenges   
-    PATCH
-  */
-    const updateExpense = () => {
-      // const accessToken = sessionStorage.getItem("accessToken")
-      // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-  
-      // axios.patch(`${API_URL}${contextPath}${ChallengeAPI}`, "edit",
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`
-      //   }
-      // })
-      // .then((response) => {
-      //     console.log("지출 내역 수정");
-      //     showAlert("success", "지출 내역 수정");
-      //     setCurStatus(2);
-      // })
-      // .catch((error) => {
-      //     console.error("서버로부터 지출 내역 수정 실패", error);
-      //     showAlert("error", "지출 내역 수정 실패입니다.");
-      //     console.error(error.code);
-      // });
-    }
-
-
-
-  /**
-    deleteExpense   
-    지출 내역 삭제   
-    /challenges/{expense-id}   
-    DELETE
-  */
-  const deleteExpense = () => {
-    // const accessToken = sessionStorage.getItem("accessToken")
-    // const expenseId = e.target;
-
-    // axios.delete(`${API_URL}${contextPath}${ChallengeAPI}/{expense-id}`,
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`
-    //   }
-    // })
-    // .then((response) => {
-    //   showAlert("success", "지출 내역 삭제 요청 취소 성공입니다.");
-    // })
-    // .catch((error) => {
-    //   console.error("서버로부터 지출 내역 삭제 요청 실패", error);
-    //   showAlert("error", "지출 내역 삭제 요청 실패입니다.");
-    //   console.error(error.code);
-    // });
-  }
-
-
-  /**
     selectDailyChallenge
     해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)
     /challenges?date={date}   
@@ -184,6 +127,8 @@ const Homepage = () => {
       .then((response) => {
         console.log("해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)", response.data);
         const challengeStatus = response.data.data.challengeStatus;
+
+        console.log(challengeStatus);
         if (challengeStatus === "PROGRESS") {
           setChallenge(true);
           handleWave(response.data.data.targetAmount, response.data.data.leftoverAmount);
