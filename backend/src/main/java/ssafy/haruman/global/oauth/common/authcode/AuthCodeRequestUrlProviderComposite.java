@@ -1,4 +1,4 @@
-package ssafy.haruman.global.oauth.authcode;
+package ssafy.haruman.global.oauth.common.authcode;
 
 
 import org.springframework.stereotype.Component;
