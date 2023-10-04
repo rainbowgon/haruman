@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.nio.charset.StandardCharsets;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +18,7 @@ public class BankProduct {
 
     @Override
     public String toString() {
-        return String.format("bank=\'%s\', name=\'%s\', description=\'%s\', interest_rate=\'%f\' \n", bank, name, description, interest_rate);
+        String fullString = "{ bank=" + bank + ", name=" + name + ", description=" + description + ", interest_rate=" + interest_rate + " }";
+        return new String(fullString.getBytes(), StandardCharsets.UTF_8);
     }
 }
