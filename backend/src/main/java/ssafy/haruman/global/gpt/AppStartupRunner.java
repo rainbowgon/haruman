@@ -52,6 +52,11 @@ public class AppStartupRunner implements ApplicationRunner {
                 accumulatedString = new StringBuilder().append(bankProduct);
             }
         }
+
+        if (accumulatedLength != 0) {
+            GPT(accumulatedString.toString());
+        }
+
         log.info("GPT에 적금 입력 완료");
     }
 
