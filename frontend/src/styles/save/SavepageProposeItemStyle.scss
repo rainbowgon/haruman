@@ -1,0 +1,58 @@
+@import '../_util.scss';         /*변수파일 - 색상 + 모바일 체크*/
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+
+.save_propose_item_component{
+    height: 60px;
+
+    margin: 0.3rem 0;
+
+    display: grid;
+    grid-template-columns: 2fr 8fr;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0.5rem;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.15);
+}
+
+.save_propose_item_img_circle{
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid $brand1_main;
+
+    margin: auto;
+    border-radius: 100%;
+    
+    .save_propose_item_img{
+        width: 23px;
+        height: 23px;
+        filter: invert(26%) sepia(88%) saturate(1093%) hue-rotate(167deg) brightness(93%) contrast(96%);
+    }
+}
+
+.save_propose_item_contents{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .save_propose_item_maintext{
+        display: flex;
+        align-items: center;
+        margin: 0;
+        
+        font-size: 0.8rem;
+        font-weight: bold;
+
+        .save_propose_item_highlight{
+            color: $brand1_main;
+            font-size: 1.2rem;
+            margin: 0 0.5rem;
+        }
+    }
+    .save_propose_item_subtext{
+        margin: 0;
+        font-size: 0.5rem;
+    }
+}

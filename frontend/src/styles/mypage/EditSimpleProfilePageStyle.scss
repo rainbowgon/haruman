@@ -25,8 +25,14 @@
 }
 
 .simple_profile_nickname_text{
+    width: 60%;
     font-size: 1.5rem;
     font-weight: bold;
+    border: none;
+    border-bottom: 2px solid $brand1_main;
+    outline: none;
+    text-align: center;
+    margin: 1rem 0;
 }
 
 .simple_profile_rule_box{

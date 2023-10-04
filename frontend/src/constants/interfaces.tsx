@@ -68,3 +68,10 @@ export type ApiResponse = {
   message: string;
   data: GroupedData[];
 };
+
+export type saveItem = {
+  bank: string;
+  name: string;
+  description: string;
+  interestRate: number;
+}

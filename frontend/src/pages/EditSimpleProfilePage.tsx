@@ -4,6 +4,8 @@ import "../styles/mypage/EditSimpleProfilePageStyle.scss"
 import axios from "axios";
 import { API_URL } from "../constants/urls";
 import RegisterButton from "../components/RegistButton";
+import { Value } from "sass";
+import { getValue } from "@testing-library/user-event/dist/utils";
 
 // apis
 const contextPath = `/api`;
@@ -16,7 +18,7 @@ const EditSimpleProfilePage = () => {
   // 배포용
   // const accessToken = sessionStorage.getItem("accessToken");
   
-  const [user, setSUser] = useState({
+  const [user, setUser] = useState({
     profileId: 30,
     nickname: "명정루",
     profileImage: null,
@@ -36,7 +38,7 @@ const EditSimpleProfilePage = () => {
   const selectOneProfile = () => {
     console.log("selectOneProfile");
 
-    axios.get(`${API_URL}${contextPath}${ProfileAPI}/1`,
+    axios.get(`${API_URL}${contextPath}${ProfileAPI}/mine`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -44,7 +46,7 @@ const EditSimpleProfilePage = () => {
       })
       .then((response) => {
         console.log("회원 프로필 조회 성공", response.data.data);
-        setSUser(response.data.data);
+        setUser(response.data.data);
       })
       .catch((error) => {
         console.error('회원 프로필 조회 실패', error);
@@ -55,13 +57,12 @@ const EditSimpleProfilePage = () => {
   /**
       updateProfile   
       회원 프로필 수정   
-      /profiles/{profile-id}?nickname={nickname}&profileImage={multipartImage} 
+      /profiles?nickname={nickname}&profileImage={multipartImage}
       PATCH
   */
 
   const updateProfile = () => {
-  //   axios.patch(`${API_URL}${contextPath}${ProfileAPI}?nickname=${nickname}&profileImage=${multipartImage}`, null,
-    axios.patch(`${API_URL}${contextPath}${ProfileAPI}?nickname=nickname수정&profileImage=null`,
+    axios.patch(`${API_URL}${contextPath}${ProfileAPI}?nickname=${user.nickname}&profileImage=null`,
     null,
     {
       headers: {
@@ -92,7 +93,11 @@ const EditSimpleProfilePage = () => {
         <img className="profile_img" src={`${user && user.profileImage}`} alt="프로필 이미지"/>
       }
     </div>
-    <p className="simple_profile_nickname_text">{user && user.nickname}</p>
+    <input 
+      className="simple_profile_nickname_text"
+      value={user && user.nickname}
+      onChange={(e) => setUser({...user, nickname : e.target.value})}
+    />
     <div className="simple_profile_rule_box">
       <h3 className="simple_profile_rule_header_text">닉네임 생성 규칙</h3>
       <p className="simple_profile_rule_text">최소 2자, 최대 12자</p>
