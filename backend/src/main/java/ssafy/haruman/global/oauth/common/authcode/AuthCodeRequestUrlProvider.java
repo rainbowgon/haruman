@@ -1,4 +1,4 @@
-package ssafy.haruman.global.oauth.authcode;
+package ssafy.haruman.global.oauth.common.authcode;
 
 import ssafy.haruman.domain.member.entity.OAuthServerType;
 

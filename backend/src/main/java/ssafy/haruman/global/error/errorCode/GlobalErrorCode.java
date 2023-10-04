@@ -24,9 +24,14 @@ public enum GlobalErrorCode implements BaseErrorCode {
 
     /* 챌린지 */
     CHALLENGE_NOT_FOUND(NOT_FOUND, "CHALLENGE-001", "해당 ID의 챌린지가 없습니다."),
-    EXPENSE_NOT_FOUND(NOT_FOUND, "CHALLENGE-002", "해당 ID의 지출내역이 없습니다."),
-    CHALLENGE_ALREADY_EXISTS(METHOD_NOT_ALLOWED, "CHALLENGE-003", "해당 사용자의 챌린지가 이미 존재합니다."),
-    CHALLENGE_NOT_AVAILABLE(METHOD_NOT_ALLOWED, "CHALLENGE-004", "해당 시간에는 챌린지 시작이 불가합니다."),
+    CHALLENGE_ALREADY_EXISTS(METHOD_NOT_ALLOWED, "CHALLENGE-002", "해당 사용자의 챌린지가 이미 존재합니다."),
+    CHALLENGE_NOT_AVAILABLE(METHOD_NOT_ALLOWED, "CHALLENGE-003", "해당 시간에는 챌린지 시작이 불가합니다."),
+    CHALLENGE_WRONG_DATA(INTERNAL_SERVER_ERROR, "CHALLENGE-004", "잘못된 데이터가 포함된 챌린지입니다."),
+    CHALLENGE_UNAUTHORIZED(UNAUTHORIZED, "CHALLENGE-005", "해당 챌린지에 접근 권한이 없습니다."),
+
+    /* 지출내역 */
+    EXPENSE_NOT_FOUND(NOT_FOUND, "EXPENSE-001", "해당 ID의 지출내역이 없습니다."),
+    EXPENSE_UNAUTHORIZED(UNAUTHORIZED, "EXPENSE-002", "해당 지출내역에 접근 권한이 없습니다."),
 
     /* 카테고리 */
     CATEGORY_NOT_FOUND(NOT_FOUND, "CATEGORY-001", "해당 ID의 카테고리가 없습니다."),
@@ -35,6 +40,10 @@ public enum GlobalErrorCode implements BaseErrorCode {
 
     /* OAUTH */
     OAUTH_NOT_FOUND(NOT_FOUND, "OAUTH-001", "지원하지 않는 소셜 로그인 타입입니다."),
+    GOOGLE_ACCESS_TOKEN_FAILURE(INTERNAL_SERVER_ERROR, "OAUTH-002", "구글의 Access Token을 받아오지 못했습니다."),
+    GOOGLE_USER_INFO_FAILURE(INTERNAL_SERVER_ERROR, "OAUTH-003", "구글의 사용자 정보를 받아오지 못했습니다."),
+    KAKAO_ACCESS_TOKEN_FAILURE(INTERNAL_SERVER_ERROR, "OAUTH-004", "카카오의 Access Token을 받아오지 못했습니다."),
+    KAKAO_USER_INFO_FAILURE(INTERNAL_SERVER_ERROR, "OAUTH-005", "카카오의 사용자 정보를 받아오지 못했습니다."),
 
     /* 멤버 */
     MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER-001", "주어진 ID에 해당하는 Member가 없습니다."),
