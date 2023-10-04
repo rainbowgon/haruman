@@ -1,4 +1,5 @@
 @import "../theme.css";
+@import "../_util.scss";
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
 
 .challenge_items_header{
@@ -22,7 +23,7 @@
 
     .item_list_display{
         text-align: center;
-         margin-right: 1rem;
+        margin-right: 1rem;
 
         .item_list_display_text{
             height: 100%;
@@ -43,12 +44,26 @@
 .item_list_display{
     width: 4rem;
     height: 1.5rem;
-    background-color: var(--brand2_op_60);
+    background-color: $font1_op_60;
     margin: 0;
     border-radius: 1rem;
 
     justify-content: center;
     align-items: center;
+                
+    transition: background-color 0.5s;
+
+    &.PROGRESS{
+        background-color: $brand1_op_60;
+    }
+
+    &.SUCCESS{
+        background-color: $brand2_op_60;
+    }
+
+    &.FAIL{
+        background-color: $point3_op_60;
+    }
 }
 
 .item_list_text{
@@ -56,8 +71,4 @@
     font-size: 1.2rem;
     font-weight: bold;
     margin: 0;
-}
-
-.challenge_items_list{
-
 }

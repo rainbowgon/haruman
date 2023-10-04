@@ -21,18 +21,16 @@ export interface SpentItem {
   payAmount: number | null;
   content: string | null;
 }
-// "id": 1,
-// "challengeId": 1,
-// "categoryName": "기타",
-// "payTime": "2023-09-27T15:38:19.68047",
-// "payAmount": 8000,
-// "content": "참치김밥"
 
 export interface ChallengeItem {
-  category: string;
-  //color: string;
-  content: string;
-  pay_amount: number;
+  id : number;
+  challengeId : number;
+  categoryColor? : string;
+  categoryName : string;
+  payTime : string;
+  payAmount : number;
+  content : string;
+
 }
 
 export interface User {
@@ -40,4 +38,10 @@ export interface User {
   profileImage: string;
   usedAmount: number;
   latestTime: String;
+}
+
+export interface ChallengeDate {
+  date: string;
+  challengeId: number;
+  status: string;
 }
