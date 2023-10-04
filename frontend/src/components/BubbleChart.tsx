@@ -9,38 +9,59 @@ import "../styles/_util.scss";
 import "../styles/theme.css";
 import { API_URL } from "../constants/urls";
 
-import { User } from "../constants/interfaces";
+import { UserData, GroupedData, ApiResponse } from "../constants/interfaces";
 
 // ----- BubbleChartStyle(START)
-import "../styles/ranking/BubbleChartStyle.scss"
+import "../styles/ranking/BubbleChartStyle.scss";
 
 interface BubbleChartLabel {
-  color : string;
-  value : string;
+  color: string;
+  value: string;
 }
 
-const BubbleChartLabels : BubbleChartLabel[] = [
+function getColorForGroup(groupKey: string) {
+  switch (groupKey) {
+    case "챌린지 실패":
+      return null;
+    case "2000원 이하":
+      return "var(--GRAPH_01)";
+    case "4000원 이하":
+      return "var(--GRAPH_02)";
+    case "6000원 이하":
+      return "var(--GRAPH_03)";
+    case "8000원 이하":
+      return "var(--GRAPH_04)";
+    case "10000원 이하":
+      return "var(--GRAPH_05)";
+    case "0원":
+      return null;
+    default:
+      return "#8884d8";
+  }
+}
+
+const BubbleChartLabels: BubbleChartLabel[] = [
   {
-    color : "GRAPH_01",
-    value : "2000원 이하",
+    color: "GRAPH_01",
+    value: "2000원 이하",
   },
   {
-    color : "GRAPH_02",
-    value : "4000원 이하",
+    color: "GRAPH_02",
+    value: "4000원 이하",
   },
   {
-    color : "GRAPH_03",
-    value : "6000원 이하",
+    color: "GRAPH_03",
+    value: "6000원 이하",
   },
   {
-    color : "GRAPH_04",
-    value : "8000원 이하",
+    color: "GRAPH_04",
+    value: "8000원 이하",
   },
   {
-    color : "GRAPH_05",
-    value : "10000원 미만",
+    color: "GRAPH_05",
+    value: "10000원 미만",
   },
-]
+];
 // ----- BubbleChartStyle(END)
 
 type BalanceData = {
@@ -61,345 +82,115 @@ interface DataPoint {
   label: string;
   x?: number;
   y?: number;
-  color?: string;
+  color?: string | null;
 }
 
 // ----- BubbleChartForce(START)
 const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   onBubbleClick,
 }) => {
-  const [ranges, setRanges] = useState<DataPoint[]>([
-    {
-      min: 1,
-      max: 2000,
-      users: 0,
-      label: "0~2000원",
-      color: "var(--GRAPH_01)",
-    },
-    {
-      min: 2001,
-      max: 4000,
-      users: 0,
-      label: "2001~4000원",
-      color: "var(--GRAPH_02)",
-    },
-    {
-      min: 4001,
-      max: 6000,
-      users: 0,
-      label: "4001~6000원",
-      color: "var(--GRAPH_03)",
-    },
-    {
-      min: 6001,
-      max: 8000,
-      users: 0,
-      label: "6001~8000원",
-      color: "var(--GRAPH_04)",
-    },
-    {
-      min: 8001,
-      max: 9999,
-      users: 0,
-      label: "8001~9999원",
-      color: "var(--GRAPH_05)",
-    },
-  ]);
+  const [ranges, setRanges] = useState<DataPoint[]>([]);
   // ----- BubbleChartForce(END)
 
   const [data, setData] = useState<DataPoint[]>(ranges);
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const [pageInfo, setPageInfo] = useState<any>({});
+  // useEffect(() => {
+  //   const fetchChartData = async () => {
+  //     // const accessToken = sessionStorage.getItem("accessToken");
+  //     const accessToken = process.env.REACT_APP_accessToken;
+  //     console.log("accessToken", accessToken);
 
-  const dummyBalances: BalanceData[] = [
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "명정루",
-      usedAmount: 4320,
-      latestTime: "2023-09-13T10:26:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "푸더가든",
-      usedAmount: 2700,
-      latestTime: "2023-09-13T10:10:10",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "다이어터",
-      usedAmount: 1700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "지각대장",
-      usedAmount: 6700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "남고니",
-      usedAmount: 8700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "여배우",
-      usedAmount: 5700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "명정루",
-      usedAmount: 4320,
-      latestTime: "2023-09-13T10:26:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "푸더가든",
-      usedAmount: 2700,
-      latestTime: "2023-09-13T10:10:10",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "다이어터",
-      usedAmount: 1700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "지각대장",
-      usedAmount: 6700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "남고니",
-      usedAmount: 8700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "여배우",
-      usedAmount: 5700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "명정루",
-      usedAmount: 4320,
-      latestTime: "2023-09-13T10:26:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "푸더가든",
-      usedAmount: 2700,
-      latestTime: "2023-09-13T10:10:10",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "다이어터",
-      usedAmount: 1700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "지각대장",
-      usedAmount: 6700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "남고니",
-      usedAmount: 8700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "여배우",
-      usedAmount: 5700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "명정루",
-      usedAmount: 4320,
-      latestTime: "2023-09-13T10:26:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "푸더가든",
-      usedAmount: 2700,
-      latestTime: "2023-09-13T10:10:10",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "다이어터",
-      usedAmount: 1700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "지각대장",
-      usedAmount: 6700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "남고니",
-      usedAmount: 8700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "여배우",
-      usedAmount: 5700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "명정루",
-      usedAmount: 4320,
-      latestTime: "2023-09-13T10:26:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "푸더가든",
-      usedAmount: 2700,
-      latestTime: "2023-09-13T10:10:10",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "다이어터",
-      usedAmount: 1700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "지각대장",
-      usedAmount: 6700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "남고니",
-      usedAmount: 8700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "여배우",
-      usedAmount: 5700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "명정루",
-      usedAmount: 4320,
-      latestTime: "2023-09-13T10:26:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "푸더가든",
-      usedAmount: 2700,
-      latestTime: "2023-09-13T10:10:10",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "다이어터",
-      usedAmount: 1700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "지각대장",
-      usedAmount: 6700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "남고니",
-      usedAmount: 8700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "여배우",
-      usedAmount: 5700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-  ];
+  //     try {
+  //       const response = await axios.get<ApiResponse>(
+  //         `${API_URL}/api/challenges/people`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${accessToken}`,
+  //           },
+  //         },
+  //       );
+  //       setPageInfo(response.data.pageInfo.size);
+  //       console.log("response", response);
+  //       console.log("allUsers", response.data.pageInfo.size);
+  //       console.log("allUsers", typeof response.data.pageInfo.size);
+  //       const groupedData = response.data.data;
 
+  //       const updatedData: DataPoint[] = groupedData.map((group) => ({
+  //         label: group.groupKey,
+  //         users: group.userList.length,
+  //         color: getColorForGroup(group.groupKey),
+  //         min: 0,
+  //         max: 100000,
+  //         // 다른 필요한 속성들은 여기에 추가하실 수 있습니다.
+  //       }));
+  //       setData(updatedData);
+
+  //       groupedData.forEach((group) => {
+  //         const matchingRange = updatedData.find(
+  //           (range) => range.label === group.groupKey,
+  //         );
+  //         if (matchingRange) {
+  //           matchingRange.users = group.userList.length;
+  //         }
+  //       });
+
+  //       setRanges(updatedData);
+  //       console.log("여기선 찍히나/?", updatedData);
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     }
+  //   };
+
+  //   fetchChartData();
+  // }, []);
   useEffect(() => {
-    const balances = dummyBalances;
-    console.log("처음 들어오는 데이터", data);
+    const fetchChartData = async () => {
+      const accessToken = process.env.REACT_APP_accessToken;
+      try {
+        const response = await axios.get<ApiResponse>(
+          `${API_URL}/api/challenges/people`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
 
-    // 각 범위별로 사용자 수를 계산
-    const updatedData = [...ranges];
+        const updatedData: DataPoint[] = response.data.data.map((group) => ({
+          label: group.groupKey,
+          users: group.userList.length,
+          color: getColorForGroup(group.groupKey),
+          min: 0, // 이 값들은 필요에 따라 업데이트 할 수 있습니다.
+          max: 100000,
+        }));
 
-    updatedData.map((range) => ({ ...range, users: 0 }));
-
-    for (let balanceData of balances) {
-      for (let range of updatedData) {
-        if (
-          balanceData.usedAmount >= range.min &&
-          balanceData.usedAmount <= range.max
-        ) {
-          range.users++;
-          break;
-        }
+        setPageInfo(response.data.pageInfo);
+        setData(updatedData);
+        setRanges(updatedData);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
-    }
+    };
 
-    setData(updatedData);
-    setRanges(updatedData);
-    createForceBubbleChart(updatedData);
-    ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
-    // const accessToken = sessionStorage.getItem("accessToken");
-    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-    // axios.get(`${API_URL}/api/challenges/people`, {
-    //   headers: {
-    //     Authorization: accessToken,
-    //   },
-    // });
-    //   .then((response) => {
-    //      const allUsers =
-    //       const usersData: UserData[][] = response.data.data;
-
-    //       // 모든 사용자 데이터를 하나의 배열로 펼치기
-    //       const flattenedUsers = usersData.flat();
-
-    //       // 각 범위별로 사용자 수를 계산
-    //       const updatedData = [...ranges];
-    //       for (let user of flattenedUsers) {
-    //         for (let range of updatedData) {
-    //           if (
-    //             user.leftoverAmount >= range.min &&
-    //             user.leftoverAmount <= range.max
-    //           ) {
-    //             range.users++;
-    //             break;
-    //           }
-    //         }
-    //       }
-
-    //       setData(updatedData);
-    //       setRanges(updatedData);
-    //       createForceBubbleChart(updatedData);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching user data:", error);
-    //     });
-    // }, []);
-    ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////api 통신 후 사용할 부분!!//////////////////////////////////////////////////////////////////
+    fetchChartData();
   }, []);
 
-  const createForceBubbleChart = (data: typeof ranges) => {
+  useEffect(() => {
+    if (pageInfo.size) {
+      // pageInfo.size가 있을 때만 차트를 그립니다.
+      createForceBubbleChart(ranges, pageInfo);
+    }
+  }, [ranges, pageInfo]);
+  const updatedData: DataPoint[] = [...ranges].map((range) => ({
+    ...range,
+  }));
+
+  const createForceBubbleChart = (data: typeof ranges, pageInfo: any) => {
     console.log("버블차트 생성시 받아오는 데이터", data);
-    const allUsers = dummyBalances.length;
+    const allUsers = pageInfo.size;
+    console.log("pageInfo", typeof allUsers);
+    console.log("allUsers inside function:", allUsers);
     const margin = { top: 70, right: 100, bottom: 20, left: -30 };
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
@@ -425,7 +216,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .force(
         "collide",
         d3.forceCollide(
-          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.2),
+          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.4),
         ),
       )
       .on("tick", ticked);
@@ -436,7 +227,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
       u.enter()
         .append<SVGCircleElement>("circle")
-        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.2))
+        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.4))
         .attr("fill", (d) => d.color || "#8884d8")
         .attr("stroke", "#fff")
         .attr("stroke-width", 2)
@@ -473,12 +264,11 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
     <div className="bubblechart">
       <div className="bubblechart_labels">
         {BubbleChartLabels.map((lable) => (
-              <div className="bubblechart_label">
-                <div className={`bubblechart_color_pointer ${lable.color}`}/>
-                <p className={`bubblechart_value`}>{lable.value}</p>
-              </div>
-            ))
-        }
+          <div className="bubblechart_label">
+            <div className={`bubblechart_color_pointer ${lable.color}`} />
+            <p className={`bubblechart_value`}>{lable.value}</p>
+          </div>
+        ))}
       </div>
       <svg
         ref={svgRef}

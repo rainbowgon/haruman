@@ -58,9 +58,9 @@ const DonutChart: React.FC = () => {
               existingCategory.cnt += expense.payAmount;
             } else {
               acc.push({
-                categoryId: expense.id, // 임의로 ID를 지정했는데, 실제 ID를 어떻게 설정할지 확인 필요
+                categoryId: expense.id,
                 name: expense.categoryName,
-                color: "BLACK_01", // 기본 색상을 지정했는데, 실제 색상 매핑 로직 필요
+                color: "BLACK_01",
                 isDefault: "DEFAULT",
                 cnt: expense.payAmount,
               });
@@ -82,7 +82,7 @@ const DonutChart: React.FC = () => {
 
   const getColorByCategory = (categoryName: string): string => {
     const category = categories.find((cat) => cat.name === categoryName);
-    return category ? `var(--${category.color})` : "#8884d8"; // 기본 색상
+    return category ? `var(--${category.color})` : "#8884d8";
   };
 
   return (

@@ -23,14 +23,13 @@ export interface SpentItem {
 }
 
 export interface ChallengeItem {
-  id : number;
-  challengeId : number;
-  categoryColor? : string;
-  categoryName : string;
-  payTime : string;
-  payAmount : number;
-  content : string;
-
+  id: number;
+  challengeId: number;
+  categoryColor?: string;
+  categoryName: string;
+  payTime: string;
+  payAmount: number;
+  content: string;
 }
 
 export interface User {
@@ -45,3 +44,27 @@ export interface ChallengeDate {
   challengeId: number;
   status: string;
 }
+
+export type UserData = {
+  nickname: string;
+  profileImage: string | null;
+  usedAmount: number;
+  challengeStartTime: string;
+  latestExpensePayTime: string | null;
+};
+
+export type GroupedData = {
+  groupKey: string;
+  userList: UserData[];
+};
+
+export type ApiResponse = {
+  pageInfo: {
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+  };
+  message: string;
+  data: GroupedData[];
+};
