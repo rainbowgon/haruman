@@ -16,6 +16,6 @@ public class BankProduct {
 
     @Override
     public String toString() {
-        return "bank=" + bank + ", name=" + name + ", description=" + description + ", interest_rate=" + interest_rate;
+        return String.format("bank=\'%s\', name=\'%s\', description=\'%s\', interest_rate=\'%f\' \n", bank, name, description, interest_rate);
     }
 }
