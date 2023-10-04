@@ -60,11 +60,7 @@ public class Member extends BaseEntity {
         this.oauthId = oauthId;
     }
 
-    public Profile createProfile(String nickname) {
-        this.profile = Profile.builder()
-                .member(this)
-                .nickname(nickname)
-                .build();
-        return this.profile;
+    public void createNewProfile(Profile profile) {
+        this.profile = profile;
     }
 }
