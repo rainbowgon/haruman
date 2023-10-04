@@ -137,6 +137,7 @@ const CalendarPage = () => {
             challengeitems.map((item) => (
               <SpentItem
                 name = {item.categoryName}
+                color = {item.categoryColor}
                 mainValue = {item.content}
                 moneyValue = {item.payAmount}
               />

@@ -28,6 +28,7 @@ export interface RegistModalProps {
   modalTop: number;
   setIsModalOpen: any;
   challengeInfo: ChallengeState;
+  setChallengeInfo: any;
   handleWave: any;
 }
 
@@ -36,6 +37,7 @@ export default function RegistModal({
   modalTop,
   setIsModalOpen,
   challengeInfo,
+  setChallengeInfo,
   handleWave,
 }: RegistModalProps) {
   // 테스트용
@@ -160,8 +162,6 @@ export default function RegistModal({
     }
     console.log(spentItem);
 
-    // if (1===1) {return}
-
     axios
       .post(
         `${API_URL}${contextPath}${challengeAPI}/${challengeInfo.challengeId}`,
@@ -180,6 +180,7 @@ export default function RegistModal({
           challengeInfo.leftoverAmount -
             (spentItem.payAmount ? spentItem.payAmount : 0),
         );
+        setChallengeInfo({...challengeInfo, leftoverAmount: challengeInfo.leftoverAmount - (spentItem.payAmount!==null?spentItem.payAmount:0), usedAmount: challengeInfo.usedAmount + (spentItem.payAmount!==null?spentItem.payAmount:0)})
         resetSpentItem();
         handleModal();
       })
@@ -310,8 +311,8 @@ export default function RegistModal({
                 }
                 className={
                   spentItem.categoryId === category.categoryId
-                    ? "highlighted"
-                    : ""
+                  ? "highlighted"
+                  : ""
                 }
               />
             ))
