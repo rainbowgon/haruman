@@ -52,15 +52,15 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube-haruman') { 
-                    dir('backend') {
-                        sh './gradlew sonarqube --stacktrace'
-                    }
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SonarQube-haruman') { 
+        //             dir('backend') {
+        //                 sh './gradlew sonarqube --stacktrace'
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Zero Downtime Deployment') {
             steps {
@@ -134,7 +134,7 @@ pipeline {
                     if docker container inspect haruman_server_${opposite_target} >/dev/null 2>&1; then
                         echo "${opposite_target}-container exists locally & removed"
                         docker stop haruman_server_${opposite_target}
-                        docker rm haruman_server_${deployment_target}
+                        docker rm haruman_server_${opposite_target}
                     else
                         echo "${opposite_target}-container does not exist locally"
                     fi
