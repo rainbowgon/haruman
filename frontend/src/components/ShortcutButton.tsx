@@ -1,6 +1,6 @@
 // react
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 // scss
 import "../styles/components/ShortcutButtonStyle.scss";
 
@@ -61,14 +61,46 @@ function handleSelectText(text:string) {
   }
 }
 
-export default function ShortcutButton({ text, onClick, className, style }: ButtonProps) {
+export default function ShortcutButton({
+  text, 
+  onClick, 
+  className, 
+  style 
+}: ButtonProps) {
+  const navigate = useNavigate();
+
+  const handleShortcut = () => {
+    if (text === "HomePage"){
+      navigate("/home");
+      return;
+    }
+    else if (text === "TodayExpensePage"){
+      navigate("/today");
+      return;
+    }
+    else if (text === "CalendarPage"){
+      navigate("/calendar");
+      return;
+    }
+    else if (text === "RankingPage"){
+      navigate("/ranking");
+      return;
+    }
+    else if (text === "PiggybankIcon"){
+      navigate("/save");
+      return;
+    }
+    else {
+      return;
+    }
+  }
   return (
     <div className="shortcut_button_box">
       <div className={`shortcut_button_container`}>
         <button
           className={`shortcut_button ${className}`}
           style={style}
-          onClick={onClick}
+          onClick={handleShortcut}
         >
           <img className="shortcut_button_icon" src={handleSelectIcon(text)} alt="로고"></img>
           <p className="shortcut_button_text">{handleSelectText(text)}</p>
