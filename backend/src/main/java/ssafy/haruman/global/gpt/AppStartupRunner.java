@@ -5,14 +5,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 import ssafy.haruman.global.gpt.service.GPTChatRestService;
 import ssafy.haruman.global.gpt.vo.BankProduct;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,11 +54,11 @@ public class AppStartupRunner implements ApplicationRunner {
         }
     }
 
-    private List<BankProduct> parseJsonFileToBankProductList() throws FileNotFoundException {
-        File file = ResourceUtils.getFile("classpath:" + FILE_NAME);
-        FileReader fileReader = new FileReader(file);
+    private List<BankProduct> parseJsonFileToBankProductList() throws IOException {
+        ClassPathResource classPathResource = new ClassPathResource(FILE_NAME);
+        InputStreamReader inputStreamReader = new InputStreamReader(classPathResource.getInputStream(), StandardCharsets.UTF_8);
         Gson gson = new Gson();
-        BankProduct[] array = gson.fromJson(fileReader, BankProduct[].class);
+        BankProduct[] array = gson.fromJson(inputStreamReader, BankProduct[].class);
         return Arrays.asList(array);
     }
 }
