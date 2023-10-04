@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
@@ -37,41 +36,6 @@ public class ChallengeController {
         return JsonResponse.ok("챌린지가 생성되었습니다.", responseDto);
     }
 
-    @PostMapping("/{challenge-id}")
-    public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> createExpense(
-            @PathVariable(name = "challenge-id") Long challengeId,
-            @RequestBody ExpenseCreateRequestDto createRequestDto) {
-
-        ExpenseResponseDto reponseDto = expenseService.createExpense(challengeId, createRequestDto);
-        return JsonResponse.ok("지출내역이 입력되었습니다.", reponseDto);
-    }
-
-    @PatchMapping
-    public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> updateExpense(
-            @RequestBody ExpenseUpdateRequestDto updateRequestDto) {
-
-        ExpenseResponseDto reponseDto = expenseService.updateExpense(updateRequestDto);
-        return JsonResponse.ok("지출내역이 수정되었습니다.", reponseDto);
-    }
-
-    @DeleteMapping("/{expense-id}")
-    public ResponseEntity<ResponseWrapper<Nullable>> deleteExpense(
-            @PathVariable(name = "expense-id") Long expenseId) {
-
-        expenseService.deleteExpense(expenseId);
-        return JsonResponse.ok("지출내역이 삭제되었습니다.");
-    }
-
-    @GetMapping("/{challenge-id}")
-    public ResponseEntity<ResponseWrapper<List<ExpenseResponseDto>>> selectDailyExpenseList(
-            @AuthenticationPrincipal Member member,
-            @PathVariable(name = "challenge-id") Long challengeId) {
-
-        List<ExpenseResponseDto> responseDto = expenseService.selectDailyExpenseList(member.getProfile(), challengeId);
-
-        return JsonResponse.ok("지출내역 리스트를 불러왔습니다.", responseDto);
-    }
-
     /**
      * 메인 화면에 접근할 때마다 호출되는 API
      */
@@ -84,12 +48,12 @@ public class ChallengeController {
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
-    public ResponseEntity<ResponseWrapper<Nullable>> endChallenge() {
-
-        challengeService.endChallenge();
-        return JsonResponse.ok("챌린지가 종료되고 사용자 정보가 업데이트되었습니다.");
-    }
+//    @Scheduled(cron = "0 0 0 * * *")
+//    public ResponseEntity<ResponseWrapper<Nullable>> endChallenge() {
+//
+//        challengeService.endChallenge();
+//        return JsonResponse.ok("챌린지가 종료되고 사용자 정보가 업데이트되었습니다.");
+//    }
 
     @GetMapping("/people")
     public ResponseEntity<ResponseWrapper<List<ChallengeUserListResponseDto>>> selectChallengeUserList() {
@@ -128,4 +92,47 @@ public class ChallengeController {
 
         return JsonResponse.ok("챌린지 월별 내역을 성공적으로 가져왔습니다.", challengeHistory, listSize);
     }
+
+
+    @PostMapping("/{challenge-id}")
+    public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> createExpense(
+            @AuthenticationPrincipal Member member,
+            @PathVariable(name = "challenge-id") Long challengeId,
+            @RequestBody ExpenseCreateRequestDto createRequestDto) {
+
+        ExpenseResponseDto responseDto = expenseService.createExpense(member.getProfile(), challengeId, createRequestDto);
+
+        return JsonResponse.ok("지출내역이 입력되었습니다.", responseDto);
+    }
+
+    @PatchMapping
+    public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> updateExpense(
+            @AuthenticationPrincipal Member member,
+            @RequestBody ExpenseUpdateRequestDto updateRequestDto) {
+
+        ExpenseResponseDto responseDto = expenseService.updateExpense(member.getProfile(), updateRequestDto);
+
+        return JsonResponse.ok("지출내역이 수정되었습니다.", responseDto);
+    }
+
+    @DeleteMapping("/{expense-id}")
+    public ResponseEntity<ResponseWrapper<Nullable>> deleteExpense(
+            @AuthenticationPrincipal Member member,
+            @PathVariable(name = "expense-id") Long expenseId) {
+
+        expenseService.deleteExpense(member.getProfile(), expenseId);
+
+        return JsonResponse.ok("지출내역이 삭제되었습니다.");
+    }
+
+    @GetMapping("/{challenge-id}")
+    public ResponseEntity<ResponseWrapper<List<ExpenseResponseDto>>> selectDailyExpenseList(
+            @AuthenticationPrincipal Member member,
+            @PathVariable(name = "challenge-id") Long challengeId) {
+
+        List<ExpenseResponseDto> responseDto = expenseService.selectDailyExpenseList(member.getProfile(), challengeId);
+
+        return JsonResponse.ok("지출내역 리스트를 불러왔습니다.", responseDto);
+    }
+
 }
