@@ -45,15 +45,15 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let curWave:number = waveTop;
+    let curWave: number = waveTop;
     let targetWave: number = 0;
-  
+
     function frame() {
       curWave = lerp(curWave, targetWave, 0.02);
-      
+
       setWaveTop(curWave);
-      
-      if(targetWave - curWave < 0){
+
+      if (targetWave - curWave < 0) {
         setTimeout(frame, 20);
       } else {
         setWaveTop(targetWave);
@@ -61,11 +61,10 @@ const LoginPage = () => {
     }
     requestAnimationFrame(frame);
 
-    function lerp(s:number, e:number, a:number) {
-      return s + (0-s) * a;
+    function lerp(s: number, e: number, a: number) {
+      return s + (0 - s) * a;
     }
-  }, [])
-
+  }, []);
 
   const handleLogin = () => {
     if (email === "") {
@@ -130,49 +129,71 @@ const LoginPage = () => {
       <MainStyle>
         <div className="login_page">
           <div className="login_header">
-            <div className="login_wave" style={{ top: `${40 + waveTop}%`}}>
-              <svg width="500" height="500" className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 500" preserveAspectRatio="none" shape-rendering="auto">
+            <div className="login_wave" style={{ top: `${40 + waveTop}%` }}>
+              <svg
+                width="500"
+                height="500"
+                className="waves"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 500"
+                preserveAspectRatio="none"
+                shape-rendering="auto"
+              >
                 <defs>
-                  <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v500h-352z" />
+                  <path
+                    id="gentle-wave"
+                    d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v500h-352z"
+                  />
                   <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color = "var(--gradation-start)" />
-                    <stop offset="100%" stop-color = "var(--gradation-end)" />
+                    <stop offset="0%" stop-color="var(--gradation-start)" />
+                    <stop offset="100%" stop-color="var(--gradation-end)" />
                   </linearGradient>
                 </defs>
                 <g className="parallax">
-                  <use xlinkHref="#gentle-wave" x="48" y="0" fill="url(#wave-gradient)" opacity="20%" />
-                  <use xlinkHref="#gentle-wave" x="48" y="9" fill="url(#wave-gradient)" opacity="40%" />
-                  <use xlinkHref="#gentle-wave" x="48" y="16" fill="url(#wave-gradient)" opacity="60%"/>
+                  <use
+                    xlinkHref="#gentle-wave"
+                    x="48"
+                    y="0"
+                    fill="url(#wave-gradient)"
+                    opacity="20%"
+                  />
+                  <use
+                    xlinkHref="#gentle-wave"
+                    x="48"
+                    y="9"
+                    fill="url(#wave-gradient)"
+                    opacity="40%"
+                  />
+                  <use
+                    xlinkHref="#gentle-wave"
+                    x="48"
+                    y="16"
+                    fill="url(#wave-gradient)"
+                    opacity="60%"
+                  />
                 </g>
               </svg>
             </div>
             <div className="introduce_div">
               <h1 className="introduce_title">하루만</h1>
-              <p className="introduce_text">하루 만 원으로 시작해보는<br/>당신의 절약습관</p>
+              <p className="introduce_text">
+                하루 만 원으로 시작해보는
+                <br />
+                당신의 절약습관
+              </p>
             </div>
           </div>
           <div className="max_div">
             <div className="logo_div">
-              <img
-                src={LogoImage}
-                alt="로고 이미지"
-              />
+              <img src={LogoImage} alt="로고 이미지" />
             </div>
             <div className="oauth_links">
               <div className="oauth_line">
                 <div className="oauth_text">easy to start</div>
-                <LoginButton
-                  type = "kakao" 
-                  value = "카카오"
-                />
-                <LoginButton
-                  type = "google" 
-                  value = "구글"
-                />
-                <LoginButton
-                  type = "email" 
-                  value = "E-mail"
-                />
+                <LoginButton type="kakao" value="카카오" />
+                <LoginButton type="google" value="구글" />
+                <LoginButton type="email" value="E-mail" />
               </div>
             </div>
           </div>

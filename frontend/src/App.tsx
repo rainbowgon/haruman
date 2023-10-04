@@ -16,7 +16,7 @@ import ResetPasswordPage from "./pages/TemporaryPassPage";
 import TodayPage from "./pages/TodayPage";
 import RankingPage from "./pages/RankingPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import LoginForEmailPage from "./pages/LoginForEmailPage"
+import LoginForEmailPage from "./pages/LoginForEmailPage";
 
 // NavigationBar
 import BottomBar from "./components/BottomBar";
@@ -26,7 +26,7 @@ import { useAppSelector } from "./hooks/reduxHook";
 
 // react-router-dom
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import RedirectPage from "./pages/RedirectPage";
+import { KakaoRedirectPage, GoogleRedirectPage } from "./pages/RedirectPage";
 
 const AppContainer = styled.div`
   height: 100vh;
@@ -50,59 +50,21 @@ const App: React.FC = () => {
           <Route path="/mypage" element={isLogin ? <MyPage /> : <LandingPage />} />
           */}
 
-            <Route
-              path="/"
-              element={<LandingPage />}
-            />
-            <Route
-              path="/home"
-              element={<HomePage />}
-            />
-            <Route
-              path="/login"
-              element={<LoginPage />}
-            />
-            <Route
-              path="/Login/email"
-              element={<LoginForEmailPage />}
-            />
-            <Route
-              path="/signup"
-              element={<SignUpPage />}
-            />
-            <Route
-              path="/mypage"
-              element={<MyPage />}
-            />
-            <Route
-              path="/calendar"
-              element={<CalendarPage />}
-            />
-            <Route
-              path="/finduserid"
-              element={<FindUserIdPage />}
-            />
-            <Route
-              path="/temp"
-              element={<ResetPasswordPage />}
-            />
-            <Route
-              path="/today"
-              element={<TodayPage />}
-            />
-            <Route
-              path="/ranking"
-              element={<RankingPage />}
-            />
-            <Route
-              path="/oauth/kakao/redirect"
-              element={<RedirectPage />}
-            ></Route>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/Login/email" element={<LoginForEmailPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
+            <Route path="/finduserid" element={<FindUserIdPage />} />
+            <Route path="/temp" element={<ResetPasswordPage />} />
+            <Route path="/today" element={<TodayPage />} />
+            <Route path="/ranking" element={<RankingPage />} />
+            <Route path="/oauth/kakao/redirect" element={<KakaoRedirectPage />}></Route>
+            <Route path="/oauth/google/redirect" element={<GoogleRedirectPage />}></Route>
             {/* to exception */}
-            <Route
-              path="/*"
-              element={<NotFoundPage />}
-            />
+            <Route path="/*" element={<NotFoundPage />} />
           </Routes>
           {/* 로그인 구현 완료시 token없다면 BottomBar 랜더링 X */}
           {/* {isLogin && <BottomBar />} */}
