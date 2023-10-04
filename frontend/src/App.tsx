@@ -52,23 +52,71 @@ const App: React.FC = () => {
           <Route path="/mypage" element={isLogin ? <MyPage /> : <LandingPage />} />
           */}
 
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/Login/email" element={<LoginForEmailPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="/mypage/editsimpleprofile" element={<EditSimpleProfilePage />} />
-            <Route path="/calendar" element={<CalendarPage />} />
-            <Route path="/save" element={<SavePage />} />
-            <Route path="/finduserid" element={<FindUserIdPage />} />
-            <Route path="/temp" element={<ResetPasswordPage />} />
-            <Route path="/today" element={<TodayPage />} />
-            <Route path="/ranking" element={<RankingPage />} />
-            <Route path="/oauth/kakao/redirect" element={<KakaoRedirectPage />}></Route>
-            <Route path="/oauth/google/redirect" element={<GoogleRedirectPage />}></Route>
+            <Route
+              path="/"
+              element={<LandingPage />}
+            />
+            <Route
+              path="/home"
+              element={<HomePage />}
+            />
+            <Route
+              path="/login"
+              element={<LoginPage />}
+            />
+            <Route
+              path="/Login/email"
+              element={<LoginForEmailPage />}
+            />
+            <Route
+              path="/signup"
+              element={<SignUpPage />}
+            />
+            <Route
+              path="/mypage"
+              element={<MyPage />}
+            />
+            <Route
+              path="/mypage/editsimpleprofile"
+              element={<EditSimpleProfilePage />}
+            />
+            <Route
+              path="/calendar"
+              element={<CalendarPage />}
+            />
+            <Route
+              path="/save"
+              element={<SavePage />}
+            />
+            <Route
+              path="/finduserid"
+              element={<FindUserIdPage />}
+            />
+            <Route
+              path="/temp"
+              element={<ResetPasswordPage />}
+            />
+            <Route
+              path="/today"
+              element={<TodayPage />}
+            />
+            <Route
+              path="/ranking"
+              element={<RankingPage />}
+            />
+            <Route
+              path="/oauth/kakao/redirect"
+              element={<KakaoRedirectPage />}
+            ></Route>
+            <Route
+              path="/oauth/google/redirect"
+              element={<GoogleRedirectPage />}
+            ></Route>
             {/* to exception */}
-            <Route path="/*" element={<NotFoundPage />} />
+            <Route
+              path="/*"
+              element={<NotFoundPage />}
+            />
           </Routes>
           {/* 로그인 구현 완료시 token없다면 BottomBar 랜더링 X */}
           {/* {isLogin && <BottomBar />} */}

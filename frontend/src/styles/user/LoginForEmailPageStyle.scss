@@ -1,41 +1,39 @@
-@import '../util.scss';         /*변수파일 - 색상 + 모바일 체크*/
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+@import "../util.scss"; /*변수파일 - 색상 + 모바일 체크*/
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
 
-
-.max_div{
-    width: 100%;
-    display: flex;
-    justify-content: center;
+.max_div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.user_access_links{
-    width: 80%;
-    max-width: 450px;
-    display: flex;
-    justify-content: center;
+.user_access_links {
+  width: 80%;
+  max-width: 450px;
+  display: flex;
+  justify-content: center;
 }
 
-.others_links{
-    width: 80%;
-    max-width: 450px;
+.others_links {
+  width: 80%;
+  max-width: 450px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  .link_left {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    
-    .link_left{
-        display: flex;
-    }
+  }
 
-    .link_right{
-        display: flex;
-        justify-content: right;
-    }
-
+  .link_right {
+    display: flex;
+    justify-content: right;
+  }
 }
 
-.others_link{
-    text-decoration: none;
-    color: $brand1_main;
-    font-weight: 600;
-    font-size: 0.8rem;
+.others_link {
+  text-decoration: none;
+  color: $brand1_main;
+  font-weight: 600;
+  font-size: 0.8rem;
 }

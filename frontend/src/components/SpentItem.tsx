@@ -4,19 +4,19 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 // style
-import "../styles/components/SpentItemStyle.scss"
+import "../styles/components/SpentItemStyle.scss";
 import Category from "./Category";
 
 // apis
 import { API_URL } from "../constants/urls";
 const contextPath = `/api`;
-const ChallengeAPI = '/challenges';
+const ChallengeAPI = "/challenges";
 
 export interface SpentItemProps {
-  mainValue : string;
-  moneyValue : number;
-  name? : string;
-  color? : string;
+  mainValue: string;
+  moneyValue: number;
+  name?: string;
+  color?: string;
   type?: string;
   placeholder?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -24,53 +24,50 @@ export interface SpentItemProps {
   className?: string;
 }
 
-export default function SpentItem(
-  {
-    mainValue,
-    moneyValue,
-    name,
-    color,
-    type,
-    placeholder,
-    onChange,
-    id,
-    className,
-  } : SpentItemProps
-  ) {
+export default function SpentItem({
+  mainValue,
+  moneyValue,
+  name,
+  color,
+  type,
+  placeholder,
+  onChange,
+  id,
+  className,
+}: SpentItemProps) {
   // 테스트용
   const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
   // const accessToken = sessionStorage.getItem("accessToken");
 
   const date = new Date();
-  
+
   /**
     updateExpense   
     지출 내역 수정   
     /challenges   
     PATCH
   */
-    const updateExpense = () => {
-      // const accessToken = sessionStorage.getItem("accessToken")
-      // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-  
-      // axios.patch(`${API_URL}${contextPath}${ChallengeAPI}`, "edit",
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`
-      //   }
-      // })
-      // .then((response) => {
-      //     console.log("지출 내역 수정");
-      //     showAlert("success", "지출 내역 수정");
-      //     setCurStatus(2);
-      // })
-      // .catch((error) => {
-      //     console.error("서버로부터 지출 내역 수정 실패", error);
-      //     showAlert("error", "지출 내역 수정 실패입니다.");
-      //     console.error(error.code);
-      // });
-    }
+  const updateExpense = () => {
+    // const accessToken = sessionStorage.getItem("accessToken")
+    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
+    // axios.patch(`${API_URL}${contextPath}${ChallengeAPI}`, "edit",
+    // {
+    //   headers: {
+    //     Authorization: `Bearer ${accessToken}`
+    //   }
+    // })
+    // .then((response) => {
+    //     console.log("지출 내역 수정");
+    //     showAlert("success", "지출 내역 수정");
+    //     setCurStatus(2);
+    // })
+    // .catch((error) => {
+    //     console.error("서버로부터 지출 내역 수정 실패", error);
+    //     showAlert("error", "지출 내역 수정 실패입니다.");
+    //     console.error(error.code);
+    // });
+  };
 
   /**
     deleteExpense   
@@ -79,28 +76,27 @@ export default function SpentItem(
     DELETE
   */
   const deleteExpense = () => {
-    axios.delete(`${API_URL}${contextPath}${ChallengeAPI}/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    })
-    .then((response) => {
-      showAlert(`지출 내역 삭제 요청 취소 성공입니다. ${response.data}`);
-    })
-    .catch((error) => {
-      console.error("서버로부터 지출 내역 삭제 요청 실패", error);
-      showAlert("지출 내역 삭제 요청 실패입니다.");
-      console.error(error.code);
-    });
-  }
+    axios
+      .delete(`${API_URL}${contextPath}${ChallengeAPI}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        showAlert(`지출 내역 삭제 요청 취소 성공입니다. ${response.data}`);
+      })
+      .catch((error) => {
+        console.error("서버로부터 지출 내역 삭제 요청 실패", error);
+        showAlert("지출 내역 삭제 요청 실패입니다.");
+        console.error(error.code);
+      });
+  };
 
-  const showAlert = (text:string) => {
+  const showAlert = (text: string) => {
     Swal.fire({
       text,
     });
   };
-  
 
   return (
     <div className="spent_item">

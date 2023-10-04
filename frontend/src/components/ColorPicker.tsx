@@ -1,11 +1,10 @@
-import {useState} from "react";
+import { useState } from "react";
 
 import Category from "./Category";
 
-import "../styles/components/ColorPickerStyle.scss"
+import "../styles/components/ColorPickerStyle.scss";
 
 const ColorPicker = () => {
-  
   const [colors, setColors] = useState<string[]>([
     "BLACK_01",
     "BLACK_02",
@@ -34,19 +33,17 @@ const ColorPicker = () => {
     "YELLOW_01",
     "YELLOW_02",
     "YELLOW_03",
-  ])
-  
+  ]);
+
   return (
     <div className="colorpicker_style">
-      {
-        colors &&
-        colors.map((color) =>(
+      {colors &&
+        colors.map((color) => (
           <Category
-              className="categoryprops"
-              color={color}
-            />
-        ))
-      }
+            className="categoryprops"
+            color={color}
+          />
+        ))}
     </div>
   );
 };

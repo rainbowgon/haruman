@@ -129,7 +129,10 @@ const LoginPage = () => {
       <MainStyle>
         <div className="login_page">
           <div className="login_header">
-            <div className="login_wave" style={{ top: `${40 + waveTop}%` }}>
+            <div
+              className="login_wave"
+              style={{ top: `${40 + waveTop}%` }}
+            >
               <svg
                 width="500"
                 height="500"
@@ -145,9 +148,21 @@ const LoginPage = () => {
                     id="gentle-wave"
                     d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v500h-352z"
                   />
-                  <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="var(--gradation-start)" />
-                    <stop offset="100%" stop-color="var(--gradation-end)" />
+                  <linearGradient
+                    id="wave-gradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                  >
+                    <stop
+                      offset="0%"
+                      stop-color="var(--gradation-start)"
+                    />
+                    <stop
+                      offset="100%"
+                      stop-color="var(--gradation-end)"
+                    />
                   </linearGradient>
                 </defs>
                 <g className="parallax">
@@ -186,14 +201,26 @@ const LoginPage = () => {
           </div>
           <div className="max_div">
             <div className="logo_div">
-              <img src={LogoImage} alt="로고 이미지" />
+              <img
+                src={LogoImage}
+                alt="로고 이미지"
+              />
             </div>
             <div className="oauth_links">
               <div className="oauth_line">
                 <div className="oauth_text">easy to start</div>
-                <LoginButton type="kakao" value="카카오" />
-                <LoginButton type="google" value="구글" />
-                <LoginButton type="email" value="E-mail" />
+                <LoginButton
+                  type="kakao"
+                  value="카카오"
+                />
+                <LoginButton
+                  type="google"
+                  value="구글"
+                />
+                <LoginButton
+                  type="email"
+                  value="E-mail"
+                />
               </div>
             </div>
           </div>

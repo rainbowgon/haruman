@@ -11,6 +11,7 @@ import BottomBarSpace from "../components/BottomBarSpace";
 import { API_URL } from "../constants/urls";
 import HeaderTitle from "../components/HeaderTitle";
 import UserItem from "../components/UserItem";
+import MiddleTitle from "../components/MiddleTitle";
 
 interface User {
   nickname: string;
@@ -81,6 +82,10 @@ const RankingPage = () => {
             }월 ${currentDate.getDate()}일`}
           />
           <BubbleChart onBubbleClick={handleBubbleClick} />
+          <MiddleTitle
+            SubTitle={`소비금액이 비슷한 유저예요!`}
+            MainTitle={``}
+          />
           <div className="challengeitems_list">
             {selectedUsers.map((user, index) => (
               <UserItem

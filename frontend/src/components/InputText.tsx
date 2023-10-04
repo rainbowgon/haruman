@@ -1,7 +1,6 @@
 import React from "react";
 import "../styles/components/InputTextStyle.scss";
 
-
 export interface InputProps {
   type: string;
   placeholder?: string;
@@ -28,9 +27,7 @@ export default function Input({
   return (
     <div className="input_box">
       <div className="text_container">
-        <div className={`input_field_type ${className}`}>
-          {placeholder}
-        </div>
+        <div className={`input_field_type ${className}`}>{placeholder}</div>
         <input
           className={`input_field ${className}`}
           type={type}
