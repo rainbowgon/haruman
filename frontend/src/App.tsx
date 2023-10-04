@@ -11,6 +11,7 @@ import SignUpPage from "./pages/SignUpPage";
 import MyPage from "./pages/MyPage";
 import EditSimpleProfilePage from "./pages/EditSimpleProfilePage";
 import CalendarPage from "./pages/CalendarPage";
+import SavePage from "./pages/SavePage";
 import LoginPage from "./pages/LoginPage";
 import FindUserIdPage from "./pages/FindUserIdPage";
 import ResetPasswordPage from "./pages/TemporaryPassPage";
@@ -82,6 +83,10 @@ const App: React.FC = () => {
             <Route
               path="/calendar"
               element={<CalendarPage />}
+            />
+            <Route
+              path="/save"
+              element={<SavePage />}
             />
             <Route
               path="/finduserid"

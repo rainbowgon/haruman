@@ -1,9 +1,16 @@
 // AgreementContent.tsx
 import React from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 // style
 import "../styles/components/SpentItemStyle.scss";
 import Category from "./Category";
+
+// apis
+import { API_URL } from "../constants/urls";
+const contextPath = `/api`;
+const ChallengeAPI = "/challenges";
 
 export interface SpentItemProps {
   mainValue: string;
@@ -13,7 +20,7 @@ export interface SpentItemProps {
   type?: string;
   placeholder?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  checked?: boolean;
+  id?: number;
   className?: string;
 }
 
@@ -25,9 +32,14 @@ export default function SpentItem({
   type,
   placeholder,
   onChange,
-  checked,
+  id,
   className,
 }: SpentItemProps) {
+  // 테스트용
+  const accessToken = process.env.REACT_APP_accessToken;
+  // 배포용
+  // const accessToken = sessionStorage.getItem("accessToken");
+
   const date = new Date();
 
   /**
@@ -64,22 +76,26 @@ export default function SpentItem({
     DELETE
   */
   const deleteExpense = () => {
-    // const accessToken = sessionStorage.getItem("accessToken")
-    // const expenseId = e.target;
-    // axios.delete(`${API_URL}${contextPath}${ChallengeAPI}/{expense-id}`,
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`
-    //   }
-    // })
-    // .then((response) => {
-    //   showAlert("success", "지출 내역 삭제 요청 취소 성공입니다.");
-    // })
-    // .catch((error) => {
-    //   console.error("서버로부터 지출 내역 삭제 요청 실패", error);
-    //   showAlert("error", "지출 내역 삭제 요청 실패입니다.");
-    //   console.error(error.code);
-    // });
+    axios
+      .delete(`${API_URL}${contextPath}${ChallengeAPI}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        showAlert(`지출 내역 삭제 요청 취소 성공입니다. ${response.data}`);
+      })
+      .catch((error) => {
+        console.error("서버로부터 지출 내역 삭제 요청 실패", error);
+        showAlert("지출 내역 삭제 요청 실패입니다.");
+        console.error(error.code);
+      });
+  };
+
+  const showAlert = (text: string) => {
+    Swal.fire({
+      text,
+    });
   };
 
   return (

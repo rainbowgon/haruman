@@ -115,11 +115,6 @@ const DonutChart: React.FC = () => {
       });
   };
 
-  // const getColorByCategory = (categoryName: string): string => {
-  //   const category = categories.find((cat) => cat.name === categoryName);
-  //   return category ? `${category.categoryColor})` : "#8884d8";
-  //   // 여기에서 'category.color' 대신 'category.categoryColor'를 사용합니다.
-  // };
   const getColorByCategory = (categoryColor: string): string => {
     return `var(--${categoryColor})`;
   };

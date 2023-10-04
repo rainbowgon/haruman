@@ -137,7 +137,6 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
   useEffect(() => {
     if (pageInfo.size) {
-      // pageInfo.size가 있을 때만 차트를 그립니다.
       createForceBubbleChart(ranges, pageInfo);
     }
   }, [ranges, pageInfo]);
