@@ -7,8 +7,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
-import ssafy.haruman.global.gpt.dto.request.GPTCompletionChatRequest;
-import ssafy.haruman.global.gpt.dto.response.CompletionChatResponse;
 import ssafy.haruman.global.gpt.service.GPTChatRestService;
 import ssafy.haruman.global.gpt.vo.BankProduct;
 
@@ -26,19 +24,17 @@ public class AppStartupRunner implements ApplicationRunner {
     private final GPTChatRestService gptChatRestService;
 
     private final String FILE_NAME = "bank_products.json";
-    private final int LIMIT_LENGTH = 1500;
+    private final int LIMIT_LENGTH = 2000;
 
-    public void GPT(String productDescriptions) {
-        GPTCompletionChatRequest gptCompletionChatRequest = new GPTCompletionChatRequest(
-                "gpt-3.5-turbo", "user", productDescriptions, 1000);
-        CompletionChatResponse response = gptChatRestService.completionChat(gptCompletionChatRequest);
-        System.out.printf(response.getMessages().get(0).getMessage());
-    }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         List<BankProduct> bankProductList = parseJsonFileToBankProductList();
+        sendBankProductListToGPT(bankProductList);
+        log.info("GPT에 적금 입력 완료");
+    }
 
+    private void sendBankProductListToGPT(List<BankProduct> bankProductList) {
         int accumulatedLength = 0;
         StringBuilder accumulatedString = new StringBuilder();
         for (BankProduct bankProduct : bankProductList) {
@@ -47,17 +43,15 @@ public class AppStartupRunner implements ApplicationRunner {
                 accumulatedLength += currentLength;
                 accumulatedString.append(bankProduct);
             } else {
-                GPT(accumulatedString.toString());
+                gptChatRestService.GPT(accumulatedString.toString());
                 accumulatedLength = currentLength;
                 accumulatedString = new StringBuilder().append(bankProduct);
             }
         }
 
         if (accumulatedLength != 0) {
-            GPT(accumulatedString.toString());
+            gptChatRestService.GPT(accumulatedString.toString());
         }
-
-        log.info("GPT에 적금 입력 완료");
     }
 
     private List<BankProduct> parseJsonFileToBankProductList() throws FileNotFoundException {
