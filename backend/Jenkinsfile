@@ -125,19 +125,11 @@ pipeline {
                     # nginx 컨테이너 접속
                     ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io /bin/bash
 
-                    # 블루 8081 -> 그린 8082로 바꿈
-                    # 그린 8082 -> 블루 8081로 바꿈
-                    if [ "${deployment_target}" == green ]
-                    then
-                        docker exec haruman_nginx_1 bash -c "echo 'set \$service_url 3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
-                        echo "Switch the reverse proxy direction of nginx to ${deployment_target} http://3.34.135.50:${deployment_target_port} 🟢🟩"
-                    else
-                        docker exec haruman_nginx_1 bash -c "echo 'set \$service_url 3.34.135.50:8081;' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
-                        echo "Switch the reverse proxy direction of nginx to ${deployment_target} http://3.34.135.50:${deployment_target_port} 🔵🟦"
-                    fi
+                    # $service_url을 target_port로 바꾸는데 기존 값은 중요하지 않음
+                    docker exec haruman_nginx_1 bash -c "echo 'set \\$service_url 3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
+                    echo "Switch the reverse proxy direction of nginx to ${deployment_target} http://3.34.135.50:${deployment_target_port}"
 
-
-                    echo "\n****** Kill the process on the opposite server ******""
+                    echo "\n****** Kill the process on the opposite server ******"
                     # 리다이렉트 후 다른 컨테이너가 존재하면 내림
                     if docker container inspect haruman_server_${opposite_target} >/dev/null 2>&1; then
                         echo "${opposite_target}-container exists locally & removed"
@@ -150,19 +142,6 @@ pipeline {
                 '''
             }
         }
-
-        // stage('Build and Deploy Docker') {
-        //     steps {
-        //         dir('backend') {
-        //             sh'''
-        //                 echo [BE] Build Docker Image!
-        //                 docker build -t server .
-        //                 echo [BE] Run Docker Container!
-        //                 docker run -dp 8081:8081 --name haruman_server server
-        //             '''
-        //         }
-        //     }
-        // }
     }
 
     // post {
