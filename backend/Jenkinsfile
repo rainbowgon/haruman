@@ -135,6 +135,7 @@ pipeline {
 
                     # nginx 컨테이너 접속
                     ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io /bin/bash
+                    docker exec haruman_nginx_1 echo 'set \\\$service_url; http://3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc
                     docker exec haruman_nginx_1 service nginx reload
                     ls
                     #echo "echo 'set \\\$service_url; http://3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc && service nginx reload" > script
