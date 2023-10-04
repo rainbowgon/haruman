@@ -35,8 +35,8 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Transactional
     public DailyChallengeResponseDto startChallenge(Profile profile) {
 
-        Optional<Challenge> challenge = challengeRepository.findByProfileAndStatus(profile.getId());
-        if (challenge.isPresent()) {
+        Optional<Challenge> challenge = challengeRepository.findFirstChallenge(profile.getId());
+        if (challenge.isPresent() && challenge.get().getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
             throw ChallengeAlreadyExistsException.EXCEPTION;
         }
 
@@ -56,7 +56,8 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .isViewed(ViewStatus.NOT_VIEWED)
                 .build();
 
-        return DailyChallengeResponseDto.from(challengeRepository.save(createdChallenge), challengeRepository.countByStatus());
+        return DailyChallengeResponseDto.from(challengeRepository.save(createdChallenge),
+                                              challengeRepository.countByStatus() - 1);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     public DailyChallengeResponseDto selectDailyChallenge(Profile profile) {
 
         Optional<Challenge> firstChallenge = challengeRepository.findFirstChallenge(profile.getId());
-        Integer participantCount = challengeRepository.countByStatus();
+        Integer participantCount = challengeRepository.countByStatus() - 1;
 
         if (firstChallenge.isPresent()) {
             Challenge challenge = firstChallenge.get();

@@ -2,7 +2,6 @@ package ssafy.haruman.domain.challenge.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import ssafy.haruman.domain.challenge.entity.Challenge;
 
 import java.util.List;
@@ -13,11 +12,9 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     @Query("SELECT COUNT(c.id) from Challenge c where c.challengeStatus = 'PROGRESS'")
     Integer countByStatus();
 
-    @Query("SELECT c FROM Challenge c WHERE c.profile.id = :id ORDER BY c.startTime DESC LIMIT 1")
-    Optional<Challenge> findFirstChallenge(@Param(value = "id") Long profileId);
-
-    @Query("SELECT c FROM Challenge c WHERE c.profile.id = :profileId AND c.challengeStatus = 'PROGRESS'")
-    Optional<Challenge> findByProfileAndStatus(Long profileId);
+    @Query(nativeQuery = true,
+            value = "SELECT * FROM challenge WHERE profile_id = :profileId ORDER BY start_time DESC LIMIT 1")
+    Optional<Challenge> findFirstChallenge(Long profileId);
 
     @Query("select c from Challenge c where c.challengeStatus='PROGRESS'")
     List<Challenge> findAllByStatus();
