@@ -1,25 +1,22 @@
 package ssafy.haruman.domain.challenge.entity;
 
-import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import ssafy.haruman.domain.category.entity.Category;
-import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.global.entity.BaseEntity;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE expense SET is_valid = 'DELETED' WHERE expense_id = ?")
+@Where(clause = "is_valid = 'VALID'")
 public class Expense extends BaseEntity {
 
     @Id
@@ -43,8 +40,7 @@ public class Expense extends BaseEntity {
     private String content;
 
     @Builder
-    public Expense(Challenge challenge, Category category, LocalDateTime payTime, Integer payAmount,
-            String content) {
+    public Expense(Challenge challenge, Category category, LocalDateTime payTime, Integer payAmount, String content) {
         this.challenge = challenge;
         this.category = category;
         this.payTime = payTime;
@@ -52,24 +48,10 @@ public class Expense extends BaseEntity {
         this.content = content;
     }
 
-    public static Expense createExpense(Challenge challenge, Category category,
-            ExpenseCreateRequestDto createRequestDto, LocalDateTime payTime) {
-        Expense expense = Expense.builder()
-                .challenge(challenge)
-                .category(category)
-                .payTime(payTime)
-                .payAmount(createRequestDto.getPayAmount())
-                .content(createRequestDto.getContent())
-                .build();
-
-        return expense;
-    }
-
     public void updateExpense(Category category, Integer payAmount, String content) {
         this.category = category;
         this.payAmount = payAmount;
         this.content = content;
     }
-
 
 }
