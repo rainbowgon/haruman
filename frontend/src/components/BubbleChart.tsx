@@ -22,7 +22,7 @@ interface BubbleChartLabel {
 function getColorForGroup(groupKey: string) {
   switch (groupKey) {
     case "챌린지 실패":
-      return null;
+      return "var(--brand1_main)";
     case "2000원 이하":
       return "var(--GRAPH_01)";
     case "4000원 이하":
@@ -34,13 +34,17 @@ function getColorForGroup(groupKey: string) {
     case "10000원 이하":
       return "var(--GRAPH_05)";
     case "0원":
-      return null;
+      return "var(--point2_op_60)";
     default:
       return "#8884d8";
   }
 }
 
 const BubbleChartLabels: BubbleChartLabel[] = [
+  {
+    color: "GRAPH_07",
+    value: "무지출챌린지",
+  },
   {
     color: "GRAPH_01",
     value: "2000원 이하",
@@ -61,6 +65,10 @@ const BubbleChartLabels: BubbleChartLabel[] = [
     color: "GRAPH_05",
     value: "10000원 미만",
   },
+  {
+    color: "GRAPH_06",
+    value: "챌린지 실패",
+  },
 ];
 // ----- BubbleChartStyle(END)
 
@@ -75,7 +83,7 @@ interface BubbleChartForceProps {
   onBubbleClick: (range: DataPoint) => void;
 }
 
-interface DataPoint {
+export interface DataPoint {
   min: number;
   max: number;
   users: number;
@@ -112,7 +120,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
           label: group.groupKey,
           users: group.userList.length,
           color: getColorForGroup(group.groupKey),
-          min: 0, // 이 값들은 필요에 따라 업데이트 할 수 있습니다.
+          min: 0,
           max: 100000,
         }));
 
@@ -148,15 +156,17 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
     const handleBubbleClick = (range: DataPoint) => {
       onBubbleClick(range);
-      console.log("클릭되었습니다.");
+      console.log("클릭되었습니다.", range);
     };
 
+    const width = 400;
+    const height = 500;
     const g = svg
       .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    const width = 400;
-    const height = 350;
+      .attr(
+        "transform",
+        `translate(${width / window.innerWidth},${height / window.innerWidth})`,
+      );
 
     const simulation = d3
       .forceSimulation<DataPoint>(data)
@@ -167,7 +177,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .force(
         "collide",
         d3.forceCollide(
-          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.4),
+          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.2),
         ),
       )
       .on("tick", ticked);
@@ -178,10 +188,10 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
       u.enter()
         .append<SVGCircleElement>("circle")
-        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.4))
+        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.2))
         .attr("fill", (d) => d.color || "#8884d8")
-        .attr("stroke", "#fff")
-        .attr("stroke-width", 2)
+        // .attr("stroke", "#fff")
+        // .attr("stroke-width", 2)
         .on("mouseover", (event, d) => {
           const tooltip = d3.select("body").append("div");
           //   .classed("tooltip", true)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 // style
-import "../styles/calendar/CalendarpageStyle.scss"
+import "../styles/calendar/CalendarpageStyle.scss";
 import MainStyle from "../components/MainStyle";
 
 // urls
@@ -26,7 +26,7 @@ const CalendarPage = () => {
   // const accessToken = sessionStorage.getItem("accessToken");
 
   const contextPath = `/api`;
-  const ChallengeAPI = '/challenges';
+  const ChallengeAPI = "/challenges";
 
   const [selectChallenge, setSelectChallenge] = useState<ChallengeDate>();
   const [amount, setAmount] = useState(0);
@@ -36,15 +36,15 @@ const CalendarPage = () => {
 
   useEffect(() => {
     selectAccumulatedAmount();
-  }, [])
+  }, []);
 
   useEffect(() => {
     selectDailyChallenge();
-  }, [selectChallenge])
+  }, [selectChallenge]);
 
   useEffect(() => {
     var sumAmount = 0;
-    
+
     challengeitems.forEach((items) => {
       sumAmount += items.payAmount;
     });
@@ -55,20 +55,23 @@ const CalendarPage = () => {
   //selectAccumulatedAmount
   //get
   const selectAccumulatedAmount = () => {
-    axios.get(`${API_URL}${contextPath}${ChallengeAPI}/amount`,
-      {
+    axios
+      .get(`${API_URL}${contextPath}${ChallengeAPI}/amount`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then((response) => {
-        console.log("누적 잔액 조회 성공", response.data.data.accumulatedAmount);
+        console.log(
+          "누적 잔액 조회 성공",
+          response.data.data.accumulatedAmount,
+        );
         setAmount(response.data.data.accumulatedAmount);
       })
       .catch((error) => {
-        console.error('누적 잔액 조회 실패', error);
+        console.error("누적 잔액 조회 실패", error);
       });
-  }
+  };
 
   /**
     selectDailyChallenge
@@ -76,80 +79,87 @@ const CalendarPage = () => {
     /challenges?date={date}   
     GET
   */
-    const selectDailyChallenge = () => {
-      console.log("selectDailyExpenseList");
-      
-      console.log("selectChallengeId : " , selectChallenge?.challengeId);
-      if (selectChallenge === null) {
-        setChallengeitems([]);
-        return;
-      }
-  
-      axios.get(`${API_URL}${contextPath}${ChallengeAPI}/${selectChallenge?.challengeId}`,
+  const selectDailyChallenge = () => {
+    console.log("selectDailyExpenseList");
+
+    console.log("selectChallengeId : ", selectChallenge?.challengeId);
+    if (selectChallenge === null) {
+      setChallengeitems([]);
+      return;
+    }
+
+    axios
+      .get(
+        `${API_URL}${contextPath}${ChallengeAPI}/${selectChallenge?.challengeId}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        })
-        .then((response) => {
-          console.log("해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)", response.data.data);
-          console.log(response.data.data);
-          setChallengeitems(response.data.data);
-        })
-        .catch((error) => {
-          console.error('해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트) 조회 실패', error);
-        });
-    };
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+      .then((response) => {
+        console.log(
+          "해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)",
+          response.data.data,
+        );
+        console.log(response.data.data);
+        setChallengeitems(response.data.data);
+      })
+      .catch((error) => {
+        console.error(
+          "해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트) 조회 실패",
+          error,
+        );
+      });
+  };
 
-  const numberFormatter = (value:number) => {
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
+  const numberFormatter = (value: number) => {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   return (
     <MainStyle>
       <div className="calendarpage">
         {/* 캘린더 페이지 헤더 */}
         <HeaderTitle
-          SubTitle = "지금까지 모은금액!"
-          MainTitle = {`${numberFormatter(amount)} 원`}
+          SubTitle="지금까지 모은금액!"
+          MainTitle={`${numberFormatter(amount)} 원`}
         />
         {/* 캘린더 */}
         <div className="calendar_form">
-          <CalendarForm 
-            selectChallenge = {selectChallenge}
-            setSelectChallenge = {setSelectChallenge}
+          <CalendarForm
+            selectChallenge={selectChallenge}
+            setSelectChallenge={setSelectChallenge}
           />
         </div>
 
         {/* 결제한 아이템 리스트 */}
         <div className="challengeitems_form">
           <ChallengeItemsForm
-            selectChallenge = {selectChallenge}
-            dailyAmount = {dailyAmount}
+            selectChallenge={selectChallenge}
+            dailyAmount={dailyAmount}
           />
         </div>
 
         {/* 결제한 아이템 리스트 */}
         <div className="challengeitems_list">
-          {
-            challengeitems && challengeitems.length !== 0 
-            ?
+          {challengeitems && challengeitems.length !== 0 ? (
             challengeitems.map((item) => (
               <SpentItem
-                name = {item.categoryName}
-                color = {item.categoryColor}
-                mainValue = {item.content}
-                moneyValue = {item.payAmount}
+                name={item.categoryName}
+                color={item.categoryColor}
+                mainValue={item.content}
+                moneyValue={item.payAmount}
               />
             ))
-            :
+          ) : (
             <div className="challengeitems_emptylist">
               이 날은 소비를 하지 않았어요!
             </div>
-          }
+          )}
         </div>
 
-        <BottomBarSpace/>
+        <BottomBarSpace />
       </div>
     </MainStyle>
   );

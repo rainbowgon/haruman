@@ -179,7 +179,15 @@ export default function RegistModal({
           challengeInfo.leftoverAmount -
             (spentItem.payAmount ? spentItem.payAmount : 0),
         );
-        setChallengeInfo({...challengeInfo, leftoverAmount: challengeInfo.leftoverAmount - (spentItem.payAmount!==null?spentItem.payAmount:0), usedAmount: challengeInfo.usedAmount + (spentItem.payAmount!==null?spentItem.payAmount:0)})
+        setChallengeInfo({
+          ...challengeInfo,
+          leftoverAmount:
+            challengeInfo.leftoverAmount -
+            (spentItem.payAmount !== null ? spentItem.payAmount : 0),
+          usedAmount:
+            challengeInfo.usedAmount +
+            (spentItem.payAmount !== null ? spentItem.payAmount : 0),
+        });
         resetSpentItem();
         handleModal();
       })
@@ -310,8 +318,8 @@ export default function RegistModal({
                 }
                 className={
                   spentItem.categoryId === category.categoryId
-                  ? "highlighted"
-                  : ""
+                    ? "highlighted"
+                    : ""
                 }
               />
             ))
