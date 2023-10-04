@@ -81,7 +81,7 @@ public class ProfileServiceImpl implements ProfileService {
     private void uploadNewProfileImage(Profile profile, MultipartFile multipartFile)
             throws IOException {
         this.deleteExistingProfileImage(profile);
-        if (!multipartFile.isEmpty()) {
+        if (multipartFile != null && !multipartFile.isEmpty()) {
             String savedFilename = s3FileService.saveFile(S3_PATH, multipartFile);
             profile.uploadNewProfileImage(S3_PATH, savedFilename);
         }

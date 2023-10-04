@@ -25,7 +25,7 @@ public class ProfileController {
     public ResponseEntity<ResponseWrapper<SingleProfileResponseDto>> createProfile(
             @AuthenticationPrincipal Member member,
             @RequestParam String nickname,
-            @RequestParam MultipartFile profileImage) throws IOException {
+            @RequestParam(required = false) MultipartFile profileImage) throws IOException {
         SingleProfileResponseDto singleProfileResponseDto = profileService.createProfile(member, nickname, profileImage);
         return JsonResponse.of(HttpStatus.CREATED, "프로필이 성공적으로 생성되었습니다.", singleProfileResponseDto);
     }
@@ -34,7 +34,7 @@ public class ProfileController {
     public ResponseEntity<ResponseWrapper<SingleProfileResponseDto>> updateProfile(
             @AuthenticationPrincipal Member member,
             @RequestParam String nickname,
-            @RequestParam MultipartFile profileImage) throws IOException {
+            @RequestParam(required = false) MultipartFile profileImage) throws IOException {
         SingleProfileResponseDto singleProfileResponseDto = profileService.updateProfile(member.getProfile().getId(), nickname, profileImage);
         return JsonResponse.ok("프로필이 성공적으로 수정되었습니다.", singleProfileResponseDto);
     }
