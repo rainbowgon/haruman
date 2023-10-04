@@ -3,16 +3,18 @@ package ssafy.haruman.global.oauth.google.dto;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 
 @Getter
 @JsonNaming(SnakeCaseStrategy.class)
-public class KakaoMemberResponse {
+public class GoogleMemberResponse {
 
-    private Long id;
-    private boolean hasSignedUp;
-    private LocalDateTime connectedAt;
-    private KakaoAccount kakaoAccount;
+    private String id;
+    private String email;
+    private String verifiedEmail;
+    private String name;
+    private String givenName;
+    private String familyName;
+    private String picture;
+    private String locale;
 }

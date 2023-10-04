@@ -3,52 +3,52 @@ package ssafy.haruman.global.oauth.google.client;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
-import ssafy.haruman.global.oauth.google.dto.KakaoMemberResponse;
-import ssafy.haruman.global.oauth.google.dto.KakaoToken;
+import ssafy.haruman.global.oauth.google.dto.GoogleMemberResponse;
+import ssafy.haruman.global.oauth.google.dto.GoogleToken;
 import ssafy.haruman.global.utils.WebClientUtil;
 
 import java.util.List;
 import java.util.Map;
 
 @Component
-public class KakaoApiClient {
+public class GoogleApiClient {
 
-    private final String KAKAO_BASE_URL = "https://kauth.kakao.com/oauth/token";
-    private final String KAKAO_USER_URL = "https://kapi.kakao.com/v2/user/me";
+    private final String GOOGLE_BASE_URL = "https://oauth2.googleapis.com/token";
+    private final String GOOGLE_USER_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
 
-    public KakaoToken fetchToken(MultiValueMap<String, String> params) {
-        WebClient kakaoOAuthWebClient = WebClientUtil.createWebClient(KAKAO_BASE_URL);
+    public GoogleToken fetchToken(MultiValueMap<String, String> params) {
+        WebClient googleOAuthWebClient = WebClientUtil.createWebClient(GOOGLE_BASE_URL);
         String uri = parseMapToUri(params);
 
-        KakaoToken kakaoToken = kakaoOAuthWebClient.post()
+        GoogleToken googleToken = googleOAuthWebClient.post()
                 .uri(uri)
                 .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
                 .retrieve()
-                .bodyToMono(KakaoToken.class)
+                .bodyToMono(GoogleToken.class)
                 .block();
 
-        if (kakaoToken == null) {
-            throw new RuntimeException("카카오 access token을 받아오지 못함.");
+        if (googleToken == null) {
+            throw new RuntimeException("구글 access token을 받아오지 못함.");
         }
 
-        return kakaoToken;
+        return googleToken;
     }
 
-    public KakaoMemberResponse fetchMember(String bearerToken) {
-        WebClient kakaoUserDetailClient = WebClientUtil.createWebClient(KAKAO_USER_URL);
+    public GoogleMemberResponse fetchMember(String bearerToken) {
+        WebClient googleUserDetailClient = WebClientUtil.createWebClient(GOOGLE_USER_URL);
 
-        KakaoMemberResponse kakaoMemberResponse = kakaoUserDetailClient.get()
+        GoogleMemberResponse googleMemberResponse = googleUserDetailClient.get()
                 .header("Authorization", "Bearer " + bearerToken)
                 .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
                 .retrieve()
-                .bodyToMono(KakaoMemberResponse.class)
+                .bodyToMono(GoogleMemberResponse.class)
                 .block();
 
-        if (kakaoMemberResponse == null) {
-            throw new RuntimeException("카카오 사용자 정보를 받아오지 못함");
+        if (googleMemberResponse == null) {
+            throw new RuntimeException("구글 사용자 정보를 받아오지 못함");
         }
 
-        return kakaoMemberResponse;
+        return googleMemberResponse;
     }
 
     private String parseMapToUri(MultiValueMap<String, String> params) {

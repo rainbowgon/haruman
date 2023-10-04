@@ -8,26 +8,26 @@ import ssafy.haruman.domain.member.entity.OAuthServerType;
 import ssafy.haruman.global.oauth.client.OAuthMemberClient;
 import ssafy.haruman.global.oauth.dto.OAuthResponseDto;
 import ssafy.haruman.global.oauth.google.GoogleOAuthConfig;
-import ssafy.haruman.global.oauth.google.dto.KakaoMemberResponse;
-import ssafy.haruman.global.oauth.google.dto.KakaoToken;
+import ssafy.haruman.global.oauth.google.dto.GoogleMemberResponse;
+import ssafy.haruman.global.oauth.google.dto.GoogleToken;
 
 @Component
 @RequiredArgsConstructor
-public class KakaoMemberClient implements OAuthMemberClient {
+public class GoogleMemberClient implements OAuthMemberClient {
 
-    private final KakaoApiClient kakaoApiClient;
+    private final GoogleApiClient googleApiClient;
     private final GoogleOAuthConfig googleOAuthConfig;
 
     @Override
     public OAuthServerType supportServer() {
-        return OAuthServerType.KAKAO;
+        return OAuthServerType.GOOGLE;
     }
 
     @Override
     public OAuthResponseDto fetch(String authCode) {
-        KakaoToken tokenInfo = kakaoApiClient.fetchToken(tokenRequestParams(authCode));
-        KakaoMemberResponse kakaoMemberResponse = kakaoApiClient.fetchMember(tokenInfo.getAccessToken());
-        return OAuthResponseDto.fromKakao(kakaoMemberResponse);
+        GoogleToken tokenInfo = googleApiClient.fetchToken(tokenRequestParams(authCode));
+        GoogleMemberResponse googleMemberResponse = googleApiClient.fetchMember(tokenInfo.getAccessToken());
+        return OAuthResponseDto.fromGoogle(googleMemberResponse);
     }
 
     private MultiValueMap<String, String> tokenRequestParams(String authCode) {
