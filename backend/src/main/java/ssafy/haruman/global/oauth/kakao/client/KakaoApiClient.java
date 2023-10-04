@@ -3,6 +3,8 @@ package ssafy.haruman.global.oauth.kakao.client;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
+import ssafy.haruman.global.error.exception.KakaoAccessTokenFailureException;
+import ssafy.haruman.global.error.exception.KakaoUserInfoFailureException;
 import ssafy.haruman.global.oauth.kakao.dto.KakaoMemberResponse;
 import ssafy.haruman.global.oauth.kakao.dto.KakaoToken;
 import ssafy.haruman.global.utils.WebClientUtil;
@@ -28,12 +30,12 @@ public class KakaoApiClient {
                 .block();
 
         if (kakaoToken == null) {
-            throw new RuntimeException("카카오 access token을 받아오지 못함.");
+            throw KakaoAccessTokenFailureException.EXCEPTION;
         }
 
         return kakaoToken;
     }
-    
+
     public KakaoMemberResponse fetchMember(String bearerToken) {
         WebClient kakaoUserDetailClient = WebClientUtil.createWebClient(KAKAO_USER_URL);
 
@@ -45,7 +47,7 @@ public class KakaoApiClient {
                 .block();
 
         if (kakaoMemberResponse == null) {
-            throw new RuntimeException("카카오 사용자 정보를 받아오지 못함");
+            throw KakaoUserInfoFailureException.EXCEPTION;
         }
 
         return kakaoMemberResponse;
