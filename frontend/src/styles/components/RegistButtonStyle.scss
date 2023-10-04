@@ -1,24 +1,24 @@
-@import '../util.scss';         /*변수파일 - 색상 + 모바일 체크*/
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+@import "../util.scss"; /*변수파일 - 색상 + 모바일 체크*/
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
 
-.regist_button_box{
+.regist_button_box {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.button_container{
+.button_container {
   width: 80%;
   max-width: 450px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  filter: drop-shadow(1px 2px 2px rgb(0,0,0,0.15));
+  filter: drop-shadow(1px 2px 2px rgb(0, 0, 0, 0.15));
 }
 
 .register_button {
-  font-family: "IBM Plex Sans KR",sans-serif;
+  font-family: "IBM Plex Sans KR", sans-serif;
   width: 80%;
   height: 6vh;
   border-radius: 40px;
@@ -30,29 +30,30 @@
   border: 2px solid $brand2_main;
   background-color: $brand2_main;
   font-weight: bolder;
-  
+
   &:hover {
     transition: all 0.1s ease-in-out;
   }
 
-  @include mobile{ 
+  @include mobile {
     // 브라우저 사이즈767px이하일때
   }
 
-  @include tablet{
+  @include tablet {
     /*브라우저 사이즈1023px이하일때*/
     background: $brand1_main;
   }
-  
-  @include desktop{
+
+  @include desktop {
     /*브라우저 사이즈1024px이상일때*/
     background: $point1_main;
   }
 }
 
-.highlight{
-  background-color: $point2_main;
+.highlight {
+  background-color: $point3_op_60;
   border: none;
+  border-radius: 0.5rem;
 }
 
 .register_button.white {
@@ -70,9 +71,8 @@
   font-size: 0.7rem;
 }
 
-
 // regular
-.register_button.regular{
+.register_button.regular {
   height: 4vh;
   border: none;
   border-radius: 0.5rem;
@@ -82,17 +82,17 @@
   font-size: 0.8rem;
 }
 
-.brand{
+.brand {
   background-color: $brand1_main;
 }
 
-.regular.white{
+.regular.white {
   color: $brand1_main;
   background-color: $white;
 }
 
 // square
-.register_button.square{
+.register_button.square {
   width: 20vw;
   height: 20vw;
   border: none;
@@ -104,7 +104,7 @@
   font-size: 0.8rem;
 }
 
-.setspentitem{
+.setspentitem {
   background-color: $white;
   width: 100%;
   filter: none;

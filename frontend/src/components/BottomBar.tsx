@@ -13,16 +13,16 @@ import BurgermenuIcon from "../assets/icons/icon-burgermenu.svg";
 
 // css
 import "../styles/theme.css";
-import "../styles/BottomBar.scss";
+import "../styles/components/BottomBarStyle.scss";
 
 const BottomBar: React.FC = () => {
   const dispatch = useDispatch();
   const activePage = useSelector((state: AppState) => state.activePage);
   const navigate = useNavigate();
   const location = useLocation();
-  const [isNavUp, setIsNavUp] = useState(false);
-  const [lastScrollTop, setLastScrollTop] = useState(0);
-  const delta = 5;
+  // const [isNavUp, setIsNavUp] = useState(false);
+  // const [lastScrollTop, setLastScrollTop] = useState(0);
+  // const delta = 5;
 
   const [pages] = useState([
     { name: "Calendar", icon: CalendarIcon, path: "/calendar" },
@@ -50,34 +50,34 @@ const BottomBar: React.FC = () => {
   // }, [lastScrollPosition]);
   // console.log("lastScrollPosition", lastScrollPosition);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const st = window.scrollY;
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const st = window.scrollY;
 
-      if (Math.abs(lastScrollTop - st) <= delta) return;
+  //     if (Math.abs(lastScrollTop - st) <= delta) return;
 
-      if (st > lastScrollTop) {
-        setIsNavUp(true); // 아래로 스크롤할 때
-      } else if (
-        st + window.innerHeight <
-        document.documentElement.scrollHeight
-      ) {
-        setIsNavUp(false); // 위로 스크롤할 때
-      }
+  //     if (st > lastScrollTop) {
+  //       setIsNavUp(true); // 아래로 스크롤할 때
+  //     } else if (
+  //       st + window.innerHeight <
+  //       document.documentElement.scrollHeight
+  //     ) {
+  //       setIsNavUp(false); // 위로 스크롤할 때
+  //     }
 
-      setLastScrollTop(st);
-    };
+  //     setLastScrollTop(st);
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollTop]);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [lastScrollTop]);
 
-  const bottomBarStyle = isNavUp
-    ? { transform: "translateY(100%)" }
-    : { transform: "translateY(0)" };
+  // const bottomBarStyle = isNavUp
+  //   ? { transform: "translateY(100%)" }
+  //   : { transform: "translateY(0)" };
   useEffect(() => {
     const currentPage = pages.findIndex((p) => p.path === location.pathname);
     if (currentPage !== -1) {
@@ -87,10 +87,18 @@ const BottomBar: React.FC = () => {
   // const bottomBarStyle = isHidden
   // ? { transform: "translateY(100%)" }
   // : { transform: "translateY(0)" };
+  if (
+    location.pathname === "/login" ||
+    location.pathname === "/" ||
+    location.pathname === "/signup" ||
+    location.pathname === "/oauth/kakao/redirect"
+  ) {
+    return null;
+  }
   return (
     <div
       className="bottom-bar"
-      style={bottomBarStyle}
+      // style={bottomBarStyle}
     >
       {pages.map((menu, index) => (
         <button

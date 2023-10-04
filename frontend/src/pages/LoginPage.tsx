@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainStyle from "../components/MainStyle";
 import InputText from "../components/InputText";
 import CenterContainer from "../components/CenterContainer";
 import RegisterButton from "../components/RegistButton";
-// import KakaoLoginButton from "../components/KakaoLoginButton";
 import { Link } from "react-router-dom";
 import LogoImage from "../assets/logo-mainlogo.svg";
 
@@ -24,7 +23,7 @@ import styled from "styled-components";
 
 //scss
 import "../styles/user/LoginPageStyle.scss";
-import KakaoLoginButton from "../components/KakaoLoginButton";
+import LoginButton from "../components/LoginButton";
 
 const StyledDiv = styled.div`
   margin-left: 10vw;
@@ -32,20 +31,40 @@ const StyledDiv = styled.div`
   color: var(--brand1_main);
 `;
 
-const LogoDiv = styled.div`
-  margin: 10vh 0vh 10vh;
-`;
-
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [autoLogin, setAutoLogin] = useState(false);
+  const [waveTop, setWaveTop] = useState(100);
+
   const userData = {
     userEmail: email,
     userPass: password,
   };
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let curWave: number = waveTop;
+    let targetWave: number = 0;
+
+    function frame() {
+      curWave = lerp(curWave, targetWave, 0.02);
+
+      setWaveTop(curWave);
+
+      if (targetWave - curWave < 0) {
+        setTimeout(frame, 20);
+      } else {
+        setWaveTop(targetWave);
+      }
+    }
+    requestAnimationFrame(frame);
+
+    function lerp(s: number, e: number, a: number) {
+      return s + (0 - s) * a;
+    }
+  }, []);
 
   const handleLogin = () => {
     if (email === "") {
@@ -108,81 +127,100 @@ const LoginPage = () => {
   return (
     <CenterContainer>
       <MainStyle>
-        <LogoDiv>
-          <img
-            src={LogoImage}
-            alt="로고 이미지"
-          />
-        </LogoDiv>
-        <InputText
-          className="InputText"
-          type="email"
-          // alt="Input Email"
-          placeholder="이메일"
-          value={email}
-          // 추후 email이 들어온다면 sending
-          onChange={(e) => setEmail(e.target.value)}
-          // onKeyPress={handleKeyPress}
-        />
-        <InputText
-          className="InputText"
-          // alt="password"
-          type="password"
-          placeholder="비밀번호"
-          value={password}
-          // 추후 password 설정시 주석 해제
-          onChange={(e) => setPassword(e.target.value)}
-          // onKeyPress={handleKeyPress}
-        />
-        <Checkbox
-          label="자동 로그인"
-          checked={autoLogin}
-          onChange={() => setAutoLogin(!autoLogin)}
-        />
-        <RegisterButton
-          text="로그인"
-          onClick={handleLogin}
-        />
-        <div className="max_div">
-          <div className="user_access_links">
-            <div className="others_links">
-              <div className="link_left">
-                <Link
-                  className="others_link"
-                  to="/finduserid"
-                >
-                  아이디 찾기{" "}
-                </Link>
-                <Link
-                  className="others_link"
-                  to="/temp"
-                >
-                  {" "}
-                  / 비밀번호 발급
-                </Link>
-              </div>
-              <div className="link_right">
-                <Link
-                  className="others_link"
-                  to="/signup"
-                >
-                  회원가입
-                </Link>
-              </div>
+        <div className="login_page">
+          <div className="login_header">
+            <div
+              className="login_wave"
+              style={{ top: `${40 + waveTop}%` }}
+            >
+              <svg
+                width="500"
+                height="500"
+                className="waves"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 500"
+                preserveAspectRatio="none"
+                shape-rendering="auto"
+              >
+                <defs>
+                  <path
+                    id="gentle-wave"
+                    d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v500h-352z"
+                  />
+                  <linearGradient
+                    id="wave-gradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                  >
+                    <stop
+                      offset="0%"
+                      stop-color="var(--gradation-start)"
+                    />
+                    <stop
+                      offset="100%"
+                      stop-color="var(--gradation-end)"
+                    />
+                  </linearGradient>
+                </defs>
+                <g className="parallax">
+                  <use
+                    xlinkHref="#gentle-wave"
+                    x="48"
+                    y="0"
+                    fill="url(#wave-gradient)"
+                    opacity="20%"
+                  />
+                  <use
+                    xlinkHref="#gentle-wave"
+                    x="48"
+                    y="9"
+                    fill="url(#wave-gradient)"
+                    opacity="40%"
+                  />
+                  <use
+                    xlinkHref="#gentle-wave"
+                    x="48"
+                    y="16"
+                    fill="url(#wave-gradient)"
+                    opacity="60%"
+                  />
+                </g>
+              </svg>
+            </div>
+            <div className="introduce_div">
+              <h1 className="introduce_title">하루만</h1>
+              <p className="introduce_text">
+                하루 만 원으로 시작해보는
+                <br />
+                당신의 절약습관
+              </p>
             </div>
           </div>
-        </div>
-        <div className="max_div">
-          <div className="oauth_links">
-            <div className="oauth_line">
-              <div className="oauth_text">easy to start</div>
-              <div className="oauth_login">
-                <RegisterButton
-                  text="Kakao"
-                  className="mini_type"
-                  onClick={redirectKakao}
+          <div className="max_div">
+            <div className="logo_div">
+              <img
+                src={LogoImage}
+                alt="로고 이미지"
+              />
+            </div>
+            <div className="oauth_links">
+              <div className="oauth_line">
+                <div className="oauth_text">easy to start</div>
+                <LoginButton
+                  type="kakao"
+                  value="카카오"
                 />
-                <KakaoLoginButton />
+                <LoginButton
+                  type="google"
+                  value="구글"
+                />
+                <LoginButton
+                  type="email"
+                  value="E-mail"
+                />
               </div>
             </div>
           </div>

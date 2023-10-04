@@ -9,13 +9,16 @@ import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
 import SignUpPage from "./pages/SignUpPage";
 import MyPage from "./pages/MyPage";
+import EditSimpleProfilePage from "./pages/EditSimpleProfilePage";
 import CalendarPage from "./pages/CalendarPage";
+import SavePage from "./pages/SavePage";
 import LoginPage from "./pages/LoginPage";
 import FindUserIdPage from "./pages/FindUserIdPage";
 import ResetPasswordPage from "./pages/TemporaryPassPage";
 import TodayPage from "./pages/TodayPage";
 import RankingPage from "./pages/RankingPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import LoginForEmailPage from "./pages/LoginForEmailPage";
 
 // NavigationBar
 import BottomBar from "./components/BottomBar";
@@ -25,7 +28,7 @@ import { useAppSelector } from "./hooks/reduxHook";
 
 // react-router-dom
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import RedirectPage from "./pages/RedirectPage";
+import { KakaoRedirectPage, GoogleRedirectPage } from "./pages/RedirectPage";
 
 const AppContainer = styled.div`
   height: 100vh;
@@ -58,6 +61,14 @@ const App: React.FC = () => {
               element={<HomePage />}
             />
             <Route
+              path="/login"
+              element={<LoginPage />}
+            />
+            <Route
+              path="/Login/email"
+              element={<LoginForEmailPage />}
+            />
+            <Route
               path="/signup"
               element={<SignUpPage />}
             />
@@ -66,12 +77,16 @@ const App: React.FC = () => {
               element={<MyPage />}
             />
             <Route
+              path="/mypage/editsimpleprofile"
+              element={<EditSimpleProfilePage />}
+            />
+            <Route
               path="/calendar"
               element={<CalendarPage />}
             />
             <Route
-              path="/login"
-              element={<LoginPage />}
+              path="/save"
+              element={<SavePage />}
             />
             <Route
               path="/finduserid"
@@ -91,7 +106,11 @@ const App: React.FC = () => {
             />
             <Route
               path="/oauth/kakao/redirect"
-              element={<RedirectPage />}
+              element={<KakaoRedirectPage />}
+            ></Route>
+            <Route
+              path="/oauth/google/redirect"
+              element={<GoogleRedirectPage />}
             ></Route>
             {/* to exception */}
             <Route

@@ -1,129 +1,103 @@
-import React, { useState } from "react";
-import BubbleChart from "../components/BubbleChart";
+import React, { useEffect, useState } from "react";
+import BubbleChart, { DataPoint } from "../components/BubbleChart";
 import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
-import InfoItem from "../components/InfoItem";
-
-//interface value
-import { User } from "../constants/interfaces";
+import Register from "../components/RegistButton";
+import axios from "axios";
 
 // styles
 import "../styles/RankinPageStyle.scss";
+import BottomBarSpace from "../components/BottomBarSpace";
+import { API_URL } from "../constants/urls";
+import HeaderTitle from "../components/HeaderTitle";
+import UserItem from "../components/UserItem";
+import MiddleTitle from "../components/MiddleTitle";
+
+interface User {
+  nickname: string;
+  profileImage: string | null;
+  usedAmount: number;
+  challengeStartTime: string;
+  latestExpensePayTime: string | null;
+}
+
+interface Group {
+  groupKey: string;
+  userList: User[];
+}
+
+interface ApiResponse {
+  pageInfo: {
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+  };
+  message: string;
+  data: Group[];
+}
 
 const RankingPage = () => {
-  interface BalanceData {
-    balance: number;
-  }
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [groups, setGroups] = useState<Group[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
 
-  interface DataPoint {
-    min: number;
-    max: number;
-    users: number;
-    label: string;
-    x?: number;
-    y?: number;
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const accessToken = process.env.REACT_APP_accessToken;
+      try {
+        const response = await axios.get<ApiResponse>(
+          `${API_URL}/api/challenges/people`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+        setGroups(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  // const [challengeitems, setChallengeitems] = useState<ChallengeItem[]>([]);
-  const [Users, setUsers] = useState<User[]>([
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "명정루",
-      leftoverAmount: 4320,
-      latestTime: "2023-09-13T10:26:33",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "푸더가든",
-      leftoverAmount: 5700,
-      latestTime: "2023-09-13T10:10:10",
-    },
-    {
-      profileImage: "image_url_kajdskjfasdfegjalad",
-      nickname: "남고니",
-      leftoverAmount: 5700,
-      latestTime: "2023-09-13T09:55:33",
-    },
-  ]);
+    fetchData();
+  }, []);
 
-  const [selectedUsers, setSelectedUsers] = useState<BalanceData[]>([]);
+  const handleBubbleClick = (data: DataPoint) => {
+    const matchingGroup = groups.find((group) => group.groupKey === data.label);
 
-  const handleBubbleClick = (range: DataPoint) => {
-    const dummyBalances: BalanceData[] = [
-      { balance: 1500 },
-      { balance: 2300 },
-      { balance: 5000 },
-      { balance: 7500 },
-      { balance: 9000 },
-      { balance: 1200 },
-      { balance: 2400 },
-      { balance: 5200 },
-      { balance: 5400 },
-      { balance: 2300 },
-      { balance: 2300 },
-      { balance: 2300 },
-      { balance: 2300 },
-      { balance: 1200 },
-      { balance: 1200 },
-      { balance: 1200 },
-      { balance: 1200 },
-      { balance: 1200 },
-      { balance: 1200 },
-      { balance: 1200 },
-      { balance: 1200 },
-      { balance: 1200 },
-      { balance: 4400 },
-      { balance: 8900 },
-      { balance: 7500 },
-      { balance: 4600 },
-      { balance: 5400 },
-      { balance: 7700 },
-      { balance: 4400 },
-      { balance: 1100 },
-      { balance: 2200 },
-      { balance: 3300 },
-      { balance: 4400 },
-      { balance: 5500 },
-      { balance: 6600 },
-      { balance: 7700 },
-      { balance: 7700 },
-      { balance: 8800 },
-      { balance: 8800 },
-      { balance: 8800 },
-      { balance: 8800 },
-      { balance: 8800 },
-      { balance: 8800 },
-      { balance: 8800 },
-      { balance: 9900 },
-    ];
-
-    // 선택된 범위 내의 사용자 데이터 필터링
-    const usersInRange = dummyBalances.filter(
-      (user) => user.balance >= range.min && user.balance <= range.max,
-    );
-    setSelectedUsers(usersInRange);
+    if (matchingGroup) {
+      setSelectedUsers(matchingGroup.userList);
+    }
   };
+
   return (
     <CenterContainer>
       <MainStyle>
         <div className="rankingpage">
-          <div className="ranking_header">
-            <h3 className="sub_title">[]명이 도전중!</h3>
-            <h1 className="main_title">[]월 []일 챌린지</h1>
-          </div>
+          <HeaderTitle
+            SubTitle={`오늘의 챌린지`}
+            MainTitle={`${
+              currentDate.getMonth() + 1
+            }월 ${currentDate.getDate()}일`}
+          />
           <BubbleChart onBubbleClick={handleBubbleClick} />
-
+          <MiddleTitle
+            SubTitle={`소비금액이 비슷한 유저예요!`}
+            MainTitle={``}
+          />
           <div className="challengeitems_list">
-            {Users.map((user, index) => (
-              <InfoItem
+            {selectedUsers.map((user, index) => (
+              <UserItem
+                key={index}
                 image={user.profileImage}
                 mainValue={user.nickname}
-                moneyValue={user.leftoverAmount}
+                moneyValue={user.usedAmount}
               />
-              // <div>{item.category}</div>
             ))}
           </div>
         </div>
+        <BottomBarSpace />
       </MainStyle>
     </CenterContainer>
   );

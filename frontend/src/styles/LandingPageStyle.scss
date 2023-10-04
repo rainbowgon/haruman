@@ -1,14 +1,23 @@
 @import "../styles/theme.css";
 
-.loading{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    filter: drop-shadow(2px 2px 2px rgb(0,0,0,0.15));
+.loading {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(2px 2px 2px rgb(0, 0, 0, 0.15));
 
-    .loadingimg{
-        width: 62vw;
-    }
+  .loadingimg {
+    width: 40vw;
+  }
+}
+
+.loading_text {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
 }

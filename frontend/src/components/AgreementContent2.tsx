@@ -1,7 +1,7 @@
 // AgreementContent.tsx
 import React from "react";
 import styled from "styled-components";
-import "../styles/user/AgreementContentSstyle.scss"
+import "../styles/user/AgreementContentSstyle.scss";
 
 const ContextBox = styled.div`
   overflow: scroll;
@@ -44,17 +44,20 @@ const AgreementContent2 = () => {
   return (
     <>
       <div className="context_box">
-        <h1 className="Agreement_header_title">개인정보 취급 방침 및 약관 동의서</h1>
-        
-        
+        <h1 className="Agreement_header_title">
+          개인정보 취급 방침 및 약관 동의서
+        </h1>
+
         <h2 className="Agreement_middle_title">1. 개인정보 수집 및 이용목적</h2>
-        <p className="Agreement_text"> 
-          Haruman(이하 "회사")은 [서비스 또는 앱 이름]을 운영하며, 이에 따른 정보
-          수집 및 이용을 위하여 아래와 같이 개인정보를 처리합니다.
+        <p className="Agreement_text">
+          Haruman(이하 "회사")은 [서비스 또는 앱 이름]을 운영하며, 이에 따른
+          정보 수집 및 이용을 위하여 아래와 같이 개인정보를 처리합니다.
         </p>
         <br />
 
-        <h2 className="Agreement_middle_title">2. 수집하는 개인정보의 항목 및 수집방법</h2>
+        <h2 className="Agreement_middle_title">
+          2. 수집하는 개인정보의 항목 및 수집방법
+        </h2>
         <ul>
           <li>
             수집하는 개인정보 항목: [수집하는 개인정보의 종류, 예: 이름, 연락처,
@@ -65,7 +68,9 @@ const AgreementContent2 = () => {
         <br />
 
         <h2 className="Agreement_middle_title">3. 개인정보의 이용목적</h2>
-        <p className="Agreement_text">회사는 수집한 개인정보를 다음 목적을 위해 활용합니다.</p>
+        <p className="Agreement_text">
+          회사는 수집한 개인정보를 다음 목적을 위해 활용합니다.
+        </p>
         <ul>
           <li>[회원 관리, 서비스 제공, 고객문의 응답, 마케팅 등]</li>
         </ul>
@@ -87,9 +92,9 @@ const AgreementContent2 = () => {
 
         <h2 className="Agreement_middle_title">6. 이용자의 권리와 행사 방법</h2>
         <p className="Agreement_text">
-          이용자는 개인정보 열람, 정정, 삭제, 처리정지 요구 등 개인정보 보호법에서
-          정한 권리를 행사할 수 있습니다. 이에 따른 문의나 요청은 [문의처 또는
-          이메일 주소]로 연락하시기 바랍니다.
+          이용자는 개인정보 열람, 정정, 삭제, 처리정지 요구 등 개인정보
+          보호법에서 정한 권리를 행사할 수 있습니다. 이에 따른 문의나 요청은
+          [문의처 또는 이메일 주소]로 연락하시기 바랍니다.
         </p>
         <br />
 
@@ -109,7 +114,9 @@ const AgreementContent2 = () => {
         <br />
 
         <h2 className="Agreement_middle_title">5. 개인정보의 보유 및 파기</h2>
-        <p className="Agreement_text">위의 개인정보 취급 방침을 확인하였으며, 이에 동의합니다.</p>
+        <p className="Agreement_text">
+          위의 개인정보 취급 방침을 확인하였으며, 이에 동의합니다.
+        </p>
         <div className="context_box_text">
           <p>[{dateString}]</p>
         </div>

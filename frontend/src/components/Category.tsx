@@ -1,28 +1,30 @@
 // import React from "react";
 
-import "../styles/components/CategoryStyle.scss"
+import "../styles/components/CategoryStyle.scss";
 
 export interface CategoryProps {
-    color? : string;
-    category? : string;
-    type?: string;
-    onClick?: (event: any) => void;
-    checked?: boolean;
-    className?: string;
-  }
-  
-  export default function Category(
-  {
-    color = 'BLACK_01',
-    category,
-    type,
-    checked,
-    className,
-  } : CategoryProps
-  ) {
+  color?: string;
+  name?: string;
+  type?: string;
+  onClick?: (event: any) => void;
+  checked?: boolean;
+  className?: string;
+}
+
+export default function Category({
+  color = "BLACK_01",
+  name,
+  type,
+  onClick,
+  checked,
+  className,
+}: CategoryProps) {
   return (
-    <div className={`category ${className} ${color}`}>
-      {category}
+    <div
+      className={`category ${className} ${color}`}
+      onClick={onClick}
+    >
+      {name}
     </div>
   );
-};
+}

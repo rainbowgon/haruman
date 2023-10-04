@@ -2,11 +2,11 @@
 import React from "react";
 
 // style
-import "../styles/components/InfoItemStyle.scss"
+import "../styles/components/InfoItemStyle.scss";
 
 export interface InfoItemProps {
-  mainValue : string;
-  moneyValue : number;
+  mainValue: string;
+  moneyValue: number;
   image?: string;
   type?: string;
   placeholder?: string;
@@ -15,18 +15,16 @@ export interface InfoItemProps {
   className?: string;
 }
 
-export default function InfoItem(
-  {
-    mainValue,
-    moneyValue,
-    image,
-    type,
-    placeholder,
-    onChange,
-    checked,
-    className,
-  } : InfoItemProps
-  ) {
+export default function InfoItem({
+  mainValue,
+  moneyValue,
+  image,
+  type,
+  placeholder,
+  onChange,
+  checked,
+  className,
+}: InfoItemProps) {
   const date = new Date();
   const year = date.getFullYear();
   const month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -36,7 +34,11 @@ export default function InfoItem(
   return (
     <div className="info_item">
       <div className="info_item_category">
-        <img className="info_item_category_img" src={image} alt="user_IMG"></img>
+        <img
+          className="info_item_category_img"
+          src={image}
+          alt="user_IMG"
+        ></img>
       </div>
       <div className="info_item_name_div">
         <p className="info_item_name">{mainValue}</p>

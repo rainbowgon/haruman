@@ -1,97 +1,96 @@
-@import '../util.scss';         /*변수파일 - 색상 + 모바일 체크*/
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+@import "../util.scss"; /*변수파일 - 색상 + 모바일 체크*/
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
 
-
-.input_box{
-    width: 100%;
-    display: flex;
-    justify-content: center;
+.input_box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.text_container{
+.text_container {
+  width: 80%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(1px 2px 2px rgb(0, 0, 0, 0.15));
+
+  .input_field_type {
     width: 80%;
-    max-width: 450px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    filter: drop-shadow(1px 2px 2px rgb(0,0,0,0.15));
-
-    .input_field_type{
-        width: 80%;
-        margin-left: 1rem;
-        text-align: left;
-        color: $brand1_main;
-        font-weight: 600;
-        margin-bottom: 1%;
-
-        &.disable_pliceholder{
-            display: none;
-        }
-    }
-}
-
-.input_field{
-    width: 80%;
-    height: 6vh;
-    border-radius: 40px;
-    margin-bottom: 1rem;
-    max-width: 450px;
-    color: $font1_main;
-    font-size: 1rem;
-    border: 2px solid $brand2_main;
-    
+    margin-left: 1rem;
     text-align: left;
-    padding-left: 1rem;
+    color: $brand1_main;
+    font-weight: 600;
+    margin-bottom: 1%;
 
-    &.input_price{
-        width: 100%;
-        height: 4vh;
-        padding: 0;
-        padding: 0;
-        margin: 15% 0;
-        border: none;
-        border-bottom: 2px solid $brand1_main;
-        border-radius: 0;
+    &.disable_pliceholder {
+      display: none;
+    }
+  }
+}
 
-        font-weight: bold;
-        background-color: $transparent;
-    
-        &::placeholder {
-            font-size: 1.2rem;
-            color: $font2_op_60;
-        }
-    }
+.input_field {
+  width: 80%;
+  height: 6vh;
+  border-radius: 40px;
+  margin-bottom: 1rem;
+  max-width: 450px;
+  color: $font1_main;
+  font-size: 1rem;
+  border: 2px solid $brand2_main;
 
-    &.input_memo{
-        width: 100%;
-        height: 3vh;
-        padding: 0;
-        margin: 15% 0;
-        border: none;
-        border-bottom: 2px solid $brand1_main;
-        border-radius: 0;
+  text-align: left;
+  padding-left: 1rem;
 
-        font-weight: bold;
-        background-color: $transparent;
-    
-        &::placeholder {
-            font-size: 1rem;
-            color: $font2_op_60;
-        }
-    }
-    
-    @include mobile{ 
-        // 브라우저 사이즈767px이하일때
-    }
+  &.input_price {
+    width: 100%;
+    height: 4vh;
+    padding: 0;
+    padding: 0;
+    margin: 15% 0;
+    border: none;
+    border-bottom: 2px solid $brand1_main;
+    border-radius: 0;
 
-    @include tablet{
-        /*브라우저 사이즈1023px이하일때*/
-        background: $brand1_main;
+    font-weight: bold;
+    background-color: $transparent;
+
+    &::placeholder {
+      font-size: 1.2rem;
+      color: $font2_op_60;
     }
-    
-    @include desktop{
-        /*브라우저 사이즈1024px이상일때*/
-        background: $point1_main;
+  }
+
+  &.input_memo {
+    width: 100%;
+    height: 3vh;
+    padding: 0;
+    margin: 15% 0;
+    border: none;
+    border-bottom: 2px solid $brand1_main;
+    border-radius: 0;
+
+    font-weight: bold;
+    background-color: $transparent;
+
+    &::placeholder {
+      font-size: 1rem;
+      color: $font2_op_60;
     }
+  }
+
+  @include mobile {
+    // 브라우저 사이즈767px이하일때
+  }
+
+  @include tablet {
+    /*브라우저 사이즈1023px이하일때*/
+    background: $brand1_main;
+  }
+
+  @include desktop {
+    /*브라우저 사이즈1024px이상일때*/
+    background: $point1_main;
+  }
 }

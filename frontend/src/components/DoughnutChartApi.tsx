@@ -1,83 +1,123 @@
-// DonutChart.tsx
 import React, { useEffect, useState } from "react";
-import { PieChart, Pie, Cell } from "recharts";
+import { PieChart, Pie, Cell, Legend } from "recharts";
 import axios from "axios";
-
-// style
 import "../styles/theme.css";
 import { API_URL } from "../constants/urls";
 
-interface ApiResponse {
-  success: boolean;
-  message: string;
-  data?: ChallengeData | null;
-}
+// styles
+import "../styles/components/CategoryStyle.scss";
 
-interface ChallengeData {
-  participantCount: number;
-  leftoverAmount: number;
-  challengeStatus: string | null;
-  expenseList: ExpenseItem[];
-}
-
-interface ExpenseItem {
+export interface ExpenseItem {
   id: number;
   challengeId: number;
   categoryName: string;
   payTime: string;
   payAmount: number;
   content: string;
+  categoryColor: string;
 }
 
-interface ExpenseData {
+// interface DonutChartProps {
+//   onCategoriesProcessed: (data: CategoryItem[]) => void;
+// }
+
+export interface CategoryItem {
+  categoryId: number;
   name: string;
-  value: number;
+  categoryColor: string;
+  isDefault: string;
+  content: string;
+  cnt: number | null;
 }
 
 const DonutChart: React.FC = () => {
-  const [data, setData] = useState<ExpenseData[]>([]);
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [message, setMessage] = useState<string>("");
 
+  const accessToken = process.env.REACT_APP_accessToken;
+  const contextPath = `/api`;
+  const challengeAPI = "/challenges/23";
+
+  useEffect(() => {
+    selectDailyChallenge();
+  }, []);
+
   const selectDailyChallenge = () => {
-    const accessToken = sessionStorage.getItem("accessToken");
-    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-    const date = new Date();
     axios
-      .get(`${API_URL}/api/challenges`, {
+      .get(`${API_URL}${contextPath}${challengeAPI}`, {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then((response) => {
-        const apiResponse: ApiResponse = response.data;
+      ///////////////////////////// 금액 별로 차트를 그릴 경우///////////////////////////////////////////
+      // .then((response) => {
+      //   const challengeData: ExpenseItem[] = response.data.data;
+      //   const aggregatedCategories: CategoryItem[] = challengeData.reduce(
+      //     (acc: any, item) => {
+      //       const existingCategory = acc.find(
+      //         (cat: CategoryItem) => cat.name === item.categoryName,
+      //       );
 
-        if (apiResponse.success && apiResponse.data) {
-          const aggregatedData = apiResponse.data.expenseList.reduce(
-            (acc: ExpenseData[], item: ExpenseItem) => {
-              const existing = acc.find((d) => d.name === item.categoryName);
-              if (existing) {
-                existing.value += item.payAmount;
-              } else {
-                acc.push({ name: item.categoryName, value: item.payAmount });
-              }
-              return acc;
-            },
-            [],
-          );
-          setData(aggregatedData);
-        } else {
-          setMessage(apiResponse.message);
-        }
+      //       if (existingCategory) {
+      //         existingCategory.cnt += item.payAmount;
+      //       } else {
+      //         acc.push({
+      //           categoryId: item.id,
+      //           name: item.categoryName,
+      //           categoryColor: item.categoryColor,
+      //           isDefault: "DEFAULT",
+      //           content: item.content,
+      //           cnt: item.payAmount,
+      //         });
+      //       }
+
+      //       return acc;
+      //     },
+      //     [],
+      //   );
+
+      //   setCategories(aggregatedCategories);
+      // })
+      //////////////////////////////////////////////////////////////////////////////////////////////////
+      /////////////////////////////////////////////카테고리별로 차트를 그릴 경우////////////////////////////////////
+      .then((response) => {
+        const challengeData: ExpenseItem[] = response.data.data;
+        const aggregatedCategories: CategoryItem[] = challengeData.reduce(
+          (acc: any, item) => {
+            const existingCategory = acc.find(
+              (cat: CategoryItem) => cat.name === item.categoryName,
+            );
+
+            if (existingCategory) {
+              existingCategory.cnt += 1;
+            } else {
+              acc.push({
+                categoryId: item.id,
+                name: item.categoryName,
+                categoryColor: item.categoryColor,
+                isDefault: "DEFAULT",
+                content: item.content,
+                cnt: 1,
+              });
+            }
+
+            return acc;
+          },
+          [],
+        );
+
+        setCategories(aggregatedCategories);
       })
+      /////////////////////////////////////////////////////////////////////////////////////////////////////
       .catch((error) => {
         console.error("Error fetching challenge data:", error);
         setMessage("데이터 로딩 중 오류가 발생했습니다.");
       });
   };
 
-  useEffect(selectDailyChallenge, []);
-
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const getColorByCategory = (categoryColor: string): string => {
+    return `var(--${categoryColor})`;
+  };
 
   return (
     <div>
@@ -86,25 +126,25 @@ const DonutChart: React.FC = () => {
         height={400}
       >
         <Pie
-          dataKey="value"
+          dataKey="cnt"
           isAnimationActive={false}
-          data={data}
+          data={categories}
           cx={200}
           cy={200}
-          outerRadius={150}
-          innerRadius={70}
-          fill="#8884d8"
+          outerRadius={120}
+          innerRadius={40}
           label
         >
-          {data.map((entry, index) => (
+          {categories.map((category, index) => (
             <Cell
               key={`cell-${index}`}
-              fill={COLORS[index % COLORS.length]}
+              fill={getColorByCategory(category.categoryColor)}
             />
           ))}
         </Pie>
+        <Legend />
       </PieChart>
-      {message && <div className="error-message">{message}</div>}
+      {/* {message && <div className="error-message">{message}</div>} */}
     </div>
   );
 };

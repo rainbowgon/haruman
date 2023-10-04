@@ -37,7 +37,7 @@ import React, { useContext } from "react";
 import Check from "../assets/icons/icon-check.png";
 
 //scss
-import "../styles/components/CheckBoxStyle.scss"
+import "../styles/components/CheckBoxStyle.scss";
 
 interface CheckboxProps {
   label: string;
@@ -50,7 +50,8 @@ export default function CheckBox({ label, checked, onChange }: CheckboxProps) {
     <div className="check_box_guide">
       <div className="check_box">
         <label className="check_box_div">
-          <input className="checkbox_input"
+          <input
+            className="checkbox_input"
             type="checkbox"
             checked={checked}
             onChange={onChange}

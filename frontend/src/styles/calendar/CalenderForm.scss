@@ -1,35 +1,18 @@
 @import "../theme.css";
 @import "../_util.scss";
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
-
-
-.calendar_header{
-  text-align: center;
-  margin: 3rem 0 1.5rem 0;
-  .sub_title{
-    margin: 0;
-    font-size: 1rem;
-    color: var(--font2_main);
-  }
-  .main_title{
-    margin: 0;
-    font-size: 2rem;
-    color: var(--font1_main);
-  }
-}
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
 
 .react-calendar {
   width: 90vw;
-  max-width: 1200px;
+  max-width: 512px;
   padding: 20px;
   border: none;
   color: var(--font1_main);
-  font-family: "IBM Plex Sans KR",sans-serif;
+  font-family: "IBM Plex Sans KR", sans-serif;
   line-height: 1.125em;
   border-radius: 2rem;
   background-color: $background_main;
   filter: drop-shadow(0px 2px 2px rgb(0, 0, 0, 0.15));
-
 }
 
 .react-calendar--doubleView {
@@ -129,7 +112,7 @@
 
 .react-calendar__tile {
   max-width: 100%;
-  padding: 0.5rem 0.5rem;
+  padding: 0.3rem 0.3rem;
   background: none;
   text-align: center;
   line-height: 24px;
@@ -142,23 +125,10 @@
   transition: background-color 0.5s;
 }
 
-.react-calendar__tile:enabled:focus {
-  background: $background_2;
-  border-radius: 3rem;
-  transition: background-color 0.5s;
-}
-
 .react-calendar__tile--now {
-  background: $brand2_op_60;
   border-radius: 3rem;
   color: $white;
   transition: background-color 0.5s;
-}
-
-.react-calendar__tile--now:enabled:hover,
-.react-calendar__tile--now:enabled:focus {
-  background: $point1_main;
-  border-radius: 3rem;
 }
 
 .react-calendar__tile--hasActive {
@@ -175,17 +145,18 @@
 }
 
 .react-calendar__tile--active {
-  background: $brand1_op_60;
-  border-radius: 3rem;
-  color: $white;
-  transition: background-color 0.5s;
-}
-
-.react-calendar__tile--active:enabled:hover,
-.react-calendar__tile--active:enabled:focus {
-  background: $point2_main;
-  border-radius: 3rem;
-  color: $white;
+  abbr {
+    background-color: $brand1_op_60;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+    color: $white;
+  }
 }
 
 .react-calendar--selectRange .react-calendar__tile--hover {
@@ -195,12 +166,42 @@
 }
 
 .highlight1 {
-  background: $point3_main;
+  abbr {
+    background: $point2_op_60;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+  }
 }
 .highlight2 {
-  background-size: 39px 39px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: $brand2_op_60;
-  padding: 10px; 
+  abbr {
+    background-color: $brand2_op_60;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+  }
+}
+
+.highlight3 {
+  abbr {
+    background: $point3_op_60;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+  }
 }
