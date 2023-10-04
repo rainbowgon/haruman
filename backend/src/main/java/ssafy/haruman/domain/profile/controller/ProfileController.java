@@ -30,12 +30,12 @@ public class ProfileController {
         return JsonResponse.of(HttpStatus.CREATED, "프로필이 성공적으로 생성되었습니다.", singleProfileResponseDto);
     }
 
-    @PatchMapping("/{profile-id}")
+    @PatchMapping
     public ResponseEntity<ResponseWrapper<SingleProfileResponseDto>> updateProfile(
-            @PathVariable("profile-id") Long profileId,
+            @AuthenticationPrincipal Member member,
             @RequestParam String nickname,
             @RequestParam MultipartFile profileImage) throws IOException {
-        SingleProfileResponseDto singleProfileResponseDto = profileService.updateProfile(profileId, nickname, profileImage);
+        SingleProfileResponseDto singleProfileResponseDto = profileService.updateProfile(member.getProfile().getId(), nickname, profileImage);
         return JsonResponse.ok("프로필이 성공적으로 수정되었습니다.", singleProfileResponseDto);
     }
 
