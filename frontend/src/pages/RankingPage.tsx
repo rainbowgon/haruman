@@ -1,114 +1,94 @@
 import React, { useEffect, useState } from "react";
-import BubbleChart from "../components/BubbleChart";
+import BubbleChart, { DataPoint } from "../components/BubbleChart";
 import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
-import InfoItem from "../components/InfoItem";
 import Register from "../components/RegistButton";
 import axios from "axios";
-
-//interface value
-import { ChallengeState, User } from "../constants/interfaces";
 
 // styles
 import "../styles/RankinPageStyle.scss";
 import BottomBarSpace from "../components/BottomBarSpace";
 import { API_URL } from "../constants/urls";
 import HeaderTitle from "../components/HeaderTitle";
+import UserItem from "../components/UserItem";
 
-const selectChallengeUserList = async () => {
-  console.log("selectChallengeUserList");
-  // 테스트용
-  const accessToken = process.env.REACT_APP_accessToken;
-  // 배포용
-  // const accessToken = sessionStorage.getItem("accessToken");
-  axios
-    .get(`${API_URL}/api/challenges/people`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-    .then((response) => {
-      console.log("일일 챌린지 현황판 리스트", response.data);
-      console.log("selectChallengeUserList", response.data);
-    })
-    .catch((error) => {
-      console.error("일일 챌린지 현황판 리스트", error);
-    });
-};
+interface User {
+  nickname: string;
+  profileImage: string | null;
+  usedAmount: number;
+  challengeStartTime: string;
+  latestExpensePayTime: string | null;
+}
+
+interface Group {
+  groupKey: string;
+  userList: User[];
+}
+
+interface ApiResponse {
+  pageInfo: {
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+  };
+  message: string;
+  data: Group[];
+}
+
 const RankingPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const handleFailUser = () => {};
-  const handleNotYetUser = async () => {
-    // const zeroUsedUsers = await selectChallengeUserList();
-    //   setSelectedUsers(zeroUsedUsers);
-  };
-
-  interface DataPoint {
-    min: number;
-    max: number;
-    users: number;
-    label: string;
-    x?: number;
-    y?: number;
-  }
-
-  // const [challengeitems, setChallengeitems] = useState<ChallengeItem[]>([]);
-  const [Users, setUsers] = useState<User[]>([]);
-
+  const [groups, setGroups] = useState<Group[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
-  const [challengeInfo, setChallengeInfo] = useState<ChallengeState>({
-    challengeId: -1,
-    participantCount: 0,
-    targetAmount: 0,
-    usedAmount: 0,
-    leftoverAmount: 0,
-    challengeStatus: "null",
-  });
-  useEffect(() => {
-    console.log("[useEffect] challengeInfo : ", challengeInfo);
-  }, [challengeInfo]);
 
-  const handleBubbleClick = (range: DataPoint) => {
-    const usersInRange = Users.filter(
-      (user) => user.usedAmount >= range.min && user.usedAmount <= range.max,
-    );
-    setSelectedUsers(usersInRange);
+  useEffect(() => {
+    const fetchData = async () => {
+      const accessToken = process.env.REACT_APP_accessToken;
+      try {
+        const response = await axios.get<ApiResponse>(
+          `${API_URL}/api/challenges/people`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+        setGroups(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleBubbleClick = (data: DataPoint) => {
+    const matchingGroup = groups.find((group) => group.groupKey === data.label);
+
+    if (matchingGroup) {
+      setSelectedUsers(matchingGroup.userList);
+    }
   };
+
   return (
     <CenterContainer>
       <MainStyle>
-        {/* <BottomBarSpace /> */}
         <div className="rankingpage">
           <HeaderTitle
-            SubTitle={`${
-              challengeInfo && challengeInfo.participantCount
-            }명의 유저가 먼저 진행하고 있어요!`}
+            SubTitle={`오늘의 챌린지`}
             MainTitle={`${
               currentDate.getMonth() + 1
-            }월 ${currentDate.getDate()}일 챌린지`}
+            }월 ${currentDate.getDate()}일`}
           />
           <BubbleChart onBubbleClick={handleBubbleClick} />
-          <div className="regular_container">
-            <Register
-              text="무지출 챌린지"
-              className="regular brand"
-              onClick={selectChallengeUserList}
-            />
-            <Register
-              text="실패한 사람"
-              className="regular white"
-              onClick={handleFailUser}
-            />
-          </div>
           <div className="challengeitems_list">
             {selectedUsers.map((user, index) => (
-              <InfoItem
+              <UserItem
                 key={index}
                 image={user.profileImage}
                 mainValue={user.nickname}
                 moneyValue={user.usedAmount}
               />
-              // <div>{item.category}</div>
             ))}
           </div>
         </div>
