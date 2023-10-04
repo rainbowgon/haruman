@@ -157,7 +157,7 @@ export default function RegistModal({
       return;
     }
     if (spentItem.categoryId === null || isNaN(spentItem.categoryId)) {
-      showAlert("챌린지가 정상적인지 확인해 주세요!");
+      showAlert("카테고리가 없어요!");
       return;
     }
     console.log(spentItem);
@@ -173,8 +173,7 @@ export default function RegistModal({
         },
       )
       .then((response) => {
-        console.log("지출 내역 직접 입력");
-        showAlert("지출 내역이 등록되었어요!");
+        // showAlert("지출 내역이 등록되었어요!");
         handleWave(
           challengeInfo.targetAmount,
           challengeInfo.leftoverAmount -

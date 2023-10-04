@@ -131,7 +131,7 @@ const Homepage = () => {
         console.log("해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)", response.data);
         const challengeStatus = response.data.data.challengeStatus;
 
-        console.log(challengeStatus);
+        console.log("challengeStatus", challengeStatus);
         if (challengeStatus === "PROGRESS") {
           setChallenge(true);
           handleWave(response.data.data.targetAmount, response.data.data.leftoverAmount);
@@ -172,11 +172,7 @@ const Homepage = () => {
       }
     }
     
-    const intervalWave = setInterval(() => {
-      requestAnimationFrame(frame);
-    }, 1000);
-
-    clearInterval(intervalWave);
+    requestAnimationFrame(frame);
 
     function lerp(s:number, e:number, a:number) {
       return s + (e-s) * a;
@@ -210,7 +206,7 @@ const Homepage = () => {
         <div className="homepage">
           <div className="homepage_header">
             {
-              challenge
+              !challenge
               ?<>
                 <p className="homepage_text">{currentDate.getMonth()+1}월 {currentDate.getDate()}일</p>
                 <div className="homepage_header_title">

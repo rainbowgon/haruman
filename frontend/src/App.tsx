@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
 import SignUpPage from "./pages/SignUpPage";
 import MyPage from "./pages/MyPage";
+import EditSimpleProfilePage from "./pages/EditSimpleProfilePage";
 import CalendarPage from "./pages/CalendarPage";
 import LoginPage from "./pages/LoginPage";
 import FindUserIdPage from "./pages/FindUserIdPage";
@@ -56,6 +57,7 @@ const App: React.FC = () => {
             <Route path="/Login/email" element={<LoginForEmailPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route path="/mypage/editsimpleprofile" element={<EditSimpleProfilePage />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/finduserid" element={<FindUserIdPage />} />
             <Route path="/temp" element={<ResetPasswordPage />} />
