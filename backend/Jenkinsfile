@@ -52,15 +52,15 @@ pipeline {
             }
         }
 
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         withSonarQubeEnv('SonarQube-haruman') { 
-        //             dir('backend') {
-        //                 sh './gradlew sonarqube --stacktrace'
-        //             }
-        //         }
-        //     }
-        // }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube-haruman') { 
+                    dir('backend') {
+                        sh './gradlew sonarqube --stacktrace'
+                    }
+                }
+            }
+        }
 
         stage('Zero Downtime Deployment') {
             steps {
@@ -127,7 +127,7 @@ pipeline {
 
                     # $service_url을 target_port로 바꾸는데 기존 값은 중요하지 않음
                     docker exec haruman_nginx_1 bash -c "echo 'set \\$service_url 3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
-                    echo "Switch the reverse proxy direction of nginx to ${deployment_target} http://3.34.135.50:${deployment_target_port}"
+                    echo "Switch the reverse proxy direction of nginx to [${deployment_target}] http://3.34.135.50:${deployment_target_port}"
 
                     echo "\n****** Kill the process on the opposite server ******"
                     # 리다이렉트 후 다른 컨테이너가 존재하면 내림
@@ -144,22 +144,22 @@ pipeline {
         }
     }
 
-    // post {
-    //     success {
-    //         script {
-    //             def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
-    //             def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
-    //             def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
-    //             mattermostSend(color: 'good', message: "✅ 빌드 & 배포 성공: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})")
-    //         }
-    //     }
-    //     failure {
-    //         script {
-    //             def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
-    //             def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
-    //             def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
-    //             mattermostSend(color: 'danger', message: "❌ 빌드 & 배포 실패: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})")
-    //         }
-    //     }
-    // }
+    post {
+        success {
+            script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+                mattermostSend(color: 'good', message: "✅ 빌드 & 배포 성공: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})")
+            }
+        }
+        failure {
+            script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+                mattermostSend(color: 'danger', message: "❌ 빌드 & 배포 실패: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})")
+            }
+        }
+    }
 }
