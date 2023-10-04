@@ -32,6 +32,7 @@ public enum GlobalErrorCode implements BaseErrorCode {
     /* 지출내역 */
     EXPENSE_NOT_FOUND(NOT_FOUND, "EXPENSE-001", "해당 ID의 지출내역이 없습니다."),
     EXPENSE_UNAUTHORIZED(UNAUTHORIZED, "EXPENSE-002", "해당 지출내역에 접근 권한이 없습니다."),
+    EXPENSE_NOT_ALLOWED(METHOD_NOT_ALLOWED, "EXPENSE-003", "이미 종료된 챌린지의 지출 내역은 생성,수정,삭제가 불가합니다."),
 
     /* 카테고리 */
     CATEGORY_NOT_FOUND(NOT_FOUND, "CATEGORY-001", "해당 ID의 카테고리가 없습니다."),
