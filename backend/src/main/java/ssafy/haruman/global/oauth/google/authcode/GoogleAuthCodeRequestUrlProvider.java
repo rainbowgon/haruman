@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import ssafy.haruman.domain.member.entity.OAuthServerType;
-import ssafy.haruman.global.oauth.authcode.AuthCodeRequestUrlProvider;
+import ssafy.haruman.global.oauth.common.authcode.AuthCodeRequestUrlProvider;
 import ssafy.haruman.global.oauth.google.GoogleOAuthConfig;
 
 @Component

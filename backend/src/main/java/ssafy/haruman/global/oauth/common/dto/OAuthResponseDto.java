@@ -1,4 +1,4 @@
-package ssafy.haruman.global.oauth.dto;
+package ssafy.haruman.global.oauth.common.dto;
 
 import lombok.*;
 import ssafy.haruman.domain.member.entity.OAuthId;

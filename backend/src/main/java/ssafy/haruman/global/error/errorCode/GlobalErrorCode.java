@@ -35,6 +35,10 @@ public enum GlobalErrorCode implements BaseErrorCode {
 
     /* OAUTH */
     OAUTH_NOT_FOUND(NOT_FOUND, "OAUTH-001", "지원하지 않는 소셜 로그인 타입입니다."),
+    GOOGLE_ACCESS_TOKEN_FAILURE(INTERNAL_SERVER_ERROR, "OAUTH-002", "구글의 Access Token을 받아오지 못했습니다."),
+    GOOGLE_USER_INFO_FAILURE(INTERNAL_SERVER_ERROR, "OAUTH-003", "구글의 사용자 정보를 받아오지 못했습니다."),
+    KAKAO_ACCESS_TOKEN_FAILURE(INTERNAL_SERVER_ERROR, "OAUTH-004", "카카오의 Access Token을 받아오지 못했습니다."),
+    KAKAO_USER_INFO_FAILURE(INTERNAL_SERVER_ERROR, "OAUTH-005", "카카오의 사용자 정보를 받아오지 못했습니다."),
 
     /* 멤버 */
     MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER-001", "주어진 ID에 해당하는 Member가 없습니다."),

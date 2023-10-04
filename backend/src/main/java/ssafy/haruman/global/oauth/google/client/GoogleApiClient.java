@@ -3,6 +3,8 @@ package ssafy.haruman.global.oauth.google.client;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
+import ssafy.haruman.global.error.exception.GoogleAccessTokenFailureException;
+import ssafy.haruman.global.error.exception.GoogleUserInfoFailureException;
 import ssafy.haruman.global.oauth.google.dto.GoogleMemberResponse;
 import ssafy.haruman.global.oauth.google.dto.GoogleToken;
 import ssafy.haruman.global.utils.WebClientUtil;
@@ -28,7 +30,7 @@ public class GoogleApiClient {
                 .block();
 
         if (googleToken == null) {
-            throw new RuntimeException("구글 access token을 받아오지 못함.");
+            throw GoogleAccessTokenFailureException.EXCEPTION;
         }
 
         return googleToken;
@@ -45,7 +47,7 @@ public class GoogleApiClient {
                 .block();
 
         if (googleMemberResponse == null) {
-            throw new RuntimeException("구글 사용자 정보를 받아오지 못함");
+            throw GoogleUserInfoFailureException.EXCEPTION;
         }
 
         return googleMemberResponse;
