@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import MainStyle from "../components/MainStyle";
 import "../styles/theme.css";
 import "../styles/wave.scss";
+import "../styles/LandingPageStyle.scss"
 
 // components
 import RegisterButton from "../components/RegistButton";
@@ -39,22 +40,24 @@ const Homepage = () => {
     leftoverAmount: 0,
     challengeStatus: "null",
   });
-
-  useEffect(() => {
-    selectDailyChallenge();
-  }, []);
-  useEffect(() => {
-    console.log("[useEffect] challengeInfo : ", challengeInfo);
-  }, [challengeInfo]);
   
   // 매 초마다 시간 재설정
   useEffect(() => {
+    selectDailyChallenge();
+    
     const intervalId = setInterval(() => {
       setCurrentDate(new Date());
     }, 1000);
 
     return () => clearInterval(intervalId);
   }, []);
+
+  // useEffect(() => {
+  //   handleWave(
+  //     challengeInfo.leftoverAmount,
+  //     challengeInfo.targetAmount * (1 - (amountPercent/60))
+  //   );
+  // }, [challengeInfo]);
 
   useEffect(() => {
     let targetModalTop: number = isModalOpen ? 25: 100;
@@ -168,7 +171,12 @@ const Homepage = () => {
         setAmountPercent(targetAmount);
       }
     }
-    requestAnimationFrame(frame);
+    
+    const intervalWave = setInterval(() => {
+      requestAnimationFrame(frame);
+    }, 1000);
+
+    clearInterval(intervalWave);
 
     function lerp(s:number, e:number, a:number) {
       return s + (e-s) * a;
@@ -193,7 +201,9 @@ const Homepage = () => {
 
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="loading_text">
+      로딩중...
+    </div>;
   } else {
     return (
       <MainStyle>
@@ -252,13 +262,15 @@ const Homepage = () => {
                   <Link to="/today" className="linkto_today">
                     <div className="progress_challenge">
                       <div className="progress_challenge_title">
+                        <h2>
                         {
                           challengeInfo 
                           && challengeInfo.leftoverAmount 
                           && (
-                            <h2>{numberFormatter(challengeInfo.leftoverAmount)}</h2>
+                            numberFormatter(challengeInfo.leftoverAmount)
                           )
                         }
+                        </h2>
                         <h3>원</h3>
                       </div>
                     </div>
@@ -335,6 +347,7 @@ const Homepage = () => {
               modalTop = {modalTop}
               setIsModalOpen = {setIsModalOpen}
               challengeInfo = {challengeInfo}
+              setChallengeInfo = {setChallengeInfo}
               handleWave = {handleWave}
             />
           }

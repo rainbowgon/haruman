@@ -5,15 +5,16 @@ import moment from "moment";
 import axios from "axios";
 import ChallengeCounterForm from "./ChallengeCounterForm";
 import { API_URL } from "../../constants/urls";
+import { ChallengeDate } from "../../constants/interfaces";
 
 interface CalendarFormProp {
-  selectChallengeId: number | null;
-  setSelectChallengeId: any;
+  selectChallenge: ChallengeDate | undefined;
+  setSelectChallenge: any;
 }
 
 const CalendarForm = ({
-  selectChallengeId,
-  setSelectChallengeId,
+  selectChallenge,
+  setSelectChallenge,
 } : CalendarFormProp) => {
   // 테스트용
   const accessToken = process.env.REACT_APP_accessToken;
@@ -29,16 +30,16 @@ const CalendarForm = ({
 
   const [selectedChallengeDates, setSelectedChallengeDates] = useState("2023-09-01");
 
-  const [challengeDates, setChallengeDates] = useState([
+  const [challengeDates, setChallengeDates] = useState<ChallengeDate[]>([
     {
       "date": "2023-09-01",
       "challengeId": 2,
-      "status": "SUCCEED",
+      "status": "SUCCESS",
     },
     {
       "date": "2023-09-17",
       "challengeId": 3,
-      "status": "FAILED",
+      "status": "FAIL",
     },
   ])
 
@@ -51,9 +52,9 @@ const CalendarForm = ({
     var failCount = 0;
     
     challengeDates.forEach((challenge) => {
-      if (challenge.status === "SUCCEED") {
+      if (challenge.status === "SUCCESS") {
         successCount++;
-      } else if (challenge.status === "FAILED") {
+      } else if (challenge.status === "FAIL") {
         failCount++;
       }
     });
@@ -61,29 +62,6 @@ const CalendarForm = ({
     setSuccessCount(successCount);
     setFailCount(failCount);
   }, [challengeDates]);
-
-  // useEffect(() => {
-
-  // try {
-  // axios.get(`${countCapsuleURL}`, {
-  // headers: {
-  // 'userId': userId,
-  // }
-  // })
-  // .then((response) => {
-  // const finishedCapsules = response.data.doneNum || 0
-  // const counts = response.data.articleNum
-  // setFinishedProject(finishedCapsules)
-  // setCountMemory(counts)
-  // })
-  // .catch(() => {
-  // const finishedCapsules = 0
-  // setFinishedProject(finishedCapsules)
-  // })
-  // }
-  // catch (error) {
-  // }
-  // },[]);
 
   const handleClickDay = (value : Date) => {
     const year = `${value.getFullYear()}`;
@@ -99,18 +77,17 @@ const CalendarForm = ({
     }
 
     setSelectedChallengeDates(`${year}-${month}-${day}`);
-    setSelectChallengeId(null);
     
+    console.log(challengeDates);
     challengeDates.find(
       (challenge) => {
-        console.log(challenge.date === `${year}-${month}-${day}`, challenge.date, `${year}-${month}-${day}`);
+        console.log(challenge, challenge.date === `${year}-${month}-${day}`, challenge.date, `${year}-${month}-${day}`);
         if (challenge.date === `${year}-${month}-${day}`){
           console.log("challenge.challengeId : ", challenge.challengeId);
-          setSelectChallengeId(challenge.challengeId);
+          setSelectChallenge(challenge);
         }
       }
     );
-    // alert('Clicked day: ' + value)
   };
 
   // 월 변경 시 호출할 함수
@@ -119,7 +96,6 @@ const CalendarForm = ({
     const year = newDate.getFullYear();
     const month = newDate.getMonth() + 1;
 
-    // setChallengeDates();
     console.log('월이 변경되었습니다.', `${year}-${month}`);
 
     axios.get(`${API_URL}${contextPath}${challengeAPI}/history?date=${year}-${month}`,
@@ -156,12 +132,15 @@ const CalendarForm = ({
         );
 
         if (foundChallenge) {
-          if (foundChallenge.status === "FAILED") {
+          if (foundChallenge.status === "FAIL") {
             return "highlight1";
-          } else if (foundChallenge.status === "SUCCEED") {
+          } else if (foundChallenge.status === "SUCCESS") {
             return "highlight2";
+          } else if (foundChallenge.status === "PROGRESS") {
+            return "highlight3";
           }
-        } else if (selectedChallengeDates === dateString) {
+        }
+        else if (selectedChallengeDates === dateString) {
           return "highlight3";
         }
       }}
@@ -177,8 +156,8 @@ const CalendarForm = ({
     {/* 선택 달 성공 실패 횟수 */}
     <div className="challengecounter_form">
       <ChallengeCounterForm
-        failCount = {successCount}
-        successCount = {failCount}
+        successCount = {successCount}
+        failCount = {failCount}
       />
     </div>
   </>
