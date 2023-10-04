@@ -17,6 +17,8 @@ public interface ChallengeService {
 
     void endChallenge();
 
+    void testEndChallenge();
+
     List<ChallengeUserListResponseDto> selectChallengeUserList();
 
     AccumulatedAmountResponseDto selectAccumulatedAmount(Profile profile);

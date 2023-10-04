@@ -32,3 +32,14 @@ insert into challenge (challenge_id, profile_id, is_valid, target_amount, used_a
 insert into challenge (challenge_id, profile_id, is_valid, target_amount, used_amount, leftover_amount, challenge_status, created_at, start_time, end_time, is_viewed) values (28, 6, 'VALID', 10000, 0, 10000, 'PROGRESS', '2023-10-03 11:32:19', '2023-10-03 11:32:19', '2023-10-04 00:00:00', 'NOT_VIEWED');
 INSERT INTO expense (expense_id, category_id, challenge_id, created_at, is_valid, content, pay_amount) VALUES (1, 2, 24, '2023-10-03 13:00:00', 'VALID', '맘스터치', 3000);
 INSERT INTO expense (expense_id, category_id, challenge_id, created_at, is_valid, content, pay_amount) VALUES (2, 3, 24, '2023-10-03 14:00:00', 'VALID', '메머드커피', 1310);
+INSERT INTO expense (expense_id, category_id, challenge_id, created_at, is_valid, content, pay_amount) VALUES (3, 2, 24, '2023-10-03 14:01:00', 'VALID', '메머드커피', 1310);
+INSERT INTO expense (expense_id, category_id, challenge_id, created_at, is_valid, content, pay_amount) VALUES (4, 2, 24, '2023-10-03 14:02:00', 'VALID', '메머드커피', 1310);
+INSERT INTO expense (expense_id, category_id, challenge_id, created_at, is_valid, content, pay_amount) VALUES (5, 4, 24, '2023-10-03 14:03:00', 'VALID', '메머드커피', 1310);
+INSERT INTO expense (expense_id, category_id, challenge_id, created_at, is_valid, content, pay_amount) VALUES (6, 5, 24, '2023-10-03 14:04:00', 'VALID', '메머드커피', 1310);
+INSERT INTO expense (expense_id, category_id, challenge_id, created_at, is_valid, content, pay_amount) VALUES (7, 6, 24, '2023-10-03 14:05:00', 'VALID', '메머드커피', 1310);
+INSERT INTO deposit (deposit_id, profile_id, bank, name, description, interest_rate, created_at, is_valid) VALUES (1, 1, '신한은행', 'My365적금', '기가막힌 적금', 4.50, '2023-10-03 14:00:00', 'VALID');
+INSERT INTO deposit (deposit_id, profile_id, bank, name, description, interest_rate, created_at, is_valid) VALUES (2, 1, '국민은행', 'KB적금', '코가 뚫리는 적금', 4.30, '2023-10-03 15:00:00', 'VALID');
+INSERT INTO deposit (deposit_id, profile_id, bank, name, description, interest_rate, created_at, is_valid) VALUES (3, 2, '신한은행', 'SOL적금', '빛이나는 적금', 4.02, '2023-10-03 16:00:00', 'VALID');
+INSERT INTO deposit (deposit_id, profile_id, bank, name, description, interest_rate, created_at, is_valid) VALUES (4, 3, '우리은행', '우리적금', '너네 적금', 3.00, '2023-10-03 17:00:00', 'VALID');
+INSERT INTO deposit (deposit_id, profile_id, bank, name, description, interest_rate, created_at, is_valid) VALUES (5, 4, '하나은행', 'ONE적금', '투 적금', 5.00, '2023-10-03 15:07:00', 'VALID');
+INSERT INTO deposit (deposit_id, profile_id, bank, name, description, interest_rate, created_at, is_valid) VALUES (6, 5, '국민은행', 'KB짱짱적금', '굿 적금', 4.20, '2023-10-03 18:00:00', 'VALID');

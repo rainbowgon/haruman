@@ -48,12 +48,6 @@ public class ChallengeController {
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
     }
 
-//    @Scheduled(cron = "0 0 0 * * *")
-//    public ResponseEntity<ResponseWrapper<Nullable>> endChallenge() {
-//
-//        challengeService.endChallenge();
-//        return JsonResponse.ok("챌린지가 종료되고 사용자 정보가 업데이트되었습니다.");
-//    }
 
     @GetMapping("/people")
     public ResponseEntity<ResponseWrapper<List<ChallengeUserListResponseDto>>> selectChallengeUserList() {
@@ -133,6 +127,14 @@ public class ChallengeController {
         List<ExpenseResponseDto> responseDto = expenseService.selectDailyExpenseList(member.getProfile(), challengeId);
 
         return JsonResponse.ok("지출내역 리스트를 불러왔습니다.", responseDto);
+    }
+
+    @GetMapping("/end")
+    public ResponseEntity<ResponseWrapper<Nullable>> testExpense() {
+
+        challengeService.testEndChallenge();
+
+        return JsonResponse.ok("지출내역이 삭제되었습니다.");
     }
 
 }

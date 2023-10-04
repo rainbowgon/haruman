@@ -1,15 +1,15 @@
 package ssafy.haruman.domain.challenge.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ssafy.haruman.domain.challenge.dto.response.*;
-import ssafy.haruman.domain.challenge.entity.Challenge;
-import ssafy.haruman.domain.challenge.entity.ChallengeGroup;
-import ssafy.haruman.domain.challenge.entity.ChallengeStatus;
-import ssafy.haruman.domain.challenge.entity.ViewStatus;
+import ssafy.haruman.domain.challenge.entity.*;
 import ssafy.haruman.domain.challenge.repository.ChallengeRepository;
 import ssafy.haruman.domain.challenge.repository.ChallengeUserInfoMapping;
+import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.error.exception.ChallengeAlreadyExistsException;
 import ssafy.haruman.global.error.exception.ChallengeWrongDataException;
@@ -20,9 +20,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +28,9 @@ import java.util.stream.Collectors;
 public class ChallengeServiceImpl implements ChallengeService {
 
     private final ChallengeRepository challengeRepository;
+    private final ExpenseRepository expenseRepository;
+    private final RedisTemplate<String, Float> floatRedisTemplate;
+
 
     @Override
     @Transactional
@@ -98,10 +99,44 @@ public class ChallengeServiceImpl implements ChallengeService {
 
         List<Challenge> list = challengeRepository.findAllByStatus();
         // 챌린지가 없을 때 빈리스트가 반환되어 아무 결과 처리 없음
+        ValueOperations<String, Float> valueOperations = floatRedisTemplate.opsForValue();
+
 
         for (Challenge challenge : list) {
-            challenge.updateChallengeStatus(challenge.getTargetAmount() - challenge.getUsedAmount() < 0
-                                                    ? ChallengeStatus.FAIL : ChallengeStatus.SUCCESS);
+            if (challenge.getTargetAmount() - challenge.getUsedAmount() < 0) {
+                challenge.updateChallengeStatus(ChallengeStatus.FAIL);
+            } else {
+                challenge.updateChallengeStatus(ChallengeStatus.SUCCESS);
+                List<Expense> expenseList = expenseRepository.findAllByChallenge(challenge);
+                // 카테고리별 소비 총액을 저장할 맵 생성
+                Map<String, Float> categoryTotalSpent = new HashMap<>();
+
+                // 전체 소비 총액을 저장할 변수
+                float totalSpent = 0.0f;
+
+                // Expense 항목을 반복하면서 카테고리별 소비 총액 계산
+                for (Expense expense : expenseList) {
+                    String categoryName = expense.getCategory().getName();
+                    float payAmount = expense.getPayAmount();
+
+                    // 카테고리별 소비 총액 업데이트
+                    categoryTotalSpent.put(categoryName, categoryTotalSpent.getOrDefault(categoryName, 0.0f) + payAmount);
+
+                    // 전체 소비 총액 업데이트
+                    totalSpent += payAmount;
+                }
+
+                // 카테고리별 소비 비율을 계산하고 Redis에 저장
+                for (Map.Entry<String, Float> entry : categoryTotalSpent.entrySet()) {
+                    String categoryName = entry.getKey();
+                    float categorySpent = entry.getValue();
+                    float categoryRatio = (categorySpent / totalSpent) * 100.0f;
+
+                    float preCategoryRatio = valueOperations.get(categoryName);
+                    // Redis에 카테고리별 소비 비율 저장
+                    valueOperations.set(categoryName, preCategoryRatio + categoryRatio);
+                }
+            }
         }
     }
 
@@ -150,4 +185,53 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .collect(Collectors.toList());
     }
 
+
+    @Override
+    @Transactional
+//    @Scheduled(cron = "0 0 0 * * *")
+    public void testEndChallenge() {
+
+        List<Challenge> list = challengeRepository.findAllByStatus();
+        // 챌린지가 없을 때 빈리스트가 반환되어 아무 결과 처리 없음
+        ValueOperations<String, Float> valueOperations = floatRedisTemplate.opsForValue();
+        valueOperations.set("cnt", (float) (list.size()));
+
+        for (Challenge challenge : list) {
+            if (challenge.getTargetAmount() - challenge.getUsedAmount() < 0) {
+                challenge.updateChallengeStatus(ChallengeStatus.FAIL);
+            } else {
+                challenge.updateChallengeStatus(ChallengeStatus.SUCCESS);
+                List<Expense> expenseList = expenseRepository.findAllByChallenge(challenge);
+                // 카테고리별 소비 총액을 저장할 맵 생성
+                Map<String, Float> categoryTotalSpent = new HashMap<>();
+
+                // 전체 소비 총액을 저장할 변수
+                float totalSpent = 0.0f;
+
+                // Expense 항목을 반복하면서 카테고리별 소비 총액 계산
+                for (Expense expense : expenseList) {
+                    String categoryName = expense.getCategory().getName();
+                    float payAmount = expense.getPayAmount();
+
+                    // 카테고리별 소비 총액 업데이트
+                    categoryTotalSpent.put(categoryName, categoryTotalSpent.getOrDefault(categoryName, 0.0f) + payAmount);
+
+                    // 전체 소비 총액 업데이트
+                    totalSpent += payAmount;
+                }
+
+                // 카테고리별 소비 비율을 계산하고 Redis에 저장
+                for (Map.Entry<String, Float> entry : categoryTotalSpent.entrySet()) {
+                    String categoryName = entry.getKey();
+                    float categorySpent = entry.getValue();
+                    float categoryRatio = (categorySpent / totalSpent) * 100.0f;
+
+                    float preCategoryRatio = valueOperations.get(categoryName);
+                    System.out.println(preCategoryRatio);
+                    // Redis에 카테고리별 소비 비율 저장
+                    valueOperations.set(categoryName, (preCategoryRatio + categoryRatio) / valueOperations.get("cnt"));
+                }
+            }
+        }
+    }
 }
