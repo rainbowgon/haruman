@@ -8,6 +8,7 @@ import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.ExpenseResponseDto;
 import ssafy.haruman.domain.challenge.entity.Challenge;
+import ssafy.haruman.domain.challenge.entity.ChallengeStatus;
 import ssafy.haruman.domain.challenge.entity.Expense;
 import ssafy.haruman.domain.challenge.repository.ChallengeRepository;
 import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
@@ -32,8 +33,13 @@ public class ExpenseServiceImpl implements ExpenseService {
     public ExpenseResponseDto createExpense(Profile profile, Long challengeId, ExpenseCreateRequestDto createRequestDto) {
 
         Challenge challenge = getChallenge(challengeId);
+
         if (!challenge.getProfile().getId().equals(profile.getId())) {
             throw ChallengeUnauthorizedException.EXCEPTION;
+        }
+
+        if (!challenge.getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
+            throw ExpenseNotAllowedException.EXCEPTION;
         }
 
         Category category = getCategory(createRequestDto.getCategoryId());
@@ -61,8 +67,13 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         Expense expense = getExpense(updateRequestDto.getExpenseId());
         Challenge challenge = expense.getChallenge();
+
         if (!challenge.getProfile().getId().equals(profile.getId())) {
             throw ExpenseUnauthorizedException.EXCEPTION;
+        }
+
+        if (!challenge.getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
+            throw ExpenseNotAllowedException.EXCEPTION;
         }
 
         Category category = getCategory(updateRequestDto.getCategoryId());
@@ -79,8 +90,13 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         Expense expense = getExpense(expenseId);
         Challenge challenge = expense.getChallenge();
+
         if (!challenge.getProfile().getId().equals(profile.getId())) {
             throw ExpenseUnauthorizedException.EXCEPTION;
+        }
+
+        if (!challenge.getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
+            throw ExpenseNotAllowedException.EXCEPTION;
         }
 
         updateChallengeAmount(challenge, -expense.getPayAmount());
