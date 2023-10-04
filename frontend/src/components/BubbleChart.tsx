@@ -95,55 +95,6 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   const [data, setData] = useState<DataPoint[]>(ranges);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [pageInfo, setPageInfo] = useState<any>({});
-  // useEffect(() => {
-  //   const fetchChartData = async () => {
-  //     // const accessToken = sessionStorage.getItem("accessToken");
-  //     const accessToken = process.env.REACT_APP_accessToken;
-  //     console.log("accessToken", accessToken);
-
-  //     try {
-  //       const response = await axios.get<ApiResponse>(
-  //         `${API_URL}/api/challenges/people`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${accessToken}`,
-  //           },
-  //         },
-  //       );
-  //       setPageInfo(response.data.pageInfo.size);
-  //       console.log("response", response);
-  //       console.log("allUsers", response.data.pageInfo.size);
-  //       console.log("allUsers", typeof response.data.pageInfo.size);
-  //       const groupedData = response.data.data;
-
-  //       const updatedData: DataPoint[] = groupedData.map((group) => ({
-  //         label: group.groupKey,
-  //         users: group.userList.length,
-  //         color: getColorForGroup(group.groupKey),
-  //         min: 0,
-  //         max: 100000,
-  //         // 다른 필요한 속성들은 여기에 추가하실 수 있습니다.
-  //       }));
-  //       setData(updatedData);
-
-  //       groupedData.forEach((group) => {
-  //         const matchingRange = updatedData.find(
-  //           (range) => range.label === group.groupKey,
-  //         );
-  //         if (matchingRange) {
-  //           matchingRange.users = group.userList.length;
-  //         }
-  //       });
-
-  //       setRanges(updatedData);
-  //       console.log("여기선 찍히나/?", updatedData);
-  //     } catch (error) {
-  //       console.error("Error fetching user data:", error);
-  //     }
-  //   };
-
-  //   fetchChartData();
-  // }, []);
   useEffect(() => {
     const fetchChartData = async () => {
       const accessToken = process.env.REACT_APP_accessToken;
