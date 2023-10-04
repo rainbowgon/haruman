@@ -62,43 +62,21 @@ pipeline {
         //     }
         // }
 
-        // stage('Delete existing Docker images and containers') {
-        //     steps {
-        //         sh'''
-        //             if docker container inspect haruman_server >/dev/null 2>&1; then
-        //                 echo "container exists locally"
-        //                 docker stop haruman_server
-        //                 docker rm haruman_server
-        //             else
-        //                 echo "container does not exist locally"
-        //             fi
-        //             if docker image inspect server >/dev/null 2>&1; then
-        //                 echo "Image exists locally"
-        //                 docker rmi server 
-        //             else
-        //                 echo "Image does not exist locally"
-        //             fi
-        //         '''
-        //     }
-        // }
-
         stage('Zero Downtime Deployment') {
             steps {
                 sh'''
                     echo "\n****** Blue Health Check & Build ******"
 
-                    
                     # 8081 포트가 살아있다면 -> 8082 포트 그린에 배포
                     # 8081 포트가 죽어있다면 -> 8081 포트 블루에 배포
                     if curl -s "http://3.34.135.50:8081" > /dev/null
                     then
                         deployment_target_port=8082
                         deployment_target=green
+                        opposite_target=blue
                     else
                         deployment_target_port=8081
                         deployment_target=blue
-<<<<<<< HEAD
-=======
                         opposite_target=green
                     fi
 
@@ -109,15 +87,14 @@ pipeline {
                         echo "${deployment_target}-image exists locally & removed"
                     else
                         echo "${deployment_target}-image does not exist locally"
->>>>>>> 1839fa74367ce392bc386e53d49af9ab0c8977a6
                     fi
 
                     # 백 빌드를 해서 타겟포트(호스트) 8081(컨테이너내부) 이미지로 만들어서
                     # 블루 그린 이름을 붙여서 도커 run
-                    echo [BE] Green Build Docker Image!
-                    docker build -t server ./backend
-                    echo [BE] Green Run Docker Container!
-                    docker run -dp ${deployment_target_port}:8081 --name haruman_server_${deployment_target} server
+                    echo [BE] Green Build Docker Image
+                    docker build -t server_${deployment_target} ./backend
+                    echo [BE] Green Run Docker Container
+                    docker run -dp ${deployment_target_port}:8081 --name haruman_server_${deployment_target} server_${deployment_target}
  
 
                     echo "\n****** Continuous Green Health Check ******"
@@ -143,28 +120,23 @@ pipeline {
                     done
 
 
-                    echo "\n****** Nginx Proxy Redirect & Kill Blue ******"
+                    echo "\n****** Nginx Proxy Redirect ******"
 
                     # nginx 컨테이너 접속
                     ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io /bin/bash
 
                     # 블루 8081 -> 그린 8082로 바꿈
                     # 그린 8082 -> 블루 8081로 바꿈
-                    if [ "${deployment_target}" == blue ]
+                    if [ "${deployment_target}" == green ]
                     then
                         docker exec haruman_nginx_1 bash -c "echo 'set \$service_url 3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
                         echo "Switch the reverse proxy direction of nginx to ${deployment_target} http://3.34.135.50:${deployment_target_port} 🟢🟩"
-                        
                     else
                         docker exec haruman_nginx_1 bash -c "echo 'set \$service_url 3.34.135.50:8081;' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
                         echo "Switch the reverse proxy direction of nginx to ${deployment_target} http://3.34.135.50:${deployment_target_port} 🔵🟦"
-                        
                     fi
-                    echo "Kill the process on the opposite server."
 
 
-<<<<<<< HEAD
-=======
                     echo "\n****** Kill the process on the opposite server ******""
                     # 리다이렉트 후 다른 컨테이너가 존재하면 내림
                     if docker container inspect haruman_server_${opposite_target} >/dev/null 2>&1; then
@@ -174,7 +146,6 @@ pipeline {
                     else
                         echo "${opposite_target}-container does not exist locally"
                     fi
->>>>>>> 1839fa74367ce392bc386e53d49af9ab0c8977a6
 
                 '''
             }
