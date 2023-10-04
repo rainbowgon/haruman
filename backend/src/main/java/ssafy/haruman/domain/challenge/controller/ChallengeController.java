@@ -16,6 +16,7 @@ import ssafy.haruman.global.response.JsonResponse;
 import ssafy.haruman.global.response.PageInfo;
 import ssafy.haruman.global.response.ResponseWrapper;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -130,7 +131,7 @@ public class ChallengeController {
     }
 
     @GetMapping("/end")
-    public ResponseEntity<ResponseWrapper<Nullable>> testExpense() {
+    public ResponseEntity<ResponseWrapper<Nullable>> testExpense() throws IOException {
 
         challengeService.testEndChallenge();
 

@@ -6,6 +6,7 @@ import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
 import ssafy.haruman.domain.profile.entity.Profile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface ChallengeService {
 
     void endChallenge();
 
-    void testEndChallenge();
+    void testEndChallenge() throws IOException;
 
     List<ChallengeUserListResponseDto> selectChallengeUserList();
 

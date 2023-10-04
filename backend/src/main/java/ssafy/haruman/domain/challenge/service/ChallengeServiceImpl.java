@@ -15,8 +15,10 @@ import ssafy.haruman.global.error.exception.ChallengeAlreadyExistsException;
 import ssafy.haruman.global.error.exception.ChallengeWrongDataException;
 import ssafy.haruman.global.gpt.dto.response.CompletionChatResponse;
 import ssafy.haruman.global.gpt.service.GPTChatRestService;
+import ssafy.haruman.global.gpt.vo.BankProduct;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -33,6 +35,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     private final ExpenseRepository expenseRepository;
     private final RedisTemplate<String, Float> floatRedisTemplate;
 
+    private final String FILE_NAME = "bank_products.json";
     private final GPTChatRestService gptChatRestService;
     private static StringBuilder sb = new StringBuilder();
 
@@ -194,11 +197,14 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Override
     @Transactional
 //    @Scheduled(cron = "0 0 0 * * *")
-    public void testEndChallenge() {
+    public void testEndChallenge() throws IOException {
 
         List<Challenge> list = challengeRepository.findAllByStatus();
         // 챌린지가 없을 때 빈리스트가 반환되어 아무 결과 처리 없음
         ValueOperations<String, Float> valueOperations = floatRedisTemplate.opsForValue();
+        List<BankProduct> bankProductList = gptChatRestService.parseJsonFileToBankProductList();
+        StringBuilder Bank = gptChatRestService.sendBankProductListToGPT(bankProductList);
+
         sb.append("선호하는 카테고리 : ");
 
         for (Challenge challenge : list) {
@@ -242,9 +248,9 @@ public class ChallengeServiceImpl implements ChallengeService {
                     }
                 }
 
-                sb.append("\n").append("내가 알려준 적금 중에서 적합한 적금 3개를 (은행명, 적금이름, 적금설명 및 추천이유, 이율)의 형태로 알려줘");
+                sb.append("\n").append("내가 알려준 적금 중에서 적합한 적금 3개를 (은행명, 적금이름, 적금설명 및 추천이유, 이율) 각각을 키로 JSON형태로 알려줘");
                 System.out.println(sb.toString());
-                CompletionChatResponse completionChatResponse = gptChatRestService.GPT(sb.toString());
+                CompletionChatResponse completionChatResponse = gptChatRestService.GPT(Bank + sb.toString());
                 sb.setLength(0);
                 for (int i = 0; i < completionChatResponse.getMessages().size(); i++) {
                     System.out.println(completionChatResponse.getMessages().get(i).getMessage());
