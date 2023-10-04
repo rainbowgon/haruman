@@ -137,7 +137,6 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
   useEffect(() => {
     if (pageInfo.size) {
-      // pageInfo.size가 있을 때만 차트를 그립니다.
       createForceBubbleChart(ranges, pageInfo);
     }
   }, [ranges, pageInfo]);
@@ -177,7 +176,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .force(
         "collide",
         d3.forceCollide(
-          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.2),
+          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.4),
         ),
       )
       .on("tick", ticked);
@@ -188,7 +187,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
       u.enter()
         .append<SVGCircleElement>("circle")
-        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.2))
+        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.4))
         .attr("fill", (d) => d.color || "#8884d8")
         // .attr("stroke", "#fff")
         // .attr("stroke-width", 2)

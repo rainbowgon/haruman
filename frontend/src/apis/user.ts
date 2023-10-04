@@ -68,7 +68,9 @@ export const redirectKakao = () => {
 
 // 카카오 로그인
 export const loginKakao = async (code: string) => {
-  const res = await axiosInstance.get<any>(`/api/oauth/kakao/login?code=${code}`);
+  const res = await axiosInstance.get<any>(
+    `/api/oauth/kakao/login?code=${code}`,
+  );
   return res.data;
 };
 
@@ -80,7 +82,9 @@ export const redirectGoogle = () => {
 
 // 구글 로그인
 export const loginGoogle = async (code: string) => {
-  const res = await axiosInstance.get<any>(`/api/oauth/google/login?code=${code}`);
+  const res = await axiosInstance.get<any>(
+    `/api/oauth/google/login?code=${code}`,
+  );
   return res.data;
 };
 

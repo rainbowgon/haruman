@@ -4,7 +4,6 @@ import React from "react";
 // scss
 import "../styles/components/RegistButtonStyle.scss";
 
-
 export interface ButtonProps {
   text: string;
   onClick: (event: any) => void;
@@ -12,7 +11,12 @@ export interface ButtonProps {
   style?: React.CSSProperties;
 }
 
-export default function Register({ text, onClick, className, style }: ButtonProps) {
+export default function Register({
+  text,
+  onClick,
+  className,
+  style,
+}: ButtonProps) {
   return (
     <div className="regist_button_box">
       <div className={`button_container`}>

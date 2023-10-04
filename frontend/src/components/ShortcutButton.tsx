@@ -11,7 +11,6 @@ import CalendarIcon from "../assets/icons/icon-calendarday.svg";
 import PiggybankIcon from "../assets/icons/icon-piggybank.svg";
 import PlusIcon from "../assets/icons/icon-plus.svg";
 
-
 export interface ButtonProps {
   text: string;
   onClick: (event: any) => void;
@@ -19,81 +18,66 @@ export interface ButtonProps {
   style?: React.CSSProperties;
 }
 
-function handleSelectIcon(textIcon:string) {
-  if (textIcon === "HomePage"){
+function handleSelectIcon(textIcon: string) {
+  if (textIcon === "HomePage") {
     return HomeIcon;
-  }
-  else if (textIcon === "TodayExpensePage"){
+  } else if (textIcon === "TodayExpensePage") {
     return CalendarIcon;
-  }
-  else if (textIcon === "CalendarPage"){
+  } else if (textIcon === "CalendarPage") {
     return CalendarIcon;
-  }
-  else if (textIcon === "RankingPage"){
+  } else if (textIcon === "RankingPage") {
     return ChartsetIcon;
-  }
-  else if (textIcon === "PiggybankIcon"){
+  } else if (textIcon === "PiggybankIcon") {
     return PiggybankIcon;
-  }
-  else {
+  } else {
     return PlusIcon;
   }
 }
 
-function handleSelectText(text:string) {
-  if (text === "HomePage"){
+function handleSelectText(text: string) {
+  if (text === "HomePage") {
     return "홈";
-  }
-  else if (text === "TodayExpensePage"){
+  } else if (text === "TodayExpensePage") {
     return "투데이";
-  }
-  else if (text === "CalendarPage"){
+  } else if (text === "CalendarPage") {
     return "홈";
-  }
-  else if (text === "RankingPage"){
+  } else if (text === "RankingPage") {
     return "랭킹";
-  }
-  else if (text === "PiggybankIcon"){
+  } else if (text === "PiggybankIcon") {
     return "추천";
-  }
-  else {
+  } else {
     return "추가기능";
   }
 }
 
 export default function ShortcutButton({
-  text, 
-  onClick, 
-  className, 
-  style 
+  text,
+  onClick,
+  className,
+  style,
 }: ButtonProps) {
   const navigate = useNavigate();
 
   const handleShortcut = () => {
-    if (text === "HomePage"){
+    if (text === "HomePage") {
       navigate("/home");
       return;
-    }
-    else if (text === "TodayExpensePage"){
+    } else if (text === "TodayExpensePage") {
       navigate("/today");
       return;
-    }
-    else if (text === "CalendarPage"){
+    } else if (text === "CalendarPage") {
       navigate("/calendar");
       return;
-    }
-    else if (text === "RankingPage"){
+    } else if (text === "RankingPage") {
       navigate("/ranking");
       return;
-    }
-    else if (text === "PiggybankIcon"){
+    } else if (text === "PiggybankIcon") {
       navigate("/save");
       return;
-    }
-    else {
+    } else {
       return;
     }
-  }
+  };
   return (
     <div className="shortcut_button_box">
       <div className={`shortcut_button_container`}>
@@ -102,7 +86,11 @@ export default function ShortcutButton({
           style={style}
           onClick={handleShortcut}
         >
-          <img className="shortcut_button_icon" src={handleSelectIcon(text)} alt="로고"></img>
+          <img
+            className="shortcut_button_icon"
+            src={handleSelectIcon(text)}
+            alt="로고"
+          ></img>
           <p className="shortcut_button_text">{handleSelectText(text)}</p>
         </button>
       </div>

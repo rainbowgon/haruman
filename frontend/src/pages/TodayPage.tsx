@@ -17,6 +17,8 @@ import SpentItem from "../components/SpentItem";
 import { CategoryItem, ChallengeItem } from "../constants/interfaces";
 import axios from "axios";
 import { API_URL } from "../constants/urls";
+import HeaderTitle from "../components/HeaderTitle";
+import MiddleTitle from "../components/MiddleTitle";
 
 const TodayPage = () => {
   // const [costItems, setCostItems] = useState<ChallengeItem[]>([]);
@@ -26,7 +28,7 @@ const TodayPage = () => {
 
   const accessToken = process.env.REACT_APP_accessToken;
   const contextPath = `/api`;
-  const challengeAPI = "/challenges/24";
+  const challengeAPI = "/challenges/23";
 
   useEffect(() => {
     axios
@@ -48,12 +50,14 @@ const TodayPage = () => {
     <CenterContainer>
       <MainStyle>
         <div className="todaypage">
-          <div className="today_header">
-            <h2 className="main_title">하루 소비 지출 현황</h2>
-          </div>
+          <HeaderTitle
+            SubTitle={``}
+            MainTitle={`하루 소비 지출 현황`}
+          />
           {/* api용 */}
-          <DonutChart />
-
+          <div className="chart-container">
+            <DonutChart />
+          </div>
           {/* 더미용 */}
           {/* <DonutChart datas={costItems} /> */}
           <div className="challengeitems_list">
@@ -62,6 +66,7 @@ const TodayPage = () => {
                 name={item.categoryName}
                 mainValue={item.content}
                 moneyValue={item.payAmount}
+                color={item.categoryColor}
               />
             ))}
           </div>
