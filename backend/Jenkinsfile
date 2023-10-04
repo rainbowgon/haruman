@@ -80,13 +80,13 @@ pipeline {
                         opposite_target=green
                     fi
 
-                    # 기존 이미지가 존재하면 삭제
+                    # 해당 포트의 기존 이미지가 존재하면 삭제
                     echo delete existing Docker image
-                    if docker image inspect server_${opposite_target} >/dev/null 2>&1; then
-                        docker rmi server_${opposite_target}
-                        echo "${opposite_target}-image exists locally & removed"
+                    if docker image inspect server_${deployment_target} >/dev/null 2>&1; then
+                        docker rmi server_${deployment_target}
+                        echo "${deployment_target}-image exists locally & removed"
                     else
-                        echo "${opposite_target}-image does not exist locally"
+                        echo "${deployment_target}-image does not exist locally"
                     fi
 
                     # 백 빌드를 해서 타겟포트(호스트) 8081(컨테이너내부) 이미지로 만들어서
@@ -138,7 +138,7 @@ pipeline {
 
 
                     echo "\n****** Kill the process on the opposite server ******""
-                    # 기존 컨테이너가 존재하면 내림
+                    # 리다이렉트 후 다른 컨테이너가 존재하면 내림
                     if docker container inspect haruman_server_${opposite_target} >/dev/null 2>&1; then
                         echo "${opposite_target}-container exists locally & removed"
                         docker stop haruman_server_${opposite_target}
