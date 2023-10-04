@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssafy.haruman.domain.category.entity.Category;
 import ssafy.haruman.domain.category.repository.CategoryRepository;
-import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
-import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.*;
 import ssafy.haruman.domain.challenge.entity.*;
 import ssafy.haruman.domain.challenge.repository.ChallengeRepository;
@@ -25,6 +23,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,8 +38,8 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Transactional
     public DailyChallengeResponseDto startChallenge(Profile profile) {
 
-        Challenge challengeCheck = challengeRepository.findFirstChallenge(profile.getId());
-        if (challengeCheck != null && challengeCheck.getChallengeStatus() == ChallengeStatus.PROGRESS) {
+        Optional<Challenge> challenge = challengeRepository.findByProfileAndStatus(profile.getId());
+        if (challenge.isPresent()) {
             throw ChallengeAlreadyExistsException.EXCEPTION;
         }
 
@@ -49,7 +48,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 //            throw ChallengeNotAvailableException.EXCEPTION;
 //        }
 
-        Challenge challenge = Challenge.builder()
+        Challenge createdChallenge = Challenge.builder()
                 .profile(profile)
                 .startTime(LocalDateTime.now())
                 .endTime(LocalDateTime.now().plusDays(1).withHour(0).withMinute(0).withSecond(0))
@@ -59,72 +58,18 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .leftoverAmount(10000)
                 .isViewed(ViewStatus.NOT_VIEWED)
                 .build();
-        challengeRepository.save(challenge);
 
-        return DailyChallengeResponseDto.from(challengeRepository.findFirstChallenge(profile.getId()),
-                                              challengeRepository.countByStatus());
-    }
-
-    @Override
-    @Transactional
-    public ExpenseResponseDto createExpense(
-            Long challengeId, ExpenseCreateRequestDto createRequestDto) {
-
-        Challenge challenge = getChallenge(challengeId);
-        Category category = getCategory(createRequestDto.getCategoryId());
-
-        LocalDateTime payTime = createRequestDto.getPayTime() == null ? LocalDateTime.now()
-                : createRequestDto.getPayTime();
-
-        Expense expense = Expense.createExpense(challenge, category, createRequestDto, payTime);
-        expenseRepository.save(expense);
-
-        // 목표금액과 사용금액이 기준이 됨 -> 남은 금액은 매번 변경
-        updateChallengeAmount(challenge, challenge.getUsedAmount(), expense.getPayAmount());
-
-        return ExpenseResponseDto.from(expense);
-    }
-
-    @Override
-    @Transactional
-    public ExpenseResponseDto updateExpense(ExpenseUpdateRequestDto updateRequestDto) {
-
-        Expense expense = getExpense(updateRequestDto.getExpenseId());
-        Challenge challenge = expense.getChallenge();
-        Category category = getCategory(updateRequestDto.getCategoryId());
-
-        updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(), updateRequestDto.getPayAmount());
-
-        expense.updateExpense(category, updateRequestDto.getPayAmount(), updateRequestDto.getContent());
-
-        return ExpenseResponseDto.from(expense);
-    }
-
-    @Override
-    @Transactional
-    public void deleteExpense(Long expenseId) {
-
-        Expense expense = getExpense(expenseId);
-        Challenge challenge = expense.getChallenge();
-
-        updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(), 0);
-
-        expenseRepository.delete(expense);
-    }
-
-    @Override
-    public List<ExpenseResponseDto> selectDailyExpenseList(Long challengeId) {
-
-        return expenseRepository.findAllByChallenge_Id(challengeId)
-                .stream()
-                .map(expense -> ExpenseResponseDto.from(expense)).collect(Collectors.toList());
+        return DailyChallengeResponseDto.from(challengeRepository.save(createdChallenge), challengeRepository.countByStatus());
     }
 
     @Override
     @Transactional
     public DailyChallengeResponseDto selectDailyChallenge(Profile profile) {
-        Challenge challenge = challengeRepository.findFirstChallenge(profile.getId());
-        // 챌린지가 없다면 return null
+
+        Optional<Challenge> challenge = challengeRepository.findFirstChallenge(profile.getId());
+
+        if (challenge.isEmpty() || )
+
         Integer participantCount = challengeRepository.countByStatus();
 
         if (challenge == null || challenge.getIsViewed().equals(ViewStatus.VIEWED)) {
@@ -151,21 +96,15 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     private Challenge getChallenge(Long challengeId) {
-
-        return challengeRepository.findById(challengeId)
-                .orElseThrow(() -> ChallengeNotFoundException.EXCEPTION);
+        return challengeRepository.findById(challengeId).orElseThrow(() -> ChallengeNotFoundException.EXCEPTION);
     }
 
     private Expense getExpense(Long expenseId) {
-
-        return expenseRepository.findById(expenseId)
-                .orElseThrow(() -> ExpenseNotFoundException.EXCEPTION);
+        return expenseRepository.findById(expenseId).orElseThrow(() -> ExpenseNotFoundException.EXCEPTION);
     }
 
     private Category getCategory(Long categoryId) {
-
-        return categoryRepository.findById(categoryId)
-                .orElseThrow(() -> CategoryNotFoundException.EXCEPTION);
+        return categoryRepository.findById(categoryId).orElseThrow(() -> CategoryNotFoundException.EXCEPTION);
     }
 
     private void updateChallengeAmount(Challenge challenge, Integer beforeUsedAmount, Integer payAmount) {
@@ -176,7 +115,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 
     @Override
-    public List<ChallengeUserListResponseDto> selectDailyUserList() {
+    public List<ChallengeUserListResponseDto> selectChallengeUserList() {
 
         List<ChallengeUserInfoMapping> challengeList = challengeRepository.findChallengeAndExpenseAndProfileByStatus();
 

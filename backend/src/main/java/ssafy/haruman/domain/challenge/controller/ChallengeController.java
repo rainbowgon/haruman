@@ -11,8 +11,8 @@ import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
 import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.*;
 import ssafy.haruman.domain.challenge.service.ChallengeService;
+import ssafy.haruman.domain.challenge.service.ExpenseService;
 import ssafy.haruman.domain.member.entity.Member;
-import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.response.JsonResponse;
 import ssafy.haruman.global.response.PageInfo;
 import ssafy.haruman.global.response.ResponseWrapper;
@@ -26,13 +26,14 @@ import java.util.List;
 public class ChallengeController {
 
     private final ChallengeService challengeService;
+    private final ExpenseService expenseService;
 
     @PostMapping
     public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> startChallenge(
             @AuthenticationPrincipal Member member) {
-        Profile profile = member.getProfile();
 
-        DailyChallengeResponseDto responseDto = challengeService.startChallenge(profile);
+        DailyChallengeResponseDto responseDto = challengeService.startChallenge(member.getProfile());
+
         return JsonResponse.ok("챌린지가 생성되었습니다.", responseDto);
     }
 
@@ -41,7 +42,7 @@ public class ChallengeController {
             @PathVariable(name = "challenge-id") Long challengeId,
             @RequestBody ExpenseCreateRequestDto createRequestDto) {
 
-        ExpenseResponseDto reponseDto = challengeService.createExpense(challengeId, createRequestDto);
+        ExpenseResponseDto reponseDto = expenseService.createExpense(challengeId, createRequestDto);
         return JsonResponse.ok("지출내역이 입력되었습니다.", reponseDto);
     }
 
@@ -49,7 +50,7 @@ public class ChallengeController {
     public ResponseEntity<ResponseWrapper<ExpenseResponseDto>> updateExpense(
             @RequestBody ExpenseUpdateRequestDto updateRequestDto) {
 
-        ExpenseResponseDto reponseDto = challengeService.updateExpense(updateRequestDto);
+        ExpenseResponseDto reponseDto = expenseService.updateExpense(updateRequestDto);
         return JsonResponse.ok("지출내역이 수정되었습니다.", reponseDto);
     }
 
@@ -57,24 +58,29 @@ public class ChallengeController {
     public ResponseEntity<ResponseWrapper<Nullable>> deleteExpense(
             @PathVariable(name = "expense-id") Long expenseId) {
 
-        challengeService.deleteExpense(expenseId);
+        expenseService.deleteExpense(expenseId);
         return JsonResponse.ok("지출내역이 삭제되었습니다.");
     }
 
     @GetMapping("/{challenge-id}")
     public ResponseEntity<ResponseWrapper<List<ExpenseResponseDto>>> selectDailyExpenseList(
+            @AuthenticationPrincipal Member member,
             @PathVariable(name = "challenge-id") Long challengeId) {
 
-        List<ExpenseResponseDto> responseDto = challengeService.selectDailyExpenseList(challengeId);
+        List<ExpenseResponseDto> responseDto = expenseService.selectDailyExpenseList(member.getProfile(), challengeId);
+
         return JsonResponse.ok("지출내역 리스트를 불러왔습니다.", responseDto);
     }
 
+    /**
+     * 메인 화면에 접근할 때마다 호출되는 API
+     */
     @GetMapping
     public ResponseEntity<ResponseWrapper<DailyChallengeResponseDto>> selectDailyChallenge(
             @AuthenticationPrincipal Member member) {
-        Profile profile = member.getProfile();
 
-        DailyChallengeResponseDto responseDto = challengeService.selectDailyChallenge(profile);
+        DailyChallengeResponseDto responseDto = challengeService.selectDailyChallenge(member.getProfile());
+
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
     }
 
@@ -88,7 +94,7 @@ public class ChallengeController {
     @GetMapping("/people")
     public ResponseEntity<ResponseWrapper<List<ChallengeUserListResponseDto>>> selectChallengeUserList() {
 
-        List<ChallengeUserListResponseDto> userList = challengeService.selectDailyUserList();
+        List<ChallengeUserListResponseDto> userList = challengeService.selectChallengeUserList();
 
         int size = 0;
         for (ChallengeUserListResponseDto group : userList) {
