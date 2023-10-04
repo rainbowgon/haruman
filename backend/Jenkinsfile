@@ -22,7 +22,7 @@ pipeline {
             steps {
                 git url: 'https://lab.ssafy.com/s09-fintech-finance-sub2/S09P22A607.git',
                     branch: 'feat/70',
-                    credentialsId: 'ab6625fd-a8a2-4a73-a301-bd4f0edbb103'
+                    credentialsId: 'GitLab Pipeline token'
             }
         }
 
@@ -91,13 +91,13 @@ pipeline {
 
                     # 백 빌드를 해서 타겟포트(호스트) 8081(컨테이너내부) 이미지로 만들어서
                     # 블루 그린 이름을 붙여서 도커 run
-                    echo [BE] Green Build Docker Image
+                    echo [BE] ${deployment_target} Build Docker Image
                     docker build -t server_${deployment_target} ./backend
-                    echo [BE] Green Run Docker Container
+                    echo [BE] ${deployment_target} Run Docker Container
                     docker run -dp ${deployment_target_port}:8081 --name haruman_server_${deployment_target} server_${deployment_target}
  
 
-                    echo "\n****** Continuous Green Health Check ******"
+                    echo "\n****** Continuous Health Check ******"
 
                     # 10초마다 헬스 체크 10번 -> 실패하면 그린 배포 멈춤
                     # 주로 2번 정도 돌아가면 성공함
@@ -125,14 +125,27 @@ pipeline {
                     # nginx 컨테이너 접속
                     ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io /bin/bash
 
-                    docker exec haruman_nginx_1 bash -c "echo 'set \\\$service_url 3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
-                    echo "Switch the reverse proxy direction of nginx to http://3.34.135.50:${deployment_target_port} 🔄"
-
-
                     # 블루 8081 -> 그린 8082로 바꿈
                     # 그린 8082 -> 블루 8081로 바꿈
+                    if [ "${deployment_target}" == green ]
+                    then
+                        docker exec haruman_nginx_1 bash -c "echo 'set \$service_url 3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
+                        echo "Switch the reverse proxy direction of nginx to ${deployment_target} http://3.34.135.50:${deployment_target_port} 🟢🟩"
+                    else
+                        docker exec haruman_nginx_1 bash -c "echo 'set \$service_url 3.34.135.50:8081;' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
+                        echo "Switch the reverse proxy direction of nginx to ${deployment_target} http://3.34.135.50:${deployment_target_port} 🔵🟦"
+                    fi
 
-                  
+
+                    echo "\n****** Kill the process on the opposite server ******""
+                    # 리다이렉트 후 다른 컨테이너가 존재하면 내림
+                    if docker container inspect haruman_server_${opposite_target} >/dev/null 2>&1; then
+                        echo "${opposite_target}-container exists locally & removed"
+                        docker stop haruman_server_${opposite_target}
+                        docker rm haruman_server_${deployment_target}
+                    else
+                        echo "${opposite_target}-container does not exist locally"
+                    fi
 
                 '''
             }
