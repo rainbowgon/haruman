@@ -15,7 +15,7 @@ import ChallengeItemsForm from "../components/Calender/ChallengeItemsForm";
 import SpentItem from "../components/SpentItem";
 
 //interface value
-import { ChallengeItem } from "../constants/interfaces";
+import { ChallengeDate, ChallengeItem } from "../constants/interfaces";
 import BottomBarSpace from "../components/BottomBarSpace";
 import HeaderTitle from "../components/HeaderTitle";
 
@@ -28,55 +28,11 @@ const CalendarPage = () => {
   const contextPath = `/api`;
   const ChallengeAPI = '/challenges';
 
-  const [selectChallengeId, setSelectChallengeId] = useState<number | null>(null);
+  const [selectChallenge, setSelectChallenge] = useState<ChallengeDate>();
   const [amount, setAmount] = useState(0);
+  const [dailyAmount, setDailyAmount] = useState(0);
 
-  // const [challengeitems, setChallengeitems] = useState<ChallengeItem[]>([]);
-  const [challengeitems, setChallengeitems] = useState<ChallengeItem[]>([
-    {
-      "category": "카페",
-      // "color" : "category_orange_01",
-      "content": "메가커피 아메리카노",
-      "pay_amount": 2500
-      // "payAmount": 2500
-    },
-    {
-      "category": "식사",
-      // "color" : "category_orange_01",
-      "content": "소풍 참치김밥",
-      "pay_amount": 5000
-      // "payAmount": 5000
-    },
-    {
-      "category": "카페",
-      // "color" : "category_orange_01",
-      "content": "메가커피 아메리카노",
-      "pay_amount": 2500
-      // "payAmount": 2500
-      
-    },
-    {
-      "category": "식사",
-      // "color" : "category_orange_01",
-      "content": "소풍 참치김밥",
-      "pay_amount": 5000
-      // "payAmount": 5000
-    },
-    {
-      "category": "카페",
-      // "color" : "category_orange_01",
-      "content": "메가커피 아메리카노",
-      "pay_amount": 2500
-      // "payAmount": 2500
-    },
-    {
-      "category": "식사",
-      // "color" : "category_orange_01",
-      "content": "소풍 참치김밥",
-      "pay_amount": 5000
-      // "payAmount": 5000
-    }
-  ]);
+  const [challengeitems, setChallengeitems] = useState<ChallengeItem[]>([]);
 
   useEffect(() => {
     selectAccumulatedAmount();
@@ -84,9 +40,17 @@ const CalendarPage = () => {
 
   useEffect(() => {
     selectDailyChallenge();
-  }, [selectChallengeId])
+  }, [selectChallenge])
 
+  useEffect(() => {
+    var sumAmount = 0;
+    
+    challengeitems.forEach((items) => {
+      sumAmount += items.payAmount;
+    });
 
+    setDailyAmount(sumAmount);
+  }, [challengeitems]);
 
   //selectAccumulatedAmount
   //get
@@ -98,8 +62,8 @@ const CalendarPage = () => {
         }
       })
       .then((response) => {
-        console.log("누적 잔액 조회 성공", response.data.data);
-        setAmount(response.data.data);
+        console.log("누적 잔액 조회 성공", response.data.data.accumulatedAmount);
+        setAmount(response.data.data.accumulatedAmount);
       })
       .catch((error) => {
         console.error('누적 잔액 조회 실패', error);
@@ -115,13 +79,13 @@ const CalendarPage = () => {
     const selectDailyChallenge = () => {
       console.log("selectDailyExpenseList");
       
-      console.log("selectChallengeId : " , selectChallengeId);
-      if (selectChallengeId === null) {
+      console.log("selectChallengeId : " , selectChallenge?.challengeId);
+      if (selectChallenge === null) {
         setChallengeitems([]);
         return;
       }
   
-      axios.get(`${API_URL}${contextPath}${ChallengeAPI}/${selectChallengeId}`,
+      axios.get(`${API_URL}${contextPath}${ChallengeAPI}/${selectChallenge?.challengeId}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`
@@ -131,12 +95,15 @@ const CalendarPage = () => {
           console.log("해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)", response.data.data);
           console.log(response.data.data);
           setChallengeitems(response.data.data);
-          // setChallengeInfo(response.data.data);
         })
         .catch((error) => {
           console.error('해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트) 조회 실패', error);
         });
     };
+
+  const numberFormatter = (value:number) => {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
   return (
     <MainStyle>
@@ -144,14 +111,21 @@ const CalendarPage = () => {
         {/* 캘린더 페이지 헤더 */}
         <HeaderTitle
           SubTitle = "지금까지 모은금액!"
-          MainTitle = {`${amount} 원`}
-          // MainTitle = {`25900 원`}
+          MainTitle = {`${numberFormatter(amount)} 원`}
         />
         {/* 캘린더 */}
         <div className="calendar_form">
           <CalendarForm 
-            selectChallengeId = {selectChallengeId}
-            setSelectChallengeId = {setSelectChallengeId}
+            selectChallenge = {selectChallenge}
+            setSelectChallenge = {setSelectChallenge}
+          />
+        </div>
+
+        {/* 결제한 아이템 리스트 */}
+        <div className="challengeitems_form">
+          <ChallengeItemsForm
+            selectChallenge = {selectChallenge}
+            dailyAmount = {dailyAmount}
           />
         </div>
 
@@ -162,15 +136,12 @@ const CalendarPage = () => {
             ?
             challengeitems.map((item) => (
               <SpentItem
-                name = {item.category}
+                name = {item.categoryName}
+                color = {item.categoryColor}
                 mainValue = {item.content}
-                moneyValue = {item.pay_amount}
+                moneyValue = {item.payAmount}
               />
             ))
-              // <div className="challengeitems_emptylist">
-              //   1이 날은 소비를 하지 않았어요!
-              //   {challengeitems.length}
-              // </div>
             :
             <div className="challengeitems_emptylist">
               이 날은 소비를 하지 않았어요!

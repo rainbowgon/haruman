@@ -24,12 +24,12 @@ type DonutChartProps = {
 const aggregateByCategory = (items: ChallengeItem[]): ExpenseData[] => {
   const result: Record<string, number> = {};
 
-  items.forEach((item) => {
-    if (!result[item.category]) {
-      result[item.category] = 0;
-    }
-    result[item.category] += item.pay_amount;
-  });
+  // items.forEach((item) => {
+  //   if (!result[item.category]) {
+  //     result[item.category] = 0;
+  //   }
+  //   result[item.category] += item.pay_amount;
+  // });
 
   return Object.entries(result).map(([name, value]) => ({ name, value }));
 };

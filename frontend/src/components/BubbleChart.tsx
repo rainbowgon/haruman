@@ -11,6 +11,38 @@ import { API_URL } from "../constants/urls";
 
 import { User } from "../constants/interfaces";
 
+// ----- BubbleChartStyle(START)
+import "../styles/ranking/BubbleChartStyle.scss"
+
+interface BubbleChartLabel {
+  color : string;
+  value : string;
+}
+
+const BubbleChartLabels : BubbleChartLabel[] = [
+  {
+    color : "GRAPH_01",
+    value : "2000원 이하",
+  },
+  {
+    color : "GRAPH_02",
+    value : "4000원 이하",
+  },
+  {
+    color : "GRAPH_03",
+    value : "6000원 이하",
+  },
+  {
+    color : "GRAPH_04",
+    value : "8000원 이하",
+  },
+  {
+    color : "GRAPH_05",
+    value : "10000원 미만",
+  },
+]
+// ----- BubbleChartStyle(END)
+
 type BalanceData = {
   nickname: string;
   profileImage: string;
@@ -32,16 +64,17 @@ interface DataPoint {
   color?: string;
 }
 
+// ----- BubbleChartForce(START)
 const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   onBubbleClick,
 }) => {
   const [ranges, setRanges] = useState<DataPoint[]>([
     {
-      min: 0,
+      min: 1,
       max: 2000,
       users: 0,
       label: "0~2000원",
-      color: "var(--GRAPH_05)",
+      color: "var(--GRAPH_01)",
     },
     {
       min: 2001,
@@ -55,23 +88,24 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       max: 6000,
       users: 0,
       label: "4001~6000원",
-      color: "var(--GRAPH_04)",
+      color: "var(--GRAPH_03)",
     },
     {
       min: 6001,
       max: 8000,
       users: 0,
       label: "6001~8000원",
-      color: "var(--GRAPH_03)",
+      color: "var(--GRAPH_04)",
     },
     {
       min: 8001,
       max: 9999,
       users: 0,
       label: "8001~9999원",
-      color: "var(--GRAPH_01)",
+      color: "var(--GRAPH_05)",
     },
   ]);
+  // ----- BubbleChartForce(END)
 
   const [data, setData] = useState<DataPoint[]>(ranges);
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -436,11 +470,22 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   };
 
   return (
-    <svg
-      ref={svgRef}
-      width={400}
-      height={350}
-    />
+    <div className="bubblechart">
+      <div className="bubblechart_labels">
+        {BubbleChartLabels.map((lable) => (
+              <div className="bubblechart_label">
+                <div className={`bubblechart_color_pointer ${lable.color}`}/>
+                <p className={`bubblechart_value`}>{lable.value}</p>
+              </div>
+            ))
+        }
+      </div>
+      <svg
+        ref={svgRef}
+        width={400}
+        height={350}
+      />
+    </div>
   );
 };
 

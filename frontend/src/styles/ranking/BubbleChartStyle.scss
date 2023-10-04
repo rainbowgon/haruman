@@ -1,0 +1,61 @@
+@import '../_util.scss';        
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+
+.bubblechart{
+    font-family: "IBM Plex Sans KR",sans-serif;
+
+    position: relative;
+
+    width: 80%;
+    margin: 10%;
+    background-color: $background_main;
+    border-radius: 1rem;
+    filter: drop-shadow(2px 2px 2px rgb(0,0,0,0.15));
+
+    .bubblechart_labels{
+        position: absolute;
+
+        width: 70%;
+        margin: 0.5rem;
+        display: flex;
+        justify-content: left;
+        flex-wrap: wrap;
+        
+        .bubblechart_label{
+            display: flex;
+            align-items: center;
+            margin: 0 0.5rem;
+            
+            .bubblechart_color_pointer{
+                width: 0.5rem;
+                height: 0.5rem;
+                
+                border-radius: 100%;
+                
+                &.GRAPH_01{
+                    background-color: $GRAPH_01;
+                }
+                &.GRAPH_02{
+                    background-color: $GRAPH_02;
+                }
+                &.GRAPH_03{
+                    background-color: $GRAPH_03;
+                }
+                &.GRAPH_04{
+                    background-color: $GRAPH_04;
+                }
+                &.GRAPH_05{
+                    background-color: $GRAPH_05;
+                }
+            }
+    
+            .bubblechart_value{
+                display: flex;
+                width: auto;
+                margin: 0 0.5rem;
+                padding: 0;
+                font-size: 0.5rem;
+            }
+        }
+    }
+}

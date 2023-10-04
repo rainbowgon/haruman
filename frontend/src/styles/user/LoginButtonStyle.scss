@@ -14,9 +14,16 @@
     align-items: center;
     font-weight: bold;
 
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.15);
+
     &.kakao{
         color: $kakao_brown;
         background-color: $kakao_yellow;
+    }
+
+    &.google{
+        color: $google_font;
+        background-color: $google_white;
     }
 
     .login_icon{
