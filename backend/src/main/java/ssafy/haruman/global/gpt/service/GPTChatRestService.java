@@ -42,7 +42,7 @@ public class GPTChatRestService {
 
         long afterTime = System.currentTimeMillis();
         long secDiffTime = (afterTime - beforeTime) / 1000;
-        log.infogi t("GPT 응답 시간 [{} sec] 소요", secDiffTime);
+        log.info("GPT 응답 시간 [{} sec] 소요", secDiffTime);
         return completionChatResponse;
     }
 }
