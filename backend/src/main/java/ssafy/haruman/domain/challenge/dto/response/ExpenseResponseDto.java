@@ -1,12 +1,9 @@
 package ssafy.haruman.domain.challenge.dto.response;
 
-import java.time.LocalDateTime;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ssafy.haruman.domain.challenge.entity.Expense;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -17,6 +14,7 @@ public class ExpenseResponseDto {
     private Long id;
     private Long challengeId;
     private String categoryName;
+    private String categoryColor;
     private LocalDateTime payTime;
     private Integer payAmount;
     private String content;
@@ -26,6 +24,7 @@ public class ExpenseResponseDto {
                 .id(expense.getId())
                 .challengeId(expense.getChallenge().getId())
                 .categoryName(expense.getCategory().getName())
+                .categoryColor(expense.getCategory().getColor().toString())
                 .payTime(expense.getPayTime())
                 .payAmount(expense.getPayAmount())
                 .content(expense.getContent())

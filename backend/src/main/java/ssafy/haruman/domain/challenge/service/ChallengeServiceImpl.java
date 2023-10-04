@@ -1,21 +1,18 @@
 package ssafy.haruman.domain.challenge.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ssafy.haruman.domain.category.entity.Category;
-import ssafy.haruman.domain.category.repository.CategoryRepository;
-import ssafy.haruman.domain.challenge.dto.request.ExpenseCreateRequestDto;
-import ssafy.haruman.domain.challenge.dto.request.ExpenseUpdateRequestDto;
 import ssafy.haruman.domain.challenge.dto.response.*;
-import ssafy.haruman.domain.challenge.entity.*;
+import ssafy.haruman.domain.challenge.entity.Challenge;
+import ssafy.haruman.domain.challenge.entity.ChallengeGroup;
+import ssafy.haruman.domain.challenge.entity.ChallengeStatus;
+import ssafy.haruman.domain.challenge.entity.ViewStatus;
 import ssafy.haruman.domain.challenge.repository.ChallengeRepository;
 import ssafy.haruman.domain.challenge.repository.ChallengeUserInfoMapping;
-import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
 import ssafy.haruman.domain.profile.entity.Profile;
-import ssafy.haruman.global.error.exception.CategoryNotFoundException;
 import ssafy.haruman.global.error.exception.ChallengeAlreadyExistsException;
-import ssafy.haruman.global.error.exception.ChallengeNotFoundException;
-import ssafy.haruman.global.error.exception.ExpenseNotFoundException;
+import ssafy.haruman.global.error.exception.ChallengeWrongDataException;
 
 import javax.transaction.Transactional;
 import java.text.DateFormat;
@@ -25,22 +22,21 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ChallengeServiceImpl implements ChallengeService {
 
-    private final ExpenseRepository expenseRepository;
-    private final CategoryRepository categoryRepository;
     private final ChallengeRepository challengeRepository;
 
     @Override
     @Transactional
     public DailyChallengeResponseDto startChallenge(Profile profile) {
 
-        Challenge challengeCheck = challengeRepository.findFirstChallenge(profile.getId());
-        if (challengeCheck != null && challengeCheck.getChallengeStatus() == ChallengeStatus.PROGRESS) {
+        Optional<Challenge> challenge = challengeRepository.findFirstChallenge(profile.getId());
+        if (challenge.isPresent() && challenge.get().getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
             throw ChallengeAlreadyExistsException.EXCEPTION;
         }
 
@@ -49,7 +45,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 //            throw ChallengeNotAvailableException.EXCEPTION;
 //        }
 
-        Challenge challenge = Challenge.builder()
+        Challenge createdChallenge = Challenge.builder()
                 .profile(profile)
                 .startTime(LocalDateTime.now())
                 .endTime(LocalDateTime.now().plusDays(1).withHour(0).withMinute(0).withSecond(0))
@@ -59,124 +55,58 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .leftoverAmount(10000)
                 .isViewed(ViewStatus.NOT_VIEWED)
                 .build();
-        challengeRepository.save(challenge);
 
-        return DailyChallengeResponseDto.from(challengeRepository.findFirstChallenge(profile.getId()),
-                                              challengeRepository.countByStatus());
-    }
-
-    @Override
-    @Transactional
-    public ExpenseResponseDto createExpense(
-            Long challengeId, ExpenseCreateRequestDto createRequestDto) {
-
-        Challenge challenge = getChallenge(challengeId);
-        Category category = getCategory(createRequestDto.getCategoryId());
-
-        LocalDateTime payTime = createRequestDto.getPayTime() == null ? LocalDateTime.now()
-                : createRequestDto.getPayTime();
-
-        Expense expense = Expense.createExpense(challenge, category, createRequestDto, payTime);
-        expenseRepository.save(expense);
-
-        // 목표금액과 사용금액이 기준이 됨 -> 남은 금액은 매번 변경
-        updateChallengeAmount(challenge, challenge.getUsedAmount(), expense.getPayAmount());
-
-        return ExpenseResponseDto.from(expense);
-    }
-
-    @Override
-    @Transactional
-    public ExpenseResponseDto updateExpense(ExpenseUpdateRequestDto updateRequestDto) {
-
-        Expense expense = getExpense(updateRequestDto.getExpenseId());
-        Challenge challenge = expense.getChallenge();
-        Category category = getCategory(updateRequestDto.getCategoryId());
-
-        updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(), updateRequestDto.getPayAmount());
-
-        expense.updateExpense(category, updateRequestDto.getPayAmount(), updateRequestDto.getContent());
-
-        return ExpenseResponseDto.from(expense);
-    }
-
-    @Override
-    @Transactional
-    public void deleteExpense(Long expenseId) {
-
-        Expense expense = getExpense(expenseId);
-        Challenge challenge = expense.getChallenge();
-
-        updateChallengeAmount(challenge, challenge.getUsedAmount() - expense.getPayAmount(), 0);
-
-        expenseRepository.delete(expense);
-    }
-
-    @Override
-    public List<ExpenseResponseDto> selectDailyExpenseList(Long challengeId) {
-
-        return expenseRepository.findAllByChallenge_Id(challengeId)
-                .stream()
-                .map(expense -> ExpenseResponseDto.from(expense)).collect(Collectors.toList());
+        return DailyChallengeResponseDto.from(challengeRepository.save(createdChallenge),
+                                              challengeRepository.countByStatus() - 1);
     }
 
     @Override
     @Transactional
     public DailyChallengeResponseDto selectDailyChallenge(Profile profile) {
-        Challenge challenge = challengeRepository.findFirstChallenge(profile.getId());
-        // 챌린지가 없다면 return null
-        Integer participantCount = challengeRepository.countByStatus();
 
-        if (challenge == null || challenge.getIsViewed().equals(ViewStatus.VIEWED)) {
-            return DailyChallengeResponseDto.from(participantCount);
-        } else {
-            if (!challenge.getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
-                challenge.updateViewStatus(ViewStatus.VIEWED);
+        Optional<Challenge> firstChallenge = challengeRepository.findFirstChallenge(profile.getId());
+        Integer participantCount = challengeRepository.countByStatus() - 1;
+
+        if (firstChallenge.isPresent()) {
+            Challenge challenge = firstChallenge.get();
+            if (challenge.getChallengeStatus().equals(ChallengeStatus.PROGRESS)) {
+                if (challenge.getIsViewed().equals(ViewStatus.NOT_VIEWED)) {
+                    // 1. 챌린지 진행 중인 경우
+                    return DailyChallengeResponseDto.from(challenge, participantCount);
+                }
+            } else {
+                if (challenge.getIsViewed().equals(ViewStatus.NOT_VIEWED)) {
+                    // 2. 챌린지 진행 중이 아니며, 이전 챌린지의 결과를 아직 확인하지 않은 경우
+                    challenge.updateViewStatus(ViewStatus.VIEWED);
+                    return DailyChallengeResponseDto.from(challenge, participantCount);
+                } else {
+                    // 3. 챌린지 진행 중이 아니며, 이전 챌린지의 결과를 확인한 경우
+                    return DailyChallengeResponseDto.from(participantCount);
+                }
             }
-            return DailyChallengeResponseDto.from(challenge, participantCount);
+        } else { // 4. 아직 한 번도 챌린지를 진행한 적이 없는 경우
+            return DailyChallengeResponseDto.from(participantCount);
         }
+
+        throw ChallengeWrongDataException.EXCEPTION;
     }
 
     @Override
     @Transactional
+    @Scheduled(cron = "0 0 0 * * *")
     public void endChallenge() {
+
         List<Challenge> list = challengeRepository.findAllByStatus();
         // 챌린지가 없을 때 빈리스트가 반환되어 아무 결과 처리 없음
 
         for (Challenge challenge : list) {
-            challenge.updateChallengeStatus(
-                    challenge.getTargetAmount() - challenge.getUsedAmount() < 0
-                            ? ChallengeStatus.FAIL : ChallengeStatus.SUCCESS);
+            challenge.updateChallengeStatus(challenge.getTargetAmount() - challenge.getUsedAmount() < 0
+                                                    ? ChallengeStatus.FAIL : ChallengeStatus.SUCCESS);
         }
     }
 
-    private Challenge getChallenge(Long challengeId) {
-
-        return challengeRepository.findById(challengeId)
-                .orElseThrow(() -> ChallengeNotFoundException.EXCEPTION);
-    }
-
-    private Expense getExpense(Long expenseId) {
-
-        return expenseRepository.findById(expenseId)
-                .orElseThrow(() -> ExpenseNotFoundException.EXCEPTION);
-    }
-
-    private Category getCategory(Long categoryId) {
-
-        return categoryRepository.findById(categoryId)
-                .orElseThrow(() -> CategoryNotFoundException.EXCEPTION);
-    }
-
-    private void updateChallengeAmount(Challenge challenge, Integer beforeUsedAmount, Integer payAmount) {
-        Integer usedAmount = beforeUsedAmount + payAmount;
-        Integer leftOverAmount = Math.max(challenge.getTargetAmount() - usedAmount, 0);
-        challenge.updateChallengeAmount(usedAmount, leftOverAmount);
-    }
-
-
     @Override
-    public List<ChallengeUserListResponseDto> selectDailyUserList() {
+    public List<ChallengeUserListResponseDto> selectChallengeUserList() {
 
         List<ChallengeUserInfoMapping> challengeList = challengeRepository.findChallengeAndExpenseAndProfileByStatus();
 
