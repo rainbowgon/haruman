@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 // style
-import "../styles/MyPageStyle.scss"
+import "../styles/MyPageStyle.scss";
 
 // icons
-import Edit from "../assets/icons/icon-edit.svg"
+import Edit from "../assets/icons/icon-edit.svg";
 
 // components
 import CenterContainer from "../components/CenterContainer";
@@ -18,50 +18,55 @@ import { API_URL } from "../constants/urls";
 
 // apis
 const contextPath = `/api`;
-const ProfileAPI = '/profiles';
+const ProfileAPI = "/profiles";
 
 const MyPage = () => {
   // 테스트용
   const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
   // const accessToken = sessionStorage.getItem("accessToken");
-  
+
   const navigate = useNavigate();
-  
-  const [features, setFeatures] = useState(["HomePage", "TodayExpensePage", "CalendarPage", "RankingPage", "plus"]);
+
+  const [features, setFeatures] = useState([
+    "HomePage",
+    "TodayExpensePage",
+    "CalendarPage",
+    "RankingPage",
+    "plus",
+  ]);
   const [user, setSUser] = useState({
     profileId: 30,
     nickname: "명정루",
     profileImage: null,
   });
-  
 
-  useEffect (() => {
+  useEffect(() => {
     selectOneProfile();
-  }, [])
+  }, []);
 
   /**
    * selectOneProfile
    * 회원 프로필 조회
-   * /profiles/{profile-id}	
+   * /profiles/{profile-id}
    * GET
    */
   const selectOneProfile = () => {
     console.log("selectOneProfile");
 
-    axios.get(`${API_URL}${contextPath}${ProfileAPI}/1`,
-      {
+    axios
+      .get(`${API_URL}${contextPath}${ProfileAPI}/1`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then((response) => {
         console.log("회원 프로필 조회 성공", response.data.data);
-        
+
         // setSUser();
       })
       .catch((error) => {
-        console.error('회원 프로필 조회 실패', error);
+        console.error("회원 프로필 조회 실패", error);
       });
   };
 
@@ -75,8 +80,8 @@ const MyPage = () => {
   };
 
   const handleEditCategory = () => {
-      navigate("/error");
-  }
+    navigate("/error");
+  };
 
   return (
     <CenterContainer>
@@ -87,18 +92,31 @@ const MyPage = () => {
             <div>
               <div className="profile_container">
                 <div className="profile_img_container">
-                  <button className="profile_edit_button" onClick={handleEditSimpleProfile}>
-                    <img className="profile_edit_button_img" src={Edit} alt="수정 아이콘"/>
+                  <button
+                    className="profile_edit_button"
+                    onClick={handleEditSimpleProfile}
+                  >
+                    <img
+                      className="profile_edit_button_img"
+                      src={Edit}
+                      alt="수정 아이콘"
+                    />
                   </button>
-                  {
-                    user &&
-                    user.profileImage &&
-                    <img className="profile_img" src={`${user && user.profileImage}`} alt="프로필 이미지"/>
-                  }
+                  {user && user.profileImage && (
+                    <img
+                      className="profile_img"
+                      src={`${user && user.profileImage}`}
+                      alt="프로필 이미지"
+                    />
+                  )}
                 </div>
                 <div className="profile_text">
-                  <p className="profile_nickname_text">{user && user.nickname}</p>
-                  <p className="profile_content_text">하루만과 함께한지 {}일이 지났네요</p>
+                  <p className="profile_nickname_text">
+                    {user && user.nickname}
+                  </p>
+                  <p className="profile_content_text">
+                    하루만과 함께한지 {}일이 지났네요
+                  </p>
                 </div>
               </div>
             </div>
@@ -117,7 +135,7 @@ const MyPage = () => {
               </div>
             </div>
             <div className="shortcuts_container">
-              { features.map((feature) => (
+              {features.map((feature) => (
                 <ShortcutButton
                   text={feature}
                   className="square"
@@ -126,7 +144,7 @@ const MyPage = () => {
               ))}
             </div>
           </div>
-          
+
           <div>
             <RegisterButton
               text="로그아웃"

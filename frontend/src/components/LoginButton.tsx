@@ -60,8 +60,16 @@ function LoginButton({ type, value }: LoginProps) {
   };
 
   return (
-    <button className={`LoginButton ${type}`} onClick={handleLogin} disabled={isLoading}>
-      <img className="login_icon" src={`${handleSelectIcon()}`} alt={`${type} icon`}></img>
+    <button
+      className={`LoginButton ${type}`}
+      onClick={handleLogin}
+      disabled={isLoading}
+    >
+      <img
+        className="login_icon"
+        src={`${handleSelectIcon()}`}
+        alt={`${type} icon`}
+      ></img>
       {isLoading ? "로딩중" : `${value} 로그인`}
     </button>
   );

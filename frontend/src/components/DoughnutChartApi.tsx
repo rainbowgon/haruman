@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { PieChart, Pie, Cell } from "recharts";
+import { PieChart, Pie, Cell, Legend } from "recharts";
 import axios from "axios";
 import "../styles/theme.css";
 import { API_URL } from "../constants/urls";
+
+// styles
+import "../styles/components/CategoryStyle.scss";
 
 export interface ExpenseItem {
   id: number;
@@ -11,6 +14,7 @@ export interface ExpenseItem {
   payTime: string;
   payAmount: number;
   content: string;
+  categoryColor: string;
 }
 
 // interface DonutChartProps {
@@ -20,19 +24,19 @@ export interface ExpenseItem {
 export interface CategoryItem {
   categoryId: number;
   name: string;
-  color: string;
+  categoryColor: string;
   isDefault: string;
   content: string;
   cnt: number | null;
 }
 
 const DonutChart: React.FC = () => {
-  const [categories, setCategories] = useState<CategoryItem[]>([]); // 초기값은 빈 배열
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [message, setMessage] = useState<string>("");
 
   const accessToken = process.env.REACT_APP_accessToken;
   const contextPath = `/api`;
-  const challengeAPI = "/challenges/24";
+  const challengeAPI = "/challenges/23";
 
   useEffect(() => {
     selectDailyChallenge();
@@ -45,24 +49,55 @@ const DonutChart: React.FC = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
+      ///////////////////////////// 금액 별로 차트를 그릴 경우///////////////////////////////////////////
+      // .then((response) => {
+      //   const challengeData: ExpenseItem[] = response.data.data;
+      //   const aggregatedCategories: CategoryItem[] = challengeData.reduce(
+      //     (acc: any, item) => {
+      //       const existingCategory = acc.find(
+      //         (cat: CategoryItem) => cat.name === item.categoryName,
+      //       );
+
+      //       if (existingCategory) {
+      //         existingCategory.cnt += item.payAmount;
+      //       } else {
+      //         acc.push({
+      //           categoryId: item.id,
+      //           name: item.categoryName,
+      //           categoryColor: item.categoryColor,
+      //           isDefault: "DEFAULT",
+      //           content: item.content,
+      //           cnt: item.payAmount,
+      //         });
+      //       }
+
+      //       return acc;
+      //     },
+      //     [],
+      //   );
+
+      //   setCategories(aggregatedCategories);
+      // })
+      //////////////////////////////////////////////////////////////////////////////////////////////////
+      /////////////////////////////////////////////카테고리별로 차트를 그릴 경우////////////////////////////////////
       .then((response) => {
         const challengeData: ExpenseItem[] = response.data.data;
-        console.log(response.data.data);
         const aggregatedCategories: CategoryItem[] = challengeData.reduce(
-          (acc: any, expense) => {
+          (acc: any, item) => {
             const existingCategory = acc.find(
-              (cat: CategoryItem) => cat.name === expense.categoryName,
+              (cat: CategoryItem) => cat.name === item.categoryName,
             );
 
             if (existingCategory) {
-              existingCategory.cnt += expense.payAmount;
+              existingCategory.cnt += 1;
             } else {
               acc.push({
-                categoryId: expense.id,
-                name: expense.categoryName,
-                color: "BLACK_01",
+                categoryId: item.id,
+                name: item.categoryName,
+                categoryColor: item.categoryColor,
                 isDefault: "DEFAULT",
-                cnt: expense.payAmount,
+                content: item.content,
+                cnt: 1,
               });
             }
 
@@ -72,17 +107,21 @@ const DonutChart: React.FC = () => {
         );
 
         setCategories(aggregatedCategories);
-        // onCategoriesProcessed(aggregatedCategories);
       })
+      /////////////////////////////////////////////////////////////////////////////////////////////////////
       .catch((error) => {
         console.error("Error fetching challenge data:", error);
         setMessage("데이터 로딩 중 오류가 발생했습니다.");
       });
   };
 
-  const getColorByCategory = (categoryName: string): string => {
-    const category = categories.find((cat) => cat.name === categoryName);
-    return category ? `var(--${category.color})` : "#8884d8";
+  // const getColorByCategory = (categoryName: string): string => {
+  //   const category = categories.find((cat) => cat.name === categoryName);
+  //   return category ? `${category.categoryColor})` : "#8884d8";
+  //   // 여기에서 'category.color' 대신 'category.categoryColor'를 사용합니다.
+  // };
+  const getColorByCategory = (categoryColor: string): string => {
+    return `var(--${categoryColor})`;
   };
 
   return (
@@ -104,10 +143,11 @@ const DonutChart: React.FC = () => {
           {categories.map((category, index) => (
             <Cell
               key={`cell-${index}`}
-              fill={getColorByCategory(category.name)}
+              fill={getColorByCategory(category.categoryColor)}
             />
           ))}
         </Pie>
+        <Legend />
       </PieChart>
       {/* {message && <div className="error-message">{message}</div>} */}
     </div>

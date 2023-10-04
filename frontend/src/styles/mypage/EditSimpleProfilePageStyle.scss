@@ -1,51 +1,49 @@
-@import '../_util.scss';        
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+@import "../_util.scss";
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
 
-.edit_simple_profile_container{
-    width: 100vw;
-    height: 100vh;
+.edit_simple_profile_container {
+  width: 100vw;
+  height: 100vh;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.edit_simple_profile_img{
-    position: relative;
-        
-    width: 125px;
-    height: 125px;
-    
-    background-color: $background_1;
-    
-    border: 6px solid $brand1_main;
-    border-radius: 100%;
+.edit_simple_profile_img {
+  position: relative;
 
+  width: 125px;
+  height: 125px;
+
+  background-color: $background_1;
+
+  border: 6px solid $brand1_main;
+  border-radius: 100%;
 }
 
-.simple_profile_nickname_text{
-    font-size: 1.5rem;
-    font-weight: bold;
+.simple_profile_nickname_text {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-.simple_profile_rule_box{
-    width: 70vw;
-    background-color: $background_main;
-    border-radius: 1rem;
-    color: $font1_main;
+.simple_profile_rule_box {
+  width: 70vw;
+  background-color: $background_main;
+  border-radius: 1rem;
+  color: $font1_main;
+  margin: 1rem;
+
+  .simple_profile_rule_header_text {
     margin: 1rem;
-    
-    .simple_profile_rule_header_text{
-        margin: 1rem;
-    }
-    
-    .simple_profile_rule_text{
-        margin: 1rem;
-    }
+  }
+
+  .simple_profile_rule_text {
+    margin: 1rem;
+  }
 }
 
-.simple_profile_buttons{
-    display: flex;
-    width: 70vw;
+.simple_profile_buttons {
+  display: flex;
+  width: 70vw;
 }

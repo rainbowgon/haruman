@@ -25,7 +25,7 @@ import ArrowLeft from "../assets/icons/icon-arrowleft.svg";
 import { Link } from "react-router-dom";
 
 //scss
-import "../styles/user/SignUpPageStyle.scss"
+import "../styles/user/SignUpPageStyle.scss";
 
 const StyledDiv = styled.div`
   margin-left: 10vw;
@@ -154,8 +154,15 @@ const SignupPage = () => {
   return (
     <>
       <div className="signup_back_div">
-        <Link className="signup_back" to="/login">
-          <img className="signup_back_img" src={ArrowLeft} alt="뒤로가기"/>
+        <Link
+          className="signup_back"
+          to="/login"
+        >
+          <img
+            className="signup_back_img"
+            src={ArrowLeft}
+            alt="뒤로가기"
+          />
         </Link>
       </div>
       {agreeCheck1 && agreeCheck2 ? (
@@ -235,8 +242,10 @@ const SignupPage = () => {
         </CenterContainer>
       ) : (
         <>
-          <div className="agreement_container" id="AgreementContainer">
-            
+          <div
+            className="agreement_container"
+            id="AgreementContainer"
+          >
             <div className="agreement_logo_img">
               <img
                 src={LogoImage}

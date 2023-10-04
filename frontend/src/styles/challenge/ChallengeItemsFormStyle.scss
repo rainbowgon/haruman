@@ -1,74 +1,74 @@
 @import "../theme.css";
 @import "../_util.scss";
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
 
-.challenge_items_header{
-    font-family: "IBM Plex Sans KR",sans-serif;
+.challenge_items_header {
+  font-family: "IBM Plex Sans KR", sans-serif;
 
-    width: 80%;
+  width: 80%;
 
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
-.item_list_text_leftblock{
-    display: flex;
-    justify-content: left;
+.item_list_text_leftblock {
+  display: flex;
+  justify-content: left;
 }
 
-.item_list_text_rightblock{
-    display: flex;
-    justify-content: right;
-    align-items: center;
+.item_list_text_rightblock {
+  display: flex;
+  justify-content: right;
+  align-items: center;
 
-    .item_list_display{
-        text-align: center;
-        margin-right: 1rem;
+  .item_list_display {
+    text-align: center;
+    margin-right: 1rem;
 
-        .item_list_display_text{
-            height: 100%;
-            font-weight: bold;
-            color: var(--white);
-            margin: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    .item_list_display_text {
+      height: 100%;
+      font-weight: bold;
+      color: var(--white);
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+  }
 
-    .item_price_block{
-        text-align: right;
-    }
+  .item_price_block {
+    text-align: right;
+  }
 }
 
-.item_list_display{
-    width: 4rem;
-    height: 1.5rem;
-    background-color: $font1_op_60;
-    margin: 0;
-    border-radius: 1rem;
+.item_list_display {
+  width: 4rem;
+  height: 1.5rem;
+  background-color: $font1_op_60;
+  margin: 0;
+  border-radius: 1rem;
 
-    justify-content: center;
-    align-items: center;
-    
-    transition: background-color 0.5s;
+  justify-content: center;
+  align-items: center;
 
-    &.PROGRESS{
-        background-color: $brand1_op_60;
-    }
+  transition: background-color 0.5s;
 
-    &.SUCCESS{
-        background-color: $brand2_op_60;
-    }
+  &.PROGRESS {
+    background-color: $brand1_op_60;
+  }
 
-    &.FAIL{
-        background-color: $point3_op_60;
-    }
+  &.SUCCESS {
+    background-color: $brand2_op_60;
+  }
+
+  &.FAIL {
+    background-color: $point3_op_60;
+  }
 }
 
-.item_list_text{
-    color: var(--font2_main);
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 0;
+.item_list_text {
+  color: var(--font2_main);
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
 }
