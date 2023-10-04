@@ -132,7 +132,9 @@ public class ChallengeController {
 
         List<ExpenseResponseDto> responseDto = expenseService.selectDailyExpenseList(member.getProfile(), challengeId);
 
-        return JsonResponse.ok("지출내역 리스트를 불러왔습니다.", responseDto);
+        PageInfo listSize = PageInfo.builder().size(responseDto.size()).build();
+
+        return JsonResponse.ok("지출내역 리스트를 불러왔습니다.", responseDto, listSize);
     }
 
 }
