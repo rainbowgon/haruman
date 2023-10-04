@@ -134,7 +134,8 @@ pipeline {
                     echo "\n****** Nginx Proxy Redirect & Kill Blue ******"
 
                     # nginx 컨테이너 접속
-                    ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io /bin/bash
+                    ssh -i J9A607T.pem root@d2970445b929 /bin/bash
+                    ls
                     docker exec haruman_nginx_1 cd /etc ; ls
                     docker exec haruman_nginx_1 service nginx reload
                     #echo "echo 'set \\\$service_url; http://3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc && service nginx reload" > script
