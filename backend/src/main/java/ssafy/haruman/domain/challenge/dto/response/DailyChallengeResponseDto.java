@@ -1,10 +1,6 @@
 package ssafy.haruman.domain.challenge.dto.response;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ssafy.haruman.domain.challenge.entity.Challenge;
 import ssafy.haruman.domain.challenge.entity.ChallengeStatus;
 
@@ -35,10 +31,6 @@ public class DailyChallengeResponseDto {
     public static DailyChallengeResponseDto from(Integer participantCount) {
         return DailyChallengeResponseDto.builder()
                 .participantCount(participantCount)
-                .challengeId(0L)
-                .targetAmount(10000)
-                .usedAmount(0)
-                .leftoverAmount(0)
                 .challengeStatus(ChallengeStatus.READY)
                 .build();
     }
