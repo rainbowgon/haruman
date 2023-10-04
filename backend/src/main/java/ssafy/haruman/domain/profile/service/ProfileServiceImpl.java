@@ -40,9 +40,8 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     @Transactional
-    public SingleProfileResponseDto updateProfile(Long profileId, String nickname,
+    public SingleProfileResponseDto updateProfile(Profile profile, String nickname,
                                                   MultipartFile profileImage) throws IOException {
-        Profile profile = this.findOneProfileById(profileId);
         profile.updateProfile(nickname);
         this.uploadNewProfileImage(profile, profileImage);
         return SingleProfileResponseDto.from(profile,
@@ -50,7 +49,13 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public SingleProfileResponseDto selectOneProfile(Long profileId) {
+    public SingleProfileResponseDto selectOneProfile(Profile profile) {
+        return SingleProfileResponseDto.from(profile,
+                                             s3FileService.getS3Url(profile.getProfileImage()));
+    }
+
+    @Override
+    public SingleProfileResponseDto selectOneProfileById(Long profileId) {
         Profile profile = this.findOneProfileById(profileId);
         return SingleProfileResponseDto.from(profile,
                                              s3FileService.getS3Url(profile.getProfileImage()));

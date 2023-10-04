@@ -35,21 +35,21 @@ public class ProfileController {
             @AuthenticationPrincipal Member member,
             @RequestParam String nickname,
             @RequestParam(required = false) MultipartFile profileImage) throws IOException {
-        SingleProfileResponseDto singleProfileResponseDto = profileService.updateProfile(member.getProfile().getId(), nickname, profileImage);
+        SingleProfileResponseDto singleProfileResponseDto = profileService.updateProfile(member.getProfile(), nickname, profileImage);
         return JsonResponse.ok("프로필이 성공적으로 수정되었습니다.", singleProfileResponseDto);
     }
 
     @GetMapping("/mine")
     public ResponseEntity<ResponseWrapper<SingleProfileResponseDto>> selectMyProfile(
             @AuthenticationPrincipal Member member) {
-        SingleProfileResponseDto singleProfileResponseDto = profileService.selectOneProfile(member.getProfile().getId());
+        SingleProfileResponseDto singleProfileResponseDto = profileService.selectOneProfile(member.getProfile());
         return JsonResponse.ok("프로필을 성공적으로 가져왔습니다.", singleProfileResponseDto);
     }
 
     @GetMapping("/{profile-id}")
     public ResponseEntity<ResponseWrapper<SingleProfileResponseDto>> selectOneProfile(
             @PathVariable("profile-id") Long profileId) {
-        SingleProfileResponseDto singleProfileResponseDto = profileService.selectOneProfile(profileId);
+        SingleProfileResponseDto singleProfileResponseDto = profileService.selectOneProfileById(profileId);
         return JsonResponse.ok("프로필을 성공적으로 가져왔습니다.", singleProfileResponseDto);
     }
 }
