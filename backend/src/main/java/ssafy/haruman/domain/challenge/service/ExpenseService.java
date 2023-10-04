@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface ExpenseService {
 
-    ExpenseResponseDto createExpense(Long challengeId, ExpenseCreateRequestDto createRequestDto);
+    ExpenseResponseDto createExpense(Profile profile, Long challengeId, ExpenseCreateRequestDto createRequestDto);
 
-    ExpenseResponseDto updateExpense(ExpenseUpdateRequestDto updateRequestDto);
+    ExpenseResponseDto updateExpense(Profile profile, ExpenseUpdateRequestDto updateRequestDto);
 
-    void deleteExpense(Long expenseId);
+    void deleteExpense(Profile profile, Long expenseId);
 
     List<ExpenseResponseDto> selectDailyExpenseList(Profile profile, Long challengeId);
 }
