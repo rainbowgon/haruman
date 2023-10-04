@@ -123,7 +123,7 @@ pipeline {
                     echo "\n****** Nginx Proxy Redirect ******"
 
                     # nginx 컨테이너 접속
-                    ssh -i J9A607T.pem ubuntu@j9a607.p.ssafy.io /bin/bash
+                    ssh -o StrictHostKeyChecking=no -i J9A607T.pem ubuntu@j9a607.p.ssafy.io /bin/bash
 
                     # $service_url을 target_port로 바꾸는데 기존 값은 중요하지 않음
                     docker exec haruman_nginx_1 bash -c "echo 'set \\$service_url 3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
