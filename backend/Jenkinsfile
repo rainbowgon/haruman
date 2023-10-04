@@ -21,7 +21,7 @@ pipeline {
         stage('Pull from GitLab') {
             steps {
                 git url: 'https://lab.ssafy.com/s09-fintech-finance-sub2/S09P22A607.git',
-                    branch: 'feat/70',
+                    branch: 'be/develop',
                     credentialsId: 'GitLab Pipeline token'
             }
         }
