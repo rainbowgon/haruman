@@ -129,15 +129,15 @@ pipeline {
                     # 그린 8082 -> 블루 8081로 바꿈
                     if [ ${deployment_target} eq green ]
                     then
-                        docker exec haruman_nginx_1 bash -c "echo 'set \$service_url 3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
+                        docker exec haruman_nginx_1 bash -c "echo 'set \\$service_url 3.34.135.50:8082;' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
                         echo "Switch the reverse proxy direction of nginx to ${deployment_target} http://3.34.135.50:${deployment_target_port} 🟢🟩"
                     else
-                        docker exec haruman_nginx_1 bash -c "echo 'set \$service_url 3.34.135.50:8081;' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
+                        docker exec haruman_nginx_1 bash -c "echo 'set \\$service_url 3.34.135.50:8081;' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
                         echo "Switch the reverse proxy direction of nginx to ${deployment_target} http://3.34.135.50:${deployment_target_port} 🔵🟦"
                     fi
 
 
-                    echo "\n****** Kill the process on the opposite server ******""
+                    echo "\n****** Kill the process on the opposite server ******"
                     # 리다이렉트 후 다른 컨테이너가 존재하면 내림
                     if docker container inspect haruman_server_${opposite_target} >/dev/null 2>&1; then
                         echo "${opposite_target}-container exists locally & removed"
