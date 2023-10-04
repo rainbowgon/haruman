@@ -1,9 +1,9 @@
-package ssafy.haruman.global.oauth.client;
+package ssafy.haruman.global.oauth.common.client;
 
 import org.springframework.stereotype.Component;
 import ssafy.haruman.domain.member.entity.OAuthServerType;
 import ssafy.haruman.global.error.exception.OAuthNotFoundException;
-import ssafy.haruman.global.oauth.dto.OAuthResponseDto;
+import ssafy.haruman.global.oauth.common.dto.OAuthResponseDto;
 
 import java.util.Map;
 import java.util.Optional;
