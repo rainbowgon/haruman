@@ -36,6 +36,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // OpenAPI 서드파티 라이브러리 ( 2023.09.27 기준 0.16.0이 최신버전 )
     implementation 'com.theokanning.openai-gpt3-java:service:0.16.0'
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'io.lettuce:lettuce-core:6.2.4.RELEASE'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'com.google.code.gson:gson'
     compileOnly 'org.projectlombok:lombok'

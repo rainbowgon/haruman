@@ -11,7 +11,6 @@ import ssafy.haruman.global.entity.BaseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -41,11 +40,12 @@ public class Deposit extends BaseEntity {
     @NotBlank
     private String description;
 
-    @Column(precision = 4, scale = 2) // 총 4자리 중 소수점 2자리를 위한 예약. 예: 10.99
-    private BigDecimal interestRate;
+    @Column
+    @NotBlank
+    private float interestRate;
 
     @Builder
-    public Deposit(Profile profile, String bank, String name, String description, BigDecimal interestRate) {
+    public Deposit(Profile profile, String bank, String name, String description, float interestRate) {
         this.profile = profile;
         this.bank = bank;
         this.name = name;
@@ -53,7 +53,7 @@ public class Deposit extends BaseEntity {
         this.interestRate = interestRate;
     }
 
-    public void updateDeposit(String bank, String name, String description, BigDecimal interestRate) {
+    public void updateDeposit(String bank, String name, String description, float interestRate) {
         this.bank = bank;
         this.name = name;
         this.description = description;

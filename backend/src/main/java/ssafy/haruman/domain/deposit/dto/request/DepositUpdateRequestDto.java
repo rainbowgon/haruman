@@ -4,8 +4,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DepositUpdateRequestDto {
@@ -14,6 +12,6 @@ public class DepositUpdateRequestDto {
     private String bank;
     private String name;
     private String description;
-    private BigDecimal interestRate;
+    private float interestRate;
 
 }
