@@ -13,6 +13,8 @@ import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.error.exception.ChallengeAlreadyExistsException;
 import ssafy.haruman.global.error.exception.ChallengeWrongDataException;
+import ssafy.haruman.global.gpt.dto.response.CompletionChatResponse;
+import ssafy.haruman.global.gpt.service.GPTChatRestService;
 
 import javax.transaction.Transactional;
 import java.text.DateFormat;
@@ -30,6 +32,9 @@ public class ChallengeServiceImpl implements ChallengeService {
     private final ChallengeRepository challengeRepository;
     private final ExpenseRepository expenseRepository;
     private final RedisTemplate<String, Float> floatRedisTemplate;
+
+    private final GPTChatRestService gptChatRestService;
+    private static StringBuilder sb = new StringBuilder();
 
 
     @Override
@@ -194,9 +199,11 @@ public class ChallengeServiceImpl implements ChallengeService {
         List<Challenge> list = challengeRepository.findAllByStatus();
         // 챌린지가 없을 때 빈리스트가 반환되어 아무 결과 처리 없음
         ValueOperations<String, Float> valueOperations = floatRedisTemplate.opsForValue();
-        valueOperations.set("cnt", (float) (list.size()));
+        sb.append("선호하는 카테고리 : ");
 
         for (Challenge challenge : list) {
+            valueOperations.set("cnt", (float) (valueOperations.get("cnt") + 1f));
+
             if (challenge.getTargetAmount() - challenge.getUsedAmount() < 0) {
                 challenge.updateChallengeStatus(ChallengeStatus.FAIL);
             } else {
@@ -229,7 +236,18 @@ public class ChallengeServiceImpl implements ChallengeService {
                     float preCategoryRatio = valueOperations.get(categoryName);
                     System.out.println(preCategoryRatio);
                     // Redis에 카테고리별 소비 비율 저장
-                    valueOperations.set(categoryName, (preCategoryRatio + categoryRatio) / valueOperations.get("cnt"));
+                    valueOperations.set(categoryName, ((preCategoryRatio * valueOperations.get("cnt") - 1) + categoryRatio) / valueOperations.get("cnt"));
+                    if (valueOperations.get(categoryName) <= categoryRatio) {
+                        sb.append(categoryName).append(", ");
+                    }
+                }
+
+                sb.append("\n").append("내가 알려준 적금 중에서 적합한 적금 3개를 (은행명, 적금이름, 적금설명 및 추천이유, 이율)의 형태로 알려줘");
+                System.out.println(sb.toString());
+                CompletionChatResponse completionChatResponse = gptChatRestService.GPT(sb.toString());
+                sb.setLength(0);
+                for (int i = 0; i < completionChatResponse.getMessages().size(); i++) {
+                    System.out.println(completionChatResponse.getMessages().get(i).getMessage());
                 }
             }
         }
