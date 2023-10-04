@@ -5,9 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 import ssafy.haruman.global.gpt.dto.request.GPTCompletionChatRequest;
 import ssafy.haruman.global.gpt.dto.response.CompletionChatResponse;
 import ssafy.haruman.global.gpt.service.GPTChatRestService;
+
+import java.nio.file.Path;
 
 @Component
 @RequiredArgsConstructor
@@ -15,6 +18,8 @@ public class AppStartupRunner implements ApplicationRunner {
 
     @Autowired
     private final GPTChatRestService gptChatRestService;
+
+    private final String FILE_NAME = "savings_products.txt";
 
     public void GPT(String productDescriptions) {
         GPTCompletionChatRequest gptCompletionChatRequest = new GPTCompletionChatRequest(
@@ -26,7 +31,8 @@ public class AppStartupRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        String productDescriptions = FileUtil.readFile(".\\backend\\src\\main\\resources\\savings_products.txt");
+        Path path = ResourceUtils.getFile("classpath:" + FILE_NAME).toPath();
+        String productDescriptions = FileUtil.readFile(path.toString());
 
         if (productDescriptions.length() > 2500) {
             int x = productDescriptions.length() / 2500;
@@ -42,6 +48,5 @@ public class AppStartupRunner implements ApplicationRunner {
         } else {
             GPT(productDescriptions);
         }
-
     }
 }
