@@ -1,0 +1,44 @@
+@import '../_util.scss';         /*변수파일 - 색상 + 모바일 체크*/
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+
+.savepage_container{
+    font-family: "IBM Plex Sans KR",sans-serif;
+
+    width: 80vw;
+    margin: auto;
+    display: grid;
+
+    grid-template-columns: 1fr;
+    justify-content: center;
+}
+
+.savepage_header{
+    margin: 4rem auto;
+    .savepage_header_logo{
+        width: auto;
+    }
+}
+
+.savepage_save_container{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.savepage_compare_container{
+    display: grid;
+    grid-template-columns: 1fr;
+    
+}
+
+.savepage_itemlist{
+    display: grid;
+    grid-template-columns: 1fr;
+
+}
+
+.savepage_title{
+    margin-top: 2rem;
+    color: $black;
+    font-size: 1.2rem;
+    font-weight: bold;
+}

@@ -203,7 +203,19 @@ const Homepage = () => {
   };
 
   if (isLoading) {
-    return <div className="loading_text">로딩중...</div>;
+    return (
+      <div className="loading_text">
+        로딩중...
+      </div>
+    )
+  } else if (challengeInfo.challengeStatus === "SUCCESS") {
+    return (<div>
+      첼린지 Success
+    </div>)
+  } else if (challengeInfo.challengeStatus === "FAIL") {
+    return (<div>
+      첼린지 Fail
+    </div>)
   } else {
     return (
       <MainStyle>

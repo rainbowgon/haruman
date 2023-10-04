@@ -29,7 +29,7 @@ const MyPage = () => {
   const navigate = useNavigate();
   
   const [features, setFeatures] = useState(["HomePage", "TodayExpensePage", "CalendarPage", "RankingPage", "plus"]);
-  const [user, setSUser] = useState({
+  const [user, setUser] = useState({
     profileId: 30,
     nickname: "명정루",
     profileImage: null,
@@ -49,7 +49,7 @@ const MyPage = () => {
   const selectOneProfile = () => {
     console.log("selectOneProfile");
 
-    axios.get(`${API_URL}${contextPath}${ProfileAPI}/1`,
+    axios.get(`${API_URL}${contextPath}${ProfileAPI}/mine`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -57,8 +57,7 @@ const MyPage = () => {
       })
       .then((response) => {
         console.log("회원 프로필 조회 성공", response.data.data);
-        
-        // setSUser();
+        setUser(response.data.data);
       })
       .catch((error) => {
         console.error('회원 프로필 조회 실패', error);
