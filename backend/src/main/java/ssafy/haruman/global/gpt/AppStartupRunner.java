@@ -12,6 +12,7 @@ import ssafy.haruman.global.gpt.vo.BankProduct;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class AppStartupRunner implements ApplicationRunner {
 
     private List<BankProduct> parseJsonFileToBankProductList() throws IOException {
         ClassPathResource classPathResource = new ClassPathResource(FILE_NAME);
-        InputStreamReader inputStreamReader = new InputStreamReader(classPathResource.getInputStream(), "UTF-8");
+        InputStreamReader inputStreamReader = new InputStreamReader(classPathResource.getInputStream(), StandardCharsets.UTF_8);
         Gson gson = new Gson();
         BankProduct[] array = gson.fromJson(inputStreamReader, BankProduct[].class);
         return Arrays.asList(array);
