@@ -48,13 +48,6 @@ public class ChallengeController {
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
     }
 
-//    @Scheduled(cron = "0 0 0 * * *")
-//    public ResponseEntity<ResponseWrapper<Nullable>> endChallenge() {
-//
-//        challengeService.endChallenge();
-//        return JsonResponse.ok("챌린지가 종료되고 사용자 정보가 업데이트되었습니다.");
-//    }
-
     @GetMapping("/people")
     public ResponseEntity<ResponseWrapper<List<ChallengeUserListResponseDto>>> selectChallengeUserList() {
 
