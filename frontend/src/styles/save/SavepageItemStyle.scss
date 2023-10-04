@@ -1,0 +1,70 @@
+@import '../_util.scss';         /*변수파일 - 색상 + 모바일 체크*/
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap');
+
+.save_item_component{
+    height: 60px;
+
+    margin: 0.3rem 0;
+
+    display: grid;
+    grid-template-columns: 2fr 5fr 3fr;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0.5rem;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.15);
+}
+
+.save_item_img_circle{
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: auto;
+    border-radius: 100%;
+    
+    .save_item_img{
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.save_item_contents{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .save_item_maintext{
+        margin: 0;
+        
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    .save_item_subtext{
+        margin: 0;
+        font-size: 0.5rem;
+    }
+}
+
+.save_item_interest{
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    
+    .save_item_interest_text{
+        margin: 0;
+        font-size: 0.4rem;
+        color: $font2_main;
+    }
+    
+    .save_item_interest_rate{
+        margin: 0 0.3rem;
+        font-size: 1rem;
+        font-weight: bold;
+        color: $brand1_main;
+    }
+}

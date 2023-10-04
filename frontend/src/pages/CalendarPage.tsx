@@ -52,8 +52,12 @@ const CalendarPage = () => {
     setDailyAmount(sumAmount);
   }, [challengeitems]);
 
-  //selectAccumulatedAmount
-  //get
+  /**
+   * selectAccumulatedAmount
+   * 회원의 챌린지 누적 잔액 조회
+   * /challenges/amount
+   * GET
+   */
   const selectAccumulatedAmount = () => {
     axios
       .get(`${API_URL}${contextPath}${ChallengeAPI}/amount`, {
@@ -150,6 +154,7 @@ const CalendarPage = () => {
                 color={item.categoryColor}
                 mainValue={item.content}
                 moneyValue={item.payAmount}
+                id = {item.id}
               />
             ))
           ) : (
