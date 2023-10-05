@@ -36,7 +36,7 @@ const SavepageItem = ({
         window.location.href = 'https://m.shinhan.com/rib/mnew/index.jsp#220011110001';
         return "shinhan";
       } else if(imgName === "국민은행") {
-        window.location.href = 'https://obank.kbstar.com/quics?page=C016528#loading';
+        window.location.href = 'https://obank.kbstar.com/quics?page=C020702';
         return "kb";
       } else if(imgName === "하나은행") {
         window.location.href = 'https://www.kebhana.com/cont/mall/mall09/mall0902/mall090201/index.jsp';

@@ -100,11 +100,13 @@ const MyPage = () => {
                     />
                   </button>
                   {user && user.profileImage && (
-                    <img
-                      className="profile_img"
-                      src={`${user && user.profileImage}`}
-                      alt="프로필 이미지"
-                    />
+                    <div className="profile_img_div">
+                      <img
+                        className="profile_img"
+                        src={`${user && user.profileImage}`}
+                        alt="프로필 이미지"
+                      />
+                    </div>
                   )}
                 </div>
                 <div className="profile_text">
