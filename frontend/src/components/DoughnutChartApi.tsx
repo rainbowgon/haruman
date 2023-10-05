@@ -34,7 +34,10 @@ const DonutChart: React.FC = () => {
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [message, setMessage] = useState<string>("");
 
-  const accessToken = process.env.REACT_APP_accessToken;
+  // 테스트용
+  // const accessToken = process.env.REACT_APP_accessToken;
+  // 배포용
+  const accessToken = sessionStorage.getItem("accessToken");
   const contextPath = `/api`;
   const challengeAPI = "/challenges/23";
 

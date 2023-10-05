@@ -36,9 +36,9 @@ export default function SpentItem({
   className,
 }: SpentItemProps) {
   // 테스트용
-  const accessToken = process.env.REACT_APP_accessToken;
+  // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  // const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = sessionStorage.getItem("accessToken");
 
   const date = new Date();
 
@@ -49,22 +49,22 @@ export default function SpentItem({
     PATCH
   */
   const updateExpense = () => {
-    const accessToken = sessionStorage.getItem("accessToken")
-    axios.patch(`${API_URL}${contextPath}${ChallengeAPI}`, "edit",
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    })
-    .then((response) => {
+    const accessToken = sessionStorage.getItem("accessToken");
+    axios
+      .patch(`${API_URL}${contextPath}${ChallengeAPI}`, "edit", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
         console.log("지출 내역 수정");
         showAlert("지출 내역 수정");
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.error("서버로부터 지출 내역 수정 실패", error);
         showAlert("지출 내역 수정 실패입니다.");
         console.error(error.code);
-    });
+      });
   };
 
   /**
@@ -108,9 +108,7 @@ export default function SpentItem({
       <div className="spent_item_price_div">
         <p className="spent_item_price"> {moneyValue} 원</p>
       </div>
-      <div>
-        
-      </div>
+      <div></div>
     </div>
   );
 }

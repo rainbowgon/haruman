@@ -10,7 +10,7 @@ import "../styles/wave.scss";
 import "../styles/LandingPageStyle.scss";
 
 // image
-import Logo from "../assets/logo-mainlogo.svg"
+import Logo from "../assets/logo-mainlogo.svg";
 
 // components
 import RegisterButton from "../components/RegistButton";
@@ -20,9 +20,9 @@ import axios from "axios";
 
 const Homepage = () => {
   // 테스트용
-  const accessToken = process.env.REACT_APP_accessToken;
+  // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  // const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = sessionStorage.getItem("accessToken");
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -222,17 +222,20 @@ const Homepage = () => {
   };
 
   if (isLoading) {
-    return (<div className="loading_text">
-      <img src={Logo} alt="로딩중..."></img>
-    </div>)
+    return (
+      <div className="loading_text">
+        <img
+          src={Logo}
+          alt="로딩중..."
+        ></img>
+      </div>
+    );
   } else if (challengeInfo.challengeStatus === "SUCCESS") {
     return (
       <div className="challenge_response">
-        <div className="timeout_fullscreen_div success"/>
-        <div className="challenge_response_title">
-          챌린지 성공
-        </div>
-        
+        <div className="timeout_fullscreen_div success" />
+        <div className="challenge_response_title">챌린지 성공</div>
+
         <div
           className="challenge_response_wave"
           style={{ top: `${70 + waveTop}%` }}
@@ -256,7 +259,7 @@ const Homepage = () => {
                 id="wave-gradient"
                 x1="0%"
                 y1="0%"
-                x2="0%" 
+                x2="0%"
                 y2="100%"
               >
                 <stop
@@ -295,16 +298,14 @@ const Homepage = () => {
           </svg>
         </div>
       </div>
-    )
+    );
   } else if (challengeInfo.challengeStatus === "FAIL") {
-      return (
-        <div className="challenge_response">
-          <div className="timeout_fullscreen_div fail"/>
-            <div className="challenge_response_title">
-              챌린지 실패
-            </div>
-        </div>
-      )
+    return (
+      <div className="challenge_response">
+        <div className="timeout_fullscreen_div fail" />
+        <div className="challenge_response_title">챌린지 실패</div>
+      </div>
+    );
   } else {
     return (
       <MainStyle>

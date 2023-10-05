@@ -105,7 +105,10 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   const [pageInfo, setPageInfo] = useState<any>({});
   useEffect(() => {
     const fetchChartData = async () => {
-      const accessToken = process.env.REACT_APP_accessToken;
+      // 테스트용
+      // const accessToken = process.env.REACT_APP_accessToken;
+      // 배포용
+      const accessToken = sessionStorage.getItem("accessToken");
       try {
         const response = await axios.get<ApiResponse>(
           `${API_URL}/api/challenges/people`,
