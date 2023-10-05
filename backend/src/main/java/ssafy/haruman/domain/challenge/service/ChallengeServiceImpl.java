@@ -13,6 +13,7 @@ import ssafy.haruman.domain.challenge.repository.ChallengeUserInfoMapping;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.error.exception.ChallengeAlreadyExistsException;
 import ssafy.haruman.global.error.exception.ChallengeWrongDataException;
+import ssafy.haruman.global.service.S3FileService;
 
 import javax.transaction.Transactional;
 import java.text.DateFormat;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 public class ChallengeServiceImpl implements ChallengeService {
 
     private final ChallengeRepository challengeRepository;
+    private final S3FileService s3FileService;
 
     @Override
     @Transactional
@@ -146,7 +148,10 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     private List<ChallengeUserInfoDto> convertToUserInfoDto(List<ChallengeUserInfoMapping> list) {
         return list.stream()
-                .map(ChallengeUserInfoDto::from)
+                .map(item -> {
+                    String profileImageUrl = s3FileService.getS3Url(item.getProfileImagePath(), item.getProfileImageName());
+                    return ChallengeUserInfoDto.from(item, profileImageUrl);
+                })
                 .collect(Collectors.toList());
     }
 
