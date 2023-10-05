@@ -49,14 +49,10 @@
       }
     }
 
-    .profile_img_div{
+    .profile_img {
       overflow: hidden;
+      object-fit: cover;
       width: 100%;
-      border-radius: 100%;
-
-      .profile_img {
-        width: 100%;
-      }
     }
   }
   .profile_text {
