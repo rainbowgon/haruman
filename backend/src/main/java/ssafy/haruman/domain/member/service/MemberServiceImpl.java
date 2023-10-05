@@ -29,7 +29,9 @@ public class MemberServiceImpl implements MemberService {
         Member newMember = createRequestDto.toMemberEntity();
         Member savedMember = memberRepository.save(newMember);
         String finalURL = UrlUtil.getFinalURL(RANDOM_PROFILE_IMAGE_URL);
-        profileService.saveProfileFromOAuth(savedMember, createRequestDto.getNickname(), finalURL);
+        String extention = UrlUtil.getFormatFromQuery(finalURL);
+        String path = finalURL + "." + extention;
+        profileService.saveProfileFromOAuth(savedMember, createRequestDto.getNickname(), path);
         return JwtUtil.createJwt(savedMember.getId(), secretKey, expiredMs);
     }
 }
