@@ -20,7 +20,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     List<Challenge> findAllByStatus();
 
     @Query(nativeQuery = true,
-            value = "SELECT p.nickname nickname, f.saved_path profileImage, c.start_time startTime, c.used_amount usedAmount, e.created_at createdAt\n" +
+            value = "SELECT p.nickname nickname, f.saved_path profileImagePath, f.saved_filename profileImageName, c.start_time startTime, c.used_amount usedAmount, e.created_at createdAt\n" +
                     "FROM challenge c\n" +
                     "LEFT JOIN (SELECT challenge_id, MAX(created_at) created_at FROM expense WHERE is_valid = 'VALID' GROUP BY challenge_id) e\n" +
                     "ON c.challenge_id = e.challenge_id\n" +

@@ -17,10 +17,10 @@ public class ChallengeUserInfoDto {
     private LocalDateTime challengeStartTime;
     private LocalDateTime latestExpensePayTime;
 
-    public static ChallengeUserInfoDto from(ChallengeUserInfoMapping info) {
+    public static ChallengeUserInfoDto from(ChallengeUserInfoMapping info, String profileImageUrl) {
         return ChallengeUserInfoDto.builder()
                 .nickname(info.getNickname())
-                .profileImage(info.getProfileImage())
+                .profileImage(profileImageUrl)
                 .usedAmount(info.getUsedAmount())
                 .challengeStartTime(info.getStartTime())
                 .latestExpensePayTime(info.getCreatedAt())
