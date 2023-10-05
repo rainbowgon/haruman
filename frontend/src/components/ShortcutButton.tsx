@@ -10,6 +10,8 @@ import ChartsetIcon from "../assets/icons/icon-chartset.svg";
 import CalendarIcon from "../assets/icons/icon-calendarday.svg";
 import PiggybankIcon from "../assets/icons/icon-piggybank.svg";
 import PlusIcon from "../assets/icons/icon-plus.svg";
+import axios from "axios";
+import { API_URL } from "../constants/urls";
 
 export interface ButtonProps {
   text: string;
@@ -75,6 +77,26 @@ export default function ShortcutButton({
       navigate("/save");
       return;
     } else {
+      
+      const userData = {
+        nickname: '테스트',
+      };
+
+      axios
+      .post(`${API_URL}/api/members`, userData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        console.log(
+          "토큰제작 성공",
+          response,
+        );
+      })
+      .catch((error) => {
+        console.error("토큰제작 실패", error);
+      });
       return;
     }
   };

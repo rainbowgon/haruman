@@ -13,7 +13,7 @@
   filter: drop-shadow(2px 2px 2px rgb(0, 0, 0, 0.15));
 
   display: grid;
-  grid-template-columns: 8fr 2fr;
+  grid-template-columns: 2fr 6fr 2fr;
 
   .spent_item_category {
     background-color: $BLACK_03;
@@ -61,6 +61,8 @@
 .user_item_image_component{
   width: 40px;
   height: 40px;
+
+  margin: auto;
   
   border: 3px solid $brand1_main;
   border-radius: 100%;

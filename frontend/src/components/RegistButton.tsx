@@ -19,7 +19,7 @@ export default function Register({
 }: ButtonProps) {
   return (
     <div className="regist_button_box">
-      <div className={`button_container`}>
+      <div className="button_container">
         <button
           className={`register_button ${className}`}
           style={style}

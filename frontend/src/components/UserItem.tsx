@@ -18,7 +18,7 @@ export default function UserItem({
   return (
     <div className="spent_item">
       <div className="user_item_image_component">
-        {image ? (
+        {(image) ? (
           <img
             src={image}
             alt="User Profile"
