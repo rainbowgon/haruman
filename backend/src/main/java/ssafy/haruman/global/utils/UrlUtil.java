@@ -1,7 +1,11 @@
 package ssafy.haruman.global.utils;
 
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class UrlUtil {
 
@@ -28,5 +32,42 @@ public class UrlUtil {
             e.printStackTrace();
         }
         return urlPath;
+    }
+
+    public static String getFormatFromQuery(String urlPath) {
+        try {
+            URL aURL = new URL(urlPath);
+            Map<String, String> map = getQueryMap(aURL.getQuery());
+
+            if (map != null) {
+                Set<String> keys = map.keySet();
+                for (String key : keys) {
+                    if (key.equals("fm") || key.equals("format")) {
+                        return map.get(key);
+                    }
+                }
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        return "jpg";
+    }
+
+    public static Map<String, String> getQueryMap(String query) {
+        if (query == null) return null;
+
+        int pos1 = query.indexOf("?");
+        if (pos1 >= 0) {
+            query = query.substring(pos1 + 1);
+        }
+
+        String[] params = query.split("&");
+        Map<String, String> map = new HashMap<>();
+        for (String param : params) {
+            String name = param.split("=")[0];
+            String value = param.split("=")[1];
+            map.put(name, value);
+        }
+        return map;
     }
 }
