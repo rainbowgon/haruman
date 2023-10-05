@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { registServer } from "../apis/user";
+// import { registServer } from "../apis/user";
 
 import Input from "../components/InputText";
 import RegisterButton from "../components/RegistButton";
@@ -109,14 +109,14 @@ const SignupPage = () => {
   };
 
   const handleRegist = () => {
-    registServer(userData)
-      .then((res) => {
-        alert("가입 완료");
-        RedirectLogin();
-      })
-      .catch((err) => {
-        errorHandlers(err.response, handleRegist);
-      });
+    // registServer(userData)
+    //   .then((res) => {
+    //     alert("가입 완료");
+    //     RedirectLogin();
+    //   })
+    //   .catch((err) => {
+    //     errorHandlers(err.response, handleRegist);
+    //   });
   };
 
   const handleEmailSender = () => {
