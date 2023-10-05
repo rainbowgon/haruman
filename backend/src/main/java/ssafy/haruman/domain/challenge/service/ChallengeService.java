@@ -4,6 +4,7 @@ import ssafy.haruman.domain.challenge.dto.response.AccumulatedAmountResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeHistoryResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.ChallengeUserListResponseDto;
 import ssafy.haruman.domain.challenge.dto.response.DailyChallengeResponseDto;
+import ssafy.haruman.domain.challenge.entity.Challenge;
 import ssafy.haruman.domain.profile.entity.Profile;
 
 import java.io.IOException;
@@ -16,9 +17,13 @@ public interface ChallengeService {
 
     DailyChallengeResponseDto selectDailyChallenge(Profile profile);
 
-    void endChallenge();
+    void endChallenge() throws IOException;
 
     void testEndChallenge() throws IOException;
+
+    void preRecommend() throws IOException;
+
+    void depositRecommend(Challenge challenge) throws IOException;
 
     List<ChallengeUserListResponseDto> selectChallengeUserList();
 

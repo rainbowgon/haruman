@@ -4,8 +4,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.entity.BaseEntity;
 
@@ -16,8 +14,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE deposit SET is_valid = 'DELETED' WHERE deposit_id = ?")
-@Where(clause = "is_valid = 'VALID'")
+//@SQLDelete(sql = "UPDATE deposit SET is_valid = 'DELETED' WHERE deposit_id = ?")
+//@Where(clause = "is_valid = 'VALID'")
 public class Deposit extends BaseEntity {
 
     @Id

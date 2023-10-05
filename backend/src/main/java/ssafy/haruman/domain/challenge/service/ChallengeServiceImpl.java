@@ -15,6 +15,7 @@ import ssafy.haruman.domain.challenge.repository.ChallengeRepository;
 import ssafy.haruman.domain.challenge.repository.ChallengeUserInfoMapping;
 import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
 import ssafy.haruman.domain.deposit.dto.request.DepositCreateRequestDto;
+import ssafy.haruman.domain.deposit.dto.response.DepositSimpleResponseDto;
 import ssafy.haruman.domain.deposit.service.DepositService;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.error.exception.ChallengeAlreadyExistsException;
@@ -22,6 +23,7 @@ import ssafy.haruman.global.error.exception.ChallengeWrongDataException;
 import ssafy.haruman.global.gpt.dto.response.CompletionChatResponse;
 import ssafy.haruman.global.gpt.service.GPTChatRestService;
 import ssafy.haruman.global.gpt.vo.BankProduct;
+import ssafy.haruman.global.service.S3FileService;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -40,10 +42,9 @@ public class ChallengeServiceImpl implements ChallengeService {
     private final ChallengeRepository challengeRepository;
     private final ExpenseRepository expenseRepository;
     private final RedisTemplate<String, Float> floatRedisTemplate;
-
+    private final S3FileService s3FileService;
     private final String FILE_NAME = "bank_products.json";
     private final GPTChatRestService gptChatRestService;
-
     private final DepositService depositService;
     private static StringBuilder sb = new StringBuilder();
 
@@ -109,54 +110,6 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
-    @Transactional
-    @Scheduled(cron = "0 0 0 * * *")
-    public void endChallenge() {
-
-        List<Challenge> list = challengeRepository.findAllByStatus();
-        // 챌린지가 없을 때 빈리스트가 반환되어 아무 결과 처리 없음
-        ValueOperations<String, Float> valueOperations = floatRedisTemplate.opsForValue();
-
-
-        for (Challenge challenge : list) {
-            if (challenge.getTargetAmount() - challenge.getUsedAmount() < 0) {
-                challenge.updateChallengeStatus(ChallengeStatus.FAIL);
-            } else {
-                challenge.updateChallengeStatus(ChallengeStatus.SUCCESS);
-                List<Expense> expenseList = expenseRepository.findAllByChallenge(challenge);
-                // 카테고리별 소비 총액을 저장할 맵 생성
-                Map<String, Float> categoryTotalSpent = new HashMap<>();
-
-                // 전체 소비 총액을 저장할 변수
-                float totalSpent = 0.0f;
-
-                // Expense 항목을 반복하면서 카테고리별 소비 총액 계산
-                for (Expense expense : expenseList) {
-                    String categoryName = expense.getCategory().getName();
-                    float payAmount = expense.getPayAmount();
-
-                    // 카테고리별 소비 총액 업데이트
-                    categoryTotalSpent.put(categoryName, categoryTotalSpent.getOrDefault(categoryName, 0.0f) + payAmount);
-
-                    // 전체 소비 총액 업데이트
-                    totalSpent += payAmount;
-                }
-
-                // 카테고리별 소비 비율을 계산하고 Redis에 저장
-                for (Map.Entry<String, Float> entry : categoryTotalSpent.entrySet()) {
-                    String categoryName = entry.getKey();
-                    float categorySpent = entry.getValue();
-                    float categoryRatio = (categorySpent / totalSpent) * 100.0f;
-
-                    float preCategoryRatio = valueOperations.get(categoryName);
-                    // Redis에 카테고리별 소비 비율 저장
-                    valueOperations.set(categoryName, preCategoryRatio + categoryRatio);
-                }
-            }
-        }
-    }
-
-    @Override
     public List<ChallengeUserListResponseDto> selectChallengeUserList() {
 
         List<ChallengeUserInfoMapping> challengeList = challengeRepository.findChallengeAndExpenseAndProfileByStatus();
@@ -197,86 +150,132 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     private List<ChallengeUserInfoDto> convertToUserInfoDto(List<ChallengeUserInfoMapping> list) {
         return list.stream()
-                .map(ChallengeUserInfoDto::from)
+                .map(item -> {
+
+                    String profileImageUrl = s3FileService.getS3Url(item.getProfileImagePath(), item.getProfileImageName());
+                    return ChallengeUserInfoDto.from(item, profileImageUrl);
+                })
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    @Scheduled(cron = "0 0 0 * * *")
+    public void endChallenge() throws IOException {
+
+        List<Challenge> list = challengeRepository.findAllByStatus();
+        // 챌린지가 없을 때 빈리스트가 반환되어 아무 결과 처리 없음
+        for (Challenge challenge : list) {
+
+            if (challenge.getTargetAmount() - challenge.getUsedAmount() < 0) {
+                challenge.updateChallengeStatus(ChallengeStatus.FAIL);
+            } else {
+                challenge.updateChallengeStatus(ChallengeStatus.SUCCESS);
+                depositRecommend(challenge);
+            }
+        }
+    }
 
     @Override
     @Transactional
-//    @Scheduled(cron = "0 0 0 * * *")
     public void testEndChallenge() throws IOException {
 
         List<Challenge> list = challengeRepository.findAllByStatus();
         // 챌린지가 없을 때 빈리스트가 반환되어 아무 결과 처리 없음
+        for (Challenge challenge : list) {
+            if (challenge.getTargetAmount() - challenge.getUsedAmount() < 0) {
+                challenge.updateChallengeStatus(ChallengeStatus.FAIL);
+            } else {
+                challenge.updateChallengeStatus(ChallengeStatus.SUCCESS);
+                depositRecommend(challenge);
+            }
+        }
+    }
+
+    @Override
+    @Transactional
+    @Scheduled(cron = "0 55 23 * * *")
+    public void preRecommend() throws IOException {
+
+        List<Challenge> list = challengeRepository.findAllByStatus();
+        // 챌린지가 없을 때 빈리스트가 반환되어 아무 결과 처리 없음
+
+        for (Challenge challenge : list) {
+            if (challenge.getTargetAmount() - challenge.getUsedAmount() < 0) {
+            } else {
+                depositRecommend(challenge);
+            }
+        }
+    }
+
+    @Override
+    @Transactional
+    public void depositRecommend(Challenge challenge) throws IOException {
+
         ValueOperations<String, Float> valueOperations = floatRedisTemplate.opsForValue();
         List<BankProduct> bankProductList = gptChatRestService.parseJsonFileToBankProductList();
         StringBuilder Bank = gptChatRestService.sendBankProductListToGPT(bankProductList);
 
         sb.append("선호하는 카테고리 : ");
 
-        for (Challenge challenge : list) {
-            valueOperations.set("cnt", (float) (valueOperations.get("cnt") + 1f));
+        valueOperations.set("cnt", (float) (valueOperations.get("cnt") + 1f));
+        List<Expense> expenseList = expenseRepository.findAllByChallenge(challenge);
+        List<DepositCreateRequestDto> dtoList = new ArrayList<>();
+        // 카테고리별 소비 총액을 저장할 맵 생성
+        Map<String, Float> categoryTotalSpent = new HashMap<>();
 
-            if (challenge.getTargetAmount() - challenge.getUsedAmount() < 0) {
-                challenge.updateChallengeStatus(ChallengeStatus.FAIL);
-            } else {
-                challenge.updateChallengeStatus(ChallengeStatus.SUCCESS);
-                List<Expense> expenseList = expenseRepository.findAllByChallenge(challenge);
-                List<DepositCreateRequestDto> dtoList = new ArrayList<>();
-                // 카테고리별 소비 총액을 저장할 맵 생성
-                Map<String, Float> categoryTotalSpent = new HashMap<>();
+        // 전체 소비 총액을 저장할 변수
+        float totalSpent = 0.0f;
 
-                // 전체 소비 총액을 저장할 변수
-                float totalSpent = 0.0f;
+        // Expense 항목을 반복하면서 카테고리별 소비 총액 계산
+        for (Expense expense : expenseList) {
+            String categoryName = expense.getCategory().getName();
+            float payAmount = expense.getPayAmount();
 
-                // Expense 항목을 반복하면서 카테고리별 소비 총액 계산
-                for (Expense expense : expenseList) {
-                    String categoryName = expense.getCategory().getName();
-                    float payAmount = expense.getPayAmount();
+            // 카테고리별 소비 총액 업데이트
+            categoryTotalSpent.put(categoryName, categoryTotalSpent.getOrDefault(categoryName, 0.0f) + payAmount);
 
-                    // 카테고리별 소비 총액 업데이트
-                    categoryTotalSpent.put(categoryName, categoryTotalSpent.getOrDefault(categoryName, 0.0f) + payAmount);
+            // 전체 소비 총액 업데이트
+            totalSpent += payAmount;
 
-                    // 전체 소비 총액 업데이트
-                    totalSpent += payAmount;
-                }
+        }
 
-                // 카테고리별 소비 비율을 계산하고 Redis에 저장
-                for (Map.Entry<String, Float> entry : categoryTotalSpent.entrySet()) {
-                    String categoryName = entry.getKey();
-                    float categorySpent = entry.getValue();
-                    float categoryRatio = (categorySpent / totalSpent) * 100.0f;
+        // 카테고리별 소비 비율을 계산하고 Redis에 저장
+        for (Map.Entry<String, Float> entry : categoryTotalSpent.entrySet()) {
+            String categoryName = entry.getKey();
+            float categorySpent = entry.getValue();
+            float categoryRatio = (categorySpent / totalSpent) * 100.0f;
 
-                    float preCategoryRatio = valueOperations.get(categoryName);
-                    System.out.println("pre" + categoryName + preCategoryRatio);
-                    // Redis에 카테고리별 소비 비율 저장
-                    valueOperations.set(categoryName, ((preCategoryRatio * valueOperations.get("cnt") - 1) + categoryRatio) / valueOperations.get("cnt"));
-                    if (valueOperations.get(categoryName) <= categoryRatio) {
-                        sb.append(categoryName).append(", ");
-                    }
-                }
-
-                sb.append("\n").append("내가 알려준 적금 중에서 적합한 적금 3개를 (bank, name, description, interestRate) 각각을 키로 JSON 배열형태로 알려줘(interestRate에 % 붙이지마)");
-                CompletionChatResponse completionChatResponse = gptChatRestService.GPT(Bank.toString() + sb.toString());
-                sb.setLength(0);
-                for (int i = 0; i < completionChatResponse.getMessages().size(); i++) {
-                    String message = completionChatResponse.getMessages().get(i).getMessage();
-                    JsonArray jsonArray = JsonParser.parseString(message).getAsJsonArray();
-                    for (JsonElement jsonElement : jsonArray) {
-                        JsonObject jsonObject = jsonElement.getAsJsonObject();
-                        String bank = jsonObject.get("bank").getAsString();
-                        String name = jsonObject.get("name").getAsString();
-                        String description = jsonObject.get("description").getAsString();
-                        float interestRate = jsonObject.get("interestRate").getAsFloat();
-
-                        DepositCreateRequestDto dto = new DepositCreateRequestDto(bank, name, description, interestRate);
-                        dtoList.add(dto);
-                    }
-                }
-                depositService.createDepositList(challenge.getProfile(), dtoList);
-
+            if (valueOperations.get(categoryName) == null) {
+                valueOperations.set(categoryName, 0.0f);
+            }
+            float preCategoryRatio = valueOperations.get(categoryName);
+            System.out.println("pre" + categoryName + preCategoryRatio);
+            // Redis에 카테고리별 소비 비율 저장
+            valueOperations.set(categoryName, ((preCategoryRatio * (valueOperations.get("cnt") - 1) + categoryRatio) / valueOperations.get("cnt")));
+            if (valueOperations.get(categoryName) <= categoryRatio) {
+                sb.append(categoryName).append(", ");
             }
         }
+
+        sb.append("\n").append("내가 알려준 적금 중에서 적합한 적금 3개를 (bank, name, description, interestRate) 각각을 키로 JSON 배열형태로 알려줘(interestRate에 % 붙이지마)");
+        CompletionChatResponse completionChatResponse = gptChatRestService.GPT(Bank.toString() + sb.toString());
+        sb.setLength(0);
+        System.out.println(sb.toString());
+        for (int i = 0; i < completionChatResponse.getMessages().size(); i++) {
+            String message = completionChatResponse.getMessages().get(i).getMessage();
+            JsonArray jsonArray = JsonParser.parseString(message).getAsJsonArray();
+            for (JsonElement jsonElement : jsonArray) {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                String bank = jsonObject.get("bank").getAsString();
+                String name = jsonObject.get("name").getAsString();
+                String description = jsonObject.get("description").getAsString();
+                float interestRate = jsonObject.get("interestRate").getAsFloat();
+
+                DepositCreateRequestDto dto = new DepositCreateRequestDto(bank, name, description, interestRate);
+                dtoList.add(dto);
+            }
+        }
+        List<DepositSimpleResponseDto> createdDeposit = depositService.createDepositList(challenge.getProfile(), dtoList);
     }
 }

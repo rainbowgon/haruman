@@ -135,7 +135,7 @@ public class ChallengeController {
 
         challengeService.testEndChallenge();
 
-        return JsonResponse.ok("지출내역이 삭제되었습니다.");
+        return JsonResponse.ok("챌린지가 종료되었습니다.");
     }
 
 }

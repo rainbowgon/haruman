@@ -21,8 +21,12 @@ public class AppStartupRunner implements ApplicationRunner {
         ValueOperations<String, Float> valueOperations = floatRedisTemplate.opsForValue();
 
         for (RedisKey redisKey : RedisKey.values()) {
-            valueOperations.set(redisKey.getKey(), 0.0f);
+            if (valueOperations.get(redisKey.getKey()) == null) {
+                valueOperations.set(redisKey.getKey(), 0.0f);
+            }
         }
-        valueOperations.set("cnt", 0.0f);
+        if (valueOperations.get("cnt") == null) {
+            valueOperations.set("cnt", 0.0f);
+        }
     }
 }
