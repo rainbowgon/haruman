@@ -16,6 +16,7 @@ import ssafy.haruman.global.response.JsonResponse;
 import ssafy.haruman.global.response.PageInfo;
 import ssafy.haruman.global.response.ResponseWrapper;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class ChallengeController {
 
         return JsonResponse.ok("챌린지 상세내역을 불러왔습니다.", responseDto);
     }
+
 
     @GetMapping("/people")
     public ResponseEntity<ResponseWrapper<List<ChallengeUserListResponseDto>>> selectChallengeUserList() {
@@ -125,9 +127,15 @@ public class ChallengeController {
 
         List<ExpenseResponseDto> responseDto = expenseService.selectDailyExpenseList(member.getProfile(), challengeId);
 
-        PageInfo listSize = PageInfo.builder().size(responseDto.size()).build();
+        return JsonResponse.ok("지출내역 리스트를 불러왔습니다.", responseDto);
+    }
 
-        return JsonResponse.ok("지출내역 리스트를 불러왔습니다.", responseDto, listSize);
+    @GetMapping("/end")
+    public ResponseEntity<ResponseWrapper<Nullable>> testExpense() throws IOException {
+
+        challengeService.testEndChallenge();
+
+        return JsonResponse.ok("챌린지가 종료되었습니다.");
     }
 
 }

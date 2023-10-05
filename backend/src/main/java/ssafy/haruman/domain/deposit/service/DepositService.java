@@ -14,6 +14,7 @@ public interface DepositService {
     DepositSimpleResponseDto createDeposit(Profile profile, DepositCreateRequestDto createDto);
 
     List<DepositSimpleResponseDto> createDepositList(Profile profile, List<DepositCreateRequestDto> createDtoList);
+//    void createDepositList(Profile profile, List<DepositCreateRequestDto> createDtoList);
 
     DepositSimpleResponseDto updateDeposit(Profile profile, DepositUpdateRequestDto updateDto);
 

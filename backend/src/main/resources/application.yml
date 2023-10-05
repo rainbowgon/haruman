@@ -21,8 +21,6 @@ spring:
     console:
       enabled: true
       path: /h2-console
-
-  datasource:
     url: jdbc:h2:tcp://localhost/~/test
     username: sa
     password:
@@ -53,3 +51,8 @@ spring:
       author-name:
       author-icon:
       footer:
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
