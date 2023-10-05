@@ -5,12 +5,12 @@ import Input from "../components/InputText";
 import RegistButton from "../components/RegistButton";
 // import { sendTemporaryPassword } from "../apis/email";
 import { Link } from "react-router-dom";
-import useErrorHandlers from "../hooks/useError";
+// import useErrorHandlers from "../hooks/useError";
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-`;
+// const StyledLink = styled(Link)`
+//   text-decoration: none;
+//   color: inherit;
+// `;
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ const ButtonContainer = styled.div`
 
 const ResetPasswordPage = () => {
   const [email, setEmail] = useState("");
-  const errorHandlers = useErrorHandlers();
+  // const errorHandlers = useErrorHandlers();
 
   const handleEmailSender = () => {
     // sendTemporaryPassword(email)

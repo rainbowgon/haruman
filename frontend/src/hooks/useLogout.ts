@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { userSliceLogout } from "../stores/userSlice";
+// import { logout } from "../apis/user";
+// import { userSliceLogout } from "../stores/userSlice";
 import { useAppDispatch, useAppSelector } from "./reduxHook";
 
 const useLogOut = () => {
-  const userEmail = useAppSelector((state) => state.user.userInfo.userEmail);
+  // const userEmail = useAppSelector((state) => state.user.userInfo.userEmail);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const afterLogout = () => {
-    dispatch(userSliceLogout());
+    // dispatch(userSliceLogout());
     // landing page로 이동
     navigate("/");
   };

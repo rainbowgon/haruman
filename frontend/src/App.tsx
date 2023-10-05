@@ -38,12 +38,12 @@ const AppContainer = styled.div`
 `;
 
 const App: React.FC = () => {
-  const isLogin = useAppSelector((state) => state.user.isLogin);
+  // const isLogin = useAppSelector((state) => state.user.isLogin);
 
-  window.addEventListener('scroll', function (e) {
+  window.addEventListener("scroll", function (e) {
     e.preventDefault();
     window.scrollTo(0, 0); // 페이지를 맨 위로 스크롤
-  }); 
+  });
 
   return (
     <>
