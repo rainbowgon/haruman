@@ -17,13 +17,15 @@ export default function UserItem({
 }: UserItemProps) {
   return (
     <div className="spent_item">
-      {image ? (
-        <img
-          src={image}
-          alt="User Profile"
-          className="user_item_image"
-        />
-      ) : null}
+      <div className="user_item_image_component">
+        {image ? (
+          <img
+            src={image}
+            alt="User Profile"
+            className="user_item_image"
+          />
+        ) : null}
+      </div>
       <div className="spent_item_name_div">
         <p className="spent_item_name">{mainValue}</p>
       </div>

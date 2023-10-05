@@ -9,6 +9,9 @@ import "../styles/theme.css";
 import "../styles/wave.scss";
 import "../styles/LandingPageStyle.scss";
 
+// image
+import Logo from "../assets/logo-mainlogo.svg"
+
 // components
 import RegisterButton from "../components/RegistButton";
 import RegistModal from "../components/RegistModal";
@@ -30,6 +33,7 @@ const Homepage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTop, setModalTop] = useState(100);
+  const [waveTop, setWaveTop] = useState(100);
   const [challenge, setChallenge] = useState(false);
   const [amountPercent, setAmountPercent] = useState(100);
   const [challengeInfo, setChallengeInfo] = useState<ChallengeState>({
@@ -38,7 +42,7 @@ const Homepage = () => {
     targetAmount: 0,
     usedAmount: 0,
     leftoverAmount: 0,
-    challengeStatus: "null",
+    challengeStatus: "READY",
   });
 
   // 매 초마다 시간 재설정
@@ -50,6 +54,28 @@ const Homepage = () => {
     }, 1000);
 
     return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    let curWave: number = waveTop;
+    let targetWave: number = 0;
+
+    function frame() {
+      curWave = lerp(curWave, targetWave, 0.02);
+
+      setWaveTop(curWave);
+
+      if (targetWave - curWave < 0) {
+        setTimeout(frame, 20);
+      } else {
+        setWaveTop(targetWave);
+      }
+    }
+    requestAnimationFrame(frame);
+
+    function lerp(s: number, e: number, a: number) {
+      return s + (0 - s) * a;
+    }
   }, []);
 
   // useEffect(() => {
@@ -73,14 +99,13 @@ const Homepage = () => {
 
     if (currentDate.getHours() < canStart[0]) {
       showAlert(`${canStart[0]}시에 시작할 수 있습니다.`);
-      // return;
+      return;
     }
     if (currentDate.getHours() >= canStart[1]) {
       showAlert(`시작 가능한 시간이 지났습니다.`);
       // return;
     }
 
-    setChallenge(!challenge);
     startChallenge();
   };
 
@@ -104,6 +129,7 @@ const Homepage = () => {
         showAlert("첼린지 시작");
         setChallengeInfo(response.data);
         handleWave(100, 100);
+        setChallenge(!challenge);
       })
       .catch((error) => {
         console.error("챌린지 시작 실패", error);
@@ -141,15 +167,8 @@ const Homepage = () => {
             response.data.data.targetAmount,
             response.data.data.leftoverAmount,
           );
-        } else if (challengeStatus === "SUCCESS") {
-          setChallenge(false);
-          showAlert("challengeStatus === SUCCESS");
-        } else if (challengeStatus === "FAIL") {
-          setChallenge(false);
-          showAlert("challengeStatus === FAIL");
         } else {
           setChallenge(false);
-          showAlert("challengeStatus === Else");
         }
         setChallengeInfo(response.data.data);
         setIsLoading(false);
@@ -203,11 +222,89 @@ const Homepage = () => {
   };
 
   if (isLoading) {
-    return <div className="loading_text">로딩중...</div>;
+    return (<div className="loading_text">
+      <img src={Logo} alt="로딩중..."></img>
+    </div>)
   } else if (challengeInfo.challengeStatus === "SUCCESS") {
-    return <div>첼린지 Success</div>;
+    return (
+      <div className="challenge_response">
+        <div className="timeout_fullscreen_div success"/>
+        <div className="challenge_response_title">
+          챌린지 성공
+        </div>
+        
+        <div
+          className="challenge_response_wave"
+          style={{ top: `${70 + waveTop}%` }}
+        >
+          <svg
+            width="500"
+            height="700"
+            className="waves"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 700"
+            preserveAspectRatio="none"
+            shape-rendering="auto"
+          >
+            <defs>
+              <path
+                id="gentle-wave"
+                d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v700h-452z"
+              />
+              <linearGradient
+                id="wave-gradient"
+                x1="0%"
+                y1="0%"
+                x2="0%" 
+                y2="100%"
+              >
+                <stop
+                  offset="0%"
+                  stop-color="var(--gradation-start)"
+                />
+                <stop
+                  offset="100%"
+                  stop-color="var(--gradation-end)"
+                />
+              </linearGradient>
+            </defs>
+            <g className="parallax">
+              <use
+                xlinkHref="#gentle-wave"
+                x="48"
+                y="0"
+                fill="url(#wave-gradient)"
+                opacity="20%"
+              />
+              <use
+                xlinkHref="#gentle-wave"
+                x="48"
+                y="9"
+                fill="url(#wave-gradient)"
+                opacity="40%"
+              />
+              <use
+                xlinkHref="#gentle-wave"
+                x="48"
+                y="16"
+                fill="url(#wave-gradient)"
+                opacity="60%"
+              />
+            </g>
+          </svg>
+        </div>
+      </div>
+    )
   } else if (challengeInfo.challengeStatus === "FAIL") {
-    return <div>첼린지 Fail</div>;
+      return (
+        <div className="challenge_response">
+          <div className="timeout_fullscreen_div fail"/>
+            <div className="challenge_response_title">
+              챌린지 실패
+            </div>
+        </div>
+      )
   } else {
     return (
       <MainStyle>
