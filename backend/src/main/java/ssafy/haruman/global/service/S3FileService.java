@@ -70,6 +70,10 @@ public class S3FileService {
         return file != null ? amazonS3.getUrl(bucket, getFullFilename(file.getSavedPath(), file.getSavedFilename())).toString() : null;
     }
 
+    public String getS3Url(String savedPath, String savedFilename) {
+        return amazonS3.getUrl(bucket, getFullFilename(savedPath, savedFilename)).toString();
+    }
+
     public void deleteImage(File file) {
         if (file != null) {
             amazonS3.deleteObject(bucket, getFullFilename(file.getSavedPath(), file.getSavedFilename()));
