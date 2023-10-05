@@ -3,6 +3,7 @@ package ssafy.haruman.global.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import ssafy.haruman.global.error.exception.AuthInvalidTokenException;
 
 import java.util.Date;
 import java.util.UUID;
@@ -22,12 +23,20 @@ public class JwtUtil {
     }
 
     public static boolean isExpired(String token, String secretKey) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().getExpiration().before(new Date());
+        try {
+            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                    .getBody().getExpiration().before(new Date());
+        } catch (Exception e) {
+            throw AuthInvalidTokenException.EXCEPTION;
+        }
     }
 
     public static UUID getMemberIdFromJwt(String token, String secretKey) {
-        return UUID.fromString(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                                       .getBody().get("member_id", String.class));
+        try {
+            return UUID.fromString(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                                           .getBody().get("member_id", String.class));
+        } catch (Exception e) {
+            throw AuthInvalidTokenException.EXCEPTION;
+        }
     }
 }
