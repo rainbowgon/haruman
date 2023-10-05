@@ -8,7 +8,7 @@ import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.member.entity.OAuthId;
 import ssafy.haruman.domain.member.entity.OAuthServerType;
 
-import java.util.Random;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class DummyMemberProfileCreateRequestDto {
     private String nickname;
 
     public Member toMemberEntity() {
-        String testId = "TEST_SERVER_ID_" + new Random().nextInt(999);
+        String testId = "TEST_SERVER_ID_" + UUID.randomUUID();
         return Member.builder()
                 .oauthId(new OAuthId(testId, OAuthServerType.TEST))
                 .build();
