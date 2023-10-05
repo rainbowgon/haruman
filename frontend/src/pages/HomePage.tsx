@@ -20,7 +20,9 @@ import axios from "axios";
 
 const Homepage = () => {
   // 배포용
-  const accessToken = localStorage.getItem("accessToken");
+  // const accessToken = localStorage.getItem("accessToken");
+  const accessToken =
+    "eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJfaWQiOiIzNmMwZmNkMC0wMTI1LTQzMmYtYWMwOS1kOTYwNDVjZjdhYjMiLCJpYXQiOjE2OTY1MjkwMzUsImV4cCI6MTY5NjUzMjYzNX0.hwCbjxYBY2o0wgFKSQOBvDzmiAuR_XZGY1THV9eVP8I";
 
   const navigate = useNavigate();
 

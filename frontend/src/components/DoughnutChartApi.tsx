@@ -36,7 +36,9 @@ const DonutChart: React.FC = () => {
   const [challengeId, setChallengeId] = useState<number | null>(null);
 
   // 배포용
-  const accessToken = localStorage.getItem("accessToken");
+  // const accessToken = localStorage.getItem("accessToken");
+  const accessToken =
+    "eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJfaWQiOiIzNmMwZmNkMC0wMTI1LTQzMmYtYWMwOS1kOTYwNDVjZjdhYjMiLCJpYXQiOjE2OTY1MjkwMzUsImV4cCI6MTY5NjUzMjYzNX0.hwCbjxYBY2o0wgFKSQOBvDzmiAuR_XZGY1THV9eVP8I";
   const contextPath = `/api`;
   useEffect(() => {
     axios
@@ -50,7 +52,7 @@ const DonutChart: React.FC = () => {
         setChallengeId(receivedChallengeId);
       })
       .catch((error) => {
-        console.error("Error fetching challenge list:", error);
+        console.error("챌린지 아이디 못받아와유~:", error);
       });
   }, []);
 
@@ -147,7 +149,7 @@ const DonutChart: React.FC = () => {
           cx={200}
           cy={200}
           outerRadius={120}
-          innerRadius={40}
+          innerRadius={60}
           label
         >
           {categories.map((category, index) => (

@@ -106,7 +106,9 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   useEffect(() => {
     const fetchChartData = async () => {
       // 배포용
-      const accessToken = localStorage.getItem("accessToken");
+      // const accessToken = localStorage.getItem("accessToken");
+      const accessToken =
+        "eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJfaWQiOiIzNmMwZmNkMC0wMTI1LTQzMmYtYWMwOS1kOTYwNDVjZjdhYjMiLCJpYXQiOjE2OTY1MjkwMzUsImV4cCI6MTY5NjUzMjYzNX0.hwCbjxYBY2o0wgFKSQOBvDzmiAuR_XZGY1THV9eVP8I";
       try {
         const response = await axios.get<ApiResponse>(
           `${API_URL}/api/challenges/people`,
@@ -156,12 +158,14 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
     };
 
     const width = 400;
-    const height = 500;
+    const height = 350;
     const g = svg
       .append("g")
       .attr(
         "transform",
-        `translate(${width / window.innerWidth},${height / window.innerWidth})`,
+        `translate(${width / window.innerWidth},${
+          (height * 80) / window.innerWidth
+        })`,
       );
 
     const simulation = d3
@@ -173,7 +177,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .force(
         "collide",
         d3.forceCollide(
-          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.3),
+          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.42),
         ),
       )
       .on("tick", ticked);
@@ -183,7 +187,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
       u.enter()
         .append<SVGCircleElement>("circle")
-        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.3))
+        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.42))
         .attr("fill", (d) => d.color || "#8884d8")
         .on("mouseover", (event, d) => {
           const tooltip = d3.select("body").append("div");
