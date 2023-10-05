@@ -38,12 +38,15 @@ public class CustomJwtFilter extends OncePerRequestFilter {
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         notificationManager.sendNotification(null, request.getRequestURI(), "authorization: " + authorization);
+        log.info("authorization: {}", authorization);
 
         if (authorization == null) {
+            notificationManager.sendNotification(AuthNoAuthorizationException.EXCEPTION, request.getRequestURI(), "");
             throw AuthNoAuthorizationException.EXCEPTION;
         }
 
         if (!authorization.startsWith("Bearer ")) {
+            notificationManager.sendNotification(AuthInvalidAuthorizationFormatException.EXCEPTION, request.getRequestURI(), "");
             throw AuthInvalidAuthorizationFormatException.EXCEPTION;
         }
 
