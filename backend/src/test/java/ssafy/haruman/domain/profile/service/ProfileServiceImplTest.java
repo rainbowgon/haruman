@@ -62,7 +62,7 @@ class ProfileServiceImplTest {
 
         //then
         assertThrows(ProfileNotFoundException.class, () ->
-                profileService.selectOneProfile(1L)
+                profileService.selectOneProfileById(1L)
         );
     }
 
