@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/deposits")
 @RequiredArgsConstructor
-public class DeopositController {
+public class DepositController {
 
     private final DepositService depositService;
 
