@@ -14,7 +14,7 @@ const EditSimpleProfilePage = () => {
   // 테스트용
   // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
 
   const navigate = useNavigate();
 
@@ -81,7 +81,7 @@ const EditSimpleProfilePage = () => {
 
   const onClickCancel = () => {
     navigate(-1);
-};
+  };
   const onClickSuccess = () => {
     updateProfile();
   };
@@ -99,9 +99,9 @@ const EditSimpleProfilePage = () => {
           )}
         </div>
         <input
-            className="simple_profile_nickname_text"
-            value={user && user.nickname}
-            onChange={(e) => setUser({ ...user, nickname: e.target.value })}
+          className="simple_profile_nickname_text"
+          value={user && user.nickname}
+          onChange={(e) => setUser({ ...user, nickname: e.target.value })}
         />
         <div className="simple_profile_rule_box">
           <h3 className="simple_profile_rule_header_text">닉네임 생성 규칙</h3>
@@ -115,7 +115,7 @@ const EditSimpleProfilePage = () => {
             text="취소"
             className="regular white"
             onClick={onClickCancel}
-            />
+          />
           <RegisterButton
             text="완료"
             className="regular brand"

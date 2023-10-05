@@ -37,7 +37,7 @@ const DonutChart: React.FC = () => {
   // 테스트용
   // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
   const contextPath = `/api`;
   const challengeAPI = "/challenges/23";
 

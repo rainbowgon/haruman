@@ -20,7 +20,7 @@ const CalendarForm = ({
   // const accessToken = process.env.REACT_APP_accessToken;
 
   // 배포용
-  const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
 
   const contextPath = `/api`;
   const challengeAPI = "/challenges";

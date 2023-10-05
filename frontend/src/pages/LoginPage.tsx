@@ -8,7 +8,7 @@ import LogoImage from "../assets/logo-mainlogo.svg";
 
 //로그인 관련
 
-import { loginServer, redirectGoogle } from "../apis/user";
+import { redirectGoogle } from "../apis/user";
 import { userSliceLogin } from "../stores/userSlice";
 import { HttpStatusCode } from "axios";
 import { useState } from "react";
@@ -72,29 +72,29 @@ const LoginPage = () => {
     } else if (password === "") {
       alert("비밀번호를 입력해주세요");
     } else {
-      loginServer(userData)
-        .then((res) => {
-          alert("로그인 성공");
-          // userSlice에 저장
-          dispatch(userSliceLogin(res));
-          // 메인페이지로 리다이렉트
-          if (autoLogin) {
-            // 자동 로그인이 활성화된 경우
-            // 로그인 후 자동으로 메인페이지로 리다이렉트
-            RedirectHomePage();
-          } else {
-            // 자동 로그인이 비활성화된 경우
-            // 일반 로그인 후 리다이렉트
-            navigate("/home");
-          }
-        })
-        .catch((err) => {
-          if (err.response === undefined) {
-            navigate("/error");
-            return;
-          }
-          handleError(err.response.status);
-        });
+      // loginServer(userData)
+      //   .then((res) => {
+      //     alert("로그인 성공");
+      //     // userSlice에 저장
+      //     dispatch(userSliceLogin(res));
+      //     // 메인페이지로 리다이렉트
+      //     if (autoLogin) {
+      //       // 자동 로그인이 활성화된 경우
+      //       // 로그인 후 자동으로 메인페이지로 리다이렉트
+      //       RedirectHomePage();
+      //     } else {
+      //       // 자동 로그인이 비활성화된 경우
+      //       // 일반 로그인 후 리다이렉트
+      //       navigate("/home");
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     if (err.response === undefined) {
+      //       navigate("/error");
+      //       return;
+      //     }
+      //     handleError(err.response.status);
+      //   });
     }
   };
   const RedirectTemporaryPass = () => {

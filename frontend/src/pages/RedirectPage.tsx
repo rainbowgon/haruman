@@ -8,9 +8,10 @@ function KakaoRedirectPage() {
       const code = url.searchParams.get("code");
       if (code) {
         try {
-          const data = await loginKakao(code);
-          localStorage.setItem("token", data.token);
-          window.location.href = "/home";
+          const token = await loginKakao(code);
+          localStorage.setItem("accessToken", token);
+          console.log("넘어오는 데이터", token);
+          // window.location.href = "/home";
         } catch (error) {
           console.error("카카오 로그인 실패!", error);
         }
@@ -31,7 +32,7 @@ function GoogleRedirectPage() {
       if (code) {
         try {
           const data = await loginGoogle(code);
-          localStorage.setItem("token", data.token);
+          localStorage.setItem("accessToken", data);
           window.location.href = "/home";
         } catch (error) {
           console.error("구글 로그인 실패!", error);

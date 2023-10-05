@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { logout } from "../apis/user";
+// import { logout } from "../apis/user";
 import { userSliceLogout } from "../stores/userSlice";
 import { useAppDispatch, useAppSelector } from "./reduxHook";
 
@@ -15,7 +15,7 @@ const useLogOut = () => {
   };
 
   const performLogout = () => {
-    logout(userEmail).then(afterLogout).catch(afterLogout);
+    // logout(userEmail).then(afterLogout).catch(afterLogout);
   };
 
   return performLogout;
