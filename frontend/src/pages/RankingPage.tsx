@@ -47,6 +47,7 @@ const RankingPage = () => {
     const fetchData = async () => {
       // 배포용
       const accessToken = localStorage.getItem("accessToken");
+      console.log("토큰", accessToken);
       try {
         const response = await axios.get<ApiResponse>(
           `${API_URL}/api/challenges/people`,
@@ -57,6 +58,7 @@ const RankingPage = () => {
           },
         );
         setGroups(response.data.data);
+        console.log("API 응답:", response.data.data);
       } catch (error) {
         console.error("에러 메시지 : ", error);
       }
@@ -66,6 +68,7 @@ const RankingPage = () => {
   }, []);
 
   const handleBubbleClick = (data: DataPoint) => {
+    console.log("버블 클릭 데이터:", data);
     setSelectedBubbleLabel(data.label);
     const matchingGroup = groups.find((group) => group.groupKey === data.label);
 
@@ -86,7 +89,7 @@ const RankingPage = () => {
           />
           <BubbleChart onBubbleClick={handleBubbleClick} />
           <MiddleTitle
-            SubTitle={`[ ${selectedBubbleLabel} 버블에 있는 유저예요! ]`}
+            SubTitle={` ${selectedBubbleLabel} 버블에 있는 유저예요! `}
             MainTitle={``}
           />
           <div className="challengeitems_list">
