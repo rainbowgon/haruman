@@ -30,9 +30,7 @@ function LoginButton({ type, value }: LoginProps) {
   };
 
   const handleLogin = () => {
-    console.log("handleLogin");
     if (type === "kakao") {
-      console.log("handleKakaoLogin");
       handleKakaoLogin();
     } else if (type === "google") {
       // showAlert(`google 로그인은 준비중이에요!`);
