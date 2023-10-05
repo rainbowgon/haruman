@@ -8,7 +8,7 @@ import RegisterButton from "../components/RegistButton";
 import CheckBox from "../components/CheckBox";
 import Info from "../components/InfoText";
 // import { sendAuthenticationCode } from "../apis/email";
-import useErrorHandlers from "../hooks/useError";
+// import useErrorHandlers from "../hooks/useError";
 import BirthDatePick from "../components/DatePicker/index";
 
 import "../styles/theme.css";
@@ -63,7 +63,7 @@ const SignupPage = () => {
   const handleDateChange = (date: Date | null) => {
     setBirthDate(date);
   };
-  const errorHandlers = useErrorHandlers();
+  // const errorHandlers = useErrorHandlers();
 
   const handleSignup = async () => {
     let err = false;
