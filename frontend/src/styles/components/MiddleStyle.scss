@@ -3,20 +3,23 @@
 
 .Middle {
   font-family: "IBM Plex Sans KR", sans-serif;
-  width: 100%;
+  width: 80%;
   // height: 12vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  margin: 0;
+  margin: 0 auto;
+  background-color: var(--brand2_op_20);
+  border-radius: 15px;
+  // background-color: var(--brand2_op_20);
 
-  .sub_title {
+  .Middle_sub_title {
     margin: 0;
     font-size: 1rem;
     color: var(--font2_main);
   }
-  .main_title {
+  .Middle_main_title {
     margin: 0;
     font-size: 2rem;
     color: var(--font1_main);
