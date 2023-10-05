@@ -22,8 +22,12 @@ public class JwtUtil {
     }
 
     public static boolean isExpired(String token, String secretKey) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().getExpiration().before(new Date());
+        try {
+            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                    .getBody().getExpiration().before(new Date());
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static UUID getMemberIdFromJwt(String token, String secretKey) {
