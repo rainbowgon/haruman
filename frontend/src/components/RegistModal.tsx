@@ -321,7 +321,7 @@ export default function RegistModal({
           <InputText
             className="InputText input_memo disable_pliceholder"
             type="string"
-            placeholder="메모"
+            placeholder="사용처 및 설명"
             value={spentItem.content}
             onChange={(e) =>
               setSpentItem({ ...spentItem, content: e.target.value })
