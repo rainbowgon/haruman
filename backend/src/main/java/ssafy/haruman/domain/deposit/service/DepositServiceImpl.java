@@ -75,10 +75,8 @@ public class DepositServiceImpl implements DepositService {
 
             depositListToCreate.add(deposit);
         }
-
         // 여러 개의 Deposit 객체 저장
         List<Deposit> createdDepositList = depositRepository.saveAll(depositListToCreate);
-
         // 생성된 Deposit 객체들을 ResponseDto로 변환하여 반환
         return createdDepositList.stream()
                 .map(DepositSimpleResponseDto::from)
