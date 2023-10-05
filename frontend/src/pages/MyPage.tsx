@@ -22,9 +22,9 @@ const ProfileAPI = "/profiles";
 
 const MyPage = () => {
   // 테스트용
-  const accessToken = process.env.REACT_APP_accessToken;
+  // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  // const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = sessionStorage.getItem("accessToken");
 
   const navigate = useNavigate();
 

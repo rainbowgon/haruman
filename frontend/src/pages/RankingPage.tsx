@@ -46,7 +46,10 @@ const RankingPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const accessToken = process.env.REACT_APP_accessToken;
+      // 테스트용
+      // const accessToken = process.env.REACT_APP_accessToken;
+      // 배포용
+      const accessToken = sessionStorage.getItem("accessToken");
       try {
         const response = await axios.get<ApiResponse>(
           `${API_URL}/api/challenges/people`,
