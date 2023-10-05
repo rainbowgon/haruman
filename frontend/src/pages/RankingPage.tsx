@@ -58,7 +58,7 @@ const RankingPage = () => {
         );
         setGroups(response.data.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("에러 메시지 : ", error);
       }
     };
 

@@ -125,7 +125,7 @@ const DonutChart: React.FC = () => {
       // })
       /////////////////////////////////////////////////////////////////////////////////////////////////////
       .catch((error) => {
-        console.error("Error fetching challenge data:", error);
+        console.error("데이터 불러오기 실패", error);
         setMessage("데이터 로딩 중 오류가 발생했습니다.");
       });
   }, [challengeId]);

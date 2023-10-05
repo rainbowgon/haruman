@@ -105,8 +105,6 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   const [pageInfo, setPageInfo] = useState<any>({});
   useEffect(() => {
     const fetchChartData = async () => {
-      // 테스트용
-      // const accessToken = process.env.REACT_APP_accessToken;
       // 배포용
       const accessToken = localStorage.getItem("accessToken");
       try {
@@ -131,7 +129,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
         setData(updatedData);
         setRanges(updatedData);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("에러메시지 : ", error);
       }
     };
 
@@ -187,17 +185,8 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
         .append<SVGCircleElement>("circle")
         .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.3))
         .attr("fill", (d) => d.color || "#8884d8")
-        // .attr("stroke", "#fff")
-        // .attr("stroke-width", 2)
         .on("mouseover", (event, d) => {
           const tooltip = d3.select("body").append("div");
-          //   .classed("tooltip", true)
-          //   .style("position", "absolute")
-          //   .style("background-color", "white")
-          //   .style("padding", "8px")
-          //   .style("border", "1px solid #ccc")
-          //   .style("border-radius", "4px");
-          // .text(`${d.label}: ${d.users} users`);
 
           const { pageX, pageY } = event;
           tooltip
