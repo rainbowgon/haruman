@@ -86,7 +86,7 @@ const RankingPage = () => {
           />
           <BubbleChart onBubbleClick={handleBubbleClick} />
           <MiddleTitle
-            SubTitle={`[ ${selectedBubbleLabel} 버블에 있는 유저예요! ]`}
+            SubTitle={` ${selectedBubbleLabel} 버블에 있는 유저예요! `}
             MainTitle={``}
           />
           <div className="challengeitems_list">
