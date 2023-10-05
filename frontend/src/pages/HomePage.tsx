@@ -126,6 +126,7 @@ const Homepage = () => {
       })
       .catch((error) => {
         console.error("챌린지 시작 실패", error);
+        showAlert("챌린지 시작 실패");
       });
   };
 
@@ -374,8 +375,7 @@ const Homepage = () => {
                     <div className="progress_challenge">
                       <div className="progress_challenge_title">
                         <h2>
-                          {challengeInfo ? 
-                          challengeInfo.leftoverAmount &&
+                          {challengeInfo.leftoverAmount ? 
                             numberFormatter(challengeInfo.leftoverAmount)
                           :"10,000"}
                         </h2>
