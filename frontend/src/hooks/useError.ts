@@ -1,5 +1,5 @@
 import { HttpStatusCode } from "axios";
-import { getAccessToken } from "../apis/user";
+// import { getAccessToken } from "../apis/user";
 import { updateAccessToken } from "../stores/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "./reduxHook";
@@ -33,17 +33,17 @@ const useErrorHandlers = () => {
   };
 
   function handle401Error(callback: any, param?: any) {
-    getAccessToken()
-      .then((res) => {
-        dispatch(updateAccessToken({ accessToken: res.accessToken }));
-        console.log("새로운 토큰 받아옴");
-        callback(param);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("다시 로그인해주세요");
-        logout();
-      });
+    // getAccessToken()
+    //   .then((res) => {
+    //     dispatch(updateAccessToken({ accessToken: res.accessToken }));
+    //     console.log("새로운 토큰 받아옴");
+    //     callback(param);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     alert("다시 로그인해주세요");
+    //     logout();
+    //   });
   }
 
   function redirectErrorPage() {

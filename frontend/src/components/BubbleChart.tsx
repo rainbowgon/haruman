@@ -108,7 +108,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       // 테스트용
       // const accessToken = process.env.REACT_APP_accessToken;
       // 배포용
-      const accessToken = sessionStorage.getItem("accessToken");
+      const accessToken = localStorage.getItem("accessToken");
       try {
         const response = await axios.get<ApiResponse>(
           `${API_URL}/api/challenges/people`,
