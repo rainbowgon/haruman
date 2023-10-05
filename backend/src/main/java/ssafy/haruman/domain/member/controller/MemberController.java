@@ -18,7 +18,6 @@ public class MemberController {
 
     @PostMapping
     public ResponseEntity<?> createMemberAndProfile(@RequestBody DummyMemberProfileCreateRequestDto createRequestDto) {
-        System.out.println("MemberController.createMemberAndProfile");
         String jwtToken = memberService.createDummyMemberProfile(createRequestDto);
         return ResponseEntity.ok(jwtToken);
     }
