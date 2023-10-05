@@ -5,7 +5,7 @@ import moment from "moment";
 import axios from "axios";
 import ChallengeCounterForm from "./ChallengeCounterForm";
 import { API_URL } from "../../constants/urls";
-import { ChallengeDate } from "../../constants/interfaces";
+import { ChallengeDate, ChallengeState } from "../../constants/interfaces";
 
 interface CalendarFormProp {
   selectChallenge: ChallengeDate | undefined;
@@ -17,16 +17,25 @@ const CalendarForm = ({
   setSelectChallenge,
 }: CalendarFormProp) => {
   // 테스트용
-  const accessToken = process.env.REACT_APP_accessToken;
+  // const accessToken = process.env.REACT_APP_accessToken;
 
   // 배포용
-  // const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
 
   const contextPath = `/api`;
   const challengeAPI = "/challenges";
 
   const [successCount, setSuccessCount] = useState(0);
   const [failCount, setFailCount] = useState(0);
+
+  const [challengeInfo, setChallengeInfo] = useState<ChallengeState>({
+    challengeId: -1,
+    participantCount: 0,
+    targetAmount: 0,
+    usedAmount: 0,
+    leftoverAmount: 0,
+    challengeStatus: "READY",
+  });
 
   const [selectedChallengeDates, setSelectedChallengeDates] =
     useState("2023-09-01");
@@ -46,6 +55,7 @@ const CalendarForm = ({
 
   useEffect(() => {
     handleChangeMonth(new Date());
+    setCurrentDate();
   }, []);
 
   useEffect(() => {
@@ -63,6 +73,22 @@ const CalendarForm = ({
     setSuccessCount(successCount);
     setFailCount(failCount);
   }, [challengeDates]);
+
+  const setCurrentDate = () => {
+    const curDate = new Date(); 
+    
+    const year = `${curDate.getFullYear()}`;
+    var month = `${curDate.getMonth() + 1}`;
+    if (curDate.getMonth() < 9) {
+      month = "0" + (curDate.getMonth() + 1);
+    }
+    var day = `${curDate.getDate()}`;
+    if (curDate.getDate() < 10) {
+      day = "0" + curDate.getDate();
+    }
+
+    setSelectedChallengeDates(`${year}-${month}-${day}`);
+  };
 
   const handleClickDay = (value: Date) => {
     const year = `${value.getFullYear()}`;
