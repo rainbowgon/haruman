@@ -10,7 +10,6 @@ import { API_URL } from "../constants/urls";
 
 // component
 import CalendarForm from "../components/Calender/CalenderForm";
-import ChallengeCounterForm from "../components/Calender/ChallengeCounterForm";
 import ChallengeItemsForm from "../components/Calender/ChallengeItemsForm";
 import SpentItem from "../components/SpentItem";
 
