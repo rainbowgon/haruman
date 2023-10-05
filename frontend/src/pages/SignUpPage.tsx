@@ -7,7 +7,7 @@ import Input from "../components/InputText";
 import RegisterButton from "../components/RegistButton";
 import CheckBox from "../components/CheckBox";
 import Info from "../components/InfoText";
-import { sendAuthenticationCode } from "../apis/email";
+// import { sendAuthenticationCode } from "../apis/email";
 import useErrorHandlers from "../hooks/useError";
 import BirthDatePick from "../components/DatePicker/index";
 
@@ -120,14 +120,14 @@ const SignupPage = () => {
   };
 
   const handleEmailSender = () => {
-    sendAuthenticationCode(email)
-      .then((res) => {
-        setEmailSend(true);
-        setAuthenticationCode(res);
-      })
-      .catch((err) => {
-        errorHandlers(err.response, handleEmailSender);
-      });
+    // sendAuthenticationCode(email)
+    //   .then((res) => {
+    //     setEmailSend(true);
+    //     setAuthenticationCode(res);
+    //   })
+    //   .catch((err) => {
+    //     errorHandlers(err.response, handleEmailSender);
+    //   });
   };
 
   const handleEmailAuthentication = () => {

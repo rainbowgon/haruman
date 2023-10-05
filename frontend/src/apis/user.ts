@@ -1,7 +1,7 @@
 import { API_URL, SERVER_URL } from "../constants/urls";
 import { axiosInstance } from "./instance";
 
-import { axiosServer, axiosServerWithRefresh } from "./server";
+// import { axiosServerWithRefresh } from "./server";
 
 // // 환경 설정 변경
 // export const updateUserSetting = async (userSetting: object) => {
