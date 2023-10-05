@@ -9,6 +9,7 @@ import HomeIcon from "../assets/icons/icon-home.svg";
 import ChartsetIcon from "../assets/icons/icon-chartset.svg";
 import CalendarIcon from "../assets/icons/icon-calendarday.svg";
 import PiggybankIcon from "../assets/icons/icon-piggybank.svg";
+import TodayIcon from "../assets/icons/icon-today.svg";
 import PlusIcon from "../assets/icons/icon-plus.svg";
 import axios from "axios";
 import { API_URL } from "../constants/urls";
@@ -24,12 +25,12 @@ function handleSelectIcon(textIcon: string) {
   if (textIcon === "HomePage") {
     return HomeIcon;
   } else if (textIcon === "TodayExpensePage") {
-    return CalendarIcon;
+    return TodayIcon;
   } else if (textIcon === "CalendarPage") {
     return CalendarIcon;
   } else if (textIcon === "RankingPage") {
     return ChartsetIcon;
-  } else if (textIcon === "PiggybankIcon") {
+  } else if (textIcon === "SavePage") {
     return PiggybankIcon;
   } else {
     return PlusIcon;
@@ -42,10 +43,10 @@ function handleSelectText(text: string) {
   } else if (text === "TodayExpensePage") {
     return "투데이";
   } else if (text === "CalendarPage") {
-    return "홈";
+    return "캘린더";
   } else if (text === "RankingPage") {
     return "랭킹";
-  } else if (text === "PiggybankIcon") {
+  } else if (text === "SavePage") {
     return "추천";
   } else {
     return "추가기능";
@@ -73,7 +74,7 @@ export default function ShortcutButton({
     } else if (text === "RankingPage") {
       navigate("/ranking");
       return;
-    } else if (text === "PiggybankIcon") {
+    } else if (text === "SavePage") {
       navigate("/save");
       return;
     } else {
