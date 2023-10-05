@@ -47,7 +47,7 @@ export default function SpentItem({
     PATCH
   */
   const updateExpense = () => {
-    const accessToken = localStorage.geItem("accessToken");
+    // const accessToken = localStorage.geItem("accessToken");
     axios
       .patch(`${API_URL}${contextPath}${ChallengeAPI}`, "edit", {
         headers: {
