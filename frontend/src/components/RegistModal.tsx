@@ -44,7 +44,7 @@ export default function RegistModal({
   // const accessToken = process.env.REACT_APP_accessToken;
 
   // 배포용
-  const accessToken = localStorage.gettItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
 
   const contextPath = `/api`;
 
