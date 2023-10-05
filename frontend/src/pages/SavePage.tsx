@@ -23,6 +23,7 @@ const SavePage = () => {
 
   const contextPath = `/api`;
   const ChallengeAPI = "/challenges";
+  const DepositAPI = "/deposits";
 
   const [amount, setAmount] = useState(0);
 
@@ -55,6 +56,7 @@ const SavePage = () => {
 
   useEffect(() => {
     selectAccumulatedAmount();
+    selectDepositDetailList();
   }, []);
 
   /**
@@ -79,6 +81,31 @@ const SavePage = () => {
       })
       .catch((error) => {
         console.error("누적 잔액 조회 실패", error);
+      });
+  };
+
+  /**
+   * selectDepositDetailList
+   * 적금 조회 페이지에서 사용(적금설명O)
+   * /deposits/list
+   * GET
+   */
+  const selectDepositDetailList = () => {
+    axios
+      .get(`${API_URL}${contextPath}${DepositAPI}/list`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(
+          "적금 조회 페이지에서 사용(적금설명O) 성공",
+          response.data.data,
+        );
+        setSaveItems(response.data.data);
+      })
+      .catch((error) => {
+        console.error("적금 조회 페이지에서 사용(적금설명O) 실패", error);
       });
   };
 

@@ -1,9 +1,6 @@
 // AgreementContent.tsx
 import "../../styles/save/SavepageItemStyle.scss"
 
-// icons
-import Airplane from "../../assets/icons/consumptions/icon-airplane.svg"
-
 // images
 import Shinhan from "../../assets/image/bank/image_shinhan.svg"
 import Kb from "../../assets/image/bank/image_kb.svg"
