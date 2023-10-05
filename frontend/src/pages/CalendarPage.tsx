@@ -91,29 +91,31 @@ const CalendarPage = () => {
       return;
     }
 
-    axios
-      .get(
-        `${API_URL}${contextPath}${ChallengeAPI}/${selectChallenge?.challengeId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
+    if (selectChallenge) {
+      axios
+        .get(
+          `${API_URL}${contextPath}${ChallengeAPI}/${selectChallenge.challengeId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           },
-        },
-      )
-      .then((response) => {
-        console.log(
-          "해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)",
-          response.data.data,
-        );
-        console.log(response.data.data);
-        setChallengeitems(response.data.data);
-      })
-      .catch((error) => {
-        console.error(
-          "해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트) 조회 실패",
-          error,
-        );
-      });
+        )
+        .then((response) => {
+          console.log(
+            "해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)",
+            response.data.data,
+          );
+          console.log(response.data.data);
+          setChallengeitems(response.data.data);
+        })
+        .catch((error) => {
+          console.error(
+            "해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트) 조회 실패",
+            error,
+          );
+        });
+    }
   };
 
   const numberFormatter = (value: number) => {
