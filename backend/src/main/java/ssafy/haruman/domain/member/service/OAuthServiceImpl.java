@@ -7,9 +7,9 @@ import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.member.entity.OAuthServerType;
 import ssafy.haruman.domain.member.repository.MemberRepository;
 import ssafy.haruman.domain.profile.service.ProfileService;
-import ssafy.haruman.global.oauth.common.authcode.AuthCodeRequestUrlProviderComposite;
-import ssafy.haruman.global.oauth.common.client.OAuthMemberClientComposite;
-import ssafy.haruman.global.oauth.common.dto.OAuthResponseDto;
+import ssafy.haruman.global.response.oauth.common.authcode.AuthCodeRequestUrlProviderComposite;
+import ssafy.haruman.global.response.oauth.common.client.OAuthMemberClientComposite;
+import ssafy.haruman.global.response.oauth.common.dto.OAuthResponseDto;
 import ssafy.haruman.global.utils.JwtUtil;
 
 @Service

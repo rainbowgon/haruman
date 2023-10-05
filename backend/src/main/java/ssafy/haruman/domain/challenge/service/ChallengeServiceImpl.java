@@ -1,5 +1,9 @@
 package ssafy.haruman.domain.challenge.service;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -10,6 +14,8 @@ import ssafy.haruman.domain.challenge.entity.*;
 import ssafy.haruman.domain.challenge.repository.ChallengeRepository;
 import ssafy.haruman.domain.challenge.repository.ChallengeUserInfoMapping;
 import ssafy.haruman.domain.challenge.repository.ExpenseRepository;
+import ssafy.haruman.domain.deposit.dto.request.DepositCreateRequestDto;
+import ssafy.haruman.domain.deposit.service.DepositService;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.error.exception.ChallengeAlreadyExistsException;
 import ssafy.haruman.global.error.exception.ChallengeWrongDataException;
@@ -37,6 +43,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     private final String FILE_NAME = "bank_products.json";
     private final GPTChatRestService gptChatRestService;
+
+    private final DepositService depositService;
     private static StringBuilder sb = new StringBuilder();
 
 
@@ -215,6 +223,7 @@ public class ChallengeServiceImpl implements ChallengeService {
             } else {
                 challenge.updateChallengeStatus(ChallengeStatus.SUCCESS);
                 List<Expense> expenseList = expenseRepository.findAllByChallenge(challenge);
+                List<DepositCreateRequestDto> dtoList = new ArrayList<>();
                 // 카테고리별 소비 총액을 저장할 맵 생성
                 Map<String, Float> categoryTotalSpent = new HashMap<>();
 
@@ -240,7 +249,7 @@ public class ChallengeServiceImpl implements ChallengeService {
                     float categoryRatio = (categorySpent / totalSpent) * 100.0f;
 
                     float preCategoryRatio = valueOperations.get(categoryName);
-                    System.out.println(preCategoryRatio);
+                    System.out.println("pre" + categoryName + preCategoryRatio);
                     // Redis에 카테고리별 소비 비율 저장
                     valueOperations.set(categoryName, ((preCategoryRatio * valueOperations.get("cnt") - 1) + categoryRatio) / valueOperations.get("cnt"));
                     if (valueOperations.get(categoryName) <= categoryRatio) {
@@ -248,13 +257,25 @@ public class ChallengeServiceImpl implements ChallengeService {
                     }
                 }
 
-                sb.append("\n").append("내가 알려준 적금 중에서 적합한 적금 3개를 (은행명, 적금이름, 적금설명 및 추천이유, 이율) 각각을 키로 JSON형태로 알려줘");
-                System.out.println(sb.toString());
-                CompletionChatResponse completionChatResponse = gptChatRestService.GPT(Bank + sb.toString());
+                sb.append("\n").append("내가 알려준 적금 중에서 적합한 적금 3개를 (bank, name, description, interestRate) 각각을 키로 JSON 배열형태로 알려줘(interestRate에 % 붙이지마)");
+                CompletionChatResponse completionChatResponse = gptChatRestService.GPT(Bank.toString() + sb.toString());
                 sb.setLength(0);
                 for (int i = 0; i < completionChatResponse.getMessages().size(); i++) {
-                    System.out.println(completionChatResponse.getMessages().get(i).getMessage());
+                    String message = completionChatResponse.getMessages().get(i).getMessage();
+                    JsonArray jsonArray = JsonParser.parseString(message).getAsJsonArray();
+                    for (JsonElement jsonElement : jsonArray) {
+                        JsonObject jsonObject = jsonElement.getAsJsonObject();
+                        String bank = jsonObject.get("bank").getAsString();
+                        String name = jsonObject.get("name").getAsString();
+                        String description = jsonObject.get("description").getAsString();
+                        float interestRate = jsonObject.get("interestRate").getAsFloat();
+
+                        DepositCreateRequestDto dto = new DepositCreateRequestDto(bank, name, description, interestRate);
+                        dtoList.add(dto);
+                    }
                 }
+                depositService.createDepositList(challenge.getProfile(), dtoList);
+
             }
         }
     }

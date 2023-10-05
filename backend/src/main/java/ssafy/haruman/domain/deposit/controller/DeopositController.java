@@ -42,11 +42,14 @@ public class DeopositController {
      */
     @PostMapping("/list")
     public ResponseEntity<ResponseWrapper<List<DepositSimpleResponseDto>>> createDepositList(
+//    public ResponseEntity<ResponseWrapper<Nullable>> createDepositList(
             @AuthenticationPrincipal Member member,
             @RequestBody List<DepositCreateRequestDto> createDto) {
 
         List<DepositSimpleResponseDto> createdDeposit = depositService.createDepositList(member.getProfile(), createDto);
+        depositService.createDepositList(member.getProfile(), createDto);
 
+//        return JsonResponse.of(HttpStatus.CREATED, "적금들이 성공적으로 저장되었습니다.");
         return JsonResponse.of(HttpStatus.CREATED, "적금들이 성공적으로 저장되었습니다.", createdDeposit);
     }
 

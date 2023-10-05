@@ -49,6 +49,7 @@ public class DepositServiceImpl implements DepositService {
     @Override
     @Transactional
     public List<DepositSimpleResponseDto> createDepositList(Profile profile, List<DepositCreateRequestDto> createDtoList) {
+//    public void createDepositList(Profile profile, List<DepositCreateRequestDto> createDtoList) {
 
         // 중복 체크 및 객체 생성을 위한 List
         List<Deposit> depositListToCreate = new ArrayList<>();
@@ -73,10 +74,11 @@ public class DepositServiceImpl implements DepositService {
                     .interestRate(createDto.getInterestRate())
                     .build();
 
+            System.out.println(deposit);
             depositListToCreate.add(deposit);
         }
-
         // 여러 개의 Deposit 객체 저장
+//      depositRepository.saveAll(depositListToCreate);
         List<Deposit> createdDepositList = depositRepository.saveAll(depositListToCreate);
 
         // 생성된 Deposit 객체들을 ResponseDto로 변환하여 반환

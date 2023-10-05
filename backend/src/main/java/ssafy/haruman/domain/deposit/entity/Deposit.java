@@ -11,6 +11,7 @@ import ssafy.haruman.global.entity.BaseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -41,7 +42,7 @@ public class Deposit extends BaseEntity {
     private String description;
 
     @Column
-    @NotBlank
+    @NotNull
     private float interestRate;
 
     @Builder
@@ -59,4 +60,5 @@ public class Deposit extends BaseEntity {
         this.description = description;
         this.interestRate = interestRate;
     }
+
 }
