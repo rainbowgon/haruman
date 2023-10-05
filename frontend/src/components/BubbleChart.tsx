@@ -179,7 +179,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .force(
         "collide",
         d3.forceCollide(
-          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.4),
+          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.3),
         ),
       )
       .on("tick", ticked);
@@ -190,7 +190,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
       u.enter()
         .append<SVGCircleElement>("circle")
-        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.4))
+        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.3))
         .attr("fill", (d) => d.color || "#8884d8")
         // .attr("stroke", "#fff")
         // .attr("stroke-width", 2)
