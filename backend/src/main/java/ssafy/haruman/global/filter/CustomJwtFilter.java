@@ -10,10 +10,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.member.repository.MemberRepository;
-import ssafy.haruman.global.error.exception.MemberNoAuthorizationException;
+import ssafy.haruman.global.error.exception.AuthNoAuthorizationException;
+import ssafy.haruman.global.error.exception.AuthTokenExpired;
 import ssafy.haruman.global.error.exception.MemberNotFoundException;
 import ssafy.haruman.global.error.exception.MemberProfileNotFoundException;
-import ssafy.haruman.global.error.exception.MemberTokenExpired;
 import ssafy.haruman.global.utils.JwtUtil;
 
 import javax.servlet.FilterChain;
@@ -39,13 +39,13 @@ public class CustomJwtFilter extends OncePerRequestFilter {
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
-            throw MemberNoAuthorizationException.EXCEPTION;
+            throw AuthNoAuthorizationException.EXCEPTION;
         }
 
         String token = authorization.split(" ")[1];
 
         if (JwtUtil.isExpired(token, secretKey)) {
-            throw MemberTokenExpired.EXCEPTION;
+            throw AuthTokenExpired.EXCEPTION;
         }
 
         UUID memberId = JwtUtil.getMemberIdFromJwt(token, secretKey);
