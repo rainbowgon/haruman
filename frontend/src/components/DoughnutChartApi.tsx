@@ -50,7 +50,7 @@ const DonutChart: React.FC = () => {
         setChallengeId(receivedChallengeId);
       })
       .catch((error) => {
-        console.error("Error fetching challenge list:", error);
+        console.error("챌린지 아이디 못받아와유~:", error);
       });
   }, []);
 
@@ -147,7 +147,7 @@ const DonutChart: React.FC = () => {
           cx={200}
           cy={200}
           outerRadius={120}
-          innerRadius={40}
+          innerRadius={60}
           label
         >
           {categories.map((category, index) => (

@@ -15,7 +15,7 @@
   .bubblechart_labels {
     position: absolute;
 
-    width: 70%;
+    width: 75%;
     margin: 0.5rem;
     display: flex;
     justify-content: left;
@@ -27,8 +27,8 @@
       margin: 0 0.5rem;
 
       .bubblechart_color_pointer {
-        width: 0.5rem;
-        height: 0.5rem;
+        width: 0.75rem;
+        height: 0.75rem;
 
         border-radius: 100%;
 
@@ -60,7 +60,7 @@
         width: auto;
         margin: 0 0.5rem;
         padding: 0;
-        font-size: 0.5rem;
+        font-size: 0.77rem;
       }
     }
   }
