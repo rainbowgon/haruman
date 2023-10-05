@@ -21,33 +21,70 @@ import HeaderTitle from "../components/HeaderTitle";
 import MiddleTitle from "../components/MiddleTitle";
 
 const TodayPage = () => {
+  const [challengeId, setChallengeId] = useState(null);
   // const [costItems, setCostItems] = useState<ChallengeItem[]>([]);
 
   // const [category, setCategory] = useState(new Map([]));
   const [costItems, setCostItems] = useState<ExpenseItem[]>([]);
 
   // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
+  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  const accessToken = localStorage.getItem("accessToken");
-  const contextPath = `/api`;
-  const challengeAPI = "/challenges/23";
-
+  // const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
     axios
-      .get(`${API_URL}${contextPath}${challengeAPI}`, {
+      .get(`${API_URL}/api/challenges`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
-        setCostItems(response.data.data);
-        console.log("TodayPage에서 받아오는 것", response.data.data);
+        const receivedChallengeId = response.data.data.challengeId;
+        console.log("resData", receivedChallengeId);
+        setChallengeId(receivedChallengeId);
       })
       .catch((error) => {
         console.error("Error fetching expense data:", error);
       });
   }, []);
+
+  const contextPath = `/api`;
+
+  useEffect(() => {
+    if (challengeId) {
+      const challengeAPI = `/challenges/${challengeId}`;
+
+      axios
+        .get(`${API_URL}${contextPath}${challengeAPI}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((response) => {
+          setCostItems(response.data.data);
+          console.log("TodayPage에서 받아오는 것", response.data.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching expense data:", error);
+        });
+    }
+  }, [challengeId]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`${API_URL}${contextPath}${challengeAPI}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setCostItems(response.data.data);
+  //       console.log("TodayPage에서 받아오는 것", response.data.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching expense data:", error);
+  //     });
+  // }, []);
 
   return (
     <CenterContainer>

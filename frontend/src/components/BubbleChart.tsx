@@ -106,9 +106,9 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   useEffect(() => {
     const fetchChartData = async () => {
       // 테스트용
-      // const accessToken = process.env.REACT_APP_accessToken;
+      const accessToken = process.env.REACT_APP_accessToken;
       // 배포용
-      const accessToken = localStorage.getItem("accessToken");
+      // const accessToken = localStorage.getItem("accessToken");
       try {
         const response = await axios.get<ApiResponse>(
           `${API_URL}/api/challenges/people`,
@@ -179,7 +179,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .force(
         "collide",
         d3.forceCollide(
-          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.4),
+          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.3),
         ),
       )
       .on("tick", ticked);
@@ -190,7 +190,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
       u.enter()
         .append<SVGCircleElement>("circle")
-        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.4))
+        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.3))
         .attr("fill", (d) => d.color || "#8884d8")
         // .attr("stroke", "#fff")
         // .attr("stroke-width", 2)

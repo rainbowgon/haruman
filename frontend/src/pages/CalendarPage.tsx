@@ -21,9 +21,9 @@ import HeaderTitle from "../components/HeaderTitle";
 
 const CalendarPage = () => {
   // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
+  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  const accessToken = localStorage.getItem("accessToken");
+  // const accessToken = localStorage.getItem("accessToken");
 
   const contextPath = `/api`;
   const ChallengeAPI = "/challenges";

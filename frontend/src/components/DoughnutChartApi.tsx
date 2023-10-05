@@ -33,56 +33,100 @@ export interface CategoryItem {
 const DonutChart: React.FC = () => {
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [message, setMessage] = useState<string>("");
+  const [challengeId, setChallengeId] = useState<number | null>(null);
 
   // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
+  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  const accessToken = localStorage.getItem("accessToken");
+  // const accessToken = localStorage.getItem("accessToken");
   const contextPath = `/api`;
-  const challengeAPI = "/challenges/23";
+  // const challengeAPI = "/challenges/23";
 
+  // useEffect(() => {
+  //   axios
+  //     .get(`${API_URL}/api/challenges`, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       const receivedChallengeId = response.data.data.challengeId;
+  //       console.log("resData", receivedChallengeId);
+  //       setChallengeId(receivedChallengeId);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching expense data:", error);
+  //     });
+  // }, []);
+
+  // useEffect(() => {
+  //   selectDailyChallenge();
+  // }, []);
+
+  // const selectDailyChallenge = () => {
+  //   axios
+  //     .get(`${API_URL}${contextPath}${challengeAPI}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     })
+  //     ///////////////////////////// 금액 별로 차트를 그릴 경우///////////////////////////////////////////
+  //     .then((response) => {
+  //       const challengeData: ExpenseItem[] = response.data.data;
+  //       const aggregatedCategories: CategoryItem[] = challengeData.reduce(
+  //         (acc: any, item) => {
+  //           const existingCategory = acc.find(
+  //             (cat: CategoryItem) => cat.name === item.categoryName,
+  //           );
+
+  //           if (existingCategory) {
+  //             existingCategory.cnt += item.payAmount;
+  //           } else {
+  //             acc.push({
+  //               categoryId: item.id,
+  //               name: item.categoryName,
+  //               categoryColor: item.categoryColor,
+  //               isDefault: "DEFAULT",
+  //               content: item.content,
+  //               cnt: item.payAmount,
+  //             });
+  //           }
+
+  //           return acc;
+  //         },
+  //         [],
+  //       );
+
+  //       setCategories(aggregatedCategories);
+  //     })
+  ///////
   useEffect(() => {
-    selectDailyChallenge();
+    axios
+      .get(`${API_URL}/api/challenges`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        const receivedChallengeId = response.data.data.challengeId;
+        setChallengeId(receivedChallengeId);
+      })
+      .catch((error) => {
+        console.error("Error fetching challenge list:", error);
+      });
   }, []);
 
-  const selectDailyChallenge = () => {
+  useEffect(() => {
+    if (!challengeId) return;
+
+    const challengeAPI = `/challenges/${challengeId}`;
+
     axios
       .get(`${API_URL}${contextPath}${challengeAPI}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      ///////////////////////////// 금액 별로 차트를 그릴 경우///////////////////////////////////////////
-      // .then((response) => {
-      //   const challengeData: ExpenseItem[] = response.data.data;
-      //   const aggregatedCategories: CategoryItem[] = challengeData.reduce(
-      //     (acc: any, item) => {
-      //       const existingCategory = acc.find(
-      //         (cat: CategoryItem) => cat.name === item.categoryName,
-      //       );
-
-      //       if (existingCategory) {
-      //         existingCategory.cnt += item.payAmount;
-      //       } else {
-      //         acc.push({
-      //           categoryId: item.id,
-      //           name: item.categoryName,
-      //           categoryColor: item.categoryColor,
-      //           isDefault: "DEFAULT",
-      //           content: item.content,
-      //           cnt: item.payAmount,
-      //         });
-      //       }
-
-      //       return acc;
-      //     },
-      //     [],
-      //   );
-
-      //   setCategories(aggregatedCategories);
-      // })
-      //////////////////////////////////////////////////////////////////////////////////////////////////
-      /////////////////////////////////////////////카테고리별로 차트를 그릴 경우////////////////////////////////////
       .then((response) => {
         const challengeData: ExpenseItem[] = response.data.data;
         const aggregatedCategories: CategoryItem[] = challengeData.reduce(
@@ -92,7 +136,7 @@ const DonutChart: React.FC = () => {
             );
 
             if (existingCategory) {
-              existingCategory.cnt += 1;
+              existingCategory.cnt += item.payAmount;
             } else {
               acc.push({
                 categoryId: item.id,
@@ -100,7 +144,7 @@ const DonutChart: React.FC = () => {
                 categoryColor: item.categoryColor,
                 isDefault: "DEFAULT",
                 content: item.content,
-                cnt: 1,
+                cnt: item.payAmount,
               });
             }
 
@@ -111,12 +155,42 @@ const DonutChart: React.FC = () => {
 
         setCategories(aggregatedCategories);
       })
+      //////////////////////////////////////////////////////////////////////////////////////////////////
+      /////////////////////////////////////////////카테고리별로 차트를 그릴 경우////////////////////////////////////
+      // .then((response) => {
+      //   const challengeData: ExpenseItem[] = response.data.data;
+      //   const aggregatedCategories: CategoryItem[] = challengeData.reduce(
+      //     (acc: any, item) => {
+      //       const existingCategory = acc.find(
+      //         (cat: CategoryItem) => cat.name === item.categoryName,
+      //       );
+
+      //       if (existingCategory) {
+      //         existingCategory.cnt += 1;
+      //       } else {
+      //         acc.push({
+      //           categoryId: item.id,
+      //           name: item.categoryName,
+      //           categoryColor: item.categoryColor,
+      //           isDefault: "DEFAULT",
+      //           content: item.content,
+      //           cnt: 1,
+      //         });
+      //       }
+
+      //       return acc;
+      //     },
+      //     [],
+      //   );
+
+      //   setCategories(aggregatedCategories);
+      // })
       /////////////////////////////////////////////////////////////////////////////////////////////////////
       .catch((error) => {
         console.error("Error fetching challenge data:", error);
         setMessage("데이터 로딩 중 오류가 발생했습니다.");
       });
-  };
+  }, [challengeId]);
 
   const getColorByCategory = (categoryColor: string): string => {
     return `var(--${categoryColor})`;
