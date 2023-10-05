@@ -97,9 +97,9 @@ const SavePage = () => {
       .then((response) => {
         console.log(
           "적금 조회 페이지에서 사용(적금설명O) 성공",
-          response.data.data,
+          response.data,
         );
-        setSaveItems(response.data.data);
+        setSaveItems(response.data);
       })
       .catch((error) => {
         console.error("적금 조회 페이지에서 사용(적금설명O) 실패", error);
