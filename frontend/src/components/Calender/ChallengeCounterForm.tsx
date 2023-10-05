@@ -10,9 +10,6 @@ const ChallengeCounterForm = ({
   failCount,
   successCount,
 }: ChallengeCounterProps) => {
-  // const attend = useSelector((state) => state.userState.user?.accessList)
-  // const userId = useSelector((state) => state.userState.user?.userId)
-
   return (
     <>
       <div className="challengecounter">

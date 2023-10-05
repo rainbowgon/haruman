@@ -21,8 +21,9 @@ const contextPath = `/api`;
 const ProfileAPI = "/profiles";
 
 const MyPage = () => {
+  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  const accessToken = localStorage.getItem("accessToken");
+  // const accessToken = localStorage.getItem("accessToken");
 
   const navigate = useNavigate();
 

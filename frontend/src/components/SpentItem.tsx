@@ -36,8 +36,9 @@ export default function SpentItem({
   id,
   className,
 }: SpentItemProps) {
+  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  const accessToken = localStorage.getItem("accessToken");
+  // const accessToken = localStorage.getItem("accessToken");
 
   /**
     updateExpense   

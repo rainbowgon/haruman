@@ -19,8 +19,9 @@ import { ChallengeState } from "../constants/interfaces";
 import axios from "axios";
 
 const Homepage = () => {
+  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  const accessToken = localStorage.getItem("accessToken");
+  // const accessToken = localStorage.getItem("accessToken");
 
   const navigate = useNavigate();
 
@@ -47,6 +48,14 @@ const Homepage = () => {
 
   // 매 초마다 시간 재설정
   useEffect(() => {
+    
+    // axios
+    //   .get(`${API_URL}${contextPath}${ChallengeAPI}/end`,{
+    //     headers: {
+    //       Authorization: `Bearer ${accessToken}`,
+    //     },
+    //   });
+      
     selectDailyChallenge();
 
     const intervalId = setInterval(() => {
