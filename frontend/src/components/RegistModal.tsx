@@ -41,10 +41,10 @@ export default function RegistModal({
   handleWave,
 }: RegistModalProps) {
   // 테스트용
-  const accessToken = process.env.REACT_APP_accessToken;
+  // const accessToken = process.env.REACT_APP_accessToken;
 
   // 배포용
-  // const accessToken = localStorage.gettItem("accessToken");
+  const accessToken = localStorage.gettItem("accessToken");
 
   const contextPath = `/api`;
 
