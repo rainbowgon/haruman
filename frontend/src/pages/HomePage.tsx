@@ -216,7 +216,7 @@ const Homepage = () => {
 
   const navigateToSave = () => {
     navigate("/save");
-  }
+  };
 
   const numberFormatter = (value: number) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -236,11 +236,13 @@ const Homepage = () => {
       <div className="challenge_response">
         <div className="challenge_response_container">
           <div className="challenge_response_title success">챌린지 성공</div>
-          <p className="challenge_response_content">+ {challengeInfo.leftoverAmount} 원</p>
+          <p className="challenge_response_content">
+            + {challengeInfo.leftoverAmount} 원
+          </p>
           <RegisterButton
-            text = "추천적금 보러가기"
-            onClick = {navigateToSave}
-            className = "regular"
+            text="추천적금 보러가기"
+            onClick={navigateToSave}
+            className="regular"
           />
         </div>
         <div
@@ -312,9 +314,9 @@ const Homepage = () => {
         <div className="challenge_response_container fail">
           <div className="challenge_response_title">챌린지 실패</div>
           <RegisterButton
-            text = "추천적금 보러가기"
-            onClick = {navigateToSave}
-            className = "point_60"
+            text="추천적금 보러가기"
+            onClick={navigateToSave}
+            className="point_60"
           />
         </div>
       </div>
