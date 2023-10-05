@@ -1,4 +1,5 @@
-@import "../styles/theme.css";
+@import "_util.scss";
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
 
 .loading {
   width: 100vw;
@@ -20,4 +21,70 @@
   justify-content: center;
   align-items: center;
   font-size: 1rem;
+}
+
+
+.challenge_response{
+  position: relative;
+  
+  width: 100vw;
+  height: 100vh;
+  
+  display: flex;
+
+  background-color: $white;
+  z-index: 2;
+
+  overflow: hidden;
+  
+  .timeout_fullscreen_div{
+    position: absolute;
+    
+    width: 100vw;
+    height: 100vh;
+    
+    background-color: $font2_main;
+
+    opacity: 0;
+
+    transition: 3500ms;
+
+    animation-name: opacity;
+    animation-duration: 2000ms;
+  
+    @keyframes opacity {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    
+    &.success{
+      background-color: $brand1_main;
+    }
+    
+    &.fail{
+      background-color: $point2_main;
+    }
+  } 
+
+  .challenge_response_title{
+    margin: auto;
+
+    font-size: 2.5rem;
+    font-weight: bold;
+
+    color: $white;
+    text-shadow: -1.5px 0 $brand1_main, 0 1.5px $brand1_main, 1.5px 0 $brand1_main,
+      0 -1.5px $brand1_main;
+  }
+
+  .challenge_response_wave{
+    position: absolute;
+
+    width: 150%;
+    top: 100%;
+  }
 }

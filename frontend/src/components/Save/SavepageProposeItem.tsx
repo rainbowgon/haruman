@@ -25,12 +25,14 @@ import Train from "../../assets/icons/consumptions/icon-train.svg"
 export interface SavepageProposeItemProps {
   onClick?: (event: any) => void;
   amount: number;
+  count: number;
   className?: string;
 }
 
 const SavepageProposeItem = ({
   onClick,
   amount,
+  count,
   className,
 } : SavepageProposeItemProps) => {
   const [randomItem, setRandomItem] = useState({
@@ -41,6 +43,7 @@ const SavepageProposeItem = ({
 
   useEffect(() => {
     const randomValue : number = Math.random() * (amount/5000);
+    // const randomValue : number = count;
 
     console.log(randomValue, amount);
 
