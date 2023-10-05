@@ -87,7 +87,7 @@ const EditSimpleProfilePage = () => {
   return (
     <div>
       <div className="edit_simple_profile_container">
-        <div className="edit_simple_profile_img">
+        <div className="edit_simple_profile_img_container">
           {user && user.profileImage && (
             <img
               className="profile_img"
