@@ -65,7 +65,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String[] excludePath = { "/api/oauth/" };
+        String[] excludePath = { "/api/oauth", "/api/members" };
         String path = request.getRequestURI();
         return Arrays.stream(excludePath).anyMatch(path::startsWith);
     }

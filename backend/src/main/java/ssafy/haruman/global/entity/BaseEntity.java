@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
 
     @CreatedDate
+    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(updatable = false)
     private LocalDateTime createdAt;
 

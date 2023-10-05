@@ -4,7 +4,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import ssafy.haruman.domain.profile.entity.Profile;
 import ssafy.haruman.global.entity.BaseEntity;
@@ -31,8 +33,10 @@ import java.util.UUID;
 public class Member extends BaseEntity {
 
     @Id
-    @GeneratedValue
-    @Column(name = "member_id", columnDefinition = "BINARY(16)")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "member_id", columnDefinition = "CHAR(36)")
+    @Type(type = "uuid-char")
     private UUID id;
 
     @Column(name = "member_name", columnDefinition = "VARCHAR(100)")
