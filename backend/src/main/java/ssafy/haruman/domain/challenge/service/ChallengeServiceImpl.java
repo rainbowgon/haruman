@@ -250,7 +250,7 @@ public class ChallengeServiceImpl implements ChallengeService {
                 valueOperations.set(categoryName, 0.0f);
             }
             float preCategoryRatio = valueOperations.get(categoryName);
-            System.out.println("pre" + categoryName + preCategoryRatio);
+
             // Redis에 카테고리별 소비 비율 저장
             valueOperations.set(categoryName, ((preCategoryRatio * (valueOperations.get("cnt") - 1) + categoryRatio) / valueOperations.get("cnt")));
             if (valueOperations.get(categoryName) <= categoryRatio) {
@@ -261,7 +261,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         sb.append("\n").append("내가 알려준 적금 중에서 적합한 적금 3개를 (bank, name, description, interestRate) 각각을 키로 JSON 배열형태로 알려줘(interestRate에 % 붙이지마)");
         CompletionChatResponse completionChatResponse = gptChatRestService.GPT(Bank.toString() + sb.toString());
         sb.setLength(0);
-        System.out.println(sb.toString());
+        
         for (int i = 0; i < completionChatResponse.getMessages().size(); i++) {
             String message = completionChatResponse.getMessages().get(i).getMessage();
             JsonArray jsonArray = JsonParser.parseString(message).getAsJsonArray();

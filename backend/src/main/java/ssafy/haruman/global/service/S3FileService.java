@@ -62,7 +62,6 @@ public class S3FileService {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(size);
         metadata.setContentType(extension);
-        System.out.println("metadata = " + metadata);
         amazonS3.putObject(bucket, getFullFilename(path, savedFilename), inputStream, metadata);
     }
 

@@ -1,13 +1,14 @@
 package ssafy.haruman.global.utils;
 
-import static ssafy.haruman.global.utils.JwtUtil.createJwt;
-
-import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
+
+import java.util.UUID;
+
+import static ssafy.haruman.global.utils.JwtUtil.createJwt;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-secret.yml")
@@ -15,7 +16,6 @@ class JwtUtilTest {
 
     @Value("${jwt.secret}")
     private String secretKey;
-
 
     @Test
     @DisplayName("API 테스트를 위한 superuser 토큰 얻기")
@@ -29,7 +29,6 @@ class JwtUtilTest {
 
         String token = createJwt(uuid, secretKey, expiredMs);
         System.out.println(token);
-
     }
 
 }

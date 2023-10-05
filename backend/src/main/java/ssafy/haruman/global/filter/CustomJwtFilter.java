@@ -11,7 +11,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.member.repository.MemberRepository;
 import ssafy.haruman.global.error.exception.*;
-import ssafy.haruman.global.mattermost.NotificationManager;
 import ssafy.haruman.global.utils.JwtUtil;
 
 import javax.servlet.FilterChain;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +28,6 @@ public class CustomJwtFilter extends OncePerRequestFilter {
 
     private final MemberRepository memberRepository;
     private final String secretKey;
-    private final NotificationManager notificationManager;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -38,26 +35,11 @@ public class CustomJwtFilter extends OncePerRequestFilter {
 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        System.out.println("==============================================\n\n");
-        System.out.println("헤더 정보 출력");
-        Enumeration<String> em = request.getHeaderNames();
-        while (em.hasMoreElements()) {
-            String name = em.nextElement();
-            String val = request.getHeader(name);
-            System.out.println(name + " : " + val);
-        }
-        System.out.println();
-        notificationManager.sendNotification(null, request.getRequestURI(), "authorization: " + authorization);
-        System.out.println("\nauthorization: " + authorization);
-        System.out.println("\n\n==============================================");
-
         if (authorization == null) {
-            notificationManager.sendNotification(AuthNoAuthorizationException.EXCEPTION, request.getRequestURI(), "");
             throw AuthNoAuthorizationException.EXCEPTION;
         }
 
         if (!authorization.startsWith("Bearer ")) {
-            notificationManager.sendNotification(AuthInvalidAuthorizationFormatException.EXCEPTION, request.getRequestURI(), "");
             throw AuthInvalidAuthorizationFormatException.EXCEPTION;
         }
 
