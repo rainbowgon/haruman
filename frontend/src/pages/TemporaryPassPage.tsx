@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { useNavigate } from "react-router";
 import Input from "../components/InputText";
 import RegistButton from "../components/RegistButton";
-import { sendTemporaryPassword } from "../apis/email";
+// import { sendTemporaryPassword } from "../apis/email";
 import { Link } from "react-router-dom";
 import useErrorHandlers from "../hooks/useError";
 
@@ -25,16 +25,16 @@ const ResetPasswordPage = () => {
   const errorHandlers = useErrorHandlers();
 
   const handleEmailSender = () => {
-    sendTemporaryPassword(email)
-      .then((res) => {
-        alert("이메일로 임시 비밀번호가 발송되었습니다.");
-        console.log(res);
-        // 로그인 페이지로 리다이렉트
-        RedirectLogin();
-      })
-      .catch((err) => {
-        errorHandlers(err.response, handleEmailSender);
-      });
+    // sendTemporaryPassword(email)
+    //   .then((res) => {
+    //     alert("이메일로 임시 비밀번호가 발송되었습니다.");
+    //     console.log(res);
+    //     // 로그인 페이지로 리다이렉트
+    //     RedirectLogin();
+    //   })
+    //   .catch((err) => {
+    //     errorHandlers(err.response, handleEmailSender);
+    //   });
   };
 
   const naviagte = useNavigate();
