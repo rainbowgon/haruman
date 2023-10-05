@@ -23,8 +23,6 @@ const Homepage = () => {
   // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
   const accessToken = localStorage.getItem("accessToken");
-  console.log("accessToken", accessToken);
-  console.log("localStorage", localStorage);
 
   const navigate = useNavigate();
 
