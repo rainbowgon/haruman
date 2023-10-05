@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,8 +38,18 @@ public class CustomJwtFilter extends OncePerRequestFilter {
 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+        System.out.println("==============================================\n\n");
+        System.out.println("헤더 정보 출력");
+        Enumeration<String> em = request.getHeaderNames();
+        while (em.hasMoreElements()) {
+            String name = em.nextElement();
+            String val = request.getHeader(name);
+            System.out.println(name + " : " + val);
+        }
+        System.out.println();
         notificationManager.sendNotification(null, request.getRequestURI(), "authorization: " + authorization);
-        log.info("authorization: {}", authorization);
+        System.out.println("\nauthorization: " + authorization);
+        System.out.println("\n\n==============================================");
 
         if (authorization == null) {
             notificationManager.sendNotification(AuthNoAuthorizationException.EXCEPTION, request.getRequestURI(), "");
