@@ -32,7 +32,7 @@ public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "member_id", columnDefinition = "BINARY(16)")
+    @Column(name = "member_id", columnDefinition = "CHAR(36)")
     private UUID id;
 
     @Column(name = "member_name", columnDefinition = "VARCHAR(100)")
