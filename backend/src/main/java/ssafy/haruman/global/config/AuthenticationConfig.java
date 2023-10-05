@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import ssafy.haruman.domain.member.repository.MemberRepository;
 import ssafy.haruman.global.filter.CustomJwtFilter;
 import ssafy.haruman.global.filter.ExceptionHandlerFilter;
+import ssafy.haruman.global.mattermost.NotificationManager;
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +20,7 @@ import ssafy.haruman.global.filter.ExceptionHandlerFilter;
 public class AuthenticationConfig {
 
     private final MemberRepository memberRepository;
+    private final NotificationManager notificationManager;
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -39,7 +41,7 @@ public class AuthenticationConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new CustomJwtFilter(memberRepository, secretKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new CustomJwtFilter(memberRepository, secretKey, notificationManager), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new ExceptionHandlerFilter(), CustomJwtFilter.class)
                 .build();
     }
