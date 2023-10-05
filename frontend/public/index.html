@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <link
+      rel="manifest"
+      href="manifest.json"
+    />
+    <link
       rel="icon"
       href="%PUBLIC_URL%/favicon.ico"
     />
@@ -26,10 +30,10 @@
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link
+    <!-- <link
       rel="manifest"
       href="%PUBLIC_URL%/manifest.json"
-    />
+    /> -->
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -41,13 +45,24 @@
     -->
     <title>haruman</title>
 
-    <meta name="theme-color" content="#05668D" />
-    
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="theme-color"
+      content="#05668D"
+    />
+
+    <meta
+      name="apple-mobile-web-app-capable"
+      content="yes"
+    />
     <meta
       name="apple-mobile-web-app-status-bar-style"
       content="#05668D"
     />
+    <script type="module">
+      import "https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate";
+      const el = document.createElement("pwa-update");
+      document.body.appendChild(el);
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
