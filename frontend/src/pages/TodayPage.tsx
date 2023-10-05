@@ -27,8 +27,6 @@ const TodayPage = () => {
   // const [category, setCategory] = useState(new Map([]));
   const [costItems, setCostItems] = useState<ExpenseItem[]>([]);
 
-  // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
@@ -40,7 +38,6 @@ const TodayPage = () => {
       })
       .then((response) => {
         const receivedChallengeId = response.data.data.challengeId;
-        console.log("resData", receivedChallengeId);
         setChallengeId(receivedChallengeId);
       })
       .catch((error) => {
@@ -62,29 +59,12 @@ const TodayPage = () => {
         })
         .then((response) => {
           setCostItems(response.data.data);
-          console.log("TodayPage에서 받아오는 것", response.data.data);
         })
         .catch((error) => {
           console.error("Error fetching expense data:", error);
         });
     }
   }, [challengeId]);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`${API_URL}${contextPath}${challengeAPI}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       setCostItems(response.data.data);
-  //       console.log("TodayPage에서 받아오는 것", response.data.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching expense data:", error);
-  //     });
-  // }, []);
 
   return (
     <CenterContainer>

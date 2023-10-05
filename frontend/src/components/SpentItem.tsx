@@ -35,8 +35,6 @@ export default function SpentItem({
   id,
   className,
 }: SpentItemProps) {
-  // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
   const accessToken = localStorage.getItem("accessToken");
 
@@ -47,7 +45,6 @@ export default function SpentItem({
     PATCH
   */
   const updateExpense = () => {
-    // const accessToken = localStorage.geItem("accessToken");
     axios
       .patch(`${API_URL}${contextPath}${ChallengeAPI}`, "edit", {
         headers: {

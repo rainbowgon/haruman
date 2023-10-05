@@ -16,9 +16,6 @@ const CalendarForm = ({
   selectChallenge,
   setSelectChallenge,
 }: CalendarFormProp) => {
-  // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
-
   // 배포용
   const accessToken = localStorage.getItem("accessToken");
 
@@ -75,8 +72,8 @@ const CalendarForm = ({
   }, [challengeDates]);
 
   const setCurrentDate = () => {
-    const curDate = new Date(); 
-    
+    const curDate = new Date();
+
     const year = `${curDate.getFullYear()}`;
     var month = `${curDate.getMonth() + 1}`;
     if (curDate.getMonth() < 9) {

@@ -35,71 +35,9 @@ const DonutChart: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const [challengeId, setChallengeId] = useState<number | null>(null);
 
-  // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
   const accessToken = localStorage.getItem("accessToken");
   const contextPath = `/api`;
-  // const challengeAPI = "/challenges/23";
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`${API_URL}/api/challenges`, {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       const receivedChallengeId = response.data.data.challengeId;
-  //       console.log("resData", receivedChallengeId);
-  //       setChallengeId(receivedChallengeId);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching expense data:", error);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   selectDailyChallenge();
-  // }, []);
-
-  // const selectDailyChallenge = () => {
-  //   axios
-  //     .get(`${API_URL}${contextPath}${challengeAPI}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     })
-  //     ///////////////////////////// 금액 별로 차트를 그릴 경우///////////////////////////////////////////
-  //     .then((response) => {
-  //       const challengeData: ExpenseItem[] = response.data.data;
-  //       const aggregatedCategories: CategoryItem[] = challengeData.reduce(
-  //         (acc: any, item) => {
-  //           const existingCategory = acc.find(
-  //             (cat: CategoryItem) => cat.name === item.categoryName,
-  //           );
-
-  //           if (existingCategory) {
-  //             existingCategory.cnt += item.payAmount;
-  //           } else {
-  //             acc.push({
-  //               categoryId: item.id,
-  //               name: item.categoryName,
-  //               categoryColor: item.categoryColor,
-  //               isDefault: "DEFAULT",
-  //               content: item.content,
-  //               cnt: item.payAmount,
-  //             });
-  //           }
-
-  //           return acc;
-  //         },
-  //         [],
-  //       );
-
-  //       setCategories(aggregatedCategories);
-  //     })
-  ///////
   useEffect(() => {
     axios
       .get(`${API_URL}/api/challenges`, {
@@ -187,7 +125,7 @@ const DonutChart: React.FC = () => {
       // })
       /////////////////////////////////////////////////////////////////////////////////////////////////////
       .catch((error) => {
-        console.error("Error fetching challenge data:", error);
+        console.error("데이터 불러오기 실패", error);
         setMessage("데이터 로딩 중 오류가 발생했습니다.");
       });
   }, [challengeId]);
