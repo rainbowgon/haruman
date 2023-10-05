@@ -2,7 +2,7 @@
 
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storageSession from "redux-persist/lib/storage/session";
-import userSlice from "./userSlice";
+// import userSlice from "./userSlice";
 import persistStore from "redux-persist/es/persistStore";
 import persistReducer from "redux-persist/es/persistReducer";
 import thunk from "redux-thunk";
@@ -15,7 +15,7 @@ const encryptTransform: any = createTransform();
 // (outboundState, key) => JSON.parse(decryptData(outboundState)),
 
 const reducers = combineReducers({
-  user: userSlice.reducer,
+  // user: userSlice.reducer,
   app: appReducer,
 });
 
