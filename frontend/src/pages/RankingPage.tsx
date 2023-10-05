@@ -7,6 +7,7 @@ import axios from "axios";
 
 // styles
 import "../styles/RankinPageStyle.scss";
+import "../styles/components/MiddleStyle.scss";
 import BottomBarSpace from "../components/BottomBarSpace";
 import { API_URL } from "../constants/urls";
 import HeaderTitle from "../components/HeaderTitle";
@@ -41,6 +42,7 @@ const RankingPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [groups, setGroups] = useState<Group[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+  const [selectedBubbleLabel, setSelectedBubbleLabel] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,6 +66,7 @@ const RankingPage = () => {
   }, []);
 
   const handleBubbleClick = (data: DataPoint) => {
+    setSelectedBubbleLabel(data.label);
     const matchingGroup = groups.find((group) => group.groupKey === data.label);
 
     if (matchingGroup) {
@@ -83,7 +86,7 @@ const RankingPage = () => {
           />
           <BubbleChart onBubbleClick={handleBubbleClick} />
           <MiddleTitle
-            SubTitle={`소비금액이 비슷한 유저예요!`}
+            SubTitle={`[ ${selectedBubbleLabel} 버블에 있는 유저예요! ]`}
             MainTitle={``}
           />
           <div className="challengeitems_list">

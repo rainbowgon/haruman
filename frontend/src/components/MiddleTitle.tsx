@@ -8,8 +8,8 @@ interface InputProps {
 export default function MiddleTitle({ SubTitle, MainTitle }: InputProps) {
   return (
     <div className="Middle">
-      <h2 className="sub_title">{SubTitle}</h2>
-      <h1 className="main_title">{MainTitle}</h1>
+      <h2 className="Middle_sub_title">{SubTitle}</h2>
+      <h1 className="Middle_main_title">{MainTitle}</h1>
     </div>
   );
 }
