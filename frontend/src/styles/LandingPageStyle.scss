@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
 
 .loading {
+  font-family: "IBM Plex Sans KR", sans-serif;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -25,61 +26,90 @@
 
 
 .challenge_response{
+  font-family: "IBM Plex Sans KR", sans-serif;
   position: relative;
   
   width: 100vw;
   height: 100vh;
   
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 
   background-color: $white;
   z-index: 2;
 
   overflow: hidden;
   
-  .timeout_fullscreen_div{
-    position: absolute;
+  // .timeout_fullscreen_div{
+  //   position: absolute;
     
-    width: 100vw;
-    height: 100vh;
+  //   width: 100vw;
+  //   height: 100vh;
     
-    background-color: $font2_main;
+  //   background-color: $font2_main;
 
-    opacity: 0;
+  // } 
 
-    transition: 3500ms;
+  .challenge_response_container{
+    width: 80%;
+    height: 30%;
+
+    margin: auto;
+
+    border: 3px solid $brand1_main;
+    border-radius: 2.5rem;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    &.fail{
+      // border: 3px solid $point3_main;
+      border: none;
+    }
+    
+    opacity: 1;
 
     animation-name: opacity;
     animation-duration: 2000ms;
   
     @keyframes opacity {
       from {
-        opacity: 1;
-      }
-      to {
         opacity: 0;
       }
+      to {
+        opacity: 1;
+      }
     }
-    
-    &.success{
-      background-color: $brand1_main;
+
+    .challenge_response_title{
+      margin: 0 auto;
+  
+      font-size: 2.5rem;
+      font-weight: bold;
+  
+      // text-shadow: -1.5px 0 $brand1_main, 0 1.5px $brand1_main, 1.5px 0 $brand1_main,
+      //   0 -1.5px $brand1_main;
+      
+      &.success{
+        color: $font1_main;
+      }
+      
+      &.fail{
+        color: $point3_main;
+      }
     }
-    
-    &.fail{
-      background-color: $point2_main;
+
+    .challenge_response_content{
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: $brand1_main;
     }
-  } 
-
-  .challenge_response_title{
-    margin: auto;
-
-    font-size: 2.5rem;
-    font-weight: bold;
-
-    color: $white;
-    text-shadow: -1.5px 0 $brand1_main, 0 1.5px $brand1_main, 1.5px 0 $brand1_main,
-      0 -1.5px $brand1_main;
   }
+
 
   .challenge_response_wave{
     position: absolute;

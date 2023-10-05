@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { API_URL } from "../constants/urls";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 // style
@@ -25,6 +25,8 @@ const Homepage = () => {
   const accessToken = localStorage.getItem("accessToken");
   console.log("accessToken", accessToken);
   console.log("localStorage", localStorage);
+
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -79,13 +81,6 @@ const Homepage = () => {
       return s + (0 - s) * a;
     }
   }, []);
-
-  // useEffect(() => {
-  //   handleWave(
-  //     challengeInfo.leftoverAmount,
-  //     challengeInfo.targetAmount * (1 - (amountPercent/60))
-  //   );
-  // }, [challengeInfo]);
 
   useEffect(() => {
     let targetModalTop: number = isModalOpen ? 25 : 100;
@@ -219,6 +214,10 @@ const Homepage = () => {
     });
   };
 
+  const navigateToSave = () => {
+    navigate("/save");
+  }
+
   const numberFormatter = (value: number) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -235,9 +234,15 @@ const Homepage = () => {
   } else if (challengeInfo.challengeStatus === "SUCCESS") {
     return (
       <div className="challenge_response">
-        <div className="timeout_fullscreen_div success" />
-        <div className="challenge_response_title">챌린지 성공</div>
-
+        <div className="challenge_response_container">
+          <div className="challenge_response_title success">챌린지 성공</div>
+          <p className="challenge_response_content">+ {challengeInfo.leftoverAmount} 원</p>
+          <RegisterButton
+            text = "추천적금 보러가기"
+            onClick = {navigateToSave}
+            className = "regular"
+          />
+        </div>
         <div
           className="challenge_response_wave"
           style={{ top: `${70 + waveTop}%` }}
@@ -304,8 +309,14 @@ const Homepage = () => {
   } else if (challengeInfo.challengeStatus === "FAIL") {
     return (
       <div className="challenge_response">
-        <div className="timeout_fullscreen_div fail" />
-        <div className="challenge_response_title">챌린지 실패</div>
+        <div className="challenge_response_container fail">
+          <div className="challenge_response_title">챌린지 실패</div>
+          <RegisterButton
+            text = "추천적금 보러가기"
+            onClick = {navigateToSave}
+            className = "point_60"
+          />
+        </div>
       </div>
     );
   } else {
@@ -365,8 +376,7 @@ const Homepage = () => {
                     <div className="progress_challenge">
                       <div className="progress_challenge_title">
                         <h2>
-                          {challengeInfo &&
-                            challengeInfo.leftoverAmount &&
+                          {challengeInfo.leftoverAmount &&
                             numberFormatter(challengeInfo.leftoverAmount)}
                         </h2>
                         <h3>원</h3>
