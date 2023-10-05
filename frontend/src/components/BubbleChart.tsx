@@ -156,12 +156,14 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
     };
 
     const width = 400;
-    const height = 500;
+    const height = 350;
     const g = svg
       .append("g")
       .attr(
         "transform",
-        `translate(${width / window.innerWidth},${height / window.innerWidth})`,
+        `translate(${width / window.innerWidth},${
+          (height * 80) / window.innerWidth
+        })`,
       );
 
     const simulation = d3
@@ -173,7 +175,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .force(
         "collide",
         d3.forceCollide(
-          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.3),
+          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.42),
         ),
       )
       .on("tick", ticked);
@@ -183,7 +185,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
 
       u.enter()
         .append<SVGCircleElement>("circle")
-        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.3))
+        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.42))
         .attr("fill", (d) => d.color || "#8884d8")
         .on("mouseover", (event, d) => {
           const tooltip = d3.select("body").append("div");
