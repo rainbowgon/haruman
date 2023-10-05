@@ -31,7 +31,8 @@ public class AuthenticationConfig {
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers(
-                        "/oauth/**"
+                        "/oauth/**",
+                        "/members/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()
