@@ -12,6 +12,7 @@ import { saveItem } from "../constants/interfaces";
 import axios from "axios";
 import SavepageItem from "../components/Save/SavepageItem";
 import SavepageProposeItem from "../components/Save/SavepageProposeItem";
+import BottomBarSpace from "../components/BottomBarSpace";
 
 
 const SavePage = () => {
@@ -38,6 +39,18 @@ const SavePage = () => {
       "name": "KB적금",
       "description": "코가 뚫리는 적금",
       "interestRate": 4.3
+    },
+    {
+      "bank": "하나은행",
+      "name": "올 in 하나 적금",
+      "description": "한 번에 모든 것을 하는 적금",
+      "interestRate": 4.1
+    },
+    {
+      "bank": "우리은행",
+      "name": "우리함께 건강 적금",
+      "description": "운동하면 이자율이 올라가는 적금",
+      "interestRate": 4.9
     }
   ]);
 
@@ -91,13 +104,16 @@ const SavePage = () => {
       <div className="savepage_compare_container">
         <h2 className="savepage_title">지금까지 이만큼 아꼈어요!</h2>
         <div className="savepage_itemlist">
-          {amount && Array(3).fill(null).map((_) => (
+          {Array(parseInt(((amount/5000).toFixed(1)), 10) + 1).fill(null).map((count) => (
             <SavepageProposeItem 
-              amount={amount} 
+              count={count}
+              amount={amount && 0} 
             />
           ))}
         </div>
       </div>
+
+      <BottomBarSpace />
     </div>
   )
 };

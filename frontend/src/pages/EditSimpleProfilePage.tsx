@@ -4,8 +4,6 @@ import "../styles/mypage/EditSimpleProfilePageStyle.scss";
 import axios from "axios";
 import { API_URL } from "../constants/urls";
 import RegisterButton from "../components/RegistButton";
-import { Value } from "sass";
-import { getValue } from "@testing-library/user-event/dist/utils";
 
 // apis
 const contextPath = `/api`;
@@ -95,7 +93,11 @@ const EditSimpleProfilePage = () => {
             />
           )}
         </div>
-        <p className="simple_profile_nickname_text">{user && user.nickname}</p>
+        <input
+            className="simple_profile_nickname_text"
+            value={user && user.nickname}
+            onChange={(e) => setUser({ ...user, nickname: e.target.value })}
+        />
         <div className="simple_profile_rule_box">
           <h3 className="simple_profile_rule_header_text">닉네임 생성 규칙</h3>
           <p className="simple_profile_rule_text">최소 2자, 최대 12자</p>
@@ -106,39 +108,15 @@ const EditSimpleProfilePage = () => {
         <div className="simple_profile_buttons">
           <RegisterButton
             text="취소"
-            className="regular brand"
+            className="regular white"
             onClick={onClickCancel}
-          />
+            />
           <RegisterButton
             text="완료"
-            className="regular white"
+            className="regular brand"
             onClick={onClickSuccess}
           />
         </div>
-      </div>
-      <input
-        className="simple_profile_nickname_text"
-        value={user && user.nickname}
-        onChange={(e) => setUser({ ...user, nickname: e.target.value })}
-      />
-      <div className="simple_profile_rule_box">
-        <h3 className="simple_profile_rule_header_text">닉네임 생성 규칙</h3>
-        <p className="simple_profile_rule_text">최소 2자, 최대 12자</p>
-        <p className="simple_profile_rule_text">
-          ';.`*"등의 특수문자 사용 불가
-        </p>
-      </div>
-      <div className="simple_profile_buttons">
-        <RegisterButton
-          text="취소"
-          className="regular brand"
-          onClick={onClickCancel}
-        />
-        <RegisterButton
-          text="완료"
-          className="regular white"
-          onClick={onClickSuccess}
-        />
       </div>
     </div>
   );

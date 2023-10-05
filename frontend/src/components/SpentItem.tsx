@@ -49,24 +49,22 @@ export default function SpentItem({
     PATCH
   */
   const updateExpense = () => {
-    // const accessToken = sessionStorage.getItem("accessToken")
-    // const host_id = parseInt(sessionStorage.getItem("userIdx"), 10);
-    // axios.patch(`${API_URL}${contextPath}${ChallengeAPI}`, "edit",
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`
-    //   }
-    // })
-    // .then((response) => {
-    //     console.log("지출 내역 수정");
-    //     showAlert("success", "지출 내역 수정");
-    //     setCurStatus(2);
-    // })
-    // .catch((error) => {
-    //     console.error("서버로부터 지출 내역 수정 실패", error);
-    //     showAlert("error", "지출 내역 수정 실패입니다.");
-    //     console.error(error.code);
-    // });
+    const accessToken = sessionStorage.getItem("accessToken")
+    axios.patch(`${API_URL}${contextPath}${ChallengeAPI}`, "edit",
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+    .then((response) => {
+        console.log("지출 내역 수정");
+        showAlert("지출 내역 수정");
+    })
+    .catch((error) => {
+        console.error("서버로부터 지출 내역 수정 실패", error);
+        showAlert("지출 내역 수정 실패입니다.");
+        console.error(error.code);
+    });
   };
 
   /**
@@ -83,7 +81,7 @@ export default function SpentItem({
         },
       })
       .then((response) => {
-        showAlert(`지출 내역 삭제 요청 취소 성공입니다. ${response.data}`);
+        showAlert(`지출 내역 삭제 요청 성공입니다. ${response.data}`);
       })
       .catch((error) => {
         console.error("서버로부터 지출 내역 삭제 요청 실패", error);
@@ -109,6 +107,9 @@ export default function SpentItem({
       </div>
       <div className="spent_item_price_div">
         <p className="spent_item_price"> {moneyValue} 원</p>
+      </div>
+      <div>
+        
       </div>
     </div>
   );

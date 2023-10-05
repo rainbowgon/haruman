@@ -205,3 +205,15 @@
     transition: background-color 0.5s;
   }
 }
+
+
+abbr {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 100%;
+  transition: background-color 0.5s;
+}
