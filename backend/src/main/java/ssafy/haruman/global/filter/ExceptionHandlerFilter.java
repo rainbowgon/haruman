@@ -3,12 +3,14 @@ package ssafy.haruman.global.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ssafy.haruman.global.error.dto.ErrorReason;
 import ssafy.haruman.global.error.dto.ErrorResponse;
 import ssafy.haruman.global.error.errorCode.BaseErrorCode;
 import ssafy.haruman.global.error.exception.CustomException;
+import ssafy.haruman.global.mattermost.NotificationManager;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,13 +18,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@RequiredArgsConstructor
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
+
+    private final NotificationManager notificationManager;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             filterChain.doFilter(request, response);
         } catch (CustomException e) {
+            notificationManager.sendNotification(e, request.getRequestURL().toString(), "");
             setErrorResponse(e, request.getRequestURL().toString(), response);
         }
     }

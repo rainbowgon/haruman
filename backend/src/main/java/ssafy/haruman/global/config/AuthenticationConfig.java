@@ -41,8 +41,8 @@ public class AuthenticationConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new CustomJwtFilter(memberRepository, secretKey, notificationManager), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new ExceptionHandlerFilter(), CustomJwtFilter.class)
+                .addFilterBefore(new CustomJwtFilter(memberRepository, secretKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new ExceptionHandlerFilter(notificationManager), CustomJwtFilter.class)
                 .build();
     }
 
