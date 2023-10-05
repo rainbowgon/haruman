@@ -7,10 +7,10 @@ import RegistButton from "../components/RegistButton";
 import { Link } from "react-router-dom";
 // import useErrorHandlers from "../hooks/useError";
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-`;
+// const StyledLink = styled(Link)`
+//   text-decoration: none;
+//   color: inherit;
+// `;
 
 const ButtonContainer = styled.div`
   display: flex;
