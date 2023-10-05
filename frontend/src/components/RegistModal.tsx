@@ -40,9 +40,6 @@ export default function RegistModal({
   setChallengeInfo,
   handleWave,
 }: RegistModalProps) {
-  // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
-
   // 배포용
   const accessToken = localStorage.getItem("accessToken");
 
@@ -142,8 +139,6 @@ export default function RegistModal({
     POST
   */
   const createExpense = () => {
-    console.log(spentItem);
-
     if (
       spentItem.payAmount === null ||
       isNaN(spentItem.payAmount) ||
@@ -160,7 +155,6 @@ export default function RegistModal({
       showAlert("카테고리가 없어요!");
       return;
     }
-    console.log(spentItem);
 
     axios
       .post(
@@ -205,8 +199,6 @@ export default function RegistModal({
     GET
   */
   const selectCategoryList = () => {
-    console.log("카테고리 전체 조회");
-
     axios
       .get(`${API_URL}${contextPath}${CategorieAPI}`, {
         headers: {
@@ -214,11 +206,9 @@ export default function RegistModal({
         },
       })
       .then((response) => {
-        console.log("카테고리 전체 조회 성공", response.data.data);
         setCategories(response.data.data);
       })
       .catch((error) => {
-        console.error("카테고리 전체 조회 실패", error);
         setCategories([]);
       });
   };

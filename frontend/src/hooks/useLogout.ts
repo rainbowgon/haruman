@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-// import { logout } from "../apis/user";
 import { userSliceLogout } from "../stores/userSlice";
 import { useAppDispatch, useAppSelector } from "./reduxHook";
 

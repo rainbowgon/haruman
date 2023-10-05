@@ -148,17 +148,13 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   }));
 
   const createForceBubbleChart = (data: typeof ranges, pageInfo: any) => {
-    console.log("버블차트 생성시 받아오는 데이터", data);
     const allUsers = pageInfo.size;
-    console.log("pageInfo", typeof allUsers);
-    console.log("allUsers inside function:", allUsers);
     const margin = { top: 70, right: 100, bottom: 20, left: -30 };
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
     const handleBubbleClick = (range: DataPoint) => {
       onBubbleClick(range);
-      console.log("클릭되었습니다.", range);
     };
 
     const width = 400;
@@ -185,7 +181,6 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .on("tick", ticked);
 
     function ticked() {
-      console.log("Ticked 시 받아오는 데이터", data);
       const u = g.selectAll<SVGCircleElement, DataPoint>("circle").data(data);
 
       u.enter()

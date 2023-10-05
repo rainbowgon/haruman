@@ -27,12 +27,6 @@ import { Link } from "react-router-dom";
 //scss
 import "../styles/user/SignUpPageStyle.scss";
 
-const StyledDiv = styled.div`
-  margin-left: 10vw;
-  text-align: left;
-  color: var(--brand1_main);
-`;
-
 const LogoDiv = styled.div`
   margin: 5vh 0vh 5vh;
 `;
@@ -108,27 +102,9 @@ const SignupPage = () => {
     }
   };
 
-  const handleRegist = () => {
-    // registServer(userData)
-    //   .then((res) => {
-    //     alert("가입 완료");
-    //     RedirectLogin();
-    //   })
-    //   .catch((err) => {
-    //     errorHandlers(err.response, handleRegist);
-    //   });
-  };
+  const handleRegist = () => {};
 
-  const handleEmailSender = () => {
-    // sendAuthenticationCode(email)
-    //   .then((res) => {
-    //     setEmailSend(true);
-    //     setAuthenticationCode(res);
-    //   })
-    //   .catch((err) => {
-    //     errorHandlers(err.response, handleEmailSender);
-    //   });
-  };
+  const handleEmailSender = () => {};
 
   const handleEmailAuthentication = () => {
     if (authenticationCode === userCode) {

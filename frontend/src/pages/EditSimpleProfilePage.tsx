@@ -11,8 +11,6 @@ const contextPath = `/api`;
 const ProfileAPI = "/profiles";
 
 const EditSimpleProfilePage = () => {
-  // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
   const accessToken = localStorage.getItem("accessToken");
 

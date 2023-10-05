@@ -1,5 +1,4 @@
 import { HttpStatusCode } from "axios";
-// import { getAccessToken } from "../apis/user";
 import { updateAccessToken } from "../stores/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "./reduxHook";
@@ -18,7 +17,6 @@ const useErrorHandlers = () => {
     const statusCode = response.status;
     switch (statusCode) {
       case HttpStatusCode.Unauthorized:
-        console.log("401 에러당");
         handle401Error(callback, param);
         break;
       case HttpStatusCode.NotFound:
@@ -27,24 +25,11 @@ const useErrorHandlers = () => {
       case HttpStatusCode.ServiceUnavailable:
       case HttpStatusCode.GatewayTimeout:
       default:
-        console.log("에러예요");
         redirectErrorPage();
     }
   };
 
-  function handle401Error(callback: any, param?: any) {
-    // getAccessToken()
-    //   .then((res) => {
-    //     dispatch(updateAccessToken({ accessToken: res.accessToken }));
-    //     console.log("새로운 토큰 받아옴");
-    //     callback(param);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     alert("다시 로그인해주세요");
-    //     logout();
-    //   });
-  }
+  function handle401Error(callback: any, param?: any) {}
 
   function redirectErrorPage() {
     navigate("/error");

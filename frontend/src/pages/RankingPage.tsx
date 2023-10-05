@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import BubbleChart, { DataPoint } from "../components/BubbleChart";
 import CenterContainer from "../components/CenterContainer";
 import MainStyle from "../components/MainStyle";
-import Register from "../components/RegistButton";
 import axios from "axios";
 
 // styles
@@ -46,8 +45,6 @@ const RankingPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // 테스트용
-      // const accessToken = process.env.REACT_APP_accessToken;
       // 배포용
       const accessToken = localStorage.getItem("accessToken");
       try {
