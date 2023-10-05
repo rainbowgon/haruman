@@ -18,7 +18,7 @@ const EditSimpleProfilePage = () => {
 
   const [user, setUser] = useState({
     profileId: 30,
-    nickname: "명정루",
+    nickname: "테스트",
     profileImage: null,
   });
 
@@ -87,10 +87,10 @@ const EditSimpleProfilePage = () => {
   return (
     <div>
       <div className="edit_simple_profile_container">
-        <div className="edit_simple_profile_img_container">
+        <div className="edit_simple_profile_img_div">
           {user && user.profileImage && (
             <img
-              className="profile_img"
+              className="edit_simple_profile_img"
               src={`${user && user.profileImage}`}
               alt="프로필 이미지"
             />

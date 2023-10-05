@@ -2,7 +2,7 @@
 import React from "react";
 
 // style
-import "../styles/components/SpentItemStyle.scss";
+import "../styles/components/UserItemStyle.scss";
 
 export interface UserItemProps {
   mainValue: string;
@@ -16,7 +16,7 @@ export default function UserItem({
   image,
 }: UserItemProps) {
   return (
-    <div className="spent_item">
+    <div className="user_item">
       <div className="user_item_image_component">
         {(image) ? (
           <img
@@ -26,11 +26,11 @@ export default function UserItem({
           />
         ) : null}
       </div>
-      <div className="spent_item_name_div">
-        <p className="spent_item_name">{mainValue}</p>
+      <div className="user_item_name_div">
+        <p className="user_item_name">{mainValue}</p>
       </div>
-      <div className="spent_item_price_div">
-        <p className="spent_item_price">{moneyValue} 원</p>
+      <div className="user_item_price_div">
+        <p className="user_item_price">{moneyValue} 원</p>
       </div>
     </div>
   );

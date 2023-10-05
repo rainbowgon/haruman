@@ -1,7 +1,7 @@
 @import "../_util.scss";
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
 
-.spent_item {
+.user_item {
   font-family: "IBM Plex Sans KR", sans-serif;
 
   width: 80%;
@@ -15,7 +15,7 @@
   display: grid;
   grid-template-columns: 2fr 6fr 2fr;
 
-  .spent_item_name_div {
+  .user_item_name_div {
     margin: auto;
     width: 80%;
     height: 100%;
@@ -23,7 +23,7 @@
     flex-direction: column;
     justify-content: center;
 
-    .spent_item_name {
+    .user_item_name {
       margin: 0;
       color: $font1_main;
       font-size: 1rem;
@@ -31,18 +31,36 @@
     }
   }
 
-  .spent_item_price_div {
+  .user_item_price_div {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
 
-    .spent_item_price {
+    .user_item_price {
       margin: 0;
       color: $font1_main;
       font-size: 1rem;
       font-weight: bold;
       text-align: left;
     }
+  }
+}
+
+.user_item_image_component{
+  width: 40px;
+  height: 40px;
+
+  margin: auto;
+  
+  border: 3px solid $brand1_main;
+  border-radius: 100%;
+
+  background-color: $background_2;
+
+  overflow: hidden;
+
+  .user_item_image{
+    width: 100%;
   }
 }

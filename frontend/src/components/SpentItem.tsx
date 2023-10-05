@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 // style
 import "../styles/components/SpentItemStyle.scss";
 import Category from "./Category";
+import RegisterButton from "./RegistButton";
 
 // apis
 import { API_URL } from "../constants/urls";
@@ -91,6 +92,11 @@ export default function SpentItem({
     });
   };
 
+  const handleUpdateExpense = () => {
+    return;
+    updateExpense();
+  }
+
   return (
     <div className="spent_item">
       <div className="spent_item_name_div">
@@ -103,7 +109,18 @@ export default function SpentItem({
       <div className="spent_item_price_div">
         <p className="spent_item_price"> {moneyValue} 원</p>
       </div>
-      <div></div>
+      {/* <div className="regular_container">
+        <RegisterButton
+          text="수정"
+          className="regular brand"
+          onClick={handleUpdateExpense}
+        />
+        <RegisterButton
+          text="삭제"
+          className="regular white"
+          onClick={deleteExpense}
+        />
+      </div> */}
     </div>
   );
 }

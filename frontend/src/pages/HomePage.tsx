@@ -374,8 +374,10 @@ const Homepage = () => {
                     <div className="progress_challenge">
                       <div className="progress_challenge_title">
                         <h2>
-                          {challengeInfo.leftoverAmount &&
-                            numberFormatter(challengeInfo.leftoverAmount)}
+                          {challengeInfo ? 
+                          challengeInfo.leftoverAmount &&
+                            numberFormatter(challengeInfo.leftoverAmount)
+                          :"10,000"}
                         </h2>
                         <h3>원</h3>
                       </div>

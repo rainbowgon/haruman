@@ -10,7 +10,10 @@
   justify-content: center;
   align-items: center;
 }
-.edit_simple_profile_img_container {
+
+.edit_simple_profile_img_div {
+  position: relative;
+
   width: 125px;
   height: 125px;
 
@@ -18,10 +21,10 @@
 
   border: 6px solid $brand1_main;
   border-radius: 100%;
-  
-  overflow: hidden;
-  
-  .edit_simple_profile_img {
+
+  object-fit: cover;
+
+  .edit_simple_profile_img{
     width: 100%;
   }
 }

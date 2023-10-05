@@ -31,11 +31,12 @@ const MyPage = () => {
     "TodayExpensePage",
     "CalendarPage",
     "RankingPage",
+    "SavePage",
     "plus",
   ]);
   const [user, setUser] = useState({
     profileId: 30,
-    nickname: "명정루",
+    nickname: "테스트",
     profileImage: null,
   });
 
@@ -100,13 +101,11 @@ const MyPage = () => {
                     />
                   </button>
                   {user && user.profileImage && (
-                    <div className="profile_img_div">
-                      <img
-                        className="profile_img"
-                        src={`${user && user.profileImage}`}
-                        alt="프로필 이미지"
-                      />
-                    </div>
+                    <img
+                      className="profile_img"
+                      src={`${user && user.profileImage}`}
+                      alt="프로필 이미지"
+                    />
                   )}
                 </div>
                 <div className="profile_text">
