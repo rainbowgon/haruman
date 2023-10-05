@@ -11,7 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import ssafy.haruman.domain.member.entity.Member;
 import ssafy.haruman.domain.member.repository.MemberRepository;
 import ssafy.haruman.global.error.exception.AuthNoAuthorizationException;
-import ssafy.haruman.global.error.exception.AuthTokenExpired;
+import ssafy.haruman.global.error.exception.AuthTokenExpiredException;
 import ssafy.haruman.global.error.exception.MemberNotFoundException;
 import ssafy.haruman.global.error.exception.MemberProfileNotFoundException;
 import ssafy.haruman.global.utils.JwtUtil;
@@ -45,7 +45,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
         String token = authorization.split(" ")[1];
 
         if (JwtUtil.isExpired(token, secretKey)) {
-            throw AuthTokenExpired.EXCEPTION;
+            throw AuthTokenExpiredException.EXCEPTION;
         }
 
         UUID memberId = JwtUtil.getMemberIdFromJwt(token, secretKey);
