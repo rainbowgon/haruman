@@ -118,7 +118,7 @@ const SavePage = () => {
       <div className="savepage_save_container">
         <h2 className="savepage_title">여태 모은 {amount?amount:0}원을 저축해요!</h2>
         <div className="savepage_itemlist">
-          {saveItems ?
+          {(amount || saveItems.length === 0) ?
             saveItems.map((item) => (
               <SavepageItem
                 imgName={item.bank}
@@ -137,8 +137,7 @@ const SavePage = () => {
       <div className="savepage_compare_container">
         <h2 className="savepage_title">지금까지 이만큼 아꼈어요!</h2>
         <div className="savepage_itemlist">
-          {amount
-          &&
+          {
           Array(parseInt((amount / 5000).toFixed(1), 10) + 1)
             .fill(null)
             .map((count) => (
