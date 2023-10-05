@@ -4,6 +4,7 @@ import "../styles/mypage/EditSimpleProfilePageStyle.scss";
 import axios from "axios";
 import { API_URL } from "../constants/urls";
 import RegisterButton from "../components/RegistButton";
+import { useNavigate } from "react-router-dom";
 
 // apis
 const contextPath = `/api`;
@@ -11,9 +12,11 @@ const ProfileAPI = "/profiles";
 
 const EditSimpleProfilePage = () => {
   // 테스트용
-  const accessToken = process.env.REACT_APP_accessToken;
+  // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  // const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = sessionStorage.getItem("accessToken");
+
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     profileId: 30,
@@ -76,7 +79,9 @@ const EditSimpleProfilePage = () => {
       });
   };
 
-  const onClickCancel = () => {};
+  const onClickCancel = () => {
+    navigate(-1);
+};
   const onClickSuccess = () => {
     updateProfile();
   };
