@@ -21,8 +21,6 @@ const contextPath = `/api`;
 const ProfileAPI = "/profiles";
 
 const MyPage = () => {
-  // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
   const accessToken = localStorage.getItem("accessToken");
 
@@ -102,11 +100,13 @@ const MyPage = () => {
                     />
                   </button>
                   {user && user.profileImage && (
-                    <img
-                      className="profile_img"
-                      src={`${user && user.profileImage}`}
-                      alt="프로필 이미지"
-                    />
+                    <div className="profile_img_div">
+                      <img
+                        className="profile_img"
+                        src={`${user && user.profileImage}`}
+                        alt="프로필 이미지"
+                      />
+                    </div>
                   )}
                 </div>
                 <div className="profile_text">

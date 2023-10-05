@@ -1,63 +1,6 @@
 import { API_URL, SERVER_URL } from "../constants/urls";
 import { axiosInstance } from "./instance";
 
-// import { axiosServerWithRefresh } from "./server";
-
-// // 환경 설정 변경
-// export const updateUserSetting = async (userSetting: object) => {
-//   const res = await axiosServer().put<any>(`/settings`, userSetting);
-//   return res.data;
-// };
-
-// // 서버 DB 유저 회원가입
-// export const registServer = async (userData: object) => {
-//   const res = await axiosServer().post<any>(`/users/regist`, userData);
-//   return res.data;
-// };
-
-// // 서버 DB 유저 로그인
-// export const loginServer = async (userData: object) => {
-//   const res = await axiosServer().post<any>(`/users/login`, userData);
-//   return res.data;
-// };
-
-// // 로그아웃
-// export const logout = async (userEmail: string) => {
-//   const res = await axiosServer().post<any>(`/users/logout`, userEmail);
-//   return res.data;
-// };
-
-// // 서버 DB 유저 비밀번호 변경
-// export const changePassword = async (changePasswordData: object) => {
-//   const res = await axiosServer().post<any>(`/users/pass`, changePasswordData);
-//   return res.data;
-// };
-
-// // 서버 DB 유저 회원정보 조회
-// export const getUserInfo = async () => {
-//   const res = await axiosServer().get<any>(`/users/mypage`);
-//   return res.data;
-// };
-
-// // 서버 DB 유저 회원정보 수정
-// export const updateUserInfo = async (userData: object) => {
-//   const res = await axiosServer().put<any>(`/users/mypage`, userData);
-//   return res.data;
-// };
-
-// // 서버 DB 유저 회원탈퇴
-// export const cancelUser = async () => {
-//   const res = await axiosServer().delete<any>(`/users`);
-//   return res.data;
-// };
-
-// // 새로운 accessToken 발급
-// export const getAccessToken = async () => {
-//   const res = await axiosServerWithRefresh().get<any>("/users/token");
-//   console.log(res.data);
-//   return res.data;
-// };
-
 /* -----------------------------------------------------------------------------------*/
 
 // 카카오 로그인 리다이렉트

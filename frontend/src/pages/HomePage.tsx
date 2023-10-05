@@ -19,8 +19,6 @@ import { ChallengeState } from "../constants/interfaces";
 import axios from "axios";
 
 const Homepage = () => {
-  // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
   const accessToken = localStorage.getItem("accessToken");
 
@@ -94,7 +92,7 @@ const Homepage = () => {
 
     if (currentDate.getHours() < canStart[0]) {
       showAlert(`${canStart[0]}시에 시작할 수 있습니다.`);
-      return;
+      // return;
     }
     if (currentDate.getHours() >= canStart[1]) {
       showAlert(`시작 가능한 시간이 지났습니다.`);

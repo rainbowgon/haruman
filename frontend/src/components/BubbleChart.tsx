@@ -105,8 +105,6 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   const [pageInfo, setPageInfo] = useState<any>({});
   useEffect(() => {
     const fetchChartData = async () => {
-      // 테스트용
-      // const accessToken = process.env.REACT_APP_accessToken;
       // 배포용
       const accessToken = localStorage.getItem("accessToken");
       try {
@@ -131,7 +129,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
         setData(updatedData);
         setRanges(updatedData);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("에러메시지 : ", error);
       }
     };
 
@@ -148,26 +146,24 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   }));
 
   const createForceBubbleChart = (data: typeof ranges, pageInfo: any) => {
-    console.log("버블차트 생성시 받아오는 데이터", data);
     const allUsers = pageInfo.size;
-    console.log("pageInfo", typeof allUsers);
-    console.log("allUsers inside function:", allUsers);
     const margin = { top: 70, right: 100, bottom: 20, left: -30 };
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
     const handleBubbleClick = (range: DataPoint) => {
       onBubbleClick(range);
-      console.log("클릭되었습니다.", range);
     };
 
     const width = 400;
-    const height = 500;
+    const height = 350;
     const g = svg
       .append("g")
       .attr(
         "transform",
-        `translate(${width / window.innerWidth},${height / window.innerWidth})`,
+        `translate(${width / window.innerWidth},${
+          (height * 80) / window.innerWidth
+        })`,
       );
 
     const simulation = d3
@@ -179,30 +175,20 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
       .force(
         "collide",
         d3.forceCollide(
-          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.3),
+          (d: any) => (d.users / allUsers) * (window.innerWidth * 0.42),
         ),
       )
       .on("tick", ticked);
 
     function ticked() {
-      console.log("Ticked 시 받아오는 데이터", data);
       const u = g.selectAll<SVGCircleElement, DataPoint>("circle").data(data);
 
       u.enter()
         .append<SVGCircleElement>("circle")
-        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.3))
+        .attr("r", (d) => (d.users / allUsers) * (window.innerWidth * 0.42))
         .attr("fill", (d) => d.color || "#8884d8")
-        // .attr("stroke", "#fff")
-        // .attr("stroke-width", 2)
         .on("mouseover", (event, d) => {
           const tooltip = d3.select("body").append("div");
-          //   .classed("tooltip", true)
-          //   .style("position", "absolute")
-          //   .style("background-color", "white")
-          //   .style("padding", "8px")
-          //   .style("border", "1px solid #ccc")
-          //   .style("border-radius", "4px");
-          // .text(`${d.label}: ${d.users} users`);
 
           const { pageX, pageY } = event;
           tooltip

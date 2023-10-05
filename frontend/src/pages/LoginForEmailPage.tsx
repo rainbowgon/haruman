@@ -14,7 +14,6 @@ import { HttpStatusCode } from "axios";
 import { useState } from "react";
 import { useAppDispatch } from "../hooks/reduxHook";
 import { useNavigate } from "react-router-dom";
-import { redirectKakao } from "../apis/user";
 
 // style
 import "../styles/theme.css";
@@ -23,12 +22,6 @@ import styled from "styled-components";
 
 //scss
 import "../styles/user/LoginForEmailPageStyle.scss";
-
-const StyledDiv = styled.div`
-  margin-left: 10vw;
-  text-align: left;
-  color: var(--brand1_main);
-`;
 
 const LogoDiv = styled.div`
   margin: 10vh 0vh 10vh;

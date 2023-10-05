@@ -31,53 +31,6 @@ const BottomBar: React.FC = () => {
     { name: "Save", icon: PiggybankIcon, path: "/save" },
     { name: "MyPage", icon: BurgermenuIcon, path: "/mypage" },
   ]);
-
-  // useEffect(() => {
-  //   const handleScroll = (): void => {
-  //     const currentScrollPosition = window.scrollY;
-
-  //     if (currentScrollPosition > lastScrollPosition) {
-  //       setIsHidden(true);
-  //     } else {
-  //       // 위로 스크롤
-  //       setIsHidden(false);
-  //     }
-
-  //     setLastScrollPosition(currentScrollPosition);
-  //   };
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [lastScrollPosition]);
-  // console.log("lastScrollPosition", lastScrollPosition);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const st = window.scrollY;
-
-  //     if (Math.abs(lastScrollTop - st) <= delta) return;
-
-  //     if (st > lastScrollTop) {
-  //       setIsNavUp(true); // 아래로 스크롤할 때
-  //     } else if (
-  //       st + window.innerHeight <
-  //       document.documentElement.scrollHeight
-  //     ) {
-  //       setIsNavUp(false); // 위로 스크롤할 때
-  //     }
-
-  //     setLastScrollTop(st);
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [lastScrollTop]);
-
-  // const bottomBarStyle = isNavUp
-  //   ? { transform: "translateY(100%)" }
-  //   : { transform: "translateY(0)" };
   useEffect(() => {
     const currentPage = pages.findIndex((p) => p.path === location.pathname);
     if (currentPage !== -1) {

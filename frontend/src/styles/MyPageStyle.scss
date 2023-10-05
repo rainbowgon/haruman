@@ -49,8 +49,14 @@
       }
     }
 
-    .profile_img {
+    .profile_img_div{
       overflow: hidden;
+      width: 100%;
+      border-radius: 100%;
+
+      .profile_img {
+        width: 100%;
+      }
     }
   }
   .profile_text {

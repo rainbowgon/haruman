@@ -10,6 +10,7 @@ import { API_URL } from "../constants/urls";
 
 // component
 import CalendarForm from "../components/Calender/CalenderForm";
+import ChallengeCounterForm from "../components/Calender/ChallengeCounterForm";
 import ChallengeItemsForm from "../components/Calender/ChallengeItemsForm";
 import SpentItem from "../components/SpentItem";
 
@@ -19,8 +20,6 @@ import BottomBarSpace from "../components/BottomBarSpace";
 import HeaderTitle from "../components/HeaderTitle";
 
 const CalendarPage = () => {
-  // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
   const accessToken = localStorage.getItem("accessToken");
 
@@ -91,35 +90,35 @@ const CalendarPage = () => {
       return;
     }
 
-    if (selectChallenge) {
-      axios
-        .get(
-          `${API_URL}${contextPath}${ChallengeAPI}/${selectChallenge.challengeId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
+    axios
+      .get(
+        `${API_URL}${contextPath}${ChallengeAPI}/${selectChallenge?.challengeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
           },
-        )
-        .then((response) => {
-          console.log(
-            "해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)",
-            response.data.data,
-          );
-          console.log(response.data.data);
-          setChallengeitems(response.data.data);
-        })
-        .catch((error) => {
-          console.error(
-            "해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트) 조회 실패",
-            error,
-          );
-        });
-    }
+        },
+      )
+      .then((response) => {
+        console.log(
+          "해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트)",
+          response.data.data,
+        );
+        console.log(response.data.data);
+        setChallengeitems(response.data.data);
+      })
+      .catch((error) => {
+        console.error(
+          "해당일 챌린지 조회 (일일 잔액, 지출 내역 리스트) 조회 실패",
+          error,
+        );
+      });
   };
 
   const numberFormatter = (value: number) => {
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if (value){
+      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
   };
 
   return (
@@ -128,7 +127,7 @@ const CalendarPage = () => {
         {/* 캘린더 페이지 헤더 */}
         <HeaderTitle
           SubTitle="지금까지 모은금액!"
-          MainTitle={`${numberFormatter(amount)} 원`}
+          MainTitle={`${amount && numberFormatter(amount)} 원`}
         />
         {/* 캘린더 */}
         <div className="calendar_form">

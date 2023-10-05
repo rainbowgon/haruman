@@ -15,9 +15,6 @@ import SavepageProposeItem from "../components/Save/SavepageProposeItem";
 import BottomBarSpace from "../components/BottomBarSpace";
 
 const SavePage = () => {
-  // 테스트용
-  // const accessToken = process.env.REACT_APP_accessToken;
-
   // 배포용
   const accessToken = localStorage.getItem("accessToken");
 
@@ -92,7 +89,7 @@ const SavePage = () => {
    */
   const selectDepositDetailList = () => {
     axios
-      .get(`${API_URL}${contextPath}${DepositAPI}/list`, {
+      .get(`${API_URL}${contextPath}${DepositAPI}/detail`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -119,7 +116,9 @@ const SavePage = () => {
         />
       </div>
       <div className="savepage_save_container">
-        <h2 className="savepage_title">여태 모은 {amount}원을 저축해요!</h2>
+        <h2 className="savepage_title">
+          여태 모은 {amount ? amount : 0}원을 저축해요!
+        </h2>
         <div className="savepage_itemlist">
           {saveItems &&
             saveItems.map((item) => (
@@ -135,14 +134,15 @@ const SavePage = () => {
       <div className="savepage_compare_container">
         <h2 className="savepage_title">지금까지 이만큼 아꼈어요!</h2>
         <div className="savepage_itemlist">
-          {Array(parseInt((amount / 5000).toFixed(1), 10) + 1)
-            .fill(null)
-            .map((count) => (
-              <SavepageProposeItem
-                count={count}
-                amount={amount && 0}
-              />
-            ))}
+          {amount &&
+            Array(parseInt((amount / 5000).toFixed(1), 10) + 1)
+              .fill(null)
+              .map((count) => (
+                <SavepageProposeItem
+                  count={count}
+                  amount={amount ? amount : 0}
+                />
+              ))}
         </div>
       </div>
 

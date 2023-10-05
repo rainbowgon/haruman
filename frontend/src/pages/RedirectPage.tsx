@@ -10,7 +10,6 @@ function KakaoRedirectPage() {
         try {
           const token = await loginKakao(code);
           localStorage.setItem("accessToken", token);
-          console.log("넘어오는 데이터", token);
           window.location.href = "/home";
         } catch (error) {
           console.error("카카오 로그인 실패!", error);
