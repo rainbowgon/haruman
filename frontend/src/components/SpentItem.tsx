@@ -40,8 +40,6 @@ export default function SpentItem({
   // 배포용
   const accessToken = sessionStorage.getItem("accessToken");
 
-  const date = new Date();
-
   /**
     updateExpense   
     지출 내역 수정   
