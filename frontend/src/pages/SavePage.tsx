@@ -15,9 +15,8 @@ import SavepageProposeItem from "../components/Save/SavepageProposeItem";
 import BottomBarSpace from "../components/BottomBarSpace";
 
 const SavePage = () => {
-  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  // const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
 
   const contextPath = `/api`;
   const ChallengeAPI = "/challenges";
@@ -119,7 +118,7 @@ const SavePage = () => {
       <div className="savepage_save_container">
         <h2 className="savepage_title">여태 모은 {amount?amount:0}원을 저축해요!</h2>
         <div className="savepage_itemlist">
-          {(amount && saveItems.length === 0) ?
+          {(amount || saveItems.length === 0) ?
             saveItems.map((item) => (
               <SavepageItem
                 imgName={item.bank}
