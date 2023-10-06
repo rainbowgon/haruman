@@ -45,6 +45,7 @@ const RankingPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      
       // 배포용
       const accessToken = localStorage.getItem("accessToken");
       try {

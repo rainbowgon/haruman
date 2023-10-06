@@ -47,6 +47,14 @@ const Homepage = () => {
 
   // 매 초마다 시간 재설정
   useEffect(() => {
+    
+    // axios
+    //   .get(`${API_URL}${contextPath}${ChallengeAPI}/end`,{
+    //     headers: {
+    //       Authorization: `Bearer ${accessToken}`,
+    //     },
+    //   });
+      
     selectDailyChallenge();
 
     const intervalId = setInterval(() => {
@@ -119,7 +127,7 @@ const Homepage = () => {
       })
       .then((response) => {
         console.log("첼린지 시작");
-        showAlert("첼린지 시작");
+        // showAlert("첼린지 시작");
         setChallengeInfo(response.data);
         handleWave(100, 100);
         setChallenge(!challenge);
