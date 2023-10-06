@@ -1,0 +1,104 @@
+pipeline {
+
+    agent any
+    
+    tools {
+        nodejs 'node-16'
+        dockerTool 'docker'
+    }
+
+
+    stages {
+        stage('Clear current directory') {
+            steps {
+                sh'''
+                    rm -rf *
+                '''
+            }
+        }
+
+        stage('Pull from GitLab') {
+            steps {
+                git url: 'https://lab.ssafy.com/s09-fintech-finance-sub2/S09P22A607.git',
+                    branch: 'fe/develop',
+                    credentialsId: 'GitLab Pipeline token'
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                dir('frontend') {
+                    sh'''
+                        npm install -g yarn
+                        yarn install
+                        CI=false yarn build
+                    '''
+                }
+            }
+        }
+
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SSAFY-SonarQube') { 
+        //             dir('frontend') {
+        //                 sh '''
+        //                     npm run sonar
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage('Delete existing Docker images and containers') {
+            steps {
+                sh'''
+                    if docker container inspect haruman_client >/dev/null 2>&1; then
+                        echo "container exists locally"
+                        docker stop haruman_client
+                        docker rm haruman_client
+                    else
+                        echo "container does not exist locally"
+                    fi
+                    if docker image inspect client >/dev/null 2>&1; then
+                        echo "Image exists locally"
+                        docker rmi client 
+                    else
+                        echo "Image does not exist locally"
+                    fi
+                '''
+            }
+        }
+
+        stage('Build and Deploy Docker') {
+            steps {
+                dir('frontend') {
+                    sh'''
+                        echo [FE] Build Docker Image!
+                        docker build -t client .
+                        echo [FE] Run Docker Container!
+                        docker run -dp 3000:3000 --name haruman_client client
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+                mattermostSend(color: 'good', message: "✅ 빌드 & 배포 성공: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: fe/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})")
+            }
+        }
+        failure {
+            script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+                mattermostSend(color: 'danger', message: "❌ 빌드 & 배포 실패: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: fe/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})")
+            }
+        }
+    }
+}

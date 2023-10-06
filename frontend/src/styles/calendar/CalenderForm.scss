@@ -1,0 +1,219 @@
+@import "../theme.css";
+@import "../_util.scss";
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
+
+.react-calendar {
+  width: 90vw;
+  max-width: 512px;
+  padding: 20px;
+  border: none;
+  color: var(--font1_main);
+  font-family: "IBM Plex Sans KR", sans-serif;
+  line-height: 1.125em;
+  border-radius: 2rem;
+  background-color: $background_main;
+  filter: drop-shadow(0px 2px 2px rgb(0, 0, 0, 0.15));
+}
+
+.react-calendar--doubleView {
+  width: 700px;
+}
+
+.react-calendar--doubleView .react-calendar__viewContainer {
+  display: flex;
+  margin: -0.5em;
+}
+
+.react-calendar--doubleView .react-calendar__viewContainer > * {
+  width: 50%;
+  margin: 0.5em;
+}
+
+.react-calendar,
+.react-calendar *,
+.react-calendar *:before,
+.react-calendar *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.react-calendar button {
+  margin: 0;
+  border: 0;
+  outline: none;
+  border-radius: 3rem;
+}
+
+.react-calendar button:enabled:hover {
+  cursor: pointer;
+}
+
+.react-calendar__navigation {
+  display: flex;
+  height: 2rem;
+  border-radius: 3rem;
+}
+
+.react-calendar__navigation button {
+  min-width: 44px;
+  background: none;
+  transition: $background_main 0.5s;
+  border-radius: 3rem;
+  font-weight: bold;
+}
+
+.react-calendar__navigation button:disabled {
+  background: $background_2;
+  border-radius: 3rem;
+  transition: background-color 0.5s;
+}
+
+.react-calendar__navigation button:enabled:focus {
+  background: $BLUE_03;
+  border-radius: 3rem;
+}
+
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 3rem;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  padding: 0.5em;
+}
+
+.react-calendar__month-view__weekNumbers .react-calendar__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: $brand1_main;
+  font-weight: 700;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: $font2_op_40;
+  border-radius: 2.5rem;
+}
+
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+  padding: 1rem 1rem;
+  border-radius: 3rem;
+}
+
+.react-calendar__tile {
+  max-width: 100%;
+  padding: 0.3rem 0.3rem;
+  background: none;
+  text-align: center;
+  line-height: 24px;
+  font-weight: bolder;
+}
+
+.react-calendar__tile:disabled {
+  background-color: #f0f0f0;
+  border-radius: 3rem;
+  transition: background-color 0.5s;
+}
+
+.react-calendar__tile--now {
+  border-radius: 3rem;
+  color: $white;
+  transition: background-color 0.5s;
+}
+
+.react-calendar__tile--hasActive {
+  background: $brand2_op_60;
+  border-radius: 3rem;
+  color: $white;
+}
+
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+  background: $point2_main;
+  border-radius: 3rem;
+  color: $white;
+}
+
+.react-calendar__tile--active {
+  abbr {
+    background-color: $brand1_op_60;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+    color: $white;
+  }
+}
+
+.react-calendar--selectRange .react-calendar__tile--hover {
+  background: $point2_main;
+  border-radius: 3rem;
+  transition: background-color 0.5s;
+}
+
+.highlight1 {
+  abbr {
+    background: $point2_op_60;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+  }
+}
+.highlight2 {
+  abbr {
+    background-color: $brand2_op_60;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+  }
+}
+
+.highlight3 {
+  abbr {
+    background: $point3_op_60;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 100%;
+    transition: background-color 0.5s;
+  }
+}
+
+
+abbr {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 100%;
+  transition: background-color 0.5s;
+}

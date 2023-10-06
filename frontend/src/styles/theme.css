@@ -1,0 +1,110 @@
+:root {
+  /* font */
+  /* font-family: "IBM Plex Sans KR",sans-serif; */
+
+  /* how to use */
+  /* color : var(--background_1) */
+
+  /* background */
+  --background_main: #f6fafcff;
+  --background_1: #dffaffff;
+  --background_2: #c7f4ffff;
+
+  /* black & white */
+  --white: #ffffffff;
+  --black: #000000ff;
+  --Transparent: #00000000;
+
+  /* brand1 */
+  --brand1_main: #05668dff;
+  --brand1_op_80: #05668dcc;
+  --brand1_op_60: #05668d99;
+  --brand1_op_40: #05668d66;
+  --brand1_op_20: #05668d33;
+
+  --brand1_sub: #028090ff;
+
+  /* brand2 */
+  --brand2_main: #02c39aff;
+  --brand2_op_80: #02c39acc;
+  --brand2_op_60: #02c39a99;
+  --brand2_op_40: #02c39a66;
+  --brand2_op_20: #02c39a33;
+
+  --brand2_sub: #00a896ff;
+
+  /* font1 */
+  --font1_main: #454545ff;
+  --font1_op_80: #454545cc;
+  --font1_op_60: #45454599;
+  --font1_op_40: #45454566;
+  --font1_op_20: #45454533;
+
+  /* font2 */
+  --font2_main: #7a7a7aff;
+  --font2_op_80: #7a7a7acc;
+  --font2_op_60: #7a7a7a99;
+  --font2_op_40: #7a7a7a66;
+  --font2_op_20: #7a7a7a33;
+
+  /* point1 */
+  --point1_main: #f0f3bdff;
+  --point1_op_80: #f0f3bdcc;
+  --point1_op_60: #f0f3bd99;
+  --point1_op_40: #f0f3bd66;
+  --point1_op_20: #f0f3bd33;
+
+  /* point2 */
+  --point2_main: #ffb703ff;
+  --point2_op_80: #ffb703cc;
+  --point2_op_60: #ffb70399;
+  --point2_op_40: #ffb70366;
+  --point2_op_20: #ffb70333;
+
+  /* point3 */
+  --point3_main: #fb8500ff;
+  --point3_op_80: #fb8500cc;
+  --point3_op_60: #fb850099;
+  --point3_op_40: #fb850066;
+  --point3_op_20: #fb850033;
+
+  /* gradation */
+  --gradation-start: #5dd1bdff;
+  --gradation-end: #62a0b7ff;
+
+  /* category */
+  --BLACK_01: #cfcfcfff;
+  --BLACK_02: #a5a5a5ff;
+  --BLACK_03: #757575ff;
+  --BLUE_01: #8fc7f1ff;
+  --BLUE_02: #4ea4e6ff;
+  --BLUE_03: #3274f6ff;
+  --BROWN_01: #b8a38eff;
+  --BROWN_02: #97795bff;
+  --BROWN_03: #6d4729ff;
+  --GREEN_01: #c9d56aff;
+  --GREEN_02: #99c355ff;
+  --GREEN_03: #5d9e67ff;
+  --ORANGE_01: #f9af63ff;
+  --ORANGE_02: #f09639ff;
+  --ORANGE_03: #e9841bff;
+  --PINK_01: #f9c8d7ff;
+  --PINK_02: #ef98b4ff;
+  --PINK_03: #e96a93ff;
+  --PURPLE_01: #d7b5f9ff;
+  --PURPLE_02: #ba88ecff;
+  --PURPLE_03: #ad68ecff;
+  --RED_01: #f49a9fff;
+  --RED_02: #e25a62ff;
+  --RED_03: #da353fff;
+  --YELLOW_01: #fae088ff;
+  --YELLOW_02: #f3cf55ff;
+  --YELLOW_03: #e8bc27ff;
+
+  /* graph */
+  --GRAPH_01: #c9e9fbff;
+  --GRAPH_02: #61bacfff;
+  --GRAPH_03: #55bdc8ff;
+  --GRAPH_04: #4e93afff;
+  --GRAPH_05: #4ac1b5ff;
+}

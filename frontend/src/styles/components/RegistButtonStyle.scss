@@ -1,0 +1,120 @@
+@import "../util.scss"; /*변수파일 - 색상 + 모바일 체크*/
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
+
+.regist_button_box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.button_container {
+  width: 80%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(1px 2px 2px rgb(0, 0, 0, 0.15));
+}
+
+.register_button {
+  font-family: "IBM Plex Sans KR", sans-serif;
+  width: 80%;
+  height: 6vh;
+  border-radius: 40px;
+  margin: 10px;
+  max-width: 450px;
+  color: $white;
+  font-size: 1rem;
+
+  border: 2px solid $brand2_main;
+  background-color: $brand2_main;
+  font-weight: bolder;
+
+  &:hover {
+    transition: all 0.1s ease-in-out;
+  }
+
+  @include mobile {
+    // 브라우저 사이즈767px이하일때
+  }
+
+  @include tablet {
+    /*브라우저 사이즈1023px이하일때*/
+    background: $brand1_main;
+  }
+
+  @include desktop {
+    /*브라우저 사이즈1024px이상일때*/
+    background: $point1_main;
+  }
+}
+
+.highlight {
+  background-color: $point3_op_60;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.register_button.white {
+  color: $brand1_main;
+  background-color: $white;
+  border: none;
+  font-size: 1.2rem;
+}
+
+// mini
+.register_button.mini_type {
+  width: 6vh;
+  background-color: $brand1_main;
+  border: none;
+  font-size: 0.7rem;
+}
+
+// regular
+.register_button.regular {
+  height: 4vh;
+  border: none;
+  border-radius: 0.5rem;
+  margin: 10px;
+  max-width: 200px;
+  color: $white;
+  font-size: 0.8rem;
+}
+
+.brand {
+  background-color: $brand1_main;
+}
+
+.point_60 {
+  border: none;
+  background-color: $point3_op_60;
+}
+
+.regular.white {
+  color: $brand1_main;
+  background-color: $white;
+}
+
+// square
+.register_button.square {
+  width: 20vw;
+  height: 20vw;
+  border: none;
+  border-radius: 0.5rem;
+  margin: 10px;
+  max-width: 200px;
+  max-height: 200px;
+  color: $white;
+  font-size: 0.8rem;
+}
+
+.setspentitem {
+  background-color: $white;
+  width: 100%;
+  filter: none;
+  border: none;
+  color: $brand1_main;
+  border-radius: 0%;
+  margin-bottom: 5%;
+}

@@ -1,0 +1,120 @@
+@import "_util.scss";
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
+
+.loading {
+  font-family: "IBM Plex Sans KR", sans-serif;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(2px 2px 2px rgb(0, 0, 0, 0.15));
+
+  .loadingimg {
+    width: 40vw;
+  }
+}
+
+.loading_text {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+}
+
+
+.challenge_response{
+  font-family: "IBM Plex Sans KR", sans-serif;
+  position: relative;
+  
+  width: 100vw;
+  height: 100vh;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  background-color: $white;
+  z-index: 2;
+
+  overflow: hidden;
+  
+  // .timeout_fullscreen_div{
+  //   position: absolute;
+    
+  //   width: 100vw;
+  //   height: 100vh;
+    
+  //   background-color: $font2_main;
+
+  // } 
+
+  .challenge_response_container{
+    width: 80%;
+    height: 30%;
+
+    margin: auto;
+
+    border: 3px solid $brand1_main;
+    border-radius: 2.5rem;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    &.fail{
+      // border: 3px solid $point3_main;
+      border: none;
+    }
+    
+    opacity: 1;
+
+    animation-name: opacity;
+    animation-duration: 2000ms;
+  
+    @keyframes opacity {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .challenge_response_title{
+      margin: 0 auto;
+  
+      font-size: 2.5rem;
+      font-weight: bold;
+  
+      // text-shadow: -1.5px 0 $brand1_main, 0 1.5px $brand1_main, 1.5px 0 $brand1_main,
+      //   0 -1.5px $brand1_main;
+      
+      &.success{
+        color: $font1_main;
+      }
+      
+      &.fail{
+        color: $point3_main;
+      }
+    }
+
+    .challenge_response_content{
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: $brand1_main;
+    }
+  }
+
+
+  .challenge_response_wave{
+    position: absolute;
+
+    width: 150%;
+    top: 100%;
+  }
+}

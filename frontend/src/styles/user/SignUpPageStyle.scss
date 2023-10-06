@@ -1,0 +1,44 @@
+@import "../util.scss"; /*변수파일 - 색상 + 모바일 체크*/
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
+
+.signup_back_div {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  margin-top: 1rem;
+
+  .signup_back {
+    width: 80%;
+    display: flex;
+    justify-content: left;
+
+    .signup_back_img {
+      width: 40px;
+    }
+  }
+}
+
+.agreement_container {
+  margin-bottom: 15%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .agreement_logo_img {
+    display: flex;
+    justify-content: center;
+  }
+
+  .service_guide_title {
+    display: flex;
+    justify-content: center;
+    color: $font1_main;
+    font-size: 1rem;
+    font-weight: bold;
+
+    margin-bottom: 2rem;
+  }
+}

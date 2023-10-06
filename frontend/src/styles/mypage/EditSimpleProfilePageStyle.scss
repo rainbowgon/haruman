@@ -1,0 +1,64 @@
+@import "../_util.scss";
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
+
+.edit_simple_profile_container {
+  width: 100vw;
+  height: 90vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit_simple_profile_img_div {
+  position: relative;
+
+  width: 125px;
+  height: 125px;
+
+  overflow: hidden;
+
+  background-color: $background_1;
+
+  border: 6px solid $brand1_main;
+  border-radius: 100%;
+
+  object-fit: cover;
+
+  .edit_simple_profile_img{
+    width: 100%;
+  }
+}
+
+.simple_profile_nickname_text {
+  width: 60%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  border-bottom: 2px solid $brand1_main;
+  outline: none;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.simple_profile_rule_box {
+  width: 70vw;
+  background-color: $background_main;
+  border-radius: 1rem;
+  color: $font1_main;
+  margin: 1rem;
+
+  .simple_profile_rule_header_text {
+    margin: 1rem;
+  }
+
+  .simple_profile_rule_text {
+    margin: 1rem;
+  }
+}
+
+.simple_profile_buttons {
+  display: flex;
+  width: 70vw;
+}

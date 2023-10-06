@@ -1,0 +1,99 @@
+@import "../../styles/theme.css";
+@import "../../styles/_util.scss";
+
+.datePicker {
+  display: flex;
+  align-items: center;
+  border: 2px solid $brand1_main;
+  border-radius: 23px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 46px;
+  color: $font1_main;
+  text-align: center;
+
+  &:focus {
+    border: 2px solid $point2_main;
+  }
+}
+
+.customHeaderContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: $background_main;
+  height: 100%;
+  margin-top: 8px;
+  padding: 0 12px 0 24px;
+
+  .month {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .year {
+    background-color: $background_main;
+    color: $brand1_main;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding-right: 5px;
+    cursor: pointer;
+    font-family: "Noto Sans KR", serif;
+  }
+
+  .monthButton {
+    background-color: $transparent;
+    border: $transparent;
+    width: 34px;
+    height: 34px;
+    padding: 5px;
+    border-radius: 50%;
+
+    + .monthButton {
+      margin-left: 24px;
+    }
+
+    &:hover {
+    }
+
+    &:disabled {
+      cursor: default;
+
+      svg {
+        fill: $background_2;
+      }
+    }
+  }
+}
+
+.calenderWrapper {
+  background-color: $background_main;
+  color: $font1_main;
+}
+
+.selectedDay,
+.unselectedDay {
+  color: $font1_main;
+  padding: 3px 1px 0 0;
+  width: 36px;
+  height: 36px;
+}
+
+.selectedDay {
+  background-color: $point2_main;
+  border-radius: 50%;
+
+  &:hover {
+    border-radius: 50%;
+    background-color: $point3_main;
+  }
+}
+
+.unselectedDay {
+  &:hover {
+    border-radius: 50%;
+    background-color: $background_2;
+  }
+}

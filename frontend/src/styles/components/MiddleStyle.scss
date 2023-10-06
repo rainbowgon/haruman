@@ -1,0 +1,25 @@
+@import "../theme.css";
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
+
+.Middle {
+  background-color: var(--white);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  font-family: IBM Plex Sans KR, sans-serif;
+  margin: 0 auto;
+  width: 70%;
+  border: 1px solid var(--brand1_main);
+  padding: 0.5rem 0;
+
+  .Middle_sub_title {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--font2_main);
+  }
+  .Middle_main_title {
+    margin: 0;
+    font-size: 2rem;
+    color: var(--font1_main);
+  }
+}

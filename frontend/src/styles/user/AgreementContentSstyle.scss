@@ -1,0 +1,89 @@
+@import "../_util.scss"; /*변수파일 - 색상 + 모바일 체크*/
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
+
+.context_box {
+  width: 70%;
+  overflow: scroll;
+  height: 20vh;
+  overflow-x: hidden;
+
+  padding: 5%;
+
+  border: 1px solid $brand1_main;
+  border-radius: 2%;
+
+  //============== 스크롤바 관련 (시작) ==============
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  table-layout: fixed;
+
+  &::-webkit-scrollbar {
+    width: 9px; /* 스크롤바의 너비 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: auto; /* 스크롤바의 길이 */
+    width: 7px;
+    background: $brand1_main; /* 스크롤바의 색상 */
+
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border: solid 1px $brand1_main; /*스크롤바 뒷 배경 색상*/
+    border-radius: 10px;
+  }
+  //============== 스크롤바 관련 (끝) ==============
+
+  .Agreement_header_title {
+    color: $brand1_main;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  .Agreement_middle_title {
+    color: $font1_main;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  .Agreement_text {
+    font-size: 0.8rem;
+    margin: 0 0 0 1rem;
+  }
+
+  .context_box_text {
+    font-size: 12px;
+    color: $font2_main;
+  }
+
+  h1 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 0.7em;
+    margin-top: 0.7em;
+    font-weight: bolder;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ul,
+  ol {
+    margin-left: 1.5em;
+  }
+
+  li {
+    margin-bottom: 0.5em;
+  }
+}
