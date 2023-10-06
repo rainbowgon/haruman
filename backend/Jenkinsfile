@@ -1,0 +1,165 @@
+pipeline {
+
+    agent any
+    
+    tools {
+        gradle 'gradle-8.2.1'
+        jdk 'jdk-11'
+        dockerTool 'docker'
+    }
+
+    stages {
+        stage('Clear current directory') {
+            steps {
+                sh'''
+                    rm -rf *
+                '''
+            }
+        }
+
+        
+        stage('Pull from GitLab') {
+            steps {
+                git url: 'https://lab.ssafy.com/s09-fintech-finance-sub2/S09P22A607.git',
+                    branch: 'be/develop',
+                    credentialsId: 'GitLab Pipeline token'
+            }
+        }
+
+        stage('Apply application.yml files') {
+            steps {
+                withCredentials([file(credentialsId: 'application-secret', variable: 'secretFile'),
+                                file(credentialsId: 'application-develop', variable: 'developFile'),
+                                file(credentialsId: 'EC2 pemkey', variable: 'pemkey')]) {
+                    script {
+                        sh 'cp $secretFile backend/src/main/resources/application-secret.yml'
+                        sh 'cp $developFile backend/src/main/resources/application-develop.yml'
+                        sh 'cp $pemkey J9A607T.pem'
+                    }
+                }
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                dir('backend') {
+                    sh'''
+                        gradle wrapper
+                        chmod +x gradlew
+                        ./gradlew clean build -x test --stacktrace
+                    '''
+                }
+            }
+        }
+
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SonarQube-haruman') { 
+        //             dir('backend') {
+        //                 sh './gradlew sonarqube --stacktrace'
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage('Zero Downtime Deployment') {
+            steps {
+                sh'''
+                    echo "\n****** Blue Health Check & Build ******"
+
+                    # 8081 포트가 살아있다면 -> 8082 포트 그린에 배포
+                    # 8081 포트가 죽어있다면 -> 8081 포트 블루에 배포
+                    if curl -s "http://3.34.135.50:8081" > /dev/null
+                    then
+                        deployment_target_port=8082
+                        deployment_target=green
+                        opposite_target=blue
+                    else
+                        deployment_target_port=8081
+                        deployment_target=blue
+                        opposite_target=green
+                    fi
+
+                    # 해당 포트의 기존 이미지가 존재하면 삭제
+                    echo delete existing Docker image
+                    if docker image inspect server_${deployment_target} >/dev/null 2>&1; then
+                        docker rmi server_${deployment_target}
+                        echo "${deployment_target}-image exists locally & removed"
+                    else
+                        echo "${deployment_target}-image does not exist locally"
+                    fi
+
+                    # 백 빌드를 해서 타겟포트(호스트) 8081(컨테이너내부) 이미지로 만들어서
+                    # 블루 그린 이름을 붙여서 도커 run
+                    echo [BE] ${deployment_target} Build Docker Image
+                    docker build -t server_${deployment_target} ./backend
+                    echo [BE] ${deployment_target} Run Docker Container
+                    docker run -dp ${deployment_target_port}:8081 --name haruman_server_${deployment_target} server_${deployment_target}
+ 
+
+                    echo "\n****** Continuous Health Check ******"
+
+                    # 10초마다 헬스 체크 10번 -> 실패하면 그린 배포 멈춤
+                    # 주로 2번 정도 돌아가면 성공함
+                    for retry_count in \$(seq 10)
+                    do
+                      if curl -s "http://3.34.135.50:${deployment_target_port}" > /dev/null
+                      then
+                          echo "Health check success ✅"
+                          break
+                      fi
+
+                      if [ $retry_count -eq 10 ]
+                      then
+                        echo "Health check failed ❌"
+                        exit 1
+                      fi
+
+                      echo "The server is not alive yet. Retry health check in 10 seconds..."
+                      sleep 10
+                    done
+
+
+                    echo "\n****** Nginx Proxy Redirect ******"
+
+                    # nginx 컨테이너 접속
+                    ssh -o StrictHostKeyChecking=no -i J9A607T.pem ubuntu@j9a607.p.ssafy.io /bin/bash
+
+                    # $service_url을 target_port로 바꾸는데 기존 값은 중요하지 않음
+                    docker exec haruman_nginx_1 bash -c "echo 'set \\$service_url 3.34.135.50:${deployment_target_port};' > /etc/nginx/conf.d/service-url.inc ; service nginx reload"
+                    echo "Switch the reverse proxy direction of nginx to [${deployment_target}] http://3.34.135.50:${deployment_target_port}"
+
+                    echo "\n****** Kill the process on the opposite server ******"
+                    # 리다이렉트 후 다른 컨테이너가 존재하면 내림
+                    if docker container inspect haruman_server_${opposite_target} >/dev/null 2>&1; then
+                        echo "${opposite_target}-container exists locally & removed"
+                        docker stop haruman_server_${opposite_target}
+                        docker rm haruman_server_${opposite_target}
+                    else
+                        echo "${opposite_target}-container does not exist locally"
+                    fi
+
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+                mattermostSend(color: 'good', message: "✅ 빌드 & 배포 성공: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})")
+            }
+        }
+        failure {
+            script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                def GIT_COMMIT_MSG = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+                mattermostSend(color: 'danger', message: "❌ 빌드 & 배포 실패: ${env.JOB_NAME} (<${env.BUILD_URL}|#${env.BUILD_NUMBER}>)\n브랜치: be/develop\n커밋 메시지: ${GIT_COMMIT_MSG} by ${Author_ID}(${Author_Name})")
+            }
+        }
+    }
+}
