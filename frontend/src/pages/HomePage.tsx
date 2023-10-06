@@ -19,9 +19,8 @@ import { ChallengeState } from "../constants/interfaces";
 import axios from "axios";
 
 const Homepage = () => {
-  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  // const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
 
   const navigate = useNavigate();
 
@@ -128,7 +127,7 @@ const Homepage = () => {
       })
       .then((response) => {
         console.log("첼린지 시작");
-        showAlert("첼린지 시작");
+        // showAlert("첼린지 시작");
         setChallengeInfo(response.data);
         handleWave(100, 100);
         setChallenge(!challenge);

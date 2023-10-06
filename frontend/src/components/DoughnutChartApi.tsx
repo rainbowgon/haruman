@@ -35,9 +35,8 @@ const DonutChart: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const [challengeId, setChallengeId] = useState<number | null>(null);
 
-  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  // const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
   const contextPath = `/api`;
   useEffect(() => {
     axios

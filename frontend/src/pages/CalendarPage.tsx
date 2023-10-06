@@ -20,9 +20,8 @@ import BottomBarSpace from "../components/BottomBarSpace";
 import HeaderTitle from "../components/HeaderTitle";
 
 const CalendarPage = () => {
-  const accessToken = process.env.REACT_APP_accessToken;
   // 배포용
-  // const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
 
   const contextPath = `/api`;
   const ChallengeAPI = "/challenges";
@@ -128,7 +127,7 @@ const CalendarPage = () => {
         {/* 캘린더 페이지 헤더 */}
         <HeaderTitle
           SubTitle="지금까지 모은금액!"
-          MainTitle={`${amount !== null ? numberFormatter(amount) : 0} 원`}
+          MainTitle={`${amount?numberFormatter(amount):0} 원`}
         />
         {/* 캘린더 */}
         <div className="calendar_form">
