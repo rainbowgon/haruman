@@ -105,6 +105,7 @@ const BubbleChartForce: React.FC<BubbleChartForceProps> = ({
   const [pageInfo, setPageInfo] = useState<any>({});
   useEffect(() => {
     const fetchChartData = async () => {
+      
       // 배포용
       const accessToken = localStorage.getItem("accessToken");
       try {

@@ -127,7 +127,7 @@ const CalendarPage = () => {
         {/* 캘린더 페이지 헤더 */}
         <HeaderTitle
           SubTitle="지금까지 모은금액!"
-          MainTitle={`${amount && numberFormatter(amount)} 원`}
+          MainTitle={`${amount?numberFormatter(amount):0} 원`}
         />
         {/* 캘린더 */}
         <div className="calendar_form">

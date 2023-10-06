@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { loginGoogle, loginKakao } from "../apis/user";
 
+import "../styles/LoginLoading.scss";
+
 function KakaoRedirectPage() {
   useEffect(() => {
     const processLogin = async () => {
@@ -20,7 +22,10 @@ function KakaoRedirectPage() {
     processLogin();
   }, []);
 
-  return <div>카카오 로그인 처리중...</div>;
+  return (
+  <div className="loading_login">
+    카카오 로그인 처리중...
+  </div>);
 }
 
 function GoogleRedirectPage() {
