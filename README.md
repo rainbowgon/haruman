@@ -29,6 +29,87 @@
 
 ## ⭐ 프로젝트 주요 기능
 
+### 회원 기능
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/rainbowgon/haruman/blob/main/upload/gif/%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB%20%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5.gif?raw=true" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/rainbowgon/haruman/blob/main/upload/gif/%E1%84%8F%E1%85%A1%E1%84%8F%E1%85%A1%E1%84%8B%E1%85%A9%20%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB.gif?raw=true" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/rainbowgon/haruman/blob/main/upload/gif/%E1%84%86%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%20%E1%84%86%E1%85%B5%E1%86%BE%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%91%E1%85%B5%E1%86%AF%20%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC.gif?raw=true" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>로그인 페이지</span>
+    </td>
+    <td align="center">
+      <span>카카오 로그인</span>
+    </td>
+    <td align="center">
+      <span>마이페이지 및 프로필 수정</span>
+    </td>
+  </tr>
+</table>
+
+### 챌린지 기능
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/rainbowgon/haruman/blob/main/upload/gif/%E1%84%86%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AB%20%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5.gif?raw=true" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/rainbowgon/haruman/blob/main/upload/gif/%E1%84%8B%E1%85%A9%E1%84%82%E1%85%B3%E1%86%AF%20%E1%84%8C%E1%85%B5%E1%84%8E%E1%85%AE%E1%86%AF%20%E1%84%82%E1%85%A2%E1%84%8B%E1%85%A7%E1%86%A8.gif?raw=true" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/rainbowgon/haruman/blob/main/upload/gif/%E1%84%8C%E1%85%B5%E1%84%8E%E1%85%AE%E1%86%AF%20%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A7%E1%86%A8.gif?raw=true" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>메인 페이지</span>
+    </td>
+    <td align="center">
+      <span>오늘 지출 내역</span>
+    </td>
+    <td align="center">
+      <span>지출 입력</span>
+    </td>
+  </tr>
+</table>
+
+### 통계 기능
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/rainbowgon/haruman/blob/main/upload/gif/%E1%84%83%E1%85%A1%E1%86%AF%E1%84%85%E1%85%A7%E1%86%A8%20%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5.gif?raw=true" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/rainbowgon/haruman/blob/main/upload/gif/%E1%84%8B%E1%85%A9%E1%84%82%E1%85%B3%E1%86%AF%E1%84%8B%E1%85%B4%20%E1%84%8E%E1%85%A2%E1%86%AF%E1%84%85%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%B5.gif?raw=true" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/rainbowgon/haruman/blob/main/upload/gif/%E1%84%8C%E1%85%A5%E1%86%A8%E1%84%80%E1%85%B3%E1%86%B7%20%E1%84%8E%E1%85%AE%E1%84%8E%E1%85%A5%E1%86%AB.gif?raw=true" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>달력 페이지</span>
+    </td>
+    <td align="center">
+      <span>오늘의 챌린지</span>
+    </td>
+    <td align="center">
+      <span>적금 추천</span>
+    </td>
+  </tr>
+</table>
+
 ## ⭐ 폴더 트리
 
 ```
